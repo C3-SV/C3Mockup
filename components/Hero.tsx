@@ -19,13 +19,13 @@ export default function Hero() {
           </p>
           <div className="space-y-5">
             <h1 className="max-w-xl text-4xl font-extrabold leading-tight md:text-6xl">
-              Competitive Coding Club
+              C3
             </h1>
             <h2 className="text-xl font-semibold text-white/90 md:text-2xl">
               Compite. Crea. Conecta.
             </h2>
             <p className="max-w-2xl text-base leading-8 text-white/85 md:text-lg">
-              C3 conecta talento tecnico joven con experiencias de competencia,
+              C3 | Competitive Coding Club,  conecta talento tecnico joven con experiencias de competencia,
               creacion, comunidad y oportunidades reales.
             </p>
           </div>

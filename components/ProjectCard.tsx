@@ -10,8 +10,8 @@ type ProjectCardProps = {
 };
 
 const accentStyles = {
-  blue: "from-[#205298] to-[#4F5BA9]",
-  turquoise: "from-[#33BEAC] to-[#4F5BA9]",
+  blue: "from-[#205298] to-[#205298]",
+  turquoise: "from-[#33BEAC] to-[#33BEAC]",
 };
 
 export default function ProjectCard({
@@ -27,7 +27,7 @@ export default function ProjectCard({
       <div
         className={`mb-6 h-1.5 w-24 rounded-full bg-gradient-to-r ${accentStyles[accent]}`}
       />
-      <p className="mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#205298]">
+      <p className={`mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-[${accent === "blue" ? "#205298" : "#33BEAC"}]`}>
         {tag}
       </p>
       <h3 className="mb-4 text-2xl font-bold text-[#0F203E]">{title}</h3>

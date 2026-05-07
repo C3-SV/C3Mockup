@@ -11,8 +11,7 @@ export default function ProjectsSection() {
             Accesos directos a eventos C3
           </h2>
           <p className="mt-3 max-w-2xl text-base leading-8 text-[#47566f]">
-            Esta landing funciona como punto de entrada principal para los
-            eventos activos de C3.
+            Conoce las nuevas iniciativa que estamos construyendo. 
           </p>
         </div>
         <div className="grid gap-6 md:grid-cols-2">

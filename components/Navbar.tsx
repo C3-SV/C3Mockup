@@ -24,9 +24,6 @@ export default function Navbar() {
             className="h-11 w-11 rounded-xl object-cover"
             priority
           />
-          <span className="hidden text-sm font-semibold tracking-[0.08em] text-white sm:inline">
-            COMPETITIVE CODING CLUB
-          </span>
         </a>
 
         <nav className="hidden items-center gap-8 md:flex">

@@ -33,13 +33,15 @@ export default function ActionLinesSection() {
               className="rounded-3xl border border-white/15 bg-white/8 p-4 text-center backdrop-blur-md"
             >
               <div className="rounded-2xl border border-white/10 bg-[#0B1A34] p-3">
-                <Image
-                  src={item.src}
-                  alt={item.alt}
-                  width={480}
-                  height={160}
-                  className="h-auto w-full"
-                />
+                <div className="relative mx-auto aspect-square w-full max-w-[420px]">
+                  <Image
+                    src={item.src}
+                    alt={item.alt}
+                    fill
+                    sizes="(min-width: 768px) 30vw, 90vw"
+                    className="object-contain"
+                  />
+                </div>
               </div>
               <p className="mt-3 text-sm font-semibold tracking-[0.16em] text-white">
                 {item.label}
