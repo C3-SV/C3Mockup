@@ -16,7 +16,7 @@ export default function Navbar() {
           aria-label="Ir al inicio"
           className="flex items-center gap-3 rounded-2xl border border-white/15 bg-white/5 px-3 py-2"
         >
-          <Image
+        <Image
             src="/brand/logo-c3-fondo-azul.png"
             alt="Logo principal de C3"
             width={44}

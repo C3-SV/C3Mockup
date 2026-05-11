@@ -9,16 +9,6 @@
       "source": "/copa/:path*",
       "destination": "https://copa.c3.com.sv/:path*",
       "permanent": false
-    },
-    {
-      "source": "/festival",
-      "destination": "https://festival.c3.com.sv",
-      "permanent": false
-    },
-    {
-      "source": "/festival/:path*",
-      "destination": "https://festival.c3.com.sv/:path*",
-      "permanent": false
     }
   ]
 }

@@ -5,39 +5,45 @@ Landing institucional temporal de **C3 / Competitive Coding Club** para el domin
 - `https://c3.com.sv`
 - `https://www.c3.com.sv`
 
-## Propósito
+## Proposito
 
-Este proyecto funciona como **shell temporal** del sitio principal de C3 y como punto de entrada para dos eventos activos:
+Este proyecto funciona como **shell temporal** del sitio principal de C3 y como punto de entrada para eventos activos:
 
-- Copa Salvadoreña de Programación
-- Festival / Hackathon
+- Copa Salvadorena de Programacion
 
-## Rutas públicas
+El contenido de Festival/Hackathon se mantiene en codigo pero esta oculto temporalmente.
 
-- `/` → Landing temporal principal de C3
-- `/copa` → Redirige al sitio externo de Copa
-- `/festival` → Redirige al sitio externo de Festival/Hackathon
+## Rutas publicas
+
+- `/` -> Landing temporal principal de C3
+- `/copa` -> Redirige al sitio externo de Copa
 
 ## Redirecciones actuales
 
-La configuración inicial usa **redirects temporales** (no permanentes) hacia:
+La configuracion usa **redirects temporales** (no permanentes) hacia:
 
 - `https://copa.c3.com.sv`
-- `https://festival.c3.com.sv`
 
-Esto está definido en:
+Esto esta definido en:
 
-- `vercel.json` (producción en Vercel)
+- `vercel.json` (produccion en Vercel)
 - `next.config.ts` (paridad para entorno local)
 
-## Nota para evolución futura
+## Publicacion de Festival/Hackathon
 
-Si más adelante se quiere mantener visible la URL bajo:
+El contenido no se elimino. Quedo desactivado por bandera:
+
+- UI: `NEXT_PUBLIC_SHOW_FESTIVAL` (solo visible si es `true`)
+- Redirect local/build: `SHOW_FESTIVAL` en `next.config.ts`
+
+## Nota para evolucion futura
+
+Si mas adelante se quiere mantener visible la URL bajo:
 
 - `c3.com.sv/copa`
 - `c3.com.sv/festival`
 
-se debe migrar de **redirects** a **rewrites** y configurar `basePath` en los proyectos destino.
+Se debe migrar de **redirects** a **rewrites** y configurar `basePath` en los proyectos destino.
 
 ## Desarrollo local
 
