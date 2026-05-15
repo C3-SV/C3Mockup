@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Montserrat, Poppins } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
+import { organizationJsonLd } from "@/lib/structured-data";
+import { siteConfig } from "@/lib/site";
 import "./globals.css";
 
 const montserrat = Montserrat({
@@ -15,9 +18,43 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "C3 | Competitive Coding Club",
-  description:
-    "C3 es el Competitive Coding Club, una plataforma de talento joven en tecnología",
+  metadataBase: new URL(siteConfig.domain),
+  title: {
+    default: siteConfig.displayName,
+    template: "%s | C3",
+  },
+  description: siteConfig.description,
+  keywords: [...siteConfig.keywords],
+  authors: [{ name: siteConfig.name }],
+  creator: siteConfig.name,
+  publisher: siteConfig.name,
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    locale: siteConfig.locale,
+    url: siteConfig.domain,
+    siteName: siteConfig.name,
+    title: siteConfig.displayName,
+    description: siteConfig.description,
+    images: [
+      {
+        url: siteConfig.defaultOgImage,
+        alt: siteConfig.displayName,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.displayName,
+    description: siteConfig.description,
+    images: [siteConfig.defaultOgImage],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
@@ -27,10 +64,19 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="es"
+      lang={siteConfig.language}
       className={`${montserrat.variable} ${poppins.variable} h-full scroll-smooth antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {children}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationJsonLd),
+          }}
+        />
+        <Analytics />
+      </body>
     </html>
   );
 }

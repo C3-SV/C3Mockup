@@ -6,7 +6,7 @@ const isFestivalPublic = process.env.NEXT_PUBLIC_SHOW_FESTIVAL === "true";
 const projects = [
   {
     title: "Copa Salvadoreña de Programación",
-    tag: "Competencia - Programación - Talento",
+    tag: "Competencia · Programación · Talento",
     description:
       "La competencia nacional que reúne a estudiantes de colegios y universidades para resolver problemas, fortalecer su pensamiento algorítmico y conectar con una comunidad técnica de alto nivel.",
     cta: "Ir a la Copa",
@@ -15,8 +15,8 @@ const projects = [
     isPublic: true,
   },
   {
-    title: "Festival / Hackathon",
-    tag: "Tecnología - Cultura - Creación",
+    title: "Festival de Código / Hackathon",
+    tag: "Tecnología · Cultura · Creación",
     description:
       "Una experiencia de creación donde equipos construyen soluciones reales combinando tecnología, cultura, turismo, comunidad e impacto.",
     cta: "Ir al Festival",
@@ -38,7 +38,7 @@ export default function ProjectsSection() {
             Accesos directos a eventos C3
           </h2>
           <p className="mt-3 max-w-2xl text-base leading-8 text-[#47566f]">
-            Conoce las nuevas iniciativas que estamos construyendo.
+            Conoce las iniciativas que estamos construyendo.
           </p>
         </div>
         <div className="grid gap-6 md:grid-cols-2">

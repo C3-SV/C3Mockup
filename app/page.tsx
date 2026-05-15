@@ -1,18 +1,28 @@
-﻿import ActionLinesSection from "@/components/ActionLinesSection";
+import type { Metadata } from "next";
+import { FaInstagram, FaLinkedinIn } from "react-icons/fa";
+import ActionLinesSection from "@/components/ActionLinesSection";
 import Hero from "@/components/Hero";
 import MissionVisionSection from "@/components/MissionVisionSection";
 import Navbar from "@/components/Navbar";
 import ProjectsSection from "@/components/ProjectsSection";
-import { FaInstagram, FaLinkedinIn } from "react-icons/fa";
+import { siteConfig } from "@/lib/site";
+
+export const metadata: Metadata = {
+  title: siteConfig.displayName,
+  description: siteConfig.description,
+  alternates: {
+    canonical: "/",
+  },
+};
 
 const socialLinks = [
   {
-    href: "https://www.instagram.com/c3.elsalvador",
+    href: siteConfig.social.instagram,
     label: "Instagram de C3",
     icon: FaInstagram,
   },
   {
-    href: "https://www.linkedin.com/company/c3-sv",
+    href: siteConfig.social.linkedin,
     label: "LinkedIn de C3",
     icon: FaLinkedinIn,
   },
@@ -30,7 +40,7 @@ export default function Home() {
       </main>
       <footer className="section-divider bg-white py-8">
         <div className="container-shell flex items-center justify-between gap-4 text-sm text-[#5c6a82]">
-          <p>C3 | Competitive Coding Club</p>
+          <p>{siteConfig.displayName}</p>
           <div className="flex items-center gap-3">
             {socialLinks.map(({ href, label, icon: Icon }) => (
               <a
