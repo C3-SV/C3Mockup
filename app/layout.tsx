@@ -17,7 +17,7 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "C3 | Competitive Coding Club",
   description:
-    "C3 es el Competitive Coding Club, una plataforma de talento joven en tecnologia",
+    "C3 es el Competitive Coding Club, una plataforma de talento joven en tecnología",
 };
 
 export default function RootLayout({

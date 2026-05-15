@@ -23,7 +23,7 @@ export default function ActionLinesSection() {
     <section className="section-divider bg-[#0F203E] py-12 text-white md:py-14">
       <div className="container-shell">
         <p className="mb-7 text-center text-xs font-semibold uppercase tracking-[0.18em] text-white/75 md:mb-8">
-          3 lineas de accion
+          3 líneas de acción
         </p>
 
         <div className="grid gap-4 md:grid-cols-3">

@@ -3,16 +3,16 @@
 const cards = [
   {
     id: "mision",
-    title: "Mision",
+    title: "Misión",
     content:
-      "Potenciar talento joven mediante experiencias de alto nivel que integran competencia, creacion y conexion.",
+      "Potenciar talento joven mediante experiencias de alto nivel que integran competencia, creación y conexión.",
     accent: "from-[#205298] to-[#4F5BA9]",
   },
   {
     id: "vision",
-    title: "Vision",
+    title: "Visión",
     content:
-      "Ser el referente regional de una nueva generacion tecnica con pertenencia, oportunidades e impacto.",
+      "Ser el referente regional de una nueva generación técnica con pertenencia, oportunidades e impacto.",
     accent: "from-[#33BEAC] to-[#4F5BA9]",
   },
 ];

@@ -14,14 +14,14 @@ export default function Navbar() {
         <a
           href="#inicio"
           aria-label="Ir al inicio"
-          className="flex items-center gap-3 rounded-2xl border border-white/15 bg-white/5 px-3 py-2"
+          className="flex items-center gap-3 rounded-2xl px-3 py-2"
         >
-        <Image
-            src="/brand/logo-c3-fondo-azul.png"
+          <Image
+            src="/brand/logo-c3-blanco-monocromatico.png"
             alt="Logo principal de C3"
             width={44}
             height={44}
-            className="h-11 w-11 rounded-xl object-cover"
+            className="h-11 w-11 object-contain"
             priority
           />
         </a>
