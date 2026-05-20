@@ -2,27 +2,95 @@
 
 :root {
   --c3-navy: #0f203e;
+  --c3-dark: #202a3f;
   --c3-blue: #205298;
-  --c3-turquoise: #33beac;
+  --c3-blue-soft: #2c519b;
   --c3-purple: #4f5ba9;
+  --c3-purple-soft: #6d529e;
+  --c3-teal: #33beac;
+  --c3-teal-soft: #46b8a8;
   --c3-white: #ffffff;
-  --c3-surface: #f4f7fb;
-  --c3-soft-border: #dde6ef;
-  --c3-muted: #5c6a82;
-  --background: #ffffff;
-  --foreground: #0f203e;
+  --c3-light: #f4f7fb;
+  --c3-mist: #e9eef5;
+  --c3-border: #dde6ef;
+  --background: var(--c3-navy);
+  --foreground: var(--c3-white);
+  --card: rgba(255, 255, 255, 0.06);
+  --card-foreground: var(--c3-white);
+  --popover: var(--c3-dark);
+  --popover-foreground: var(--c3-white);
+  --primary: var(--c3-teal);
+  --primary-foreground: var(--c3-navy);
+  --secondary: rgba(255, 255, 255, 0.1);
+  --secondary-foreground: var(--c3-white);
+  --muted: rgba(233, 238, 245, 0.12);
+  --muted-foreground: rgba(255, 255, 255, 0.72);
+  --accent: rgba(79, 91, 169, 0.18);
+  --accent-foreground: var(--c3-white);
+  --destructive: #ef4444;
+  --destructive-foreground: var(--c3-white);
+  --border: rgba(255, 255, 255, 0.12);
+  --input: rgba(255, 255, 255, 0.12);
+  --ring: rgba(51, 190, 172, 0.55);
+  --radius: 1.25rem;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-body);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) * 0.8);
+  --radius-md: calc(var(--radius) * 0.92);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.3);
+  --color-c3-navy: var(--c3-navy);
+  --color-c3-dark: var(--c3-dark);
+  --color-c3-blue: var(--c3-blue);
+  --color-c3-blueSoft: var(--c3-blue-soft);
+  --color-c3-purple: var(--c3-purple);
+  --color-c3-purpleSoft: var(--c3-purple-soft);
+  --color-c3-teal: var(--c3-teal);
+  --color-c3-tealSoft: var(--c3-teal-soft);
+  --color-c3-white: var(--c3-white);
+  --color-c3-light: var(--c3-light);
+  --color-c3-mist: var(--c3-mist);
+  --color-c3-border: var(--c3-border);
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(51, 190, 172, 0.2), transparent 32%),
+    radial-gradient(circle at top right, rgba(79, 91, 169, 0.22), transparent 30%),
+    radial-gradient(circle at bottom, rgba(32, 82, 152, 0.18), transparent 35%),
+    linear-gradient(180deg, #0f203e 0%, #202a3f 100%);
   color: var(--foreground);
   font-family: var(--font-body), sans-serif;
+  text-rendering: optimizeLegibility;
 }
 
 h1,
@@ -34,11 +102,72 @@ h6 {
   font-family: var(--font-heading), sans-serif;
 }
 
+a,
+button {
+  transition:
+    color 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+:focus-visible {
+  outline: 2px solid rgba(51, 190, 172, 0.9);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: rgba(51, 190, 172, 0.3);
+  color: white;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
 .container-shell {
-  width: min(1120px, 100% - 2rem);
+  width: min(1180px, calc(100% - 2rem));
   margin-inline: auto;
 }
 
-.section-divider {
-  border-top: 1px solid rgba(221, 230, 239, 0.7);
+.surface-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-position: center center;
+  background-size: 42px 42px;
+}
+
+.glass-panel {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.04));
+  backdrop-filter: blur(18px);
+}
+
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+
+  to {
+    height: 0;
+  }
+}
+
+.animate-accordion-down {
+  animation: accordion-down 0.2s ease-out;
+}
+
+.animate-accordion-up {
+  animation: accordion-up 0.2s ease-out;
 }

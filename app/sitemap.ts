@@ -1,13 +1,13 @@
 import type { MetadataRoute } from "next";
-import { siteConfig } from "@/lib/site";
+import { publicRoutes, siteConfig } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
-    {
-      url: `${siteConfig.domain}/`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 1,
-    },
-  ];
+  const lastModified = new Date();
+
+  return publicRoutes.map((route) => ({
+    url: `${siteConfig.domain}${route === "/" ? "" : route}`,
+    lastModified,
+    changeFrequency: route === "/" ? "weekly" : "monthly",
+    priority: route === "/" ? 1 : 0.75,
+  }));
 }

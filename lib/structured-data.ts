@@ -1,57 +1,89 @@
+import { faqItems, type EventItem } from "@/lib/content";
 import { siteConfig } from "@/lib/site";
 
-export const organizationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: siteConfig.name,
-  legalName: siteConfig.fullName,
-  alternateName: [
-    "Competitive Coding Club",
-    "C3 El Salvador",
-    "Competitive Coding Club El Salvador",
-  ],
-  url: siteConfig.domain,
-  logo: `${siteConfig.domain}/icon.svg`,
-  description:
-    "C3, también conocido como Competitive Coding Club, es una organización que potencia talento técnico joven mediante experiencias de alto nivel que integran competencia, creación, comunidad y conexión con oportunidades reales.",
-  slogan: siteConfig.tagline,
-  foundingLocation: {
-    "@type": "Place",
-    name: "El Salvador",
-  },
-  areaServed: [
-    {
-      "@type": "Country",
-      name: "El Salvador",
-    },
-    {
+export function getOrganizationJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: siteConfig.name,
+    legalName: siteConfig.fullName,
+    alternateName: ["C3", "Competitive Coding Club", "C3 El Salvador"],
+    url: siteConfig.domain,
+    logo: `${siteConfig.domain}/brand/logo-c3-fondo-azul.png`,
+    description: siteConfig.description,
+    slogan: siteConfig.tagline,
+    foundingDate: siteConfig.foundedAt,
+    foundingLocation: {
       "@type": "Place",
-      name: "Centroamérica",
+      name: siteConfig.country,
     },
-    {
+    areaServed: [
+      {
+        "@type": "Country",
+        name: "El Salvador",
+      },
+      {
+        "@type": "Place",
+        name: "Centroamérica",
+      },
+    ],
+    sameAs: [siteConfig.social.instagram, siteConfig.social.linkedin],
+  };
+}
+
+export function getWebsiteJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: siteConfig.displayName,
+    url: siteConfig.domain,
+    inLanguage: siteConfig.language,
+    description: siteConfig.description,
+  };
+}
+
+export function getFaqJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqItems.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  };
+}
+
+export function getEventJsonLd(event: EventItem) {
+  if (!event.schema) {
+    return null;
+  }
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    name: event.name,
+    description: event.description,
+    startDate: event.schema.startDate,
+    endDate: event.schema.endDate,
+    eventAttendanceMode: "https://schema.org/MixedEventAttendanceMode",
+    eventStatus: "https://schema.org/EventScheduled",
+    location: {
       "@type": "Place",
-      name: "Latinoamérica",
+      name: event.location,
+      address: {
+        "@type": "PostalAddress",
+        addressCountry: "SV",
+      },
     },
-  ],
-  sameAs: [siteConfig.social.instagram, siteConfig.social.linkedin],
-  subOrganization: [
-    {
+    organizer: {
       "@type": "Organization",
-      name: "C3 Compite",
-      description:
-        "Línea de C3 enfocada en programación competitiva, ICPC, entrenamientos, rankings, problemas y retos.",
+      name: siteConfig.fullName,
+      url: siteConfig.domain,
     },
-    {
-      "@type": "Organization",
-      name: "C3 Crea",
-      description:
-        "Línea de C3 enfocada en hackathons, builders, software, proyectos, prototipos, innovación y producto.",
-    },
-    {
-      "@type": "Organization",
-      name: "C3 Conecta",
-      description:
-        "Línea de C3 enfocada en comunidad, networking, industria, mentoría, speakers, oportunidades y alianzas.",
-    },
-  ],
-} as const;
+    url: event.schema.url,
+  };
+}

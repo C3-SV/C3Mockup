@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Montserrat, Poppins } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
-import { organizationJsonLd } from "@/lib/structured-data";
+import { getOrganizationJsonLd, getWebsiteJsonLd } from "@/lib/structured-data";
 import { siteConfig } from "@/lib/site";
 import "./globals.css";
 
@@ -20,14 +20,14 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.domain),
   title: {
-    default: siteConfig.displayName,
+    default: "C3 | Competitive Coding Club — Compite. Crea. Conecta.",
     template: "%s | C3",
   },
   description: siteConfig.description,
   keywords: [...siteConfig.keywords],
-  authors: [{ name: siteConfig.name }],
-  creator: siteConfig.name,
-  publisher: siteConfig.name,
+  authors: [{ name: siteConfig.fullName }],
+  creator: siteConfig.fullName,
+  publisher: siteConfig.fullName,
   alternates: {
     canonical: "/",
   },
@@ -35,8 +35,8 @@ export const metadata: Metadata = {
     type: "website",
     locale: siteConfig.locale,
     url: siteConfig.domain,
-    siteName: siteConfig.name,
-    title: siteConfig.displayName,
+    siteName: siteConfig.displayName,
+    title: "C3 | Competitive Coding Club — Compite. Crea. Conecta.",
     description: siteConfig.description,
     images: [
       {
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: siteConfig.displayName,
+    title: "C3 | Competitive Coding Club — Compite. Crea. Conecta.",
     description: siteConfig.description,
     images: [siteConfig.defaultOgImage],
   },
@@ -62,17 +62,19 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const structuredData = [getOrganizationJsonLd(), getWebsiteJsonLd()];
+
   return (
     <html
       lang={siteConfig.language}
-      className={`${montserrat.variable} ${poppins.variable} h-full scroll-smooth antialiased`}
+      className={`${montserrat.variable} ${poppins.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full">
         {children}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(organizationJsonLd),
+            __html: JSON.stringify(structuredData),
           }}
         />
         <Analytics />
