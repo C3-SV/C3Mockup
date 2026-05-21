@@ -24,6 +24,16 @@ const projects = [
     accent: "turquoise" as const,
     isPublic: isFestivalPublic,
   },
+  {
+    title: "Hackathon de Turismo Creativo",
+    tag: "Hackathon · Turismo · Innovación",
+    description:
+      "Un fin de semana para construir soluciones reales donde el turismo, el código y la cultura se encuentran.",
+    cta: "Ir a la Hackathon",
+    href: "https://hackathon.c3.com.sv/",
+    accent: "turquoise" as const,
+    isPublic: true,
+  },
 ];
 
 export default function ProjectsSection() {
