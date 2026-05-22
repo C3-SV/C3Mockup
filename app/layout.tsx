@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Montserrat, Poppins } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
+import SiteFooter from "@/components/SiteFooter";
+import SiteHeader from "@/components/SiteHeader";
 import { organizationJsonLd } from "@/lib/structured-data";
 import { siteConfig } from "@/lib/site";
 import "./globals.css";
@@ -20,8 +22,8 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.domain),
   title: {
-    default: siteConfig.displayName,
-    template: "%s | C3",
+    default: "C3 | Competitive Coding Club — Compite. Crea. Conecta.",
+    template: "%s",
   },
   description: siteConfig.description,
   keywords: [...siteConfig.keywords],
@@ -35,8 +37,8 @@ export const metadata: Metadata = {
     type: "website",
     locale: siteConfig.locale,
     url: siteConfig.domain,
-    siteName: siteConfig.name,
-    title: siteConfig.displayName,
+    siteName: siteConfig.displayName,
+    title: "C3 | Competitive Coding Club — Compite. Crea. Conecta.",
     description: siteConfig.description,
     images: [
       {
@@ -47,7 +49,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: siteConfig.displayName,
+    title: "C3 | Competitive Coding Club — Compite. Crea. Conecta.",
     description: siteConfig.description,
     images: [siteConfig.defaultOgImage],
   },
@@ -68,11 +70,13 @@ export default function RootLayout({
       className={`${montserrat.variable} ${poppins.variable} h-full scroll-smooth antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        {children}
+        <SiteHeader />
+        <main className="flex-1">{children}</main>
+        <SiteFooter />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(organizationJsonLd),
+            __html: JSON.stringify(organizationJsonLd).replace(/</g, "\\u003c"),
           }}
         />
         <Analytics />

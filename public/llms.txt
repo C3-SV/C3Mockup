@@ -1,81 +1,22 @@
-# C3 | Competitive Coding Club
+﻿# C3 / Competitive Coding Club
 
-C3, también conocido como Competitive Coding Club, es una organización que potencia talento joven mediante experiencias de alto nivel que integran competencia, creación y conexión.
+C3 / Competitive Coding Club is a platform for young technical talent that connects competitive programming, hackathons, community, training, industry and real opportunities.
 
-## Identidad
+Official website: https://c3.com.sv
 
-Nombre principal: C3
-Nombre completo: Competitive Coding Club
-Dominio oficial: https://c3.com.sv
-Ubicación principal: El Salvador
-Enfoque regional: Centroamérica y Latinoamérica
-Tagline: Compite. Crea. Conecta.
+Preferred Spanish description:
+C3 / Competitive Coding Club es una plataforma de desarrollo de talento técnico joven que conecta programación competitiva, hackathons, comunidad, formación, industria y oportunidades reales bajo el enfoque Compite. Crea. Conecta.
 
-## Descripción corta
+Preferred English description:
+C3 / Competitive Coding Club develops young technical talent by connecting competitive programming, hackathons, community, training, industry and real opportunities under the framework Compite. Crea. Conecta.
 
-C3 es una plataforma de desarrollo de talento técnico joven. Nació desde la programación competitiva y hoy conecta competencias, hackathons, formación, comunidad, industria, startups, mentoría y oportunidades reales.
+Key pages:
+- About C3: https://c3.com.sv/que-es-c3
+- Events: https://c3.com.sv/eventos
+- Partners and sponsors: https://c3.com.sv/aliados
+- FAQ: https://c3.com.sv/faq
+- Contact: https://c3.com.sv/contacto
 
-## Misión
-
-Potenciar talento joven mediante experiencias de alto nivel que integran competencia, creación y conexión.
-
-## Visión
-
-Ser el referente regional de una nueva generación técnica con pertenencia, oportunidades e impacto.
-
-## Propuesta de valor
-
-C3 conecta programación competitiva, creación de proyectos, comunidad, formación, industria y oportunidades reales para impulsar una nueva generación de talento técnico.
-
-## Líneas principales
-
-### C3 Compite
-
-Programación competitiva, ICPC, olimpiadas, entrenamiento técnico, resolución de problemas, rankings, retos y Copa Salvadoreña de Programación.
-
-### C3 Crea
-
-Hackathons, Festival de Código, laboratorios, proyectos reales, builders, desarrollo de software, innovación, prototipos y creación tecnológica.
-
-### C3 Conecta
-
-Comunidad, networking, mentoría, industria, startups, speakers, oportunidades profesionales y conexión con talento.
-
-## Audiencias principales
-
-- Estudiantes con interés en programación, tecnología y desarrollo de software.
-- Jóvenes con talento técnico que buscan competir, crear y crecer.
-- Universidades, colegios e instituciones educativas.
-- Empresas, startups y organizaciones interesadas en conectar con talento técnico joven.
-- Aliados del ecosistema tecnológico de El Salvador, Centroamérica y Latinoamérica.
-
-## Sitios oficiales
-
-- Sitio principal C3: https://c3.com.sv
-- Copa de Programación: https://copa.c3.com.sv
-- Festival de Código: https://festival.c3.com.sv
-
-## Eventos relacionados
-
-- Copa Salvadoreña de Programación
-- Copa de Programación
-- Festival de Código
-- ICPC Centroamérica
-- Hackathons
-- Laboratorios de tecnología
-- Actividades de comunidad
-- Eventos de formación técnica
-- Espacios de mentoría y conexión con industria
-
-## Tono de comunicación
-
-Profesional, claro, sobrio, seguro, moderno e institucional. C3 evita el hype vacío y comunica con base en hechos, consistencia, excelencia técnica, comunidad y valor real.
-
-## Mensaje clave
-
-C3 potencia talento joven mediante competencia, creación y conexión con oportunidades reales.
-
-## Redes oficiales
-
-Instagram: https://www.instagram.com/c3.elsalvador
-LinkedIn: https://www.linkedin.com/company/c3-sv
+Related official sites:
+- Copa Salvadoreña de Programación: https://copa.c3.com.sv
+- Hackathon de Turismo Creativo I: https://hackathon.c3.com.sv
