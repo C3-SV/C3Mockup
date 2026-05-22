@@ -19,15 +19,22 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.domain),
-  title: {
-    default: siteConfig.displayName,
-    template: "%s | C3",
-  },
+  title: siteConfig.homepageTitle,
   description: siteConfig.description,
   keywords: [...siteConfig.keywords],
   authors: [{ name: siteConfig.name }],
   creator: siteConfig.name,
   publisher: siteConfig.name,
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/icon-48.png", sizes: "48x48", type: "image/png" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+    shortcut: ["/favicon.ico"],
+  },
   alternates: {
     canonical: "/",
   },
@@ -36,18 +43,20 @@ export const metadata: Metadata = {
     locale: siteConfig.locale,
     url: siteConfig.domain,
     siteName: siteConfig.name,
-    title: siteConfig.displayName,
+    title: siteConfig.homepageTitle,
     description: siteConfig.description,
     images: [
       {
         url: siteConfig.defaultOgImage,
-        alt: siteConfig.displayName,
+        width: 1200,
+        height: 630,
+        alt: siteConfig.homepageTitle,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: siteConfig.displayName,
+    title: siteConfig.homepageTitle,
     description: siteConfig.description,
     images: [siteConfig.defaultOgImage],
   },

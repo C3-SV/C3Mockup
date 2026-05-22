@@ -2,6 +2,7 @@ export const siteConfig = {
   name: "C3",
   fullName: "Competitive Coding Club",
   displayName: "C3 | Competitive Coding Club",
+  homepageTitle: "C3 | Competitive Coding Club — Compite. Crea. Conecta.",
   domain: "https://c3.com.sv",
   locale: "es_SV",
   language: "es",
@@ -11,7 +12,7 @@ export const siteConfig = {
   vision:
     "Ser el referente regional de una nueva generación técnica con pertenencia, oportunidades e impacto.",
   description:
-    "C3 potencia talento técnico joven mediante experiencias de alto nivel que integran programación competitiva, creación de proyectos, comunidad y conexión con oportunidades reales en El Salvador y la región.",
+    "C3 desarrolla talento técnico joven conectando programación competitiva, hackathons, comunidad, formación e industria en El Salvador y la región.",
   keywords: [
     "C3",
     "C3 El Salvador",
@@ -58,5 +59,5 @@ export const siteConfig = {
         "Comunidad, networking, industria, mentoría, speakers, oportunidades y alianzas.",
     },
   },
-  defaultOgImage: "/brand/logo-c3-fondo-azul.png",
+  defaultOgImage: "/og-image.png",
 } as const;

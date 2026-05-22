@@ -8,7 +8,7 @@ import ProjectsSection from "@/components/ProjectsSection";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: siteConfig.displayName,
+  title: siteConfig.homepageTitle,
   description: siteConfig.description,
   alternates: {
     canonical: "/",
