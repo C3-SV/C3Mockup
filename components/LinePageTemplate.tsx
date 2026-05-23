@@ -1,0 +1,133 @@
+import Image from "next/image";
+import Link from "next/link";
+import { events, linePageContent, lineVisuals, type LineKey } from "@/lib/content";
+
+type LinePageTemplateProps = {
+  line: LineKey;
+};
+
+export default function LinePageTemplate({ line }: LinePageTemplateProps) {
+  const visual = lineVisuals[line];
+  const content = linePageContent[line];
+  const relatedEvents = events.filter((event) => event.lines.includes(line));
+
+  return (
+    <>
+      <section className="relative overflow-hidden bg-[#0F203E] py-18 text-white md:py-22">
+        <div className="pointer-events-none absolute inset-0">
+          <div
+            className="absolute inset-0"
+            style={{
+              background: `radial-gradient(circle at 18% 20%, ${visual.softBg}, transparent 38%), radial-gradient(circle at 82% 24%, rgba(255,255,255,0.08), transparent 42%)`,
+            }}
+          />
+        </div>
+        <div className="container-shell relative grid items-center gap-10 md:grid-cols-[1.1fr_0.9fr]">
+          <div className="space-y-5">
+            <p
+              className="inline-flex rounded-full border px-4 py-1 text-xs font-semibold uppercase tracking-[0.16em]"
+              style={{
+                borderColor: `${visual.color}88`,
+                color: visual.color,
+                backgroundColor: `${visual.color}1a`,
+              }}
+            >
+              Linea {visual.name}
+            </p>
+            <h1 className="max-w-3xl text-4xl font-bold leading-tight md:text-5xl">{content.heroTitle}</h1>
+            <p className="max-w-3xl text-base leading-8 text-white/82 md:text-lg">{content.heroDescription}</p>
+            <div className="flex flex-wrap gap-3">
+              {content.primaryCta.external ? (
+                <a
+                  href={content.primaryCta.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center rounded-full px-5 py-2.5 text-sm font-semibold text-[#0F203E] transition hover:brightness-110"
+                  style={{ backgroundColor: visual.color }}
+                >
+                  {content.primaryCta.label}
+                </a>
+              ) : (
+                <Link
+                  href={content.primaryCta.href}
+                  className="inline-flex items-center rounded-full px-5 py-2.5 text-sm font-semibold text-[#0F203E] transition hover:brightness-110"
+                  style={{ backgroundColor: visual.color }}
+                >
+                  {content.primaryCta.label}
+                </Link>
+              )}
+              <Link
+                href={content.secondaryCta.href}
+                className="inline-flex items-center rounded-full border border-white/28 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-white/16"
+              >
+                {content.secondaryCta.label}
+              </Link>
+            </div>
+          </div>
+          <div className="rounded-[2rem] border border-white/16 bg-[#15284a]/85 p-6">
+            <div className="relative h-16 w-40">
+              <Image src={visual.logo} alt={`Logo de ${visual.name}`} fill className="object-contain" />
+            </div>
+            <p className="mt-4 text-sm leading-7 text-white/82">{visual.shortDescription}</p>
+            <ul className="mt-5 space-y-2 text-sm text-white/86">
+              {content.pillars.map((pillar) => (
+                <li key={pillar} className="flex items-center gap-2">
+                  <span
+                    className="h-1.5 w-1.5 rounded-full"
+                    style={{ backgroundColor: visual.color }}
+                    aria-hidden="true"
+                  />
+                  {pillar}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section className="section-divider bg-[#F4F7FB] py-16 text-[#0F203E] md:py-20">
+        <div className="container-shell space-y-6">
+          <h2 className="text-3xl font-bold md:text-4xl">Eventos relacionados con {visual.name}</h2>
+          <div className="grid gap-4 md:grid-cols-2">
+            {relatedEvents.map((event) => (
+              <article key={event.id} className="rounded-3xl border border-[#d5deea] bg-white p-5">
+                <h3 className="text-xl font-bold">{event.title}</h3>
+                <p className="mt-2 text-sm leading-7 text-[#364765]">{event.description}</p>
+                {event.external ? (
+                  <a
+                    href={event.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-4 inline-flex items-center rounded-full border border-[#0F203E] px-4 py-2 text-sm font-semibold text-[#0F203E] transition hover:bg-[#0F203E] hover:text-white"
+                  >
+                    {event.cta}
+                  </a>
+                ) : (
+                  <Link
+                    href={event.href}
+                    className="mt-4 inline-flex items-center rounded-full border border-[#0F203E] px-4 py-2 text-sm font-semibold text-[#0F203E] transition hover:bg-[#0F203E] hover:text-white"
+                  >
+                    {event.cta}
+                  </Link>
+                )}
+              </article>
+            ))}
+          </div>
+          <div className="flex flex-wrap gap-3 pt-2 text-sm">
+            <Link className="font-semibold text-[#205298] hover:underline" href="/eventos">
+              Ver todos los eventos
+            </Link>
+            <span className="text-[#7d8da5]">·</span>
+            <Link className="font-semibold text-[#205298] hover:underline" href="/faq">
+              Revisar FAQ
+            </Link>
+            <span className="text-[#7d8da5]">·</span>
+            <Link className="font-semibold text-[#205298] hover:underline" href="/contacto">
+              Contactar a C3
+            </Link>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}

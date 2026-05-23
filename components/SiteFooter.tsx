@@ -1,4 +1,6 @@
+import Link from "next/link";
 import { FaInstagram, FaLinkedinIn } from "react-icons/fa";
+import { mainNavigation } from "@/lib/content";
 import { siteConfig } from "@/lib/site";
 
 const socialLinks = [
@@ -17,7 +19,7 @@ const socialLinks = [
 const satelliteLinks = [
   {
     href: siteConfig.sites.copa,
-    label: "Copa Salvadoreña de Programación",
+    label: "Copa Salvadorena de Programacion",
   },
   {
     href: siteConfig.sites.hackathon,
@@ -27,10 +29,15 @@ const satelliteLinks = [
 
 export default function SiteFooter() {
   return (
-    <footer className="section-divider bg-white py-8">
-      <div className="container-shell space-y-6 text-sm text-[#5c6a82]">
+    <footer className="section-divider bg-white py-10">
+      <div className="container-shell space-y-7 text-sm text-[#5c6a82]">
         <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
-          <p>{siteConfig.displayName}</p>
+          <div>
+            <p className="font-semibold text-[#0F203E]">{siteConfig.displayName}</p>
+            <a href={`mailto:${siteConfig.contact.email}`} className="text-xs hover:text-[#205298]">
+              {siteConfig.contact.email}
+            </a>
+          </div>
           <div className="flex items-center gap-3">
             {socialLinks.map(({ href, label, icon: Icon }) => (
               <a
@@ -47,18 +54,27 @@ export default function SiteFooter() {
           </div>
         </div>
 
-        <div className="grid gap-2 text-xs text-[#31405c] md:grid-cols-2">
-          {satelliteLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex w-fit rounded-md px-1 py-1 transition hover:text-[#205298]"
-            >
-              {link.label}
-            </a>
-          ))}
+        <div className="grid gap-4 md:grid-cols-2">
+          <div className="flex flex-wrap gap-3 text-xs">
+            {mainNavigation.map((item) => (
+              <Link key={item.href} href={item.href} className="hover:text-[#205298]">
+                {item.label}
+              </Link>
+            ))}
+          </div>
+          <div className="grid gap-2 text-xs text-[#31405c]">
+            {satelliteLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex w-fit rounded-md transition hover:text-[#205298]"
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </footer>

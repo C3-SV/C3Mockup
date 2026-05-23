@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 
+Host: c3.com.sv
 Sitemap: https://c3.com.sv/sitemap.xml

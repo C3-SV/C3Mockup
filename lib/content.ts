@@ -1,188 +1,266 @@
 ﻿import { siteConfig } from "@/lib/site";
 
-export const navItems = [
+export type LineKey = "compite" | "crea" | "conecta";
+
+export type EventStatus =
+  | "Inscripciones abiertas"
+  | "Proximamente"
+  | "Historico"
+  | "Apoyo institucional";
+
+export type EventItem = {
+  id: string;
+  title: string;
+  description: string;
+  lines: LineKey[];
+  status: EventStatus;
+  cta: string;
+  href: string;
+  external?: boolean;
+};
+
+export const publicRoutes = [
+  "/",
+  "/que-es-c3",
+  "/compite",
+  "/crea",
+  "/conecta",
+  "/eventos",
+  "/faq",
+  "/contacto",
+] as const;
+
+export const mainNavigation = [
   { href: "/", label: "Inicio" },
-  { href: "/que-es-c3", label: "Qué es C3" },
+  { href: "/que-es-c3", label: "Que es C3" },
+  { href: "/compite", label: "Compite" },
+  { href: "/crea", label: "Crea" },
+  { href: "/conecta", label: "Conecta" },
   { href: "/eventos", label: "Eventos" },
-  { href: "/aliados", label: "Aliados" },
   { href: "/faq", label: "FAQ" },
   { href: "/contacto", label: "Contacto" },
 ] as const;
 
-export const impactStats = [
-  { value: "+60", label: "miembros de comunidad" },
-  { value: "+150", label: "personas alcanzadas" },
-  { value: "+130", label: "participantes en Copa 2025" },
-  { value: "5+", label: "eventos organizados o apoyados" },
-  { value: "2024", label: "fundación" },
-] as const;
+export const navItems = mainNavigation;
 
-export const c3Lines = [
+export const lineVisuals: Record<
+  LineKey,
   {
+    key: LineKey;
+    name: string;
+    color: string;
+    logo: string;
+    shortDescription: string;
+    softBg: string;
+  }
+> = {
+  compite: {
+    key: "compite",
     name: "Compite",
-    description:
-      "Programación competitiva, torneos y entrenamiento algorítmico para desarrollar excelencia técnica.",
-    cta: "Ver Copa",
-    href: siteConfig.sites.copa,
+    color: "#205298",
+    logo: "/brand/compite-blanco.png",
+    shortDescription: "Programacion competitiva, excelencia tecnica y entrenamiento algoritmico.",
+    softBg: "rgba(32,82,152,0.28)",
   },
-  {
+  crea: {
+    key: "crea",
     name: "Crea",
-    description:
-      "Hackathons, builders y experiencias de creación para convertir ideas en proyectos tecnológicos reales.",
-    cta: "Ver hackathon",
-    href: siteConfig.sites.hackathon,
+    color: "#33BEAC",
+    logo: "/brand/crea-blanco.png",
+    shortDescription: "Hackathons, prototipos y proyectos de tecnologia con impacto real.",
+    softBg: "rgba(51,190,172,0.28)",
   },
-  {
+  conecta: {
+    key: "conecta",
     name: "Conecta",
-    description:
-      "Comunidad, mentoría, aliados e industria para abrir oportunidades reales a talento joven.",
-    cta: "Conocer aliados",
-    href: "/aliados",
+    color: "#4F5BA9",
+    logo: "/brand/conecta-blanco.png",
+    shortDescription: "Comunidad, industria y oportunidades para talento tecnico joven.",
+    softBg: "rgba(79,91,169,0.30)",
   },
-] as const;
+};
 
-export const initiatives = [
+export const events: EventItem[] = [
   {
-    title: "Copa Salvadoreña de Programación",
-    line: "Compite",
-    status: "Inscripciones abiertas",
+    id: "copa-salvadorena-programacion",
+    title: "Copa Salvadorena de Programacion",
     description:
-      "Iniciativa principal de C3 para impulsar programación competitiva, pensamiento algorítmico y excelencia técnica en estudiantes de El Salvador.",
+      "La iniciativa principal de C3 para impulsar programacion competitiva, pensamiento algoritmico y excelencia tecnica en estudiantes de El Salvador.",
+    lines: ["compite"],
+    status: "Inscripciones abiertas",
     cta: "Ir a la Copa",
     href: siteConfig.sites.copa,
+    external: true,
   },
   {
+    id: "hackathon-turismo-creativo-i",
     title: "Hackathon de Turismo Creativo I",
-    line: "Crea",
-    status: "Próximamente",
     description:
-      "Iniciativa de C3 enfocada en creación, colaboración, prototipos y solución de retos reales desde tecnología, turismo y cultura.",
+      "Una iniciativa enfocada en creacion, colaboracion, prototipos y solucion de retos reales desde tecnologia, turismo y cultura.",
+    lines: ["crea"],
+    status: "Proximamente",
     cta: "Ver hackathon",
     href: siteConfig.sites.hackathon,
+    external: true,
   },
   {
-    title: "ICPC Centroamérica · Sede El Salvador",
-    line: "Compite / Conecta",
+    id: "icpc-centroamerica-el-salvador",
+    title: "ICPC Centroamerica · sede El Salvador",
+    description:
+      "C3 apoya la articulacion de comunidad, visibilidad y conexiones alrededor de la sede salvadorena.",
+    lines: ["compite", "conecta"],
     status: "Apoyo institucional",
-    description:
-      "C3 apoya la articulación de comunidad, visibilidad y conexiones alrededor de la sede salvadoreña.",
-    cta: "Ver eventos",
+    cta: "Explorar eventos",
     href: "/eventos",
   },
   {
+    id: "hackatlatam-fiesta-el-salvador",
     title: "Hack@Latam · Fiesta El Salvador",
-    line: "Crea",
-    status: "Histórico",
     description:
-      "Participación y apoyo en experiencias de creación tecnológica con enfoque regional.",
-    cta: "Ver eventos",
+      "Participacion y apoyo en experiencias de creacion tecnologica con enfoque regional.",
+    lines: ["crea", "conecta"],
+    status: "Historico",
+    cta: "Explorar eventos",
     href: "/eventos",
   },
   {
-    title: "Duelo de Programación C3 · Software Week ESEN 2025",
-    line: "Compite",
-    status: "Histórico",
+    id: "duelo-programacion-c3-software-week-esen-2025",
+    title: "Duelo de Programacion C3 · Software Week ESEN 2025",
     description:
-      "Actividad técnica orientada a resolver problemas en formato competitivo dentro del ecosistema universitario.",
-    cta: "Ver eventos",
+      "Actividad tecnica orientada a resolver problemas en formato competitivo dentro del ecosistema universitario.",
+    lines: ["compite"],
+    status: "Historico",
+    cta: "Explorar eventos",
     href: "/eventos",
   },
-] as const;
+];
 
-export const audiencePaths = [
+export const initiatives = events.slice(0, 2);
+
+export const linePageContent: Record<
+  LineKey,
   {
-    title: "Estudiantes",
-    description:
-      "Participa en eventos C3, entra a la comunidad y encuentra espacios para crecer técnicamente.",
+    heroTitle: string;
+    heroDescription: string;
+    seoTitle: string;
+    seoDescription: string;
+    pillars: string[];
+    primaryCta: { label: string; href: string; external?: boolean };
+    secondaryCta: { label: string; href: string };
+  }
+> = {
+  compite: {
+    heroTitle: "Compite: programacion competitiva y excelencia tecnica",
+    heroDescription:
+      "La linea Compite desarrolla pensamiento algoritmico, resolucion de problemas y rigor tecnico a traves de competencias, entrenamientos e iniciativas de alto nivel.",
+    seoTitle: "Compite | Programacion competitiva y excelencia tecnica - C3",
+    seoDescription:
+      "La linea Compite de C3 impulsa programacion competitiva, torneos, entrenamiento algoritmico, Copa Salvadorena de Programacion e ICPC para estudiantes y talento joven.",
+    pillars: ["Programacion competitiva", "ICPC", "Copa Salvadorena", "Entrenamientos"],
+    primaryCta: { label: "Ir a la Copa", href: siteConfig.sites.copa, external: true },
+    secondaryCta: { label: "Ver eventos C3", href: "/eventos" },
   },
-  {
-    title: "Universidades y colegios",
-    description:
-      "C3 puede colaborar con competencias, hackathons, charlas, activaciones y conexión con talento.",
+  crea: {
+    heroTitle: "Crea: hackathons, software y proyectos reales",
+    heroDescription:
+      "La linea Crea impulsa experiencias builder donde el talento tecnico joven transforma conocimiento en prototipos, productos y soluciones para retos reales.",
+    seoTitle: "Crea | Hackathons y proyectos tecnologicos - C3",
+    seoDescription:
+      "La linea Crea de C3 impulsa hackathons, builders, innovacion, prototipos y proyectos tecnologicos creados por talento joven.",
+    pillars: ["Hackathons", "Builders", "Desarrollo de software", "Proyectos reales"],
+    primaryCta: {
+      label: "Ver hackathon",
+      href: siteConfig.sites.hackathon,
+      external: true,
+    },
+    secondaryCta: { label: "Ver eventos C3", href: "/eventos" },
   },
-  {
-    title: "Empresas y sponsors",
-    description:
-      "C3 produce experiencias de alto impacto con visibilidad, comunidad y acceso a talento técnico joven.",
+  conecta: {
+    heroTitle: "Conecta: comunidad, industria y oportunidades",
+    heroDescription:
+      "La linea Conecta crea puentes entre talento emergente, instituciones educativas, empresas y organizaciones para multiplicar oportunidades tecnicas reales.",
+    seoTitle: "Conecta | Comunidad, industria y oportunidades - C3",
+    seoDescription:
+      "La linea Conecta de C3 acerca talento tecnico joven con comunidad, universidades, empresas, startups, sponsors y oportunidades reales.",
+    pillars: ["Comunidad", "Industria", "Mentoria", "Alianzas"],
+    primaryCta: { label: "Contactar para colaborar", href: "/contacto" },
+    secondaryCta: { label: "Ver eventos C3", href: "/eventos" },
   },
-  {
-    title: "Medios y prensa",
-    description:
-      "Consulta definiciones oficiales, cifras, rutas de contacto y contexto institucional de C3.",
-  },
-] as const;
+};
 
 export const faqItems = [
   {
-    question: "¿Qué es C3?",
+    question: "Que es C3?",
     answer:
-      "C3 / Competitive Coding Club es una plataforma de desarrollo de talento técnico joven que conecta programación competitiva, hackathons, comunidad, formación e industria para abrir oportunidades reales.",
+      "C3 / Competitive Coding Club es una plataforma institucional de talento tecnico joven que conecta competencia, creacion y conexion en El Salvador y la region.",
   },
   {
-    question: "¿Qué significa C3?",
+    question: "Que significa C3?",
     answer: "C3 significa Competitive Coding Club.",
   },
   {
-    question: "¿Cuál es el tagline de C3?",
-    answer: "El tagline oficial de C3 es: Compite. Crea. Conecta.",
+    question: "Cual es el tagline de C3?",
+    answer: "Compite. Crea. Conecta.",
   },
   {
-    question: "¿C3 es solo un club de programación competitiva?",
+    question: "C3 es solo programacion competitiva?",
     answer:
-      "No. C3 nació desde la programación competitiva, pero hoy integra hackathons, proyectos tecnológicos, comunidad, formación, alianzas y conexión con oportunidades reales.",
+      "No. C3 nacio desde programacion competitiva y hoy integra tambien hackathons, comunidad, alianzas y oportunidades.",
   },
   {
-    question: "¿Quiénes pueden participar en C3?",
+    question: "Que es Compite?",
     answer:
-      "C3 está dirigido principalmente a estudiantes y talento técnico joven interesado en programación, tecnología, competencias, creación de proyectos, comunidad y oportunidades.",
+      "Compite es la linea de excelencia tecnica enfocada en programacion competitiva, ICPC, entrenamientos y la Copa Salvadorena de Programacion.",
   },
   {
-    question: "¿Necesito experiencia previa para participar?",
+    question: "Que es Crea?",
     answer:
-      "Depende de la actividad. Algunos eventos son introductorios y otros requieren conocimientos técnicos básicos. C3 busca abrir rutas para distintos niveles.",
+      "Crea es la linea de hackathons, prototipos y proyectos tecnologicos para resolver retos reales en equipo.",
   },
   {
-    question: "¿Cómo me uno a C3?",
+    question: "Que es Conecta?",
     answer:
-      "Participando en eventos u oportunidades C3 ya formas parte de la comunidad. Puedes escribir por canales oficiales para conocer la siguiente actividad disponible.",
+      "Conecta es la linea que une talento joven con comunidad, instituciones, industria y oportunidades reales.",
   },
   {
-    question: "¿Cuál es la relación entre C3 y la Copa Salvadoreña de Programación?",
+    question: "Quienes pueden participar en C3?",
     answer:
-      "La Copa Salvadoreña de Programación es una iniciativa de C3 dentro de la línea Compite.",
+      "Principalmente estudiantes, builders y talento tecnico joven. Tambien pueden participar instituciones educativas y organizaciones aliadas.",
   },
   {
-    question: "¿Cuál es la relación entre C3 y el hackathon?",
+    question: "Como me uno a C3?",
     answer:
-      "El hackathon es una iniciativa vinculada a la línea Crea, enfocada en creación, colaboración, prototipos, retos reales y construcción de proyectos tecnológicos.",
+      "Puedes integrarte participando en eventos y escribiendo por los canales oficiales para conocer la siguiente actividad disponible.",
   },
   {
-    question: "¿Cómo puede una universidad colaborar con C3?",
-    answer:
-      "Una universidad puede colaborar como sede, aliada de difusión, organizadora de competencias, hackathons, charlas, talleres o activaciones para estudiantes.",
+    question: "Cual es la relacion entre C3 y la Copa Salvadorena de Programacion?",
+    answer: "La Copa es una iniciativa principal de C3 dentro de la linea Compite.",
   },
   {
-    question: "¿Cómo puede una empresa patrocinar C3?",
+    question: "Cual es la relacion entre C3 y el Hackathon de Turismo Creativo?",
     answer:
-      "Una empresa puede apoyar eventos, hackathons, competencias, mentorías, premios, contenido o iniciativas de comunidad para conectar con talento joven y fortalecer el ecosistema tecnológico.",
+      "Es una iniciativa de C3 dentro de la linea Crea, enfocada en colaboracion, prototipos y solucion de retos reales.",
   },
   {
-    question: "¿Dónde opera C3?",
+    question: "Como puede una institucion educativa colaborar con C3?",
     answer:
-      "C3 tiene base en El Salvador y proyecta crecimiento regional hacia Centroamérica.",
+      "Puede colaborar como sede o aliada para competencias, hackathons, charlas, talleres y experiencias tecnicas para estudiantes.",
   },
   {
-    question: "¿Dónde contacto a C3?",
+    question: "Como puede una empresa u organizacion apoyar C3?",
     answer:
-      "Puedes escribir por Instagram o LinkedIn oficiales de C3 y usar la ruta de contacto del sitio para estudiantes, universidades, empresas y medios.",
+      "Puede apoyar con alianzas, mentorias, patrocinio de experiencias, retos aplicados y oportunidades para talento tecnico joven.",
   },
-] as const;
-
-export const keyCtas = [
-  { href: "/que-es-c3", label: "Conocer C3" },
-  { href: "/eventos", label: "Explorar eventos" },
-  { href: "/aliados", label: "Ser aliado" },
-  { href: "/contacto", label: "Contactar" },
+  {
+    question: "Donde opera C3?",
+    answer: "C3 opera desde El Salvador con enfoque de crecimiento regional.",
+  },
+  {
+    question: "Como contacto a C3?",
+    answer:
+      "Por Instagram, LinkedIn y correo oficial competitivecodingclub.sv@gmail.com, o desde la ruta /contacto.",
+  },
 ] as const;
 
 export const updateNote = "Datos actualizados a mayo de 2026";
+

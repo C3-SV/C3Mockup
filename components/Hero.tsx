@@ -1,50 +1,98 @@
-﻿import Image from "next/image";
+import Image from "next/image";
+import Link from "next/link";
 import Button from "./ui/Button";
 
 export default function Hero() {
   return (
-    <section
-      id="inicio"
-      className="relative overflow-hidden bg-gradient-to-br from-[#070D1A] via-[#0A1428] to-[#0E1E3D] py-20 text-white md:py-28"
-    >
+    <section id="inicio" className="relative overflow-hidden bg-[#0F203E] py-20 text-white md:py-28">
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-16 left-1/3 h-72 w-72 rounded-full bg-white/10 blur-3xl" />
-        <div className="absolute bottom-8 right-16 h-44 w-44 rounded-full bg-[#33BEAC]/20 blur-2xl" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(51,190,172,0.22),transparent_35%),radial-gradient(circle_at_86%_18%,rgba(79,91,169,0.38),transparent_46%),radial-gradient(circle_at_72%_80%,rgba(32,82,152,0.24),transparent_42%)]" />
+        <div className="absolute -left-32 top-4 h-80 w-80 rounded-full border border-white/10" />
+        <div className="absolute -right-24 bottom-8 h-72 w-72 rounded-full border border-[#46B8A8]/25" />
+        <div className="absolute inset-0 opacity-[0.12] [background-image:radial-gradient(circle_at_center,rgba(255,255,255,0.45)_1px,transparent_1px)] [background-size:48px_48px]" />
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 1200 420"
+          className="absolute -bottom-8 left-0 h-auto w-full opacity-20"
+        >
+          <path
+            d="M40 315 C 250 260, 360 335, 560 255 C 735 185, 905 275, 1160 180"
+            fill="none"
+            stroke="url(#hero-line-gradient)"
+            strokeWidth="2"
+          />
+          <path
+            d="M0 360 C 220 300, 370 380, 620 300 C 790 245, 940 315, 1200 235"
+            fill="none"
+            stroke="url(#hero-line-gradient)"
+            strokeWidth="1.5"
+          />
+          <defs>
+            <linearGradient id="hero-line-gradient" x1="0" x2="1" y1="0.4" y2="0.7">
+              <stop offset="0%" stopColor="#205298" />
+              <stop offset="55%" stopColor="#33BEAC" />
+              <stop offset="100%" stopColor="#4F5BA9" />
+            </linearGradient>
+          </defs>
+        </svg>
       </div>
 
-      <div className="container-shell relative grid items-center gap-12 md:grid-cols-[1.1fr_0.9fr]">
+      <div className="container-shell relative grid items-center gap-14 md:grid-cols-[1.05fr_0.95fr]">
         <div className="space-y-8">
-          <p className="inline-flex rounded-full border border-white/25 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-white/85">
-            Plataforma técnica joven
+          <p className="inline-flex rounded-full border border-white/25 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-white/90">
+            Plataforma institucional de talento tecnico joven
           </p>
           <div className="space-y-5">
             <h1 className="max-w-xl text-4xl font-extrabold leading-tight md:text-6xl">
-              Potenciamos talento técnico joven con impacto
+              C3 desarrolla talento tecnico joven a traves de competencia, creacion y conexion.
             </h1>
-            <h2 className="text-xl font-semibold text-white/90 md:text-2xl">
-              Compite. Crea. Conecta.
-            </h2>
             <p className="max-w-2xl text-base leading-8 text-white/85 md:text-lg">
-              C3, Competitive Coding Club, conecta programación competitiva, creación de proyectos,
-              comunidad y oportunidades reales para impulsar una nueva generación técnica en El
-              Salvador y la región.
+              Competitive Coding Club conecta programacion competitiva, hackathons, comunidad e
+              industria para abrir oportunidades reales a la proxima generacion tecnica de El
+              Salvador y la region.
             </p>
           </div>
-          <Button href="#proyectos">Explorar proyectos</Button>
+          <div className="flex flex-wrap items-center gap-4">
+            <Button href="/eventos">Explorar eventos</Button>
+            <Button href="/contacto" variant="secondary">
+              Ser aliado
+            </Button>
+            <Link
+              href="/que-es-c3"
+              className="text-sm font-semibold tracking-wide text-white/80 underline-offset-4 transition hover:text-white hover:underline"
+            >
+              Conocer C3
+            </Link>
+          </div>
         </div>
 
         <div className="relative flex justify-center md:justify-end">
           <div className="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center md:justify-end">
-            <div className="h-80 w-80 rounded-full bg-[#33BEAC]/20 blur-3xl md:h-96 md:w-96" />
+            <div className="h-80 w-80 rounded-full border border-white/15 bg-[radial-gradient(circle_at_35%_40%,rgba(51,190,172,0.28),transparent_55%)] md:h-[28rem] md:w-[28rem]" />
           </div>
-          <Image
-            src="/brand/logo-c3-claro-con-color.png"
-            alt="Logo principal de C3"
-            width={980}
-            height={980}
-            className="h-auto w-full max-w-[30rem] drop-shadow-[0_24px_45px_rgba(4,10,24,0.52)] md:max-w-[44rem]"
-            priority
-          />
+          <div className="relative isolate w-full max-w-[32rem] overflow-hidden rounded-[2rem] border border-white/18 bg-[#101e3a]/80 p-7 shadow-[0_28px_70px_rgba(4,10,24,0.55)] backdrop-blur-sm md:max-w-[34rem] md:p-9">
+            <div className="pointer-events-none absolute -right-8 -top-8 h-36 w-36 rounded-full border border-white/15" />
+            <div className="pointer-events-none absolute -bottom-10 left-2 h-40 w-40 rounded-full border border-[#33BEAC]/30" />
+            <Image
+              src="/brand/logo-c3-claro-con-color.png"
+              alt="Logo principal de C3"
+              width={920}
+              height={920}
+              className="mx-auto h-auto w-full max-w-[18rem] drop-shadow-[0_16px_35px_rgba(3,11,27,0.55)] md:max-w-[20rem]"
+              priority
+            />
+            <div className="mt-6 grid gap-3 text-sm text-white/80 md:grid-cols-3">
+              <p className="rounded-2xl border border-[#205298]/35 bg-[#205298]/16 px-3 py-2 text-center font-medium">
+                Compite
+              </p>
+              <p className="rounded-2xl border border-[#33BEAC]/35 bg-[#33BEAC]/14 px-3 py-2 text-center font-medium">
+                Crea
+              </p>
+              <p className="rounded-2xl border border-[#4F5BA9]/35 bg-[#4F5BA9]/14 px-3 py-2 text-center font-medium">
+                Conecta
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
