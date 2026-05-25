@@ -37,16 +37,13 @@ export default function Hero() {
         </svg>
       </div>
 
-      <div className="container-shell relative grid items-center gap-14 md:grid-cols-[1.05fr_0.95fr]">
-        <div className="space-y-8">
-          <p className="inline-flex rounded-full border border-white/25 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-white/90">
-            Plataforma institucional de talento tecnico joven
-          </p>
+      <div className="container-shell relative grid items-center gap-14 md:grid-cols-[1.15fr_0.85fr] xl:gap-20">
+        <div className="space-y-8 md:pr-4">
           <div className="space-y-5">
-            <h1 className="max-w-xl text-4xl font-extrabold leading-tight md:text-6xl">
+            <h1 className="max-w-3xl text-4xl font-extrabold leading-tight md:text-6xl">
               C3 desarrolla talento tecnico joven a traves de competencia, creacion y conexion.
             </h1>
-            <p className="max-w-2xl text-base leading-8 text-white/85 md:text-lg">
+            <p className="max-w-3xl text-base leading-8 text-white/85 md:text-lg">
               Competitive Coding Club conecta programacion competitiva, hackathons, comunidad e
               industria para abrir oportunidades reales a la proxima generacion tecnica de El
               Salvador y la region.

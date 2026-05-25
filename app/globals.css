@@ -35,7 +35,7 @@ h6 {
 }
 
 .container-shell {
-  width: min(1120px, 100% - 2rem);
+  width: min(1360px, calc(100% - 2rem));
   margin-inline: auto;
 }
 

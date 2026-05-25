@@ -40,11 +40,11 @@ export default function AudienceSection() {
     <section id="audiencias" className="section-divider bg-[#F8FAFD] py-20 text-[#0F203E] md:py-24">
       <div className="container-shell space-y-8">
         <SectionBadge label="Para quien es C3" />
-        <div>
-          <h2 className="text-3xl font-bold leading-tight md:max-w-4xl md:text-5xl">
+        <div className="max-w-4xl space-y-4">
+          <h2 className="text-3xl font-bold leading-tight md:text-4xl lg:text-5xl">
             C3 conecta a quienes quieren construir el ecosistema tecnico joven
           </h2>
-          <p className="mt-4 max-w-3xl text-base leading-8 text-[#31405c] md:text-lg">
+          <p className="max-w-3xl text-base leading-8 text-[#31405c] md:text-lg">
             Desde estudiantes que quieren crecer, hasta instituciones y organizaciones que buscan
             acercarse al talento tecnico emergente.
           </p>
@@ -57,9 +57,14 @@ export default function AudienceSection() {
             return (
               <article
                 key={audience.title}
-                className="relative overflow-hidden rounded-[1.8rem] border border-[#D6DFEA] bg-white p-6 shadow-[0_16px_34px_rgba(15,32,62,0.08)]"
+                className="relative flex h-full flex-col overflow-hidden rounded-[1.8rem] border border-[#D6DFEA] bg-white p-6 shadow-[0_16px_34px_rgba(15,32,62,0.08)]"
               >
-                <div className="mb-4 flex items-center justify-between">
+                <div
+                  className="absolute inset-x-0 top-0 h-1.5"
+                  style={{ backgroundColor: audience.accent }}
+                  aria-hidden="true"
+                />
+                <div className="mb-4 flex items-center justify-between pt-1">
                   <span
                     className="inline-flex h-11 w-11 items-center justify-center rounded-2xl"
                     style={{ backgroundColor: `${audience.accent}22`, color: audience.accent }}
@@ -93,7 +98,7 @@ export default function AudienceSection() {
 
                 <Link
                   href={audience.href}
-                  className="mt-6 inline-flex items-center rounded-full border border-[#0F203E] px-4 py-2.5 text-sm font-semibold text-[#0F203E] transition hover:bg-[#0F203E] hover:text-white"
+                  className="mt-auto inline-flex items-center rounded-full border border-[#0F203E] px-4 py-2.5 text-sm font-semibold text-[#0F203E] transition hover:bg-[#0F203E] hover:text-white"
                 >
                   {audience.cta}
                 </Link>

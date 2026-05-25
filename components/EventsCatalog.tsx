@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { events, lineVisuals, type EventStatus, type LineKey } from "@/lib/content";
 
@@ -31,7 +30,9 @@ export default function EventsCatalog() {
       return events;
     }
     if (activeFilter === "proximos") {
-      return events.filter((event) => event.status === "Inscripciones abiertas" || event.status === "Proximamente");
+      return events.filter(
+        (event) => event.status === "Inscripciones abiertas" || event.status === "Proximamente",
+      );
     }
     if (activeFilter === "historicos") {
       return events.filter((event) => event.status === "Historico" || event.status === "Apoyo institucional");
@@ -60,66 +61,63 @@ export default function EventsCatalog() {
         </div>
 
         <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {filteredEvents.map((event) => (
-            <article
-              key={event.id}
-              className="rounded-[1.7rem] border border-[#d5deea] bg-white p-6 shadow-[0_12px_28px_rgba(15,32,62,0.08)]"
-            >
-              <div className="mb-4 flex flex-wrap gap-2">
-                {event.lines.map((line) => {
-                  const visual = lineVisuals[line];
-                  return (
-                    <span
-                      key={`${event.id}-${line}`}
-                      className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.11em]"
-                      style={{
-                        borderColor: `${visual.color}6f`,
-                        color: visual.color,
-                        backgroundColor: `${visual.color}1a`,
-                      }}
-                    >
-                      <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: visual.color }} />
-                      {visual.name}
-                    </span>
-                  );
-                })}
-                <span className={`rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.11em] ${statusStyle[event.status]}`}>
-                  {event.status}
-                </span>
-              </div>
+          {filteredEvents.map((event) => {
+            const mainLine = lineVisuals[event.lines[0]];
 
-              <div className="mb-3 flex items-center gap-3">
-                <div className="relative h-9 w-9 rounded-xl bg-[#132c53]">
-                  <Image
-                    src={lineVisuals[event.lines[0]].logo}
-                    alt={`Icono de ${lineVisuals[event.lines[0]].name}`}
-                    fill
-                    className="object-contain p-1"
-                  />
+            return (
+              <article
+                key={event.id}
+                className="flex h-full flex-col rounded-[1.7rem] border border-[#d5deea] bg-white p-6 shadow-[0_12px_28px_rgba(15,32,62,0.08)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_rgba(15,32,62,0.12)]"
+              >
+                <div className="mb-4 h-1.5 w-16 rounded-full" style={{ backgroundColor: mainLine.color }} />
+
+                <div className="mb-4 flex flex-wrap gap-2">
+                  {event.lines.map((line) => {
+                    const visual = lineVisuals[line];
+                    return (
+                      <span
+                        key={`${event.id}-${line}`}
+                        className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.11em]"
+                        style={{
+                          borderColor: `${visual.color}6f`,
+                          color: visual.color,
+                          backgroundColor: `${visual.color}1a`,
+                        }}
+                      >
+                        {visual.name}
+                      </span>
+                    );
+                  })}
+                  <span className={`rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.11em] ${statusStyle[event.status]}`}>
+                    {event.status}
+                  </span>
                 </div>
-                <h3 className="text-xl font-bold leading-snug">{event.title}</h3>
-              </div>
 
-              <p className="text-sm leading-7 text-[#364765]">{event.description}</p>
-              {event.external ? (
-                <a
-                  href={event.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-5 inline-flex items-center rounded-full bg-[#0F203E] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#205298]"
-                >
-                  {event.cta}
-                </a>
-              ) : (
-                <Link
-                  href={event.href}
-                  className="mt-5 inline-flex items-center rounded-full bg-[#0F203E] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#205298]"
-                >
-                  {event.cta}
-                </Link>
-              )}
-            </article>
-          ))}
+                <h3 className="text-2xl font-bold leading-tight text-[#0F203E]">{event.title}</h3>
+                <p className="mt-3 text-sm leading-7 text-[#344766]">{event.description}</p>
+
+                <div className="mt-auto pt-6">
+                  {event.external ? (
+                    <a
+                      href={event.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center rounded-full bg-[#0F203E] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#205298]"
+                    >
+                      {event.cta}
+                    </a>
+                  ) : (
+                    <Link
+                      href={event.href}
+                      className="inline-flex items-center rounded-full bg-[#0F203E] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#205298]"
+                    >
+                      {event.cta}
+                    </Link>
+                  )}
+                </div>
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>

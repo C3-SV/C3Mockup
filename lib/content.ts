@@ -33,15 +33,39 @@ export const publicRoutes = [
 export const mainNavigation = [
   { href: "/", label: "Inicio" },
   { href: "/que-es-c3", label: "Que es C3" },
-  { href: "/compite", label: "Compite" },
-  { href: "/crea", label: "Crea" },
-  { href: "/conecta", label: "Conecta" },
   { href: "/eventos", label: "Eventos" },
   { href: "/faq", label: "FAQ" },
   { href: "/contacto", label: "Contacto" },
 ] as const;
 
 export const navItems = mainNavigation;
+
+export const ecosystemNavigation = [
+  {
+    href: "/compite",
+    label: "Compite",
+    description: "Programacion competitiva y excelencia tecnica.",
+  },
+  {
+    href: "/crea",
+    label: "Crea",
+    description: "Hackathons, software y proyectos reales.",
+  },
+  {
+    href: "/conecta",
+    label: "Conecta",
+    description: "Comunidad, industria y oportunidades.",
+  },
+] as const;
+
+export const headerNavigation = [
+  { href: "/", label: "Inicio" },
+  { href: "/que-es-c3", label: "Que es C3" },
+  { label: "Ecosistema", items: ecosystemNavigation },
+  { href: "/eventos", label: "Eventos" },
+  { href: "/faq", label: "FAQ" },
+  { href: "/contacto", label: "Contacto" },
+] as const;
 
 export const lineVisuals: Record<
   LineKey,

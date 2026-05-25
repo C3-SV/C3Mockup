@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { FaInstagram, FaLinkedinIn } from "react-icons/fa";
-import { mainNavigation } from "@/lib/content";
+import { ecosystemNavigation, mainNavigation } from "@/lib/content";
 import { siteConfig } from "@/lib/site";
 
 const socialLinks = [
@@ -54,10 +54,21 @@ export default function SiteFooter() {
           </div>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="grid gap-6 lg:grid-cols-3">
           <div className="flex flex-wrap gap-3 text-xs">
             {mainNavigation.map((item) => (
               <Link key={item.href} href={item.href} className="hover:text-[#205298]">
+                {item.label}
+              </Link>
+            ))}
+          </div>
+          <div className="grid gap-2 text-xs text-[#31405c] sm:grid-cols-3">
+            {ecosystemNavigation.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="inline-flex w-fit rounded-md transition hover:text-[#205298]"
+              >
                 {item.label}
               </Link>
             ))}
