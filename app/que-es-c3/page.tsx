@@ -2,38 +2,31 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import SeoJsonLd from "@/components/SeoJsonLd";
-import { getAboutPageJsonLd, getWebPageJsonLd } from "@/lib/structured-data";
+import { createPageMetadata } from "@/lib/metadata";
+import { getAboutPageJsonLd, getBreadcrumbJsonLd } from "@/lib/structured-data";
 import { siteConfig } from "@/lib/site";
 
-const seoTitle = "Qué es C3 / Competitive Coding Club | Historia, equipo y propósito";
+const seoTitle = "Qué es C3 / Competitive Coding Club | Talento técnico joven";
 const seoDescription =
-  "Conoce qué es C3, su historia, misión, visión y el equipo que impulsa una plataforma de talento técnico joven en El Salvador.";
+  "Conoce la historia, misión, visión, equipo y enfoque de C3, una plataforma institucional de talento técnico joven nacida en El Salvador.";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: seoTitle,
   description: seoDescription,
-  alternates: {
-    canonical: "/que-es-c3",
-  },
-  openGraph: {
-    title: seoTitle,
-    description: seoDescription,
-    url: `${siteConfig.domain}/que-es-c3`,
-    images: [siteConfig.defaultOgImage],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: seoTitle,
-    description: seoDescription,
-    images: [siteConfig.defaultOgImage],
-  },
-};
+  path: "/que-es-c3",
+  keywords: [
+    "qué es C3",
+    "Competitive Coding Club",
+    "talento técnico joven",
+    "comunidad tecnológica El Salvador",
+  ],
+});
 
 export default function QueEsC3Page() {
   return (
     <PageShell backgroundClassName="bg-[#0F203E]">
-      <SeoJsonLd data={getWebPageJsonLd({ path: "/que-es-c3", title: seoTitle, description: seoDescription })} />
       <SeoJsonLd data={getAboutPageJsonLd("/que-es-c3", seoTitle, seoDescription)} />
+      <SeoJsonLd data={getBreadcrumbJsonLd("/que-es-c3")} />
 
       <section className="bg-[#0F203E] py-16 text-white md:py-20">
         <div className="container-shell space-y-5">

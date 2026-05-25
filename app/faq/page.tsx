@@ -3,37 +3,30 @@ import PageShell from "@/components/PageShell";
 import C3BackgroundLayer from "@/components/backgrounds/C3BackgroundLayer";
 import SeoJsonLd from "@/components/SeoJsonLd";
 import { faqItems } from "@/lib/content";
-import { getFaqPageJsonLd } from "@/lib/structured-data";
-import { siteConfig } from "@/lib/site";
+import { createPageMetadata } from "@/lib/metadata";
+import { getBreadcrumbJsonLd, getFaqPageJsonLd } from "@/lib/structured-data";
 
 const seoTitle = "Preguntas frecuentes sobre C3 | Competitive Coding Club";
 const seoDescription =
-  "Respuestas sobre qué es C3, sus líneas Compite, Crea y Conecta, cómo participar, colaborar y contactar al club.";
+  "Respuestas claras sobre qué es C3, sus líneas Compite, Crea y Conecta, cómo participar, eventos, comunidad y contacto.";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: seoTitle,
   description: seoDescription,
-  alternates: {
-    canonical: "/faq",
-  },
-  openGraph: {
-    title: seoTitle,
-    description: seoDescription,
-    url: `${siteConfig.domain}/faq`,
-    images: [siteConfig.defaultOgImage],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: seoTitle,
-    description: seoDescription,
-    images: [siteConfig.defaultOgImage],
-  },
-};
+  path: "/faq",
+  keywords: [
+    "FAQ C3",
+    "qué es C3",
+    "Compite Crea Conecta",
+    "participar en C3",
+  ],
+});
 
 export default function FaqPage() {
   return (
     <PageShell backgroundClassName="bg-[#0F203E]">
       <SeoJsonLd data={getFaqPageJsonLd("/faq", seoTitle, seoDescription)} />
+      <SeoJsonLd data={getBreadcrumbJsonLd("/faq")} />
       <section className="relative overflow-hidden bg-[#0F203E] py-16 text-white md:py-20">
         <C3BackgroundLayer variant="dots" line="brand" intensity="low" className="opacity-85" />
         <div className="container-shell relative z-10 space-y-5">

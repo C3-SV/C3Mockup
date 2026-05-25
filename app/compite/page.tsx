@@ -3,30 +3,22 @@ import LinePageTemplate from "@/components/LinePageTemplate";
 import PageShell from "@/components/PageShell";
 import SeoJsonLd from "@/components/SeoJsonLd";
 import { linePageContent } from "@/lib/content";
-import { getWebPageJsonLd } from "@/lib/structured-data";
-import { siteConfig } from "@/lib/site";
+import { createPageMetadata } from "@/lib/metadata";
+import { getBreadcrumbJsonLd, getWebPageJsonLd } from "@/lib/structured-data";
 
 const seo = linePageContent.compite;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: seo.seoTitle,
   description: seo.seoDescription,
-  alternates: {
-    canonical: "/compite",
-  },
-  openGraph: {
-    title: seo.seoTitle,
-    description: seo.seoDescription,
-    url: `${siteConfig.domain}/compite`,
-    images: [siteConfig.defaultOgImage],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: seo.seoTitle,
-    description: seo.seoDescription,
-    images: [siteConfig.defaultOgImage],
-  },
-};
+  path: "/compite",
+  keywords: [
+    "programación competitiva El Salvador",
+    "Copa Salvadoreña de Programación",
+    "ICPC El Salvador",
+    "entrenamientos programación",
+  ],
+});
 
 export default function CompitePage() {
   return (
@@ -34,11 +26,12 @@ export default function CompitePage() {
       <SeoJsonLd
         data={getWebPageJsonLd({
           path: "/compite",
-          title: "Compite",
+          title: seo.seoTitle,
           description: seo.seoDescription,
           type: "WebPage",
         })}
       />
+      <SeoJsonLd data={getBreadcrumbJsonLd("/compite")} />
       <LinePageTemplate line="compite" />
     </PageShell>
   );

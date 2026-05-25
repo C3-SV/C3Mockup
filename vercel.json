@@ -9,6 +9,16 @@
       "source": "/copa/:path*",
       "destination": "https://copa.c3.com.sv/:path*",
       "permanent": false
+    },
+    {
+      "source": "/hackathon",
+      "destination": "https://hackathon.c3.com.sv",
+      "permanent": false
+    },
+    {
+      "source": "/hackathon/:path*",
+      "destination": "https://hackathon.c3.com.sv/:path*",
+      "permanent": false
     }
   ]
 }

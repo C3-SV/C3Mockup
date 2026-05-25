@@ -177,9 +177,9 @@ export const linePageContent: Record<
     heroTitle: "Compite: programación competitiva y excelencia técnica",
     heroDescription:
       "La línea Compite desarrolla pensamiento algorítmico, resolución de problemas y rigor técnico a través de competencias, entrenamientos e iniciativas de alto nivel.",
-    seoTitle: "Compite | Programación competitiva y excelencia técnica - C3",
+    seoTitle: "Compite | Programación competitiva y excelencia técnica — C3",
     seoDescription:
-      "La línea Compite de C3 impulsa programación competitiva, torneos, entrenamiento algorítmico, Copa Salvadoreña de Programación e ICPC para estudiantes y talento joven.",
+      "La línea Compite de C3 impulsa programación competitiva, ICPC, entrenamientos, pensamiento algorítmico y la Copa Salvadoreña de Programación.",
     pillars: ["Programación competitiva", "ICPC", "Copa Salvadoreña", "Entrenamientos"],
     primaryCta: { label: "Ir a la Copa", href: siteConfig.sites.copa, external: true },
     secondaryCta: { label: "Ver eventos C3", href: "/eventos" },
@@ -188,9 +188,9 @@ export const linePageContent: Record<
     heroTitle: "Crea: hackathons, software y proyectos reales",
     heroDescription:
       "La línea Crea impulsa experiencias builder donde el talento técnico joven transforma conocimiento en prototipos, productos y soluciones para retos reales.",
-    seoTitle: "Crea | Hackathons y proyectos tecnológicos - C3",
+    seoTitle: "Crea | Hackathons y proyectos tecnológicos — C3",
     seoDescription:
-      "La línea Crea de C3 impulsa hackathons, builders, innovación, prototipos y proyectos tecnológicos creados por talento joven.",
+      "La línea Crea de C3 impulsa hackathons, prototipos, builders, software y proyectos tecnológicos para resolver retos reales.",
     pillars: ["Hackathons", "Builders", "Desarrollo de software", "Proyectos reales"],
     primaryCta: {
       label: "Ver hackathon",
@@ -203,9 +203,9 @@ export const linePageContent: Record<
     heroTitle: "Conecta: comunidad, industria y oportunidades",
     heroDescription:
       "La línea Conecta crea puentes entre talento emergente, instituciones educativas, empresas y organizaciones para multiplicar oportunidades técnicas reales.",
-    seoTitle: "Conecta | Comunidad, industria y oportunidades - C3",
+    seoTitle: "Conecta | Comunidad, industria y oportunidades — C3",
     seoDescription:
-      "La línea Conecta de C3 acerca talento técnico joven con comunidad, universidades, empresas, startups, sponsors y oportunidades reales.",
+      "La línea Conecta de C3 une talento técnico joven con comunidad, instituciones educativas, empresas, aliados, sponsors y oportunidades reales.",
     pillars: ["Comunidad", "Industria", "Mentoría", "Alianzas"],
     primaryCta: { label: "Contactar para colaborar", href: "/contacto" },
     secondaryCta: { label: "Ver eventos C3", href: "/eventos" },

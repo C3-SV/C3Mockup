@@ -7,22 +7,28 @@ import Hero from "@/components/Hero";
 import MissionVisionSection from "@/components/MissionVisionSection";
 import Navbar from "@/components/Navbar";
 import ProjectsSection from "@/components/ProjectsSection";
+import SeoJsonLd from "@/components/SeoJsonLd";
 import SiteFooter from "@/components/SiteFooter";
+import { createPageMetadata } from "@/lib/metadata";
+import { getWebPageJsonLd } from "@/lib/structured-data";
 import { siteConfig } from "@/lib/site";
 
-export const metadata: Metadata = {
+const seoTitle = siteConfig.homepageTitle;
+const seoDescription = siteConfig.description;
+
+export const metadata: Metadata = createPageMetadata({
   title: siteConfig.homepageTitle,
   description: siteConfig.description,
-  alternates: {
-    canonical: "/",
-  },
-};
+  path: "/",
+  keywords: siteConfig.keywords,
+});
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-[#0F203E]">
       <Navbar />
       <main>
+        <SeoJsonLd data={getWebPageJsonLd({ path: "/", title: seoTitle, description: seoDescription })} />
         <Hero />
         <C3SectionTransition variant="darkToDark" height="sm" className="relative z-10 -my-4" />
         <MissionVisionSection />

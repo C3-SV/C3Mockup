@@ -4,36 +4,29 @@ import PageShell from "@/components/PageShell";
 import C3BackgroundLayer from "@/components/backgrounds/C3BackgroundLayer";
 import SeoJsonLd from "@/components/SeoJsonLd";
 import { events } from "@/lib/content";
+import { createPageMetadata } from "@/lib/metadata";
 import {
+  getBreadcrumbJsonLd,
   getCollectionPageJsonLd,
   getItemListJsonLd,
-  getWebPageJsonLd,
 } from "@/lib/structured-data";
 import { siteConfig } from "@/lib/site";
 
 const seoTitle = "Eventos C3 | Competencias, hackathons y comunidad técnica";
 const seoDescription =
-  "Explora eventos de C3 relacionados con programación competitiva, hackathons, comunidad, formación y conexión con oportunidades reales.";
+  "Explora eventos e iniciativas de C3 relacionados con programación competitiva, hackathons, comunidad, formación y conexión con oportunidades reales.";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: seoTitle,
   description: seoDescription,
-  alternates: {
-    canonical: "/eventos",
-  },
-  openGraph: {
-    title: seoTitle,
-    description: seoDescription,
-    url: `${siteConfig.domain}/eventos`,
-    images: [siteConfig.defaultOgImage],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: seoTitle,
-    description: seoDescription,
-    images: [siteConfig.defaultOgImage],
-  },
-};
+  path: "/eventos",
+  keywords: [
+    "eventos tecnología El Salvador",
+    "competencias programación",
+    "hackathons El Salvador",
+    "eventos C3",
+  ],
+});
 
 export default function EventosPage() {
   const itemList = getItemListJsonLd(
@@ -47,11 +40,9 @@ export default function EventosPage() {
 
   return (
     <PageShell backgroundClassName="bg-[#0F203E]">
-      <SeoJsonLd
-        data={getWebPageJsonLd({ path: "/eventos", title: seoTitle, description: seoDescription })}
-      />
       <SeoJsonLd data={getCollectionPageJsonLd("/eventos", seoTitle, seoDescription)} />
       <SeoJsonLd data={itemList} />
+      <SeoJsonLd data={getBreadcrumbJsonLd("/eventos")} />
 
       <section className="relative overflow-hidden bg-[#0F203E] py-16 text-white md:py-20">
         <C3BackgroundLayer variant="dots" line="brand" intensity="low" className="opacity-70" />
