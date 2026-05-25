@@ -71,6 +71,6 @@
         "Comunidad, networking, industria, mentoría, speakers, oportunidades y alianzas.",
     },
   },
-  defaultOgImage: "/brand/logo-c3-fondo-azul.png",
+  defaultOgImage: "/og-image.png",
 } as const;
 

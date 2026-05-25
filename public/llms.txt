@@ -1,4 +1,4 @@
-﻿# C3 / Competitive Coding Club
+# C3 / Competitive Coding Club
 
 Canonical URL: https://c3.com.sv
 Tagline: Compite. Crea. Conecta.

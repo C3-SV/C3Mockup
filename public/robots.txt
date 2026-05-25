@@ -1,5 +1,9 @@
 User-agent: *
 Allow: /
+Disallow: /admin/
+Disallow: /internal/
+Disallow: /private/
+Disallow: /api/
 
 Host: c3.com.sv
 Sitemap: https://c3.com.sv/sitemap.xml
