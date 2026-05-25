@@ -4,6 +4,16 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: process.cwd(),
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        port: "",
+        pathname: "/dvo9sykwq/image/upload/**",
+      },
+    ],
+  },
   async redirects() {
     return [
       {

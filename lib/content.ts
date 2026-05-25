@@ -19,6 +19,15 @@ export type EventItem = {
   external?: boolean;
 };
 
+export type TeamLeader = {
+  name: string;
+  role: string;
+  photoSrc?: string;
+  photoAlt?: string;
+  linkedinHref: string;
+  portfolioHref?: string;
+};
+
 export const publicRoutes = [
   "/",
   "/que-es-c3",
@@ -160,6 +169,93 @@ export const events: EventItem[] = [
 ];
 
 export const initiatives = events.slice(0, 2);
+
+export const teamLeaders: TeamLeader[] = [
+  {
+    name: "Óscar Pleités",
+    role: "Co-Founder, Content Co-Lead & Problem Setter",
+    photoSrc: "/team_members/team_c3_oscar.jpg",
+    photoAlt: "Oscar del equipo C3",
+    linkedinHref: "https://www.linkedin.com/in/osplei/",
+  },
+  {
+    name: "Christopher Marroquín",
+    role: "Co-Founder & General Lead",
+    photoSrc: "https://res.cloudinary.com/dvo9sykwq/image/upload/q_auto/f_auto/v1776379279/copy_of_ce_-_yo_fmp1hn_092d33.jpg",
+    photoAlt: "Christopher del equipo C3",
+    linkedinHref: "https://www.linkedin.com/in/christopher-marroquin23/",
+    portfolioHref: "https://christophermarroquin.dev",
+  },
+  {
+    name: "Roberto Polanco",
+    role: "Co-Founder & Content Co-Lead",
+    photoSrc: "/team_members/team_c3_polanco.jpg",
+    photoAlt: "Polanco del equipo C3",
+    linkedinHref: "https://www.linkedin.com/in/roberto-polanco-0bb176354/"
+  },
+  {
+    name: "Rodrigo López",
+    role: "Strategy & Growth Lead",
+    photoSrc: "/team_members/team_c3_coloca.jpg",
+    photoAlt: "Coloca del equipo C3",
+    linkedinHref: "https://www.linkedin.com/in/rodrigo-l%C3%B3pez-/"
+  },
+  {
+    name: "Celeste",
+    role: "Operations Co-Lead",
+    photoSrc: "/team_members/team_c3_celeste.jpeg",
+    photoAlt: "Celeste del equipo C3",
+    linkedinHref: "https://www.linkedin.com/in/celeste-aparicio-066301270/",
+  },
+  {
+    name: "Fiorella Guzmán",
+    role: "Marketing Co-Lead & Community",
+    photoSrc: "/team_members/team_c3_fiorella.jpg",
+    photoAlt: "Fiorella del equipo C3",
+    linkedinHref: "https://www.linkedin.com/in/fiorella-guzm%C3%A1n-3881a8297/",
+  },
+  {
+    name: "Roberto Morán",
+    role: "Tech Lead",
+    photoSrc: "/team_members/team_c3_roberto.jpg",
+    photoAlt: "Roberto del equipo C3",
+    linkedinHref: "https://www.linkedin.com/in/roberto-moran-067a1318a/",
+  },
+  {
+    name: "Javier Galdámez",
+    role: "Community Lead",
+    photoSrc: "/team_members/team_c3_javier.jpg",
+    photoAlt: "Javier del equipo C3",
+    linkedinHref: "https://www.linkedin.com/in/javier-galdamez/",
+  },
+  {
+    name: "Alisson Quijano",
+    role: "Marketing Co-Lead",
+    photoSrc: "/team_members/team_c3_alisson.jpeg",
+    photoAlt: "Alisson del equipo C3",
+    linkedinHref: "https://www.linkedin.com/in/alisson-quijano/",
+  },
+  {
+    name: "Ivan Cisneros",
+    role: "Operations Co-Lead",
+    photoSrc: "/team_members/team_c3_ivan.jpg",
+    photoAlt: "Ivan del equipo C3",
+    linkedinHref: "https://www.linkedin.com/in/iv%C3%A1n-cisneros/",
+  },
+  {
+    name: "Cristina Guardado",
+    role: "Logistics Lead",
+    photoSrc: "/team_members/team_c3_cristina.jpg",
+    photoAlt: "Cristina del equipo C3",
+    linkedinHref: "https://www.linkedin.com/in/silvia-guardado-c117/",
+  },
+  {
+    name: "Daniela Ayala",
+    role: "Finance Lead",
+    photoAlt: "Daniela del equipo C3",
+    linkedinHref: "https://www.linkedin.com/in/daniela-ayala-m/",
+  },
+];
 
 export const linePageContent: Record<
   LineKey,
