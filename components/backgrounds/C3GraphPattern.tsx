@@ -54,7 +54,11 @@ export default function C3GraphPattern({
         ...getC3MaskStyle(mask),
       }}
     >
-      <svg viewBox="0 0 100 100" preserveAspectRatio="none" className={`absolute inset-0 h-full w-full ${animated ? "c3-bg-graph-dash" : ""}`}>
+      <svg
+        viewBox="0 0 100 100"
+        preserveAspectRatio="xMidYMid slice"
+        className={`absolute inset-0 h-full w-full ${animated ? "c3-bg-graph-dash" : ""}`}
+      >
         <defs>
           <linearGradient id={`c3-graph-${line}`} x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor={theme.secondary} stopOpacity="0.15" />

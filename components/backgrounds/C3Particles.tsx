@@ -4,12 +4,20 @@ import { useEffect, useMemo, useState } from "react";
 import Particles, { ParticlesProvider, type ParticlesPluginRegistrar, type IParticlesProps } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 import C3DotPattern from "./C3DotPattern";
-import { getC3Intensity, getC3LineTheme, type C3BackgroundIntensity, type C3LineKey } from "./c3-background-theme";
+import {
+  getC3Intensity,
+  getC3LineTheme,
+  getC3MaskStyle,
+  type C3BackgroundIntensity,
+  type C3LineKey,
+  type C3MaskEdge,
+} from "./c3-background-theme";
 
 type C3ParticlesProps = {
   line?: C3LineKey;
   intensity?: C3BackgroundIntensity;
   animated?: boolean;
+  mask?: C3MaskEdge;
   className?: string;
 };
 
@@ -27,6 +35,7 @@ export default function C3Particles({
   line = "brand",
   intensity = "low",
   animated = true,
+  mask = "both",
   className = "",
 }: C3ParticlesProps) {
   const theme = getC3LineTheme(line);
@@ -119,7 +128,7 @@ export default function C3Particles({
         line={line}
         intensity={intensity}
         animated={false}
-        mask="both"
+        mask={mask}
         size={isMobile ? 40 : 34}
         opacity={scale.opacity * 0.72}
         className={className}
@@ -130,7 +139,11 @@ export default function C3Particles({
   const particlesLoaded = async (): Promise<void> => {};
 
   return (
-    <div aria-hidden="true" className={`absolute inset-0 pointer-events-none overflow-hidden ${className}`}>
+    <div
+      aria-hidden="true"
+      className={`absolute inset-0 pointer-events-none overflow-hidden ${className}`}
+      style={getC3MaskStyle(mask)}
+    >
       <ParticlesProvider init={particlesInit}>
         <Particles
           id={`c3-particles-${line}`}

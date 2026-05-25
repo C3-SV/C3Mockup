@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import ContactForm from "@/components/ContactForm";
+import C3SectionTransition from "@/components/C3SectionTransition";
 import PageShell from "@/components/PageShell";
 import C3BackgroundLayer from "@/components/backgrounds/C3BackgroundLayer";
 import SeoJsonLd from "@/components/SeoJsonLd";
@@ -91,7 +92,7 @@ export default function ContactoPage() {
       <SeoJsonLd data={getContactPageJsonLd("/contacto", seoTitle, seoDescription)} />
 
       <section className="relative overflow-hidden bg-[#0F203E] py-16 text-white md:py-20">
-        <C3BackgroundLayer variant="dots" line="brand" intensity="low" className="opacity-85" />
+        <C3BackgroundLayer variant="dots" line="brand" intensity="low" mask="bottom" className="opacity-85" />
 
         <div className="container-shell relative z-10 space-y-6">
           <h1 className="max-w-4xl text-4xl font-bold leading-tight md:text-6xl">
@@ -103,9 +104,10 @@ export default function ContactoPage() {
           </p>
         </div>
       </section>
-    
+      <C3SectionTransition variant="darkToDark" height="sm" className="relative z-10 -my-4" />
+
       <section className="section-divider relative overflow-hidden bg-[#0F203E] py-16 text-white md:py-20">
-        <C3BackgroundLayer variant="graph" line="brand" intensity="low" animated className="opacity-45" />
+        <C3BackgroundLayer variant="graph" line="brand" intensity="low" animated mask="top" className="opacity-45" />
         <div className="container-shell relative z-10 space-y-8">
           <div className="space-y-3">
             <h2 className="max-w-3xl text-3xl font-bold leading-tight md:text-4xl">
@@ -116,8 +118,8 @@ export default function ContactoPage() {
               mensaje.
             </p>
           </div>
-            <ContactForm />
-  
+          <ContactForm />
+
         </div>
       </section>
 

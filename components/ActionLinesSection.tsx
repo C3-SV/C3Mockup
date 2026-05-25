@@ -4,7 +4,15 @@ import C3EcosystemDiagram from "./C3EcosystemDiagram";
 export default function ActionLinesSection() {
   return (
     <section id="ecosistema" className="section-divider relative overflow-hidden bg-[#0F203E] py-20 text-white">
-      <C3BackgroundLayer variant="dots" line="brand" intensity="low" className="opacity-70" />
+      <C3BackgroundLayer variant="dots" line="brand" intensity="low" mask="top" className="opacity-70" />
+      <C3BackgroundLayer
+        variant="graph"
+        line="brand"
+        intensity="medium"
+        animated
+        mask="both"
+        className="opacity-20 mix-blend-screen"
+      />
 
       <div className="container-shell relative z-10 space-y-10">
         <div className="space-y-4">

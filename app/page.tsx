@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import ActionLinesSection from "@/components/ActionLinesSection";
 import AudienceSection from "@/components/AudienceSection";
+import C3SectionTransition from "@/components/C3SectionTransition";
 import FinalCtaSection from "@/components/FinalCtaSection";
 import Hero from "@/components/Hero";
 import MissionVisionSection from "@/components/MissionVisionSection";
@@ -23,7 +24,9 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
+        <C3SectionTransition variant="darkToDark" height="sm" className="relative z-10 -my-4" />
         <MissionVisionSection />
+        <C3SectionTransition variant="darkToDark" height="sm" className="relative z-10 -my-4" />
         <ActionLinesSection />
         <ProjectsSection />
         <AudienceSection />

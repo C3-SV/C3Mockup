@@ -1,5 +1,6 @@
 import Image from "next/image";
 import C3BackgroundLayer from "./backgrounds/C3BackgroundLayer";
+import C3SectionTransition from "./C3SectionTransition";
 
 type Initiative = {
   line: "Compite" | "Crea";
@@ -54,8 +55,8 @@ export default function MissionVisionSection() {
         id="proximas-iniciativas"
         className="section-divider relative overflow-hidden bg-[#0F203E] py-20 text-white md:py-24"
       >
-        <C3BackgroundLayer variant="glow" line="crea" intensity="medium" className="opacity-65" />
-        <C3BackgroundLayer variant="dots" line="crea" intensity="low" className="opacity-50" />
+        <C3BackgroundLayer variant="glow" line="crea" intensity="medium" mask="bottom" className="opacity-65" />
+        <C3BackgroundLayer variant="dots" line="crea" intensity="low" mask="bottom" className="opacity-50" />
         <div className="container-shell relative z-10 space-y-8">
           <div>
             <h2 className="text-3xl font-bold text-white md:text-5xl">Próximas iniciativas</h2>
@@ -125,9 +126,11 @@ export default function MissionVisionSection() {
         </div>
       </section>
 
+      <C3SectionTransition variant="darkToDark" height="sm" className="relative z-10 -my-4" />
+
       <section className="section-divider relative overflow-hidden bg-[#101A31] py-16 text-white md:py-20">
-        <C3BackgroundLayer variant="glow" line="conecta" intensity="medium" className="opacity-60" />
-        <C3BackgroundLayer variant="dots" line="conecta" intensity="low" className="opacity-35" />
+        <C3BackgroundLayer variant="glow" line="conecta" intensity="medium" mask="bottom" className="opacity-60" />
+        <C3BackgroundLayer variant="dots" line="conecta" intensity="low" mask="bottom" className="opacity-35" />
         <div className="container-shell relative z-10 space-y-7">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <h3 className="text-3xl font-bold md:text-4xl">Datos que respaldan el avance de C3</h3>
