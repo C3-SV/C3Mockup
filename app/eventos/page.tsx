@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import EventsCatalog from "@/components/EventsCatalog";
 import PageShell from "@/components/PageShell";
 import SeoJsonLd from "@/components/SeoJsonLd";
-import SectionBadge from "@/components/ui/SectionBadge";
 import { events } from "@/lib/content";
 import {
   getCollectionPageJsonLd,
@@ -55,13 +54,11 @@ export default function EventosPage() {
 
       <section className="bg-[#0F203E] py-16 text-white md:py-20">
         <div className="container-shell space-y-5">
-          <SectionBadge label="Eventos C3" />
           <h1 className="max-w-4xl text-4xl font-bold leading-tight md:text-5xl">
             Iniciativas que activan el ecosistema técnico joven
           </h1>
           <p className="max-w-3xl text-base leading-8 text-white/82 md:text-lg">
-            Esta ruta centraliza competencias, hackathons y colaboraciones institucionales para
-            mostrar la ejecución real de C3 y conectar hacia sus sitios satélite.
+            Participa en competencias, hackathons y colaboraciones institucionales.
           </p>
         </div>
       </section>

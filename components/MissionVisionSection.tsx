@@ -1,5 +1,4 @@
 import Image from "next/image";
-import SectionBadge from "./ui/SectionBadge";
 
 type Initiative = {
   line: "Compite" | "Crea";
@@ -44,8 +43,7 @@ const stats = [
   { value: "+60", label: "miembros de la comunidad", accent: "#205298" },
   { value: "+150", label: "personas alcanzadas", accent: "#33BEAC" },
   { value: "+130", label: "participantes en Copa 2025", accent: "#4F5BA9" },
-  { value: "5+", label: "eventos organizados o apoyados", accent: "#46B8A8" },
-  { value: "2024", label: "fundación", accent: "#2C519B" },
+  { value: "5+", label: "eventos organizados o apoyados", accent: "#46B8A8" }
 ];
 
 export default function MissionVisionSection() {
@@ -60,7 +58,6 @@ export default function MissionVisionSection() {
           <div className="absolute left-[-6rem] top-[5rem] h-60 w-60 rounded-full border border-white/12" />
         </div>
         <div className="container-shell relative space-y-8">
-          <SectionBadge label="Lo próximo en C3" />
           <div>
             <h2 className="text-3xl font-bold text-white md:text-5xl">Próximas iniciativas</h2>
             <p className="mt-3 max-w-3xl text-base leading-8 text-white/78 md:text-lg">
@@ -131,7 +128,6 @@ export default function MissionVisionSection() {
 
       <section className="section-divider bg-[#101A31] py-16 text-white md:py-20">
         <div className="container-shell space-y-7">
-          {/*<SectionBadge label="Impacto inicial" />*/}
           <div className="flex flex-wrap items-end justify-between gap-4">
             <h3 className="text-3xl font-bold md:text-4xl">Datos que respaldan el avance de C3</h3>
             <p className="text-sm uppercase tracking-[0.14em] text-white/70">Actualizado a mayo 2026</p>

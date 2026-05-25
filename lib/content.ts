@@ -216,73 +216,47 @@ export const faqItems = [
   {
     question: "¿Qué es C3?",
     answer:
-      "C3 / Competitive Coding Club es una plataforma institucional de talento técnico joven que conecta competencia, creación y conexión en El Salvador y la región.",
+      "C3 / Competitive Coding Club es una plataforma institucional de talento técnico joven que conecta competencia, creación y oportunidades reales en El Salvador y la región.",
   },
   {
-    question: "¿Qué significa C3?",
-    answer: "C3 significa Competitive Coding Club.",
-  },
-  {
-    question: "¿Cuál es el tagline de C3?",
-    answer: "Compite. Crea. Conecta.",
+    question: "¿Qué significa C3 y cuál es su enfoque?",
+    answer:
+      "C3 significa Competitive Coding Club. Su enfoque se resume en tres líneas: Compite, Crea y Conecta.",
   },
   {
     question: "¿C3 es solo programación competitiva?",
     answer:
-      "No. C3 nació desde programación competitiva y hoy integra también hackathons, comunidad, alianzas y oportunidades.",
+      "No. C3 nació desde la programación competitiva, pero hoy también impulsa hackathons, comunidad, alianzas, eventos y conexión con oportunidades reales.",
   },
   {
-    question: "¿Qué es Compite?",
+    question: "¿Qué son Compite, Crea y Conecta?",
     answer:
-      "Compite es la línea de excelencia técnica enfocada en programación competitiva, ICPC, entrenamientos y la Copa Salvadoreña de Programación.",
-  },
-  {
-    question: "¿Qué es Crea?",
-    answer:
-      "Crea es la línea de hackathons, prototipos y proyectos tecnológicos para resolver retos reales en equipo.",
-  },
-  {
-    question: "¿Qué es Conecta?",
-    answer:
-      "Conecta es la línea que une talento joven con comunidad, instituciones, industria y oportunidades reales.",
+      "Compite impulsa programación competitiva, ICPC, entrenamientos y la Copa Salvadoreña de Programación. Crea desarrolla hackathons, prototipos y proyectos tecnológicos para resolver retos reales. Conecta une talento joven con comunidad, instituciones, industria y oportunidades.",
   },
   {
     question: "¿Quiénes pueden participar en C3?",
     answer:
-      "Principalmente estudiantes, builders y talento técnico joven. También pueden participar instituciones educativas y organizaciones aliadas.",
+      "Principalmente estudiantes, builders y talento técnico joven. También pueden colaborar instituciones educativas, empresas, sponsors y organizaciones aliadas.",
   },
   {
-    question: "¿Cómo me uno a C3?",
+    question: "¿Cómo me uno o participo en C3?",
     answer:
-      "Puedes integrarte participando en eventos y escribiendo por los canales oficiales para conocer la siguiente actividad disponible.",
+      "Podés integrarte participando en eventos, siguiendo nuestras convocatorias y escribiendo por los canales oficiales para conocer la siguiente actividad disponible.",
   },
   {
-    question: "¿Cuál es la relación entre C3 y la Copa Salvadoreña de Programación?",
-    answer: "La Copa es una iniciativa principal de C3 dentro de la línea Compite.",
-  },
-  {
-    question: "¿Cuál es la relación entre C3 y el Hackathon de Turismo Creativo?",
+    question: "¿Cuál es la relación entre C3, la Copa y el Hackathon?",
     answer:
-      "Es una iniciativa de C3 dentro de la línea Crea, enfocada en colaboración, prototipos y solución de retos reales.",
+      "La Copa Salvadoreña de Programación es una iniciativa principal de C3 dentro de la línea Compite. El Hackathon de Turismo Creativo I es una iniciativa de C3 dentro de la línea Crea, enfocada en colaboración, prototipos y solución de retos reales.",
   },
   {
-    question: "¿Cómo puede una institución educativa colaborar con C3?",
+    question: "¿Cómo puede colaborar una institución, empresa u organización?",
     answer:
-      "Puede colaborar como sede o aliada para competencias, hackathons, charlas, talleres y experiencias técnicas para estudiantes.",
-  },
-  {
-    question: "¿Cómo puede una empresa u organización apoyar C3?",
-    answer:
-      "Puede apoyar con alianzas, mentorías, patrocinio de experiencias, retos aplicados y oportunidades para talento técnico joven.",
-  },
-  {
-    question: "¿Dónde opera C3?",
-    answer: "C3 opera desde El Salvador con enfoque de crecimiento regional.",
+      "Puede colaborar como sede, aliada educativa, sponsor, mentora, promotora de retos o apoyo estratégico para crear experiencias técnicas de alto impacto.",
   },
   {
     question: "¿Cómo contacto a C3?",
     answer:
-      "Por Instagram, LinkedIn y correo oficial competitivecodingclub.sv@gmail.com, o desde la ruta /contacto.",
+      "Podés contactar a C3 por Instagram, LinkedIn, correo oficial competitivecodingclub.sv@gmail.com o desde la página de contacto.",
   },
 ] as const;
 

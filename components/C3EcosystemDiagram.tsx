@@ -25,9 +25,9 @@ const nodes: DiagramNode[] = [
     href: "/compite",
     logo: "/brand/compite-blanco.png",
     color: lineVisuals.compite.color,
-    x: 176,
-    y: 164,
-    size: 226,
+    x: 204,
+    y: 180,
+    size: 208,
   },
   {
     key: "crea",
@@ -35,9 +35,9 @@ const nodes: DiagramNode[] = [
     href: "/crea",
     logo: "/brand/crea-blanco.png",
     color: lineVisuals.crea.color,
-    x: 824,
-    y: 164,
-    size: 226,
+    x: 796,
+    y: 180,
+    size: 208,
   },
   {
     key: "conecta",
@@ -46,16 +46,16 @@ const nodes: DiagramNode[] = [
     logo: "/brand/conecta-blanco.png",
     color: lineVisuals.conecta.color,
     x: 500,
-    y: 552,
-    size: 236,
+    y: 526,
+    size: 220,
   },
   {
     key: "center",
     label: "C3",
     logo: "/brand/logo-c3-claro-con-color.png",
     x: 500,
-    y: 270,
-    size: 272,
+    y: 266,
+    size: 256,
   },
 ];
 
@@ -89,9 +89,9 @@ function CircleNode({ node }: { node: DiagramNode }) {
           <Image
             src={node.logo}
             alt="Logo central de C3"
-            width={160}
-            height={160}
-            className="h-44 w-44 object-contain"
+            width={176}
+            height={176}
+            className="h-48 w-48 object-contain"
           />
         </div>
       ) : (
@@ -109,9 +109,9 @@ function CircleNode({ node }: { node: DiagramNode }) {
           <Image
             src={node.logo}
             alt={`Logo de ${node.label}`}
-            width={112}
-            height={112}
-            className="h-20 w-20 object-contain transition duration-200 group-hover:scale-[1.04]"
+            width={124}
+            height={124}
+            className="h-24 w-24 object-contain transition duration-200 group-hover:scale-[1.04]"
           />
         </Link>
       )}
@@ -144,13 +144,13 @@ export default function C3EcosystemDiagram() {
 
       <div className="grid gap-4 md:hidden">
         <div className="rounded-[2rem] bg-[#122449]/88 p-6 text-center">
-          <div className="mx-auto flex h-40 w-40 items-center justify-center rounded-full bg-[#102240]">
+          <div className="mx-auto flex h-36 w-36 items-center justify-center rounded-full bg-[#102240]">
             <Image
               src="/brand/logo-c3-claro-con-color.png"
               alt="Logo central de C3"
-              width={132}
-              height={132}
-              className="h-28 w-28 object-contain"
+              width={144}
+              height={144}
+              className="h-32 w-32 object-contain"
             />
           </div>
           <p className="mt-3 text-sm font-semibold uppercase tracking-[0.2em] text-white/82">
@@ -167,7 +167,7 @@ export default function C3EcosystemDiagram() {
               className="rounded-[2rem] bg-[#122449]/88 px-5 py-4 text-center shadow-[0_12px_30px_rgba(2,8,22,0.22)]"
             >
               <div
-                className="mx-auto flex h-[152px] w-[152px] items-center justify-center rounded-full"
+                className="mx-auto flex h-[140px] w-[140px] items-center justify-center rounded-full"
                 style={{
                   backgroundColor: "#122449",
                   boxShadow: "0 18px 42px rgba(2,8,22,0.22)",
@@ -177,9 +177,9 @@ export default function C3EcosystemDiagram() {
                 <Image
                   src={node.logo}
                   alt={`Logo de ${node.label}`}
-                  width={104}
-                  height={104}
-                  className="h-20 w-20 object-contain"
+                  width={116}
+                  height={116}
+                  className="h-[88px] w-[88px] object-contain"
                 />
               </div>
               <p className="mt-4 text-sm font-semibold uppercase tracking-[0.18em] text-white">

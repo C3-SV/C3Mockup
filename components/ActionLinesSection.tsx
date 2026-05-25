@@ -1,4 +1,3 @@
-import SectionBadge from "./ui/SectionBadge";
 import C3EcosystemDiagram from "./C3EcosystemDiagram";
 
 export default function ActionLinesSection() {
@@ -11,7 +10,6 @@ export default function ActionLinesSection() {
       </div>
 
       <div className="container-shell relative space-y-10">
-        <SectionBadge label="Compite • Crea • Conecta" />
         <div className="space-y-4">
           <h2 className="text-3xl font-bold md:text-5xl">Un ecosistema integrado</h2>
           <p className="max-w-3xl text-base leading-8 text-white/80 md:text-lg">
@@ -55,11 +53,9 @@ export default function ActionLinesSection() {
               style={{ boxShadow: "0 16px 40px rgba(2,8,22,0.22)" }}
             >
               <div className="mb-4 h-1.5 w-16 rounded-full" style={{ backgroundColor: card.color }} />
-              <p className="mb-3 text-xs font-semibold tracking-[0.18em]" style={{ color: card.color }}>
-                {card.title}
-              </p>
               <h3 className="text-2xl font-bold leading-tight text-white">
-                {card.title === "CONECTA" ? "Conecta" : card.title.charAt(0) + card.title.slice(1).toLowerCase()}
+                {card.title}
+                {/*card.title === "CONECTA" ? "Conecta" : card.title.charAt(0) + card.title.slice(1).toLowerCase()*/}
               </h3>
               <p className="mt-3 text-sm leading-7 text-white/82">{card.description}</p>
               <ul className="mt-4 space-y-2 text-sm text-white/82">

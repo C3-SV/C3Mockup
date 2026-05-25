@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import SeoJsonLd from "@/components/SeoJsonLd";
-import SectionBadge from "@/components/ui/SectionBadge";
 import { getAboutPageJsonLd, getWebPageJsonLd } from "@/lib/structured-data";
 import { siteConfig } from "@/lib/site";
 
@@ -38,7 +37,6 @@ export default function QueEsC3Page() {
 
       <section className="bg-[#0F203E] py-16 text-white md:py-20">
         <div className="container-shell space-y-5">
-          <SectionBadge label="Qué es C3" />
           <h1 className="max-w-4xl text-4xl font-bold leading-tight md:text-5xl">
             C3 / Competitive Coding Club
           </h1>
