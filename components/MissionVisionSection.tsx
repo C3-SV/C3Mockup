@@ -1,4 +1,5 @@
 import Image from "next/image";
+import C3BackgroundLayer from "./backgrounds/C3BackgroundLayer";
 
 type Initiative = {
   line: "Compite" | "Crea";
@@ -27,7 +28,7 @@ const initiatives: Initiative[] = [
   },
   {
     line: "Crea",
-    status: "Próximamente",
+    status: "Inscripciones abiertas",
     title: "Hackathon de Turismo Creativo I",
     description:
       "Una iniciativa enfocada en creación, colaboración, prototipos y solución de retos reales desde código, turismo y cultura.",
@@ -53,11 +54,9 @@ export default function MissionVisionSection() {
         id="proximas-iniciativas"
         className="section-divider relative overflow-hidden bg-[#0F203E] py-20 text-white md:py-24"
       >
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_14%,rgba(51,190,172,0.18),transparent_35%),radial-gradient(circle_at_88%_80%,rgba(79,91,169,0.25),transparent_45%)]" />
-          <div className="absolute left-[-6rem] top-[5rem] h-60 w-60 rounded-full border border-white/12" />
-        </div>
-        <div className="container-shell relative space-y-8">
+        <C3BackgroundLayer variant="glow" line="crea" intensity="medium" className="opacity-65" />
+        <C3BackgroundLayer variant="dots" line="crea" intensity="low" className="opacity-50" />
+        <div className="container-shell relative z-10 space-y-8">
           <div>
             <h2 className="text-3xl font-bold text-white md:text-5xl">Próximas iniciativas</h2>
             <p className="mt-3 max-w-3xl text-base leading-8 text-white/78 md:text-lg">
@@ -126,8 +125,10 @@ export default function MissionVisionSection() {
         </div>
       </section>
 
-      <section className="section-divider bg-[#101A31] py-16 text-white md:py-20">
-        <div className="container-shell space-y-7">
+      <section className="section-divider relative overflow-hidden bg-[#101A31] py-16 text-white md:py-20">
+        <C3BackgroundLayer variant="glow" line="conecta" intensity="medium" className="opacity-60" />
+        <C3BackgroundLayer variant="dots" line="conecta" intensity="low" className="opacity-35" />
+        <div className="container-shell relative z-10 space-y-7">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <h3 className="text-3xl font-bold md:text-4xl">Datos que respaldan el avance de C3</h3>
             <p className="text-sm uppercase tracking-[0.14em] text-white/70">Actualizado a mayo 2026</p>

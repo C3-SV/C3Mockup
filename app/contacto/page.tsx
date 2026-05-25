@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import ContactForm from "@/components/ContactForm";
 import PageShell from "@/components/PageShell";
+import C3BackgroundLayer from "@/components/backgrounds/C3BackgroundLayer";
 import SeoJsonLd from "@/components/SeoJsonLd";
 import { getContactPageJsonLd } from "@/lib/structured-data";
 import { siteConfig } from "@/lib/site";
@@ -11,41 +12,6 @@ import type { IconType } from "react-icons";
 const seoTitle = "Contacto | C3 / Competitive Coding Club";
 const seoDescription =
   "Contacta a C3 para participar en eventos, proponer alianzas educativas, apoyar iniciativas o conectar con talento técnico joven.";
-
-const intentionCards = [
-  {
-    title: "Quiero participar en C3",
-    subtitle: "Para estudiantes, builders y talento técnico joven.",
-    text: "Participa en competencias, hackathons, comunidad y espacios de aprendizaje para desarrollar habilidades, construir proyectos y conectar con oportunidades reales.",
-    cta: "Participar en C3",
-    href: "/eventos",
-    accent: "#205298",
-  },
-  {
-    title: "Quiero proponer una alianza educativa",
-    subtitle: "Para colegios, universidades y programas formativos.",
-    text: "Colabora con C3 para llevar competencias, hackathons, charlas, talleres y experiencias técnicas a tus estudiantes.",
-    cta: "Proponer alianza",
-    href: "/conecta",
-    accent: "#33BEAC",
-  },
-  {
-    title: "Quiero apoyar como empresa u organización",
-    subtitle: "Para empresas, startups, sponsors y aliados del ecosistema.",
-    text: "Apoya experiencias de alto impacto, conecta con talento joven y fortalece el ecosistema tecnológico desde El Salvador hacia la región.",
-    cta: "Ser aliado",
-    href: "/conecta",
-    accent: "#4F5BA9",
-  },
-  {
-    title: "Tengo una consulta general",
-    subtitle: "Para coordinación institucional, dudas sobre eventos o comunicación directa con el equipo.",
-    text: "Si tu consulta no encaja en las otras categorías, completá el formulario o revisá las preguntas frecuentes.",
-    cta: "Ir a FAQ",
-    href: "/faq",
-    accent: "#0F203E",
-  },
-] as const;
 
 const officialChannels: Array<{
   title: string;
@@ -125,12 +91,9 @@ export default function ContactoPage() {
       <SeoJsonLd data={getContactPageJsonLd("/contacto", seoTitle, seoDescription)} />
 
       <section className="relative overflow-hidden bg-[#0F203E] py-16 text-white md:py-20">
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(51,190,172,0.18),transparent_32%),radial-gradient(circle_at_82%_16%,rgba(79,91,169,0.24),transparent_35%),radial-gradient(circle_at_50%_78%,rgba(32,82,152,0.22),transparent_38%)]" />
-          <div className="absolute inset-x-0 bottom-0 h-px bg-white/10" />
-        </div>
+        <C3BackgroundLayer variant="dots" line="brand" intensity="low" className="opacity-85" />
 
-        <div className="container-shell relative space-y-6">
+        <div className="container-shell relative z-10 space-y-6">
           <h1 className="max-w-4xl text-4xl font-bold leading-tight md:text-6xl">
             Habla con nosotros
           </h1>
@@ -141,8 +104,9 @@ export default function ContactoPage() {
         </div>
       </section>
     
-      <section className="section-divider bg-[#0F203E] py-16 text-white md:py-20">
-        <div className="container-shell space-y-8">
+      <section className="section-divider relative overflow-hidden bg-[#0F203E] py-16 text-white md:py-20">
+        <C3BackgroundLayer variant="graph" line="brand" intensity="low" animated className="opacity-45" />
+        <div className="container-shell relative z-10 space-y-8">
           <div className="space-y-3">
             <h2 className="max-w-3xl text-3xl font-bold leading-tight md:text-4xl">
               Enviá tu mensaje
@@ -157,8 +121,9 @@ export default function ContactoPage() {
         </div>
       </section>
 
-      <section className="section-divider bg-[#F4F7FB] py-16 text-[#0F203E] md:py-20">
-        <div className="container-shell space-y-8">
+      <section className="section-divider relative overflow-hidden bg-[#F4F7FB] py-16 text-[#0F203E] md:py-20">
+        <C3BackgroundLayer variant="dots" line="compite" intensity="low" className="opacity-18 mix-blend-multiply" />
+        <div className="container-shell relative z-10 space-y-8">
           <div className="space-y-3">
             <h2 className="max-w-3xl text-3xl font-bold leading-tight md:text-4xl">
               Canales oficiales
@@ -195,8 +160,9 @@ export default function ContactoPage() {
         </div>
       </section>
 
-      <section className="section-divider bg-white py-16 text-[#0F203E] md:py-20">
-        <div className="container-shell space-y-8">
+      <section className="section-divider relative overflow-hidden bg-white py-16 text-[#0F203E] md:py-20">
+        <C3BackgroundLayer variant="dots" line="compite" intensity="low" className="opacity-16 mix-blend-multiply" />
+        <div className="container-shell relative z-10 space-y-8">
           <div className="space-y-3">
             <h2 className="max-w-3xl text-3xl font-bold leading-tight md:text-4xl">
               ¿Buscás información de un evento específico?

@@ -1,18 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
+import C3BackgroundLayer from "./backgrounds/C3BackgroundLayer";
 import Button from "./ui/Button";
 
 export default function FinalCtaSection() {
   return (
     <section id="cta-final" className="section-divider relative overflow-hidden bg-[#0F203E] py-20 text-white md:py-24">
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_24%,rgba(51,190,172,0.24),transparent_34%),radial-gradient(circle_at_86%_18%,rgba(79,91,169,0.35),transparent_38%),radial-gradient(circle_at_55%_80%,rgba(32,82,152,0.24),transparent_42%)]" />
-        <div className="absolute -right-14 top-8 h-72 w-72 rounded-full border border-white/14" />
-        <div className="absolute left-[-4rem] bottom-[-6rem] h-72 w-72 rounded-full border border-[#33BEAC]/28" />
-        <div className="absolute inset-0 opacity-[0.14] [background-image:radial-gradient(circle_at_center,rgba(255,255,255,0.55)_1px,transparent_1px)] [background-size:52px_52px]" />
-      </div>
+      <C3BackgroundLayer variant="glow" line="brand" intensity="medium" className="opacity-80" />
+      <C3BackgroundLayer variant="particles" line="brand" intensity="low" animated className="opacity-50" />
 
-      <div className="container-shell relative">
+      <div className="container-shell relative z-10">
         <div className="rounded-[2.1rem] border border-white/14 bg-[#101f3e]/86 p-8 shadow-[0_24px_60px_rgba(4,10,24,0.5)] backdrop-blur-sm md:p-12">
           <div className="mb-8 flex items-center gap-4">
             <div className="relative h-16 w-16 overflow-hidden rounded-2xl border border-white/18 bg-white/8 p-2">

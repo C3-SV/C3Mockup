@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import C3BackgroundLayer from "./backgrounds/C3BackgroundLayer";
 import { events, lineVisuals, type EventStatus, type LineKey } from "@/lib/content";
 
 type EventFilter = "todos" | LineKey | "proximos" | "historicos";
@@ -41,8 +42,9 @@ export default function EventsCatalog() {
   }, [activeFilter]);
 
   return (
-    <section className="section-divider bg-[#F4F7FB] py-16 text-[#0F203E] md:py-20">
-      <div className="container-shell space-y-7">
+    <section className="section-divider relative overflow-hidden bg-[#F4F7FB] py-16 text-[#0F203E] md:py-20">
+      <C3BackgroundLayer variant="dots" line="compite" intensity="low" className="opacity-20 mix-blend-multiply" />
+      <div className="container-shell relative z-10 space-y-7">
         <div className="flex flex-wrap gap-2">
           {filterButtons.map((filter) => (
             <button

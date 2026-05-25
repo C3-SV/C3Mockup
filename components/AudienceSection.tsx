@@ -1,3 +1,4 @@
+import C3BackgroundLayer from "./backgrounds/C3BackgroundLayer";
 import { FaBuilding, FaGraduationCap, FaUserAstronaut } from "react-icons/fa";
 import Link from "next/link";
 
@@ -36,8 +37,9 @@ const audiences = [
 
 export default function AudienceSection() {
   return (
-    <section id="audiencias" className="section-divider bg-[#F8FAFD] py-20 text-[#0F203E] md:py-24">
-      <div className="container-shell space-y-8">
+    <section id="audiencias" className="section-divider relative overflow-hidden bg-[#F8FAFD] py-20 text-[#0F203E] md:py-24">
+      <C3BackgroundLayer variant="dots" line="compite" intensity="low" className="opacity-20 mix-blend-multiply" />
+      <div className="container-shell relative z-10 space-y-8">
         <div className="max-w-4xl space-y-4">
           <h2 className="text-3xl font-bold leading-tight md:text-4xl lg:text-5xl">
             C3 conecta a quienes quieren construir el ecosistema técnico joven

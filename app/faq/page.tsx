@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import PageShell from "@/components/PageShell";
+import C3BackgroundLayer from "@/components/backgrounds/C3BackgroundLayer";
 import SeoJsonLd from "@/components/SeoJsonLd";
 import { faqItems } from "@/lib/content";
 import { getFaqPageJsonLd } from "@/lib/structured-data";
@@ -33,9 +34,9 @@ export default function FaqPage() {
   return (
     <PageShell backgroundClassName="bg-[#0F203E]">
       <SeoJsonLd data={getFaqPageJsonLd("/faq", seoTitle, seoDescription)} />
-
-      <section className="bg-[#0F203E] py-16 text-white md:py-20">
-        <div className="container-shell space-y-5">
+      <section className="relative overflow-hidden bg-[#0F203E] py-16 text-white md:py-20">
+        <C3BackgroundLayer variant="dots" line="brand" intensity="low" className="opacity-85" />
+        <div className="container-shell relative z-10 space-y-5">
           <h1 className="max-w-4xl text-4xl font-bold leading-tight md:text-5xl">
             Preguntas frecuentes sobre C3
           </h1>
@@ -45,9 +46,9 @@ export default function FaqPage() {
           </p>
         </div>
       </section>
-
-      <section className="section-divider bg-[#F4F7FB] py-16 text-[#0F203E] md:py-20">
-        <div className="container-shell space-y-4">
+      <section className="section-divider relative overflow-hidden bg-[#F4F7FB] py-16 text-[#0F203E] md:py-20">
+        <C3BackgroundLayer variant="dots" line="compite" intensity="low" className="opacity-20 mix-blend-multiply" />
+        <div className="container-shell relative z-10 space-y-4">
           {faqItems.map((item) => (
             <article
               key={item.question}

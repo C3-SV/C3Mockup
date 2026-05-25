@@ -1,43 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
+import C3BackgroundLayer from "./backgrounds/C3BackgroundLayer";
 import Button from "./ui/Button";
 
 export default function Hero() {
   return (
     <section id="inicio" className="relative overflow-hidden bg-[#0F203E] py-20 text-white md:py-28">
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(51,190,172,0.22),transparent_35%),radial-gradient(circle_at_86%_18%,rgba(79,91,169,0.38),transparent_46%),radial-gradient(circle_at_72%_80%,rgba(32,82,152,0.24),transparent_42%)]" />
-        <div className="absolute -left-32 top-4 h-80 w-80 rounded-full border border-white/10" />
-        <div className="absolute -right-24 bottom-8 h-72 w-72 rounded-full border border-[#46B8A8]/25" />
-        <div className="absolute inset-0 opacity-[0.12] [background-image:radial-gradient(circle_at_center,rgba(255,255,255,0.45)_1px,transparent_1px)] [background-size:48px_48px]" />
-        <svg
-          aria-hidden="true"
-          viewBox="0 0 1200 420"
-          className="absolute -bottom-8 left-0 h-auto w-full opacity-20"
-        >
-          <path
-            d="M40 315 C 250 260, 360 335, 560 255 C 735 185, 905 275, 1160 180"
-            fill="none"
-            stroke="url(#hero-line-gradient)"
-            strokeWidth="2"
-          />
-          <path
-            d="M0 360 C 220 300, 370 380, 620 300 C 790 245, 940 315, 1200 235"
-            fill="none"
-            stroke="url(#hero-line-gradient)"
-            strokeWidth="1.5"
-          />
-          <defs>
-            <linearGradient id="hero-line-gradient" x1="0" x2="1" y1="0.4" y2="0.7">
-              <stop offset="0%" stopColor="#205298" />
-              <stop offset="55%" stopColor="#33BEAC" />
-              <stop offset="100%" stopColor="#4F5BA9" />
-            </linearGradient>
-          </defs>
-        </svg>
-      </div>
+      <C3BackgroundLayer variant="dots" line="brand" intensity="low" className="opacity-90" />
+      <C3BackgroundLayer variant="orbit" line="brand" intensity="medium" animated className="opacity-70" />
 
-      <div className="container-shell relative grid items-center gap-14 md:grid-cols-[1.15fr_0.85fr] xl:gap-20">
+      <div className="container-shell relative z-10 grid items-center gap-14 md:grid-cols-[1.15fr_0.85fr] xl:gap-20">
         <div className="space-y-8 md:pr-4">
           <div className="space-y-5">
             <h1 className="max-w-3xl text-4xl font-extrabold leading-tight md:text-6xl">

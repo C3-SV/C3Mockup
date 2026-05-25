@@ -1,10 +1,12 @@
 import Link from "next/link";
+import C3BackgroundLayer from "./backgrounds/C3BackgroundLayer";
 import { events, lineVisuals } from "@/lib/content";
 
 export default function ProjectsSection() {
   return (
-    <section id="eventos" className="section-divider bg-[#F1F5FB] py-20 text-[#0F203E] md:py-24">
-      <div className="container-shell space-y-8">
+    <section id="eventos" className="section-divider relative overflow-hidden bg-[#F1F5FB] py-20 text-[#0F203E] md:py-24">
+      <C3BackgroundLayer variant="dots" line="compite" intensity="low" className="opacity-22 mix-blend-multiply" />
+      <div className="container-shell relative z-10 space-y-8">
         <div className="max-w-4xl">
           <h2 className="text-3xl font-bold leading-tight md:text-5xl">Evidencia viva del ecosistema C3</h2>
           <p className="mt-3 max-w-3xl text-base leading-8 text-[#31405c] md:text-lg">

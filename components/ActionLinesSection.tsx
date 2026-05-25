@@ -1,15 +1,12 @@
+import C3BackgroundLayer from "./backgrounds/C3BackgroundLayer";
 import C3EcosystemDiagram from "./C3EcosystemDiagram";
 
 export default function ActionLinesSection() {
   return (
     <section id="ecosistema" className="section-divider relative overflow-hidden bg-[#0F203E] py-20 text-white">
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_12%,rgba(32,82,152,0.28),transparent_38%),radial-gradient(circle_at_74%_20%,rgba(51,190,172,0.22),transparent_40%),radial-gradient(circle_at_54%_78%,rgba(79,91,169,0.22),transparent_44%)]" />
-        <div className="absolute -left-16 top-1/3 h-56 w-56 rounded-full border border-white/10" />
-        <div className="absolute right-[-4rem] top-8 h-64 w-64 rounded-full border border-[#4F5BA9]/35" />
-      </div>
+      <C3BackgroundLayer variant="dots" line="brand" intensity="low" className="opacity-70" />
 
-      <div className="container-shell relative space-y-10">
+      <div className="container-shell relative z-10 space-y-10">
         <div className="space-y-4">
           <h2 className="text-3xl font-bold md:text-5xl">Un ecosistema integrado</h2>
           <p className="max-w-3xl text-base leading-8 text-white/80 md:text-lg">
@@ -70,7 +67,7 @@ export default function ActionLinesSection() {
                   </li>
                 ))}
               </ul>
-                <a href={card.href} className="mt-6 inline-flex text-sm font-semibold text-white hover:underline">
+              <a href={card.href} className="mt-6 inline-flex text-sm font-semibold text-white hover:underline">
                 Ir a la línea
               </a>
             </article>

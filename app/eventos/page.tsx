@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import EventsCatalog from "@/components/EventsCatalog";
 import PageShell from "@/components/PageShell";
+import C3BackgroundLayer from "@/components/backgrounds/C3BackgroundLayer";
 import SeoJsonLd from "@/components/SeoJsonLd";
 import { events } from "@/lib/content";
 import {
@@ -52,8 +53,9 @@ export default function EventosPage() {
       <SeoJsonLd data={getCollectionPageJsonLd("/eventos", seoTitle, seoDescription)} />
       <SeoJsonLd data={itemList} />
 
-      <section className="bg-[#0F203E] py-16 text-white md:py-20">
-        <div className="container-shell space-y-5">
+      <section className="relative overflow-hidden bg-[#0F203E] py-16 text-white md:py-20">
+        <C3BackgroundLayer variant="dots" line="brand" intensity="low" className="opacity-70" />
+        <div className="container-shell relative z-10 space-y-5">
           <h1 className="max-w-4xl text-4xl font-bold leading-tight md:text-5xl">
             Iniciativas que activan el ecosistema técnico joven
           </h1>

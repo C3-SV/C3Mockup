@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import C3BackgroundLayer from "./backgrounds/C3BackgroundLayer";
 import { events, linePageContent, lineVisuals, type LineKey } from "@/lib/content";
 
 type LinePageTemplateProps = {
@@ -14,15 +15,8 @@ export default function LinePageTemplate({ line }: LinePageTemplateProps) {
   return (
     <>
       <section className="relative overflow-hidden bg-[#0F203E] py-18 text-white md:py-22">
-        <div className="pointer-events-none absolute inset-0">
-          <div
-            className="absolute inset-0"
-            style={{
-              background: `radial-gradient(circle at 18% 20%, ${visual.softBg}, transparent 38%), radial-gradient(circle at 82% 24%, rgba(255,255,255,0.08), transparent 42%)`,
-            }}
-          />
-        </div>
-        <div className="container-shell relative grid items-center gap-10 md:grid-cols-[1.15fr_0.85fr]">
+        <C3BackgroundLayer variant="dots" line={line} intensity="low" className="opacity-70" />
+        <div className="container-shell relative z-10 grid items-center gap-10 md:grid-cols-[1.15fr_0.85fr]">
           <div className="space-y-5">
             {/*<p
               className="inline-flex rounded-full border px-4 py-1 text-xs font-semibold uppercase tracking-[0.16em]"
@@ -96,8 +90,9 @@ export default function LinePageTemplate({ line }: LinePageTemplateProps) {
         </div>
       </section>
 
-      <section className="section-divider bg-[#F4F7FB] py-16 text-[#0F203E] md:py-20">
-        <div className="container-shell space-y-6">
+      <section className="section-divider relative overflow-hidden bg-[#F4F7FB] py-16 text-[#0F203E] md:py-20">
+        <C3BackgroundLayer variant="dots" line="compite" intensity="low" className="opacity-22 mix-blend-multiply" />
+        <div className="container-shell relative z-10 space-y-6">
           <h2 className="text-3xl font-bold md:text-4xl">Eventos relacionados con {visual.name}</h2>
           <div className="grid gap-4 md:grid-cols-2">
             {relatedEvents.map((event) => (
