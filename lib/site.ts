@@ -72,5 +72,5 @@
         "Comunidad, netowrking, instituciones, industria, aliados, sponsors, mentoría y oportunidades reales.",
     },
   },
-  defaultOgImage: "/brand/logo-c3-fondo-azul.png",
+  defaultOgImage: "/og-image.png",
 } as const;

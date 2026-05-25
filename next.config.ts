@@ -39,6 +39,33 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async headers() {
+    const noIndexHeaders = [
+      {
+        key: "X-Robots-Tag",
+        value: "noindex, nofollow, noarchive",
+      },
+    ];
+
+    return [
+      {
+        source: "/admin/:path*",
+        headers: noIndexHeaders,
+      },
+      {
+        source: "/internal/:path*",
+        headers: noIndexHeaders,
+      },
+      {
+        source: "/private/:path*",
+        headers: noIndexHeaders,
+      },
+      {
+        source: "/api/:path*",
+        headers: noIndexHeaders,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
