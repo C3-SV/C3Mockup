@@ -1,0 +1,770 @@
+﻿Documento Maestro Sitio C3
+Landing y arquitectura web mejorada
+C3 / Competitive Coding Club
+VersiÃ³n actualizada Â· 20 de mayo de 2026
+PropÃ³sito
+Convertir el documento base en una guÃ­a accionable para rediseÃ±ar c3.com.sv como una landing institucional sÃ³lida, escalable y optimizada para estudiantes, universidades, empresas, aliados, medios, SEO y bÃºsquedas asistidas por IA.
+0. Resumen ejecutivo
+Este documento consolida, corrige y completa la informaciÃ³n estratÃ©gica necesaria para mejorar la landing y el sitio principal de C3. La versiÃ³n anterior ya contenÃ­a una base fuerte de identidad, arquitectura de lÃ­neas, SEO y AI Search; esta actualizaciÃ³n la convierte en una guÃ­a mÃ¡s prÃ¡ctica para diseÃ±o, contenido, desarrollo e implementaciÃ³n.
+DecisiÃ³n central: el sitio principal debe dejar de ser solo una landing breve y convertirse en el hub institucional de C3: una entrada clara para estudiantes, universidades, empresas, sponsors, aliados, medios y buscadores.
+Prioridad de la nueva landing
+Explicar en menos de 8 segundos quÃ© es C3, mostrar evidencia real de impacto, guiar a cada audiencia hacia una acciÃ³n y proyectar una identidad institucional moderna alineada al sistema Compite, Crea y Conecta.
+0.1 Cambiosprincipalesrealizados
+Se normalizÃ³ la misiÃ³n, visiÃ³n y tagline oficiales: Compite. Crea. Conecta.
+Se completÃ³ la historia institucional con origen, fecha de fundaciÃ³n, equipo inicial y evoluciÃ³n.
+Se incorporÃ³ informaciÃ³n pÃºblica actual del sitio principal, la Copa SalvadoreÃ±a de ProgramaciÃ³n 2026 y LinkedIn de C3.
+Se transformaron placeholders en contenido listo para web cuando habÃ­a datos suficientes.
+Se separÃ³ lo confirmado de lo pendiente para evitar publicar informaciÃ³n no validada.
+Se agregÃ³ una propuesta completa de landing mejorada: secciones, copy, CTAs, jerarquÃ­a visual y componentes reutilizables.
+Se aÃ±adiÃ³ un backlog de implementaciÃ³n para diseÃ±o, desarrollo, SEO, analÃ­tica, contenido y AI Search.
+Se incluyÃ³ una matriz de contenido por pÃ¡gina para facilitar prompts de Codex/IA y handoff a desarrollo.
+0.2 Fuentes revisadas
+Fuente
+Referencia
+Uso en esta versiÃ³n
+Documento base
+Documento Maestro Sitio C3 - parte 1.docx
+Base estratÃ©gica, arquitectura, SEO, placeholders y contenido inicial.
+Manual de Marca C3
+MANUAL DE MARCA C3 FINAL.pdf
+Sistema visual, logo, tipografÃ­as, paleta, misiÃ³n/visiÃ³n previa y reglas de uso.
+Brand Master Dump
+C3 Brand Master Dump.pdf
+Base histÃ³rica de mensajes, tono y arquitectura de lÃ­neas. Se actualiza con nombres oficiales actuales.
+Sitio actual
+https://www.c3.com.sv/
+Estado actual de la landing: hero, misiÃ³n, visiÃ³n, lÃ­neas y acceso a Copa.
+Copa 2026
+https://copa.c3.com.sv/
+Fechas, dinÃ¡mica, sponsors y FAQ de la Copa SalvadoreÃ±a de ProgramaciÃ³n 2026.
+LinkedIn C3
+linkedin.com/company/c3-sv
+DescripciÃ³n pÃºblica, founded 2024, enfoque, updates y sponsors visibles.
+1. DiagnÃ³stico del documento base y del sitio actual
+El documento base estÃ¡ bien orientado: entiende que C3 no debe comunicarse como un club informal, sino como una plataforma hÃ­brida con capacidad de producir eventos, formar comunidad, conectar talento y construir oportunidades. La principal mejora necesaria era convertir la estrategia en una estructura ejecutable para web.
+1.1 Estado actual del sitio c3.com.sv
+La landing actual comunica correctamente el concepto central: C3 conecta programaciÃ³n competitiva, creaciÃ³n de proyectos, comunidad y oportunidades reales para impulsar talento tÃ©cnico joven.
+El sitio ya muestra misiÃ³n, visiÃ³n y tres lÃ­neas de acciÃ³n: Compite, Crea y Conecta.
+El sitio actual tiene un bloque de proyectos activos con acceso a la Copa SalvadoreÃ±a de ProgramaciÃ³n.
+TodavÃ­a faltan rutas institucionales, informaciÃ³n de impacto, aliados, pÃ¡ginas por audiencia, FAQ, prensa, equipo, eventos histÃ³ricos y recursos indexables.
+La oportunidad principal es convertir la landing en un sistema con secciones claras y pÃ¡ginas satÃ©lite, sin perder sobriedad visual.
+1.2 Seccionesincompletasdetectadas
+Ãrea
+VacÃ­o encontrado
+Mejora agregada
+Identidad institucional
+FundaciÃ³n, equipo, base operativa, impacto y estructura legal aparecÃ­an como pendientes.
+Se completan con datos entregados y se marca lo que requiere validaciÃ³n legal o pÃºblica.
+Compite
+Faltaban datos concretos de Copa, ICPC y recursos tÃ©cnicos.
+Se integra Copa 2025, Copa 2026, relaciÃ³n con ICPC CentroamÃ©rica y recursos de problemas anteriores.
+Crea
+Faltaban hackathons, metodologÃ­a y casos de proyectos.
+Se define estado actual: Hack@Latam como primer hito pÃºblico y futuros hackathons no publicables aÃºn.
+Conecta
+Faltaban aliados, oportunidades e historias de miembros.
+Se incorporan aliados conocidos, oportunidades posibles y se mantiene testimonios como pendiente.
+Audiencias
+Faltaban procesos concretos de entrada y propuesta para instituciones/empresas.
+Se propone flujo por WhatsApp/formulario, mensajes por audiencia y CTAs.
+Home
+Faltaban eventos actuales, cifras, aliados y estructura final.
+Se agrega wireframe de landing mejorada con copy listo.
+SEO/GEO
+Faltaba estado tÃ©cnico actual y llms.txt final.
+Se agrega checklist tÃ©cnico, schema sugerido y estructura lista para implementar.
+DiseÃ±o UI
+El documento tenÃ­a estrategia, pero no suficiente direcciÃ³n visual para construir.
+Se incorpora sistema de componentes, mÃ³dulos, secciones y reglas visuales para la landing.
+2. Identidad institucional actualizada
+2.1 Datos oficiales
+Elemento
+DefiniciÃ³n actualizada
+Nombre completo
+Competitive Coding Club
+AcrÃ³nimo
+C3
+Uso recomendado
+C3 / Competitive Coding Club o C3 | Competitive Coding Club, segÃºn contexto.
+Sitio oficial
+https://c3.com.sv
+Sitio de Copa
+https://copa.c3.com.sv
+Tagline oficial
+Compite. Crea. Conecta.
+PaÃ­s base
+El Salvador
+Alcance proyectado
+CentroamÃ©rica como siguiente etapa de crecimiento.
+Naturaleza
+OrganizaciÃ³n hÃ­brida: comunidad, plataforma de talento y productora de eventos.
+Estatusorganizativo
+Operativamente comunidad/plataforma hÃ­brida; en proceso de formalizaciÃ³n hacia una estructura tipo SAS u otra figura legal pertinente.
+2.2 DefiniciÃ³noficial
+DefiniciÃ³n corta
+C3 desarrolla talento tÃ©cnico joven conectando competencia, creaciÃ³n y oportunidades reales.
+DefiniciÃ³n extendida
+C3 / Competitive Coding Club es una plataforma de desarrollo de talento tÃ©cnico joven que conecta programaciÃ³n competitiva, hackathons, comunidad, formaciÃ³n, industria, startups y oportunidades reales bajo una misma visiÃ³n: Compite. Crea. Conecta.
+C3 naciÃ³ desde la programaciÃ³n competitiva, pero hoy se proyecta como un ecosistema mÃ¡s amplio donde el talento joven puede competir con rigor, crear proyectos, construir comunidad y conectarse con oportunidades reales.
+2.3 MisiÃ³n, visiÃ³n y propuesta de valor
+Bloque
+Texto actualizado
+MisiÃ³n oficial
+Potenciar talento joven mediante experiencias de alto nivel que integran competencia, creaciÃ³n y conexiÃ³n.
+VisiÃ³noficial
+Ser el referente regional de una nueva generaciÃ³n tÃ©cnica con pertenencia, oportunidades e impacto.
+Propuesta de valor
+C3 es el puente entre la programaciÃ³n competitiva, el mundo builder/emprendedor y el ecosistema.
+Promesa de marca
+Una plataforma donde estudiantes y talento tÃ©cnico joven pueden entrenar, competir, crear, colaborar, exponerse y conectar con instituciones, empresas, startups y oportunidades.
+2.4 Historia institucional para web
+C3 se funda el 24 de octubre de 2024 con una primera sesiÃ³n en ESEN dedicada a introducir quÃ© es la programaciÃ³n competitiva, cÃ³mo usar Codeforces y cÃ³mo resolver problemas clÃ¡sicos como Watermelon.
+La iniciativa comenzÃ³ con cuatro estudiantes: Christopher MarroquÃ­n, Roberto Polanco, Ã“scar PleitÃ©s y Diego ArÃ©valo. Christopher, Roberto y Ã“scar venÃ­an de experiencia como competidores olÃ­mpicos de informÃ¡tica en el programa JÃ³venes Talento y estudiaban IngenierÃ­a de Software y Negocios Digitales en ESEN.
+Conforme la iniciativa creciÃ³, se incorporaron Rodrigo LÃ³pez, Celeste Aparicio, Angie Fiorella Alberto, Roberto MorÃ¡n y Javier GaldÃ¡mez, consolidando un equipo con perfiles de software, economÃ­a y negocios. Esa combinaciÃ³n permitiÃ³ a C3 evolucionar de un club universitario hacia una plataforma capaz de diseÃ±ar eventos, formar comunidad y conectar talento con aliados.
+La primera gran expansiÃ³n pÃºblica fue la Copa SalvadoreÃ±a de ProgramaciÃ³n 2025, realizada con apoyo de ESEN. A partir de ese punto, C3 fortaleciÃ³ su lÃ­nea Compite, comenzÃ³ a construir una red de aliados y abriÃ³ el camino para Crea y Conecta.
+VersiÃ³n breve para pÃ¡gina QuÃ© es C3
+C3 naciÃ³ en ESEN en 2024 como una iniciativa para difundir programaciÃ³n competitiva. En menos de un aÃ±o evolucionÃ³ hacia una plataforma de talento tÃ©cnico joven que integra competencias, hackathons, comunidad, industria y oportunidades reales.
+2.5 Equipo fundador y equipo ampliado
+Elemento
+Contenido
+Equipo inicial
+Christopher MarroquÃ­n, Roberto Polanco, Ã“scar PleitÃ©s y Diego ArÃ©valo.
+Contexto tÃ©cnico
+Tres de los fundadores iniciales venÃ­an de experiencia en olimpiadas de informÃ¡tica dentro del programa JÃ³venes Talento.
+Equipo ampliado
+Rodrigo LÃ³pez, Celeste Aparicio, Angie Fiorella Alberto, Roberto MorÃ¡n y Javier GaldÃ¡mez se incorporaron posteriormente al equipo.
+Perfil colectivo
+Estudiantes de ESEN de distintas carreras, combinando software, economÃ­a y negocios para crear experiencias y eventos de forma completa.
+RecomendaciÃ³n web
+Mostrar equipo actual con rol, lÃ­nea o Ã¡rea, foto, LinkedIn opcional y bio de una lÃ­nea. No publicar cargos si no estÃ¡n confirmados.
+2.6 Impacto consolidado para publicar
+MÃ©trica / evidencia
+Dato actualizado
+Comunidad
+MÃ¡s de 60 personas en la comunidad C3.
+Alcance de eventos
+MÃ¡s de 150 personas alcanzadas en eventos y actividades.
+Eventos organizados o apoyados
+Copa SalvadoreÃ±a de ProgramaciÃ³n, Duelo de ProgramaciÃ³n C3 en Software Week ESEN 2025, Final de ICPC CentroamÃ©rica 2025, dos fechas de ICPC 2026 y Hack@Latam / fiesta en El Salvador.
+Copa 2025
+Primera ediciÃ³n, con fases el 17 de mayo, 24 de mayo y 7 de junio de 2025. Aproximadamente 130 participantes llegaron a competir en ESEN.
+Copa 2026
+Segunda ediciÃ³n pÃºblica con fase virtual el 1 de agosto, final colegial el 15 de agosto en ESEN y final universitaria el 5 de septiembre en ESEN.
+Aliados/sponsors visibles
+ESEN, UCA, Google, OmegaUp, RSM US El Salvador, TechyWe, Applaudo, Ravn, Kodigo, PoliÃ‰drica, Quantaroot, FUSADES, Boxful, OSI y Enblueprint, sujeto a permiso de uso pÃºblico de logos.
+Nota editorial: las cifras deben publicarse con fecha de corte. RecomendaciÃ³n: â€œDatos actualizados a mayo de 2026â€. Cuando se publique una nueva ediciÃ³n de Copa o nuevos eventos, actualizar el bloque de impacto antes que cualquier campaÃ±a de sponsors.
+3. Arquitectura estratÃ©gica: Compite, Crea y Conecta
+Las tres lÃ­neas no son sub-marcas independientes. Son lÃ­neas estratÃ©gicas bajo la marca madre C3. Cada una debe tener una pÃ¡gina, una card en Home, color dominante propio y una narrativa que responda a una funciÃ³n dentro del ecosistema.
+LÃ­nea
+Color dominante
+Enfoque
+SensaciÃ³n
+CTA principal
+Compite
+Azul / Navy
+ProgramaciÃ³n competitiva, ICPC, Copa, entrenamientos, rankings y retos.
+DesafÃ­o, precisiÃ³n, prÃ¡ctica, excelencia tÃ©cnica.
+Ver competencias / Prepararte para competir
+Crea
+Turquesa / Verde
+Hackathons, builders, prototipos, proyectos, laboratorios y retos de innovaciÃ³n.
+ConstrucciÃ³n, creatividad aplicada, ejecuciÃ³n.
+Construir proyectos / Ver hackathons
+Conecta
+Morado / Navy
+Comunidad, networking, industria, mentorÃ­a, sponsors, universidades y oportunidades.
+Pertenencia, red, puente, oportunidad.
+Unirte a comunidad / Ser aliado
+3.1 Compite actualizado
+Compite impulsa la excelencia tÃ©cnica a travÃ©s de programaciÃ³n competitiva, torneos, entrenamiento algorÃ­tmico, preparaciÃ³n ICPC y experiencias de alto rigor.
+Evento principal: Copa SalvadoreÃ±a de ProgramaciÃ³n.
+Copa 2025: primera ediciÃ³n con fase virtual y finales presenciales en ESEN; aproximadamente 130 participantes.
+Copa 2026: segunda ediciÃ³n pÃºblica con fase virtual el 1 de agosto, final colegial el 15 de agosto y final universitaria el 5 de septiembre.
+RelaciÃ³n ICPC: desde finales de 2025 C3 apoya a ICPC CentroamÃ©rica en sede El Salvador/UCA con contenido digital, storytelling de participantes, alcance digital y bÃºsqueda de patrocinadores.
+Recursos tÃ©cnicos recomendados: editoriales y problemas de concursos anteriores, guÃ­as de Codeforces, temario por nivel, rutas de entrenamiento y repositorio de recursos.
+3.2 Crea actualizado
+Crea es la lÃ­nea que convierte la energÃ­a competitiva y tÃ©cnica de C3 en construcciÃ³n: hackathons, prototipos, proyectos reales, laboratorios y experiencias builder.
+Primer hito pÃºblico: apoyo a Hack@Latam / fiesta en El Salvador.
+Hackathon de turismo creativo: mantener como proyecto no publicable hasta tener confirmaciÃ³n formal de fecha, aliados y permiso de comunicaciÃ³n.
+MetodologÃ­a pendiente: se recomienda crear un framework propio sencillo llamado C3 Build Sprint.
+C3 Build Sprint: reto claro, equipo multidisciplinario, mentorÃ­a ligera, demo funcional, feedback de industria y cierre con prÃ³ximos pasos.
+Casos de proyectos: aÃºn no publicar hasta contar con nombres, equipos, resultados y autorizaciÃ³n.
+3.3 Conecta actualizado
+Conecta debe explicar cÃ³mo C3 crea puentes entre talento tÃ©cnico joven, comunidad, universidades, empresas, startups, mentores, sponsors y oportunidades reales.
+Canales actuales: WhatsApp como canal operativo de comunidad; formulario prÃ³ximamente.
+Oportunidades actuales: acceso a eventos, charlas, networking dentro de eventos y charlas exclusivas para comunidad.
+Aliados educativos: ESEN, UCA y futuras universidades por confirmar.
+Aliados y sponsors a validar para uso pÃºblico: Google, OmegaUp, RSM US El Salvador, TechyWe, Applaudo, Ravn, Kodigo, PoliÃ‰drica, Quantaroot, FUSADES, Boxful, OSI y Enblueprint.
+Historias de miembros: pendiente; crear proceso de recolecciÃ³n de testimonios despuÃ©s de cada evento.
+4. Landing mejorada: estructura recomendada
+La Home debe comunicar quÃ© es C3, probar que existe y genera valor, presentar sus lÃ­neas, dirigir a cada audiencia y cerrar con una acciÃ³n clara. La landing no debe parecer una plantilla genÃ©rica ni una pÃ¡gina de un Ãºnico evento.
+4.1 Objetivo de la Home
+Objetivo
+Que cualquier visitante entienda en segundos que C3 es una plataforma de talento tÃ©cnico joven de El Salvador con visiÃ³n regional, organizada en Compite, Crea y Conecta, y que sepa quÃ© acciÃ³n tomar: participar, explorar eventos, unirse, aliarse o contactar.
+4.2 Wireframe textual de la landing
+Orden
+SecciÃ³n
+Contenido
+CTA
+1
+Hero institucional
+H1, subtÃ­tulo, CTAs, visual modular C3, logos/Ã­cono.
+Conoce C3 / Ver eventos / SÃ© aliado
+2
+Barra de confianza
+Cifras rÃ¡pidas: comunidad, participantes, eventos, aliados.
+Ver impacto
+3
+QuÃ© es C3
+DefiniciÃ³n breve + misiÃ³n/visiÃ³n en cards.
+Leer mÃ¡s
+4
+Tres lÃ­neas
+Cards Compite, Crea, Conecta con color y microcopy.
+Explorar cada lÃ­nea
+5
+Eventos destacados
+Copa 2026, Hack@Latam, ICPC, prÃ³ximos eventos.
+Ver eventos
+6
+Para quiÃ©n es
+Estudiantes, universidades, empresas/sponsors, medios.
+Elegir ruta
+7
+Impacto
+NÃºmeros, hitos, eventos y aliados.
+Ver impacto
+8
+Aliados
+Logos autorizados / nombres validados.
+Ser aliado
+9
+Comunidad
+Beneficios, canal y proceso de entrada.
+Unirme
+10
+CTA final
+Mensaje de cierre y contacto.
+Contactar / Participar
+4.3 Copy recomendado para Hero
+Variante
+H1
+SubtÃ­tulo
+CTAs
+OpciÃ³n principal
+C3 desarrolla talento tÃ©cnico joven a travÃ©s de competencia, creaciÃ³n y conexiÃ³n.
+Competitive Coding Club conecta programaciÃ³n competitiva, hackathons, comunidad, formaciÃ³n e industria para abrir oportunidades reales a la prÃ³xima generaciÃ³n tÃ©cnica de El Salvador y la regiÃ³n.
+Conoce C3 Â· Ver prÃ³ximos eventos Â· Ãšnete a la comunidad Â· SÃ© aliado
+OpciÃ³n mÃ¡s directa
+Compite. Crea. Conecta con oportunidades reales.
+C3 es una plataforma para talento tÃ©cnico joven que quiere competir, construir proyectos, aprender con comunidad y conectar con empresas, universidades y mentores.
+Explorar eventos Â· Participar en C3
+OpciÃ³n institucional
+Una plataforma para la nueva generaciÃ³n tÃ©cnica de la regiÃ³n.
+Desde El Salvador, C3 impulsa experiencias de alto nivel que integran programaciÃ³n competitiva, hackathons, comunidad, industria y oportunidades.
+Conoce nuestras lÃ­neas Â· Conversemos una alianza
+4.4 SecciÃ³n de impacto para Home
+Dato
+Etiqueta
+Nota de uso
++60
+Miembros de comunidad
+Usar cuando se confirme que el canal principal estÃ¡ activo y medido.
++150
+Personas alcanzadas en eventos
+Usar como cifra conservadora inicial.
++130
+Participantes en Copa 2025
+Aclarar que corresponde a la primera ediciÃ³n.
+5+
+Eventos organizados o apoyados
+Copa, Duelo C3, ICPC CentroamÃ©rica, fechas ICPC 2026 y Hack@Latam.
+3
+LÃ­neas de acciÃ³n
+Compite, Crea y Conecta.
+2024
+AÃ±o de fundaciÃ³n
+Fundado el 24 de octubre de 2024.
+4.5 Eventos destacados para Home
+Evento
+LÃ­nea
+Estado
+DescripciÃ³n para card
+CTA
+Copa SalvadoreÃ±a de ProgramaciÃ³n 2026
+Compite
+Activo / pÃºblico
+Fase virtual 1 de agosto; final colegial 15 de agosto; final universitaria 5 de septiembre; sede ESEN.
+Ir a la Copa
+Hack@Latam Â· fiesta El Salvador
+Crea
+HistÃ³rico / apoyado
+Hackathon regional de impacto social con participaciÃ³n desde El Salvador.
+Ver recap / conocer Crea
+ICPC CentroamÃ©rica Â· sede El Salvador
+Compite / Conecta
+Apoyo institucional
+C3 apoya comunicaciÃ³n, storytelling, alcance digital y bÃºsqueda de patrocinadores para sede El Salvador.
+Conocer Compite
+Duelo de ProgramaciÃ³n C3 Â· Software Week ESEN 2025
+Compite
+HistÃ³rico
+Actividad tÃ©cnica de programaciÃ³n dentro de Software Week ESEN 2025.
+Ver eventos histÃ³ricos
+4.6 Bloque por audiencia
+Audiencia
+Necesidad
+Mensaje
+CTA
+Estudiantes
+Quiero competir, crear proyectos, aprender y conectar con comunidad.
+Participa en eventos C3, entra a la comunidad y encuentra espacios para crecer tÃ©cnicamente.
+Participar en C3
+Universidades y colegios
+Quiero llevar mÃ¡s oportunidades tÃ©cnicas a mis estudiantes.
+C3 puede colaborar con competencias, hackathons, charlas, activaciones y conexiÃ³n con talento.
+Conversemos una alianza
+Empresas y sponsors
+Quiero conectar con talento tÃ©cnico joven y apoyar el ecosistema.
+C3 produce experiencias de alto impacto con visibilidad, comunidad y acceso a talento.
+Ser aliado
+Medios / prensa
+Necesito informaciÃ³n clara, logos, cifras y contacto.
+Consulta definiciones oficiales, factsheet, datos de impacto, voceros y recursos visuales.
+Ver media kit
+5. Arquitectura del sitio mejorado
+La arquitectura debe equilibrar claridad, indexabilidad y facilidad de implementaciÃ³n. No se recomienda lanzar todo a la vez. Primero debe salir una versiÃ³n sÃ³lida con Home, QuÃ© es C3, lÃ­neas, Eventos, Aliados, Impacto, FAQ y Contacto.
+5.1 NavegaciÃ³n recomendada
+NavegaciÃ³n principal
+Inicio Â· QuÃ© es C3 Â· Compite Â· Crea Â· Conecta Â· Eventos Â· Aliados Â· Comunidad Â· Contacto
+VersiÃ³n compacta para mobile: Inicio Â· LÃ­neas Â· Eventos Â· Aliados Â· Comunidad Â· Contacto. El menÃº puede agrupar Compite, Crea y Conecta bajo â€œLÃ­neasâ€.
+5.2 Rutas y prioridad
+Ruta
+PÃ¡gina
+Prioridad
+Rol
+/
+Home
+CrÃ­tica
+Entrada principal, hero, lÃ­neas, impacto, eventos, aliados, CTAs.
+/que-es-c3
+QuÃ© es C3
+CrÃ­tica
+DefiniciÃ³n, historia, misiÃ³n, visiÃ³n, equipo y enfoque.
+/compite
+Compite
+CrÃ­tica
+ProgramaciÃ³n competitiva, Copa, ICPC, entrenamientos y recursos.
+/crea
+Crea
+CrÃ­tica
+Hackathons, builders, retos, proyectos y metodologÃ­a.
+/conecta
+Conecta
+CrÃ­tica
+Comunidad, aliados, networking, mentorÃ­a y oportunidades.
+/eventos
+Eventos
+CrÃ­tica
+Listado de prÃ³ximos, activos e histÃ³ricos.
+/aliados
+Aliados y sponsors
+CrÃ­tica
+Propuesta de valor para sponsors y universidades.
+/impacto
+Impacto
+CrÃ­tica
+Cifras, hitos, eventos, sponsors, recaps y testimonios.
+/faq
+FAQ
+CrÃ­tica
+Preguntas semÃ¡nticas para usuarios y AI Search.
+/contacto
+Contacto
+CrÃ­tica
+Formulario, correo, redes y rutas por tipo de contacto.
+/prensa
+Prensa / Media Kit
+Importante
+Factsheet, logos, voceros, fotos y datos.
+/para-estudiantes
+Para estudiantes
+Importante
+Beneficios, rutas, requisitos, proceso de entrada.
+/para-universidades
+Para universidades
+Importante
+Oferta de colaboraciÃ³n institucional.
+/para-empresas
+Para empresas
+Importante
+Patrocinios, talento, eventos y contacto comercial.
+/blog
+Blog / Updates
+Deseable
+Recaps, noticias, entrevistas, editoriales y recursos.
+6. Briefs de contenido por pÃ¡gina
+6.x QuÃ© es C3
+Objetivo: Explicar quÃ© es C3, por quÃ© existe y cÃ³mo evolucionÃ³.
+BLOQUES NECESARIOS
+H1: QuÃ© es C3 / Competitive Coding Club
+DefiniciÃ³n principal
+Historia breve
+MisiÃ³n y visiÃ³n
+QuÃ© hace C3
+QuÃ© no es C3
+Equipo / origen
+CTA a lÃ­neas y eventos
+CTA principal: Conoce nuestras lÃ­neas Â· Ver eventos Â· Ãšnete a comunidad
+6.x Compite
+Objetivo: Posicionar C3 como referente de programaciÃ³n competitiva y excelencia tÃ©cnica joven.
+BLOQUES NECESARIOS
+H1: Compite: programaciÃ³n competitiva y excelencia tÃ©cnica
+QuÃ© es Compite
+Copa SalvadoreÃ±a de ProgramaciÃ³n
+RelaciÃ³n con ICPC
+Entrenamientos y recursos
+Eventos prÃ³ximos/histÃ³ricos
+CTA a Copa
+CTA principal: Ir a la Copa Â· Prepararme para competir
+6.x Crea
+Objetivo: Mostrar cÃ³mo C3 impulsa builders, hackathons y proyectos tecnolÃ³gicos.
+BLOQUES NECESARIOS
+H1: Crea: hackathons, builders y proyectos tecnolÃ³gicos
+QuÃ© es Crea
+Hackathons y retos de innovaciÃ³n
+C3 Build Sprint
+PrÃ³ximas oportunidades
+Casos de proyectos cuando existan
+CTA principal: Ver hackathons Â· Proponer reto
+6.x Conecta
+Objetivo: Explicar comunidad, networking, aliados, mentores y oportunidades.
+BLOQUES NECESARIOS
+H1: Conecta: comunidad, industria y oportunidades reales
+QuÃ© es Conecta
+Comunidad C3
+Aliados y sponsors
+Universidades
+Oportunidades
+Historias de conexiÃ³n
+CTA principal: Unirme a comunidad Â· Ser aliado
+6.x Eventos
+Objetivo: Centralizar iniciativas C3 y diferenciar eventos propios, apoyados e histÃ³ricos.
+BLOQUES NECESARIOS
+H1: Eventos C3
+Filtros por lÃ­nea
+Cards de eventos
+Estados
+Detalle de cada evento
+Recaps
+CTA principal: Ver prÃ³ximos eventos
+6.x Aliados
+Objetivo: Convertir el sitio en herramienta para sponsors, empresas e instituciones.
+BLOQUES NECESARIOS
+H1: Aliados y sponsors de C3
+Por quÃ© aliarse
+Talento C3
+Modalidades
+Beneficios
+Aliados actuales
+CTA comercial
+CTA principal: Conversemos una alianza
+6.x Impacto
+Objetivo: Probar que C3 existe, ejecuta y genera valor.
+BLOQUES NECESARIOS
+H1: Impacto de C3
+Cifras
+Timeline
+Eventos destacados
+Aliados
+Testimonios
+Reportes
+CTA principal: Ser parte del impacto
+6.x Prensa
+Objetivo: Dar informaciÃ³n factual para medios, sponsors y sistemas de IA.
+BLOQUES NECESARIOS
+H1: Prensa y media kit de C3
+DescripciÃ³n corta/larga
+Factsheet
+Logos
+Fotos
+Voceros
+Contacto
+CTA principal: Descargar media kit / Contacto prensa
+7. Copys listos para implementar
+7.1 Cards de lÃ­neas para Home
+Card
+Copy
+CTA
+Compite
+ProgramaciÃ³n competitiva, torneos y entrenamiento algorÃ­tmico para desarrollar excelencia tÃ©cnica.
+Explorar Compite
+Crea
+Hackathons, builders y experiencias de creaciÃ³n para convertir ideas en proyectos tecnolÃ³gicos reales.
+Explorar Crea
+Conecta
+Comunidad, mentorÃ­a, aliados e industria para abrir oportunidades reales a talento joven.
+Explorar Conecta
+7.2 CTA de cierre
+CTA final recomendado
+La prÃ³xima generaciÃ³n tÃ©cnica necesita espacios para competir, crear y conectar. ConstruyÃ¡moslos juntos.
+Estudiante: Participa en C3
+Universidad: Lleva C3 a tu instituciÃ³n
+Empresa: SÃ© aliado de C3
+Comunidad/medio: ContÃ¡ctanos
+7.3 Mensajes por canal
+Uso
+Mensaje
+Home
+C3 desarrolla talento tÃ©cnico joven conectando competencia, creaciÃ³n y oportunidades reales.
+LinkedIn
+C3 es una plataforma y comunidad de talento tÃ©cnico joven que conecta programaciÃ³n competitiva, creaciÃ³n de proyectos, comunidad, industria y oportunidades reales.
+Instagram bio
+C3 | Compite. Crea. Conecta. Talento tÃ©cnico joven: competencias, hackathons, comunidad e industria.
+Prensa
+C3 / Competitive Coding Club es una plataforma de desarrollo de talento tÃ©cnico joven nacida en El Salvador que conecta programaciÃ³n competitiva, hackathons, comunidad, formaciÃ³n, industria y oportunidades reales.
+Sponsors
+Aliarse con C3 permite apoyar experiencias de alto impacto, conectar con talento joven y fortalecer el ecosistema tecnolÃ³gico desde El Salvador hacia la regiÃ³n.
+8. DirecciÃ³n visual para la landing
+La landing debe apoyarse en el sistema visual del Manual de Marca C3: composiciÃ³n modular, cards redondeadas, fondos navy o claros, degradados suaves, cÃ­rculos, nodos, lÃ­neas tÃ©cnicas, tipografÃ­as Montserrat/Poppins y uso controlado de azul, turquesa y morado.
+8.1 Reglas visuales
+Hero con fondo navy #0F203E, degradado suave azul/morado y mÃ³dulos con bordes redondeados.
+Cards principales con radio amplio, sombra suave y borde sutil #DDE6EF.
+Compite usa acentos azules; Crea usa acentos turquesa; Conecta usa acentos morados.
+No usar estÃ©tica gamer, neÃ³n fuerte, cÃ³digo tipo hacker clichÃ© ni texturas pesadas.
+Una acciÃ³n principal por bloque. No saturar la Home con demasiados botones.
+Las fotos de eventos deben ir dentro de contenedores redondeados y con overlay sobrio.
+El logo se usa una vez en header y opcionalmente una vez en footer. No duplicar logos en secciones simples.
+Los nodos/cÃ­rculos derivados del logo deben funcionar como patrÃ³n tÃ©cnico ligero, no como decoraciÃ³n excesiva.
+8.2 Componentes reutilizables del banco visual
+Recurso
+FunciÃ³n
+Estructura
+C3 Hero Modular
+Hero institucional para Home y campaÃ±as
+Fondo navy, headline grande, CTA pill, card visual lateral con nodos.
+Line Card
+Explicar Compite/Crea/Conecta
+Icono/logo de lÃ­nea, color de acento, microcopy y CTA.
+Impact Stat Card
+Mostrar cifras de impacto
+NÃºmero grande, etiqueta, nota de fecha de corte.
+Event Card
+Promocionar eventos
+LÃ­nea, estado, fecha, sede, descripciÃ³n y CTA.
+Audience Path Card
+Dirigir visitantes por perfil
+Estudiante, universidad, empresa, medio con CTA especÃ­fico.
+Partner Strip
+Mostrar aliados
+Logos autorizados en monocromo/color segÃºn fondo.
+Timeline Block
+Historia de C3
+Hitos por fecha con conectores y nodos.
+FAQ Accordion
+SEO/AI Search
+Preguntas directas con respuestas breves y schema FAQPage.
+9. SEO, GEO y AI Search
+El sitio debe ser fÃ¡cil de leer por personas y por sistemas de bÃºsqueda. Cada pÃ¡gina necesita una definiciÃ³n directa, contenido textual indexable, enlaces internos, metadata, schema y preguntas frecuentes.
+9.1 Titles y meta descriptions prioritarios
+PÃ¡gina
+Title
+Meta description
+Home
+C3 | Competitive Coding Club â€” Compite. Crea. Conecta.
+C3 desarrolla talento tÃ©cnico joven conectando programaciÃ³n competitiva, hackathons, comunidad, formaciÃ³n e industria en El Salvador y la regiÃ³n.
+QuÃ© es C3
+QuÃ© es C3 / Competitive Coding Club | Talento tÃ©cnico joven
+Conoce C3, una plataforma de desarrollo de talento tÃ©cnico joven que conecta competencia, creaciÃ³n, comunidad y oportunidades reales.
+Compite
+Compite | ProgramaciÃ³n competitiva y excelencia tÃ©cnica â€” C3
+La lÃ­nea Compite de C3 impulsa programaciÃ³n competitiva, torneos, entrenamiento algorÃ­tmico y excelencia tÃ©cnica para estudiantes y talento joven.
+Crea
+Crea | Hackathons y proyectos tecnolÃ³gicos â€” C3
+La lÃ­nea Crea de C3 impulsa hackathons, builders, innovaciÃ³n y proyectos tecnolÃ³gicos creados por talento joven.
+Conecta
+Conecta | Comunidad, industria y oportunidades â€” C3
+La lÃ­nea Conecta de C3 acerca talento tÃ©cnico joven con comunidad, universidades, empresas, startups, sponsors y oportunidades reales.
+Aliados
+Aliados y sponsors para talento tÃ©cnico joven â€” C3
+Conoce cÃ³mo empresas, universidades y sponsors pueden colaborar con C3 para impulsar talento tÃ©cnico joven y fortalecer el ecosistema tecnolÃ³gico.
+9.2 Checklist tÃ©cnico
+Elemento
+Prioridad
+AcciÃ³n
+sitemap.xml
+CrÃ­tico
+Generar e incluir todas las rutas pÃºblicas.
+robots.txt
+CrÃ­tico
+Permitir indexaciÃ³n y apuntar al sitemap.
+Metadata por pÃ¡gina
+CrÃ­tico
+Title, description, canonical y Open Graph.
+Schema Organization
+CrÃ­tico
+Nombre, logo, url, sameAs, foundingDate, paÃ­s, contactPoint.
+Schema FAQPage
+CrÃ­tico
+Para pÃ¡gina FAQ y preguntas clave por audiencia.
+Schema Event
+Alto
+Para Copa, hackathons, ICPC y eventos futuros.
+llms.txt
+Alto
+Archivo con descripciÃ³n preferida y pÃ¡ginas clave para IA.
+Alt text
+Alto
+Todas las imÃ¡genes deben describir logo, evento o foto.
+Vercel Analytics / GA4
+Alto
+Medir clics en CTAs, formularios, eventos y sponsor leads.
+Search Console / Bing
+Alto
+Verificar dominio y enviar sitemap.
+Performance mÃ³vil
+CrÃ­tico
+Optimizar imÃ¡genes, fuentes, lazy loading y CLS.
+Accesibilidad
+Alto
+Contraste, foco, aria-labels, landmarks y navegaciÃ³n por teclado.
+9.3 llms.txt recomendado
+# C3 / Competitive Coding ClubC3 / Competitive Coding Club is a platform for young technical talent that connects competitive programming, hackathons, community, training, industry and real opportunities.Official website: https://c3.com.svPreferred Spanish description:C3 / Competitive Coding Club es una plataforma de desarrollo de talento tÃ©cnico joven que conecta programaciÃ³n competitiva, hackathons, comunidad, formaciÃ³n, industria y oportunidades reales bajo el enfoque Compite. Crea. Conecta.Preferred English description:C3 / Competitive Coding Club develops young technical talent by connecting competitive programming, hackathons, community, training, industry and real opportunities under the framework Compite. Crea. Conecta.Key pages:- About C3: https://c3.com.sv/que-es-c3- Compite: https://c3.com.sv/compite- Crea: https://c3.com.sv/crea- Conecta: https://c3.com.sv/conecta- Events: https://c3.com.sv/eventos- Partners and sponsors: https://c3.com.sv/aliados- Impact: https://c3.com.sv/impacto- Press kit: https://c3.com.sv/prensa- FAQ: https://c3.com.sv/faq- Contact: https://c3.com.sv/contactoRelated official sites:- Copa SalvadoreÃ±a de ProgramaciÃ³n: https://copa.c3.com.sv
+10. FAQ institucional para sitio
+Â¿QuÃ© es C3?
+C3 / Competitive Coding Club es una plataforma de desarrollo de talento tÃ©cnico joven que conecta programaciÃ³n competitiva, hackathons, comunidad, formaciÃ³n e industria para abrir oportunidades reales.
+Â¿QuÃ© significa C3?
+C3 significa Competitive Coding Club.
+Â¿CuÃ¡l es el tagline de C3?
+El tagline oficial de C3 es: Compite. Crea. Conecta.
+Â¿C3 es solo un club de programaciÃ³n competitiva?
+No. C3 naciÃ³ desde la programaciÃ³n competitiva, pero hoy integra hackathons, proyectos tecnolÃ³gicos, comunidad, formaciÃ³n, alianzas y conexiÃ³n con oportunidades reales.
+Â¿QuiÃ©nes pueden participar en C3?
+C3 estÃ¡ dirigido principalmente a estudiantes y talento tÃ©cnico joven interesado en programaciÃ³n, tecnologÃ­a, competencias, creaciÃ³n de proyectos, comunidad y oportunidades.
+Â¿Necesito experiencia previa para participar?
+Depende de la actividad. Algunos eventos son introductorios y otros requieren conocimientos tÃ©cnicos bÃ¡sicos. En general, C3 busca abrir rutas para distintos niveles.
+Â¿CÃ³mo me uno a C3?
+Participando en eventos u oportunidades C3 ya formas parte de la comunidad. El canal actual de comunidad opera por WhatsApp..
+Â¿CuÃ¡l es la relaciÃ³n entre C3 y la Copa SalvadoreÃ±a de ProgramaciÃ³n?
+La Copa SalvadoreÃ±a de ProgramaciÃ³n es una iniciativa de C3 dentro de la lÃ­nea Compite.
+Â¿CÃ³mo puede una universidad colaborar con C3?
+Una universidad puede colaborar como sede, aliada de difusiÃ³n, organizadora de competencias, hackathons, charlas, talleres o activaciones para estudiantes.
+Â¿CÃ³mo puede una empresa patrocinar C3?
+Una empresa puede apoyar eventos, hackathons, competencias, mentorÃ­as, premios, contenido o iniciativas de comunidad para conectar con talento joven y fortalecer el ecosistema tecnolÃ³gico.
+Â¿DÃ³nde opera C3?
+C3 tiene base en El Salvador y proyecta crecimiento regional hacia CentroamÃ©rica.
+Â¿DÃ³nde contacto a C3?
+El sitio debe incluir formulario de contacto, correo institucional, Instagram, LinkedIn y rutas diferenciadas para estudiantes, universidades, empresas y prensa.
+11. Backlog de implementaciÃ³n
+11.1 Fase 1: landing fuerte y base institucional
+RediseÃ±ar Home con hero, impacto, lÃ­neas, eventos, audiencias, aliados, comunidad y CTA final.
+Crear /que-es-c3, /compite, /crea, /conecta, /eventos, /aliados, /impacto, /faq y /contacto.
+Configurar sitemap, robots, metadata, Open Graph y schema Organization/FAQ/Event.
+Agregar mediciÃ³n de CTAs y formularios.
+Publicar al menos una card de evento activo: Copa SalvadoreÃ±a de ProgramaciÃ³n 2026.
+Agregar factsheet bÃ¡sico y llms.txt.
+11.2 Fase 2: confianza y conversiÃ³n
+Agregar pÃ¡ginas Para estudiantes, Para universidades, Para empresas y Prensa/Media Kit.
+Publicar timeline institucional e historias de equipo.
+Completar testimonios y casos de impacto despuÃ©s de eventos.
+Agregar media kit con logos descargables, fotos y voceros.
+Crear pÃ¡gina especÃ­fica de recaps/historial de eventos.
+11.3 Fase 3: contenido y autoridad
+Publicar blog/updates con recaps indexables de eventos.
+Crear recursos de programaciÃ³n competitiva y editoriales.
+Publicar guÃ­as para participar en hackathons y Copa.
+Generar reportes anuales de impacto.
+Construir biblioteca de recursos para comunidad y universidades.
+11.4 Pendientes que requieren confirmaciÃ³n antes de publicar
+Pendiente
+AcciÃ³n necesaria
+Correo oficial
+Confirmar si se usarÃ¡ competitivecodingclub.sv@gmail.com u otro correo institucional.
+Formulario de comunidad
+Definir herramienta, responsable y campos mÃ­nimos.
+Uso de logos de aliados
+Confirmar permisos pÃºblicos de cada logo.
+Equipo pÃºblico
+Definir cargos, fotos, LinkedIn y autorizaciÃ³n de cada miembro.
+Cifras oficiales
+Validar participantes, comunidad, eventos y fecha de corte.
+Estatus legal
+Definir redacciÃ³n segura mientras se formaliza la organizaciÃ³n.
+Hackathon no anunciado
+No publicar hasta tener aprobaciÃ³n de aliados, fecha y alcance.
+Voceros
+Definir nombres, temas y contacto de prensa.
+Paquetes de sponsorship
+Definir beneficios, niveles, entregables y si se publican montos.
+12. Mapa de placeholders resueltos
+SecciÃ³n
+Estado
+Resultado
+AÃ±o de fundaciÃ³n
+Resuelto
+24 de octubre de 2024, primera sesiÃ³n en ESEN.
+Fundadores
+Resuelto
+Christopher MarroquÃ­n, Roberto Polanco, Ã“scar PleitÃ©s y Diego ArÃ©valo.
+Base operativa
+Resuelto
+El Salvador; proyecciÃ³n CentroamÃ©rica.
+Impacto
+Parcialmente resuelto
++60 comunidad, +150 alcanzados, +130 Copa 2025, eventos organizados/apoyados.
+Legal
+Parcialmente resuelto
+Comunidad/plataforma hÃ­brida en proceso de formalizaciÃ³n.
+Eventos Compite
+Resuelto
+Copa 2025/2026, Duelo C3, ICPC.
+RelaciÃ³n ICPC
+Resuelto
+Apoyo a ICPC CentroamÃ©rica en sede El Salvador/UCA.
+Crea
+Parcialmente resuelto
+Hack@Latam pÃºblico; hackathon futuro no publicable.
+Framework Crea
+Propuesto
+C3 Build Sprint.
+Aliados
+Parcialmente resuelto
+Lista incorporada con advertencia de permisos de logo.
+Historias de miembros
+Pendiente
+Recolectar testimonios con autorizaciÃ³n.
+Sponsors/paquetes
+Pendiente
+Crear media kit y sponsor deck.
+Voceros/prensa
+Pendiente
+Definir voceros oficiales.
+13. Factsheet institucional listo para web
+Campo
+Contenido
+Nombre
+C3 / Competitive Coding Club
+FundaciÃ³n
+24 de octubre de 2024
+Base
+El Salvador
+Alcance
+El Salvador con proyecciÃ³n regional hacia CentroamÃ©rica
+MisiÃ³n
+Potenciar talento joven mediante experiencias de alto nivel que integran competencia, creaciÃ³n y conexiÃ³n.
+VisiÃ³n
+Ser el referente regional de una nueva generaciÃ³n tÃ©cnica con pertenencia, oportunidades e impacto.
+Tagline
+Compite. Crea. Conecta.
+LÃ­neas
+Compite, Crea y Conecta
+QuÃ© hace
+Competencias de programaciÃ³n, hackathons, workshops, comunidad, conexiÃ³n con industria, alianzas universitarias y oportunidades para talento joven.
+Eventos relevantes
+Copa SalvadoreÃ±a de ProgramaciÃ³n, ICPC CentroamÃ©rica sede El Salvador, Hack@Latam, Duelo de ProgramaciÃ³n C3.
+Contacto recomendado
+Formulario web + correo institucional + Instagram @c3.elsalvador + LinkedIn C3.
+14. RecomendaciÃ³n final
+La nueva landing de C3 debe priorizar claridad institucional y evidencia. El sitio no necesita verse mÃ¡s complejo para verse mÃ¡s sÃ³lido; necesita tener mejores jerarquÃ­as, mÃ¡s contenido textual, rutas por audiencia, eventos activos, cifras verificables y un sistema visual modular que pueda crecer con la organizaciÃ³n.
+Principio rector
+C3 debe sentirse como una plataforma seria, joven y tÃ©cnica: suficientemente institucional para generar confianza, suficientemente cercana para convocar comunidad y suficientemente clara para convertir visitas en participaciÃ³n, alianzas y oportunidades.

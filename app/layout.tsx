@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Montserrat, Poppins } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
-import { organizationJsonLd } from "@/lib/structured-data";
+import SeoJsonLd from "@/components/SeoJsonLd";
+import { organizationJsonLd, websiteJsonLd } from "@/lib/structured-data";
 import { siteConfig } from "@/lib/site";
 import "./globals.css";
 
@@ -78,12 +79,8 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         {children}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(organizationJsonLd),
-          }}
-        />
+        <SeoJsonLd data={organizationJsonLd} />
+        <SeoJsonLd data={websiteJsonLd} />
         <Analytics />
       </body>
     </html>

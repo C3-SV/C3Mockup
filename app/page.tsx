@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
-import { FaInstagram, FaLinkedinIn } from "react-icons/fa";
 import ActionLinesSection from "@/components/ActionLinesSection";
+import AudienceSection from "@/components/AudienceSection";
+import C3SectionTransition from "@/components/C3SectionTransition";
+import FinalCtaSection from "@/components/FinalCtaSection";
 import Hero from "@/components/Hero";
 import MissionVisionSection from "@/components/MissionVisionSection";
 import Navbar from "@/components/Navbar";
 import ProjectsSection from "@/components/ProjectsSection";
+import SiteFooter from "@/components/SiteFooter";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -15,48 +18,21 @@ export const metadata: Metadata = {
   },
 };
 
-const socialLinks = [
-  {
-    href: siteConfig.social.instagram,
-    label: "Instagram de C3",
-    icon: FaInstagram,
-  },
-  {
-    href: siteConfig.social.linkedin,
-    label: "LinkedIn de C3",
-    icon: FaLinkedinIn,
-  },
-];
-
 export default function Home() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#0F203E]">
       <Navbar />
       <main>
         <Hero />
+        <C3SectionTransition variant="darkToDark" height="sm" className="relative z-10 -my-4" />
         <MissionVisionSection />
+        <C3SectionTransition variant="darkToDark" height="sm" className="relative z-10 -my-4" />
         <ActionLinesSection />
         <ProjectsSection />
+        <AudienceSection />
+        <FinalCtaSection />
       </main>
-      <footer className="section-divider bg-white py-8">
-        <div className="container-shell flex items-center justify-between gap-4 text-sm text-[#5c6a82]">
-          <p>{siteConfig.displayName}</p>
-          <div className="flex items-center gap-3">
-            {socialLinks.map(({ href, label, icon: Icon }) => (
-              <a
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noreferrer"
-                aria-label={label}
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#5c6a82]/30 text-[#5c6a82] transition hover:border-[#5c6a82]/50 hover:text-[#0F203E]"
-              >
-                <Icon size={16} />
-              </a>
-            ))}
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

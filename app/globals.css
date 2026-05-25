@@ -35,10 +35,75 @@ h6 {
 }
 
 .container-shell {
-  width: min(1120px, 100% - 2rem);
+  width: min(1360px, calc(100% - 2rem));
   margin-inline: auto;
 }
 
 .section-divider {
   border-top: 1px solid rgba(221, 230, 239, 0.7);
+}
+
+.c3-bg-drift {
+  animation: c3-bg-drift 26s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+.c3-bg-grid-pan {
+  animation: c3-bg-grid-pan 38s linear infinite;
+  will-change: background-position;
+}
+
+.c3-bg-graph-dash {
+  animation: c3-bg-graph-dash 30s linear infinite;
+}
+
+.c3-bg-particle-drift {
+  animation: c3-bg-particle-drift var(--c3-drift-duration, 20s) ease-in-out
+    var(--c3-drift-delay, 0s) infinite alternate;
+  will-change: transform, opacity;
+}
+
+@keyframes c3-bg-drift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(0, -8px, 0) scale(1.02);
+  }
+}
+
+@keyframes c3-bg-grid-pan {
+  0% {
+    background-position: 0 0, 0 0, 0 0, 0 0;
+  }
+  100% {
+    background-position: 48px 48px, 48px 48px, 0 0, 0 0;
+  }
+}
+
+@keyframes c3-bg-graph-dash {
+  0% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: -24;
+  }
+}
+
+@keyframes c3-bg-particle-drift {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(var(--c3-drift-x, 8px), var(--c3-drift-y, -8px), 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .c3-bg-drift,
+  .c3-bg-grid-pan,
+  .c3-bg-graph-dash,
+  .c3-bg-particle-drift {
+    animation: none !important;
+  }
 }

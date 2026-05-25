@@ -1,11 +1,14 @@
-export const siteConfig = {
+﻿export const siteConfig = {
   name: "C3",
   fullName: "Competitive Coding Club",
   displayName: "C3 | Competitive Coding Club",
-  homepageTitle: "C3 | Competitive Coding Club — Compite. Crea. Conecta.",
+  homepageTitle: "C3 | Competitive Coding Club - Compite. Crea. Conecta.",
   domain: "https://c3.com.sv",
   locale: "es_SV",
   language: "es",
+  foundingDate: "2024-10-24",
+  region: "El Salvador",
+  projection: "Centroamérica",
   tagline: "Compite. Crea. Conecta.",
   mission:
     "Potenciar talento joven mediante experiencias de alto nivel que integran competencia, creación y conexión.",
@@ -13,6 +16,10 @@ export const siteConfig = {
     "Ser el referente regional de una nueva generación técnica con pertenencia, oportunidades e impacto.",
   description:
     "C3 desarrolla talento técnico joven conectando programación competitiva, hackathons, comunidad, formación e industria en El Salvador y la región.",
+  shortDescription:
+    "C3 / Competitive Coding Club es una plataforma de desarrollo de talento técnico joven que conecta programación competitiva, hackathons, comunidad, formación, industria y oportunidades reales bajo el enfoque Compite. Crea. Conecta.",
+  englishDescription:
+    "C3 / Competitive Coding Club develops young technical talent by connecting competitive programming, hackathons, community, training, industry and real opportunities under the framework Compite. Crea. Conecta.",
   keywords: [
     "C3",
     "C3 El Salvador",
@@ -27,6 +34,7 @@ export const siteConfig = {
     "Copa de Programación",
     "Copa Salvadoreña de Programación",
     "Festival de Código",
+    "Hackathon de Turismo Creativo",
     "ICPC El Salvador",
     "tecnología Centroamérica",
     "comunidad de programación",
@@ -37,9 +45,13 @@ export const siteConfig = {
     instagram: "https://www.instagram.com/c3.elsalvador",
     linkedin: "https://www.linkedin.com/company/c3-sv",
   },
+  contact: {
+    email: "competitivecodingclub.sv@gmail.com",
+  },
   sites: {
     main: "https://c3.com.sv",
     copa: "https://copa.c3.com.sv",
+    hackathon: "https://hackathon.c3.com.sv",
     festival: "https://festival.c3.com.sv",
   },
   lines: {
@@ -61,3 +73,4 @@ export const siteConfig = {
   },
   defaultOgImage: "/og-image.png",
 } as const;
+

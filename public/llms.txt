@@ -1,15 +1,32 @@
-# C3 | Competitive Coding Club
+# C3 / Competitive Coding Club
 
 Canonical URL: https://c3.com.sv
 Tagline: Compite. Crea. Conecta.
+Primary email: competitivecodingclub.sv@gmail.com
 
-C3 desarrolla talento técnico joven conectando programación competitiva, hackathons, comunidad, formación e industria en El Salvador y la región.
+C3 / Competitive Coding Club es una plataforma de desarrollo de talento técnico joven que conecta programación competitiva, hackathons, comunidad, formación, industria y oportunidades reales.
 
-## Official sites
+Preferred English description:
+C3 / Competitive Coding Club develops young technical talent by connecting competitive programming, hackathons, community, training, industry and real opportunities under the framework Compite. Crea. Conecta.
+
+## Public routes
+- /
+- /que-es-c3
+- /compite
+- /crea
+- /conecta
+- /eventos
+- /faq
+- /contacto
+
+## Main ecosystem links
 - https://c3.com.sv
 - https://copa.c3.com.sv
-- https://festival.c3.com.sv
+- https://hackathon.c3.com.sv
 
-## Social
-- LinkedIn: https://www.linkedin.com/company/c3-sv
-- Instagram: https://www.instagram.com/c3.elsalvador
+## Key pages
+- About C3: https://c3.com.sv/que-es-c3
+- Events: https://c3.com.sv/eventos
+- FAQ: https://c3.com.sv/faq
+- Contact: https://c3.com.sv/contacto
+
