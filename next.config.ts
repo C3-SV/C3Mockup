@@ -7,17 +7,6 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
-        source: "/:path*",
-        has: [
-          {
-            type: "host",
-            value: "www.c3.com.sv",
-          },
-        ],
-        destination: "https://c3.com.sv/:path*",
-        permanent: true,
-      },
-      {
         source: "/copa",
         destination: "https://copa.c3.com.sv",
         permanent: true,
