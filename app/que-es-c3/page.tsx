@@ -100,6 +100,8 @@ export default function QueEsC3Page() {
         </div>
       </section>
 
+      {/* Equipo inicial y liderazgo - Placeholder */}
+      {/*
       <section className="section-divider bg-white py-16 text-[#0F203E] md:py-20">
         <div className="container-shell space-y-6">
           <div>
@@ -133,6 +135,7 @@ export default function QueEsC3Page() {
           </div>
         </div>
       </section>
+    */}
     </PageShell>
   );
 }
