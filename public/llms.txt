@@ -8,7 +8,7 @@ C3 trabaja bajo el enfoque:
 Compite. Crea. Conecta.
 
 Preferred Spanish description:
-C3 / Competitive Coding Club desarrolla talento técnico joven mediante experiencias de alto nivel que integran programación competitiva, hackathons, comunidad, instituciones, industria y oportunidades reales.
+C3 / Competitive Coding Club potencia talento técnico joven mediante experiencias de alto nivel que integran programación competitiva, hackathons, comunidad, instituciones, industria y oportunidades reales.
 
 Preferred English description:
 C3 / Competitive Coding Club develops young technical talent by connecting competitive programming, hackathons, community, institutions, industry and real opportunities from El Salvador to the region.

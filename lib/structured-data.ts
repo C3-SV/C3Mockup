@@ -1,34 +1,37 @@
-﻿import { faqItems, publicRoutes } from "@/lib/content";
+import { faqItems, publicRoutes } from "@/lib/content";
 import { siteConfig } from "@/lib/site";
 
 type WebPageType = "WebPage" | "AboutPage" | "CollectionPage" | "FAQPage" | "ContactPage";
 
+const organizationId = `${siteConfig.domain}/#organization`;
+const websiteId = `${siteConfig.domain}/#website`;
+
 export const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: siteConfig.displayName,
+  "@id": organizationId,
+  name: "C3 / Competitive Coding Club",
   alternateName: siteConfig.fullName,
   url: siteConfig.domain,
   email: siteConfig.contact.email,
   logo: `${siteConfig.domain}/brand/logo-c3-fondo-azul.png`,
   slogan: siteConfig.tagline,
-  areaServed: {
-    "@type": "Country",
-    name: siteConfig.region,
-  },
+  areaServed: siteConfig.region,
   sameAs: [siteConfig.social.instagram, siteConfig.social.linkedin],
 };
 
 export const websiteJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  name: siteConfig.displayName,
+  "@id": websiteId,
+  name: "C3 / Competitive Coding Club",
   url: siteConfig.domain,
   inLanguage: "es-SV",
   description: siteConfig.description,
   publisher: {
     "@type": "Organization",
-    name: siteConfig.displayName,
+    "@id": organizationId,
+    name: "C3 / Competitive Coding Club",
     url: siteConfig.domain,
   },
 };
@@ -47,17 +50,20 @@ export function getWebPageJsonLd({
   return {
     "@context": "https://schema.org",
     "@type": type,
+    "@id": `${siteConfig.domain}${path}#webpage`,
     name: title,
     description,
     url: `${siteConfig.domain}${path}`,
     isPartOf: {
       "@type": "WebSite",
-      name: siteConfig.displayName,
+      "@id": websiteId,
+      name: "C3 / Competitive Coding Club",
       url: siteConfig.domain,
     },
     about: {
       "@type": "Organization",
-      name: siteConfig.displayName,
+      "@id": organizationId,
+      name: "C3 / Competitive Coding Club",
       url: siteConfig.domain,
     },
     inLanguage: "es-SV",
@@ -74,7 +80,7 @@ export function getContactPageJsonLd(path: string, title: string, description: s
     contactPoint: [
       {
         "@type": "ContactPoint",
-        contactType: "general inquiries",
+        contactType: "Consultas generales",
         email: siteConfig.contact.email,
         availableLanguage: ["es-SV"],
       },
@@ -205,4 +211,3 @@ export function getSiteNavigationJsonLd() {
     })),
   };
 }
-

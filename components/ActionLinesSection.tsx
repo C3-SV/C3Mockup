@@ -31,7 +31,7 @@ export default function ActionLinesSection() {
               title: "COMPITE",
               description:
                 "Desarrollamos el máximo potencial técnico a través de desafíos y competencias de clase mundial.",
-              bullets: ["Programación competitiva", "ICPC", "Copa Salvadoreña", "Entrenamientos"],
+              bullets: ["Programación competitiva", "ICPC", "Copa Salvadoreña de Programación", "Entrenamientos"],
               color: "#205298",
               href: "/compite",
             },

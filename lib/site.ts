@@ -24,6 +24,7 @@
     "C3 El Salvador",
     "Competitive Coding Club",
     "Competitive Coding Club El Salvador",
+    "Programación competitiva",
     "programación competitiva El Salvador",
     "talento técnico joven",
     "comunidad tecnológica El Salvador",
@@ -32,12 +33,15 @@
     "eventos de tecnología El Salvador",
     "Copa de Programación",
     "Copa Salvadoreña de Programación",
-    "Hackathon de Turismo Creativo",
+    "Hackathon de Turismo Creativo I",
+    "Duelo de Programación C3 · Software Week ESEN 2025",
     "ICPC El Salvador",
     "tecnología Centroamérica",
     "comunidad de programación",
     "jóvenes programadores El Salvador",
     "talento tecnológico Centroamérica",
+    "Próximamente",
+    "Inscripciones abiertas",
   ],
   social: {
     instagram: "https://www.instagram.com/c3.elsalvador",
@@ -65,9 +69,8 @@
     conecta: {
       name: "Conecta",
       description:
-        "Comunidad, networking, industria, aliados, sponsors, mentoría y oportunidades reales.",
+        "Comunidad, netowrking, instituciones, industria, aliados, sponsors, mentoría y oportunidades reales.",
     },
   },
   defaultOgImage: "/brand/logo-c3-fondo-azul.png",
 } as const;
-

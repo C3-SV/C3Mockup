@@ -149,7 +149,7 @@ export const events: EventItem[] = [
   },
   {
     id: "duelo-programacion-c3-software-week-esen-2025",
-    title: "Duelo de Programacion C3 · Software Week ESEN 2025",
+    title: "Duelo de Programación C3 · Software Week ESEN 2025",
     description:
       "Actividad técnica orientada a resolver problemas en formato competitivo dentro del ecosistema universitario.",
     lines: ["compite"],
@@ -180,7 +180,7 @@ export const linePageContent: Record<
     seoTitle: "Compite | Programación competitiva y excelencia técnica — C3",
     seoDescription:
       "La línea Compite de C3 impulsa programación competitiva, ICPC, entrenamientos, pensamiento algorítmico y la Copa Salvadoreña de Programación.",
-    pillars: ["Programación competitiva", "ICPC", "Copa Salvadoreña", "Entrenamientos"],
+    pillars: ["Programación competitiva", "ICPC", "Copa Salvadoreña de Programación", "Entrenamientos"],
     primaryCta: { label: "Ir a la Copa", href: siteConfig.sites.copa, external: true },
     secondaryCta: { label: "Ver eventos C3", href: "/eventos" },
   },

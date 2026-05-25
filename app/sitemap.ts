@@ -16,7 +16,7 @@ const routePriority: Record<(typeof publicRoutes)[number], number> = {
 export default function sitemap(): MetadataRoute.Sitemap {
   return publicRoutes.map((path) => ({
     url: `${siteConfig.domain}${path}`,
-    lastModified: new Date("2026-05-25T00:00:00.000Z"),
+    lastModified: new Date(),
     changeFrequency: path === "/" || path === "/eventos" ? "weekly" : "monthly",
     priority: routePriority[path],
     images: [`${siteConfig.domain}${siteConfig.defaultOgImage}`],
