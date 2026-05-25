@@ -2,12 +2,38 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { ecosystemNavigation, headerNavigation } from "@/lib/content";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isEcosystemOpen, setIsEcosystemOpen] = useState(false);
+  const ecosystemCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const clearEcosystemTimer = () => {
+    if (ecosystemCloseTimer.current) {
+      clearTimeout(ecosystemCloseTimer.current);
+      ecosystemCloseTimer.current = null;
+    }
+  };
+
+  const openEcosystem = () => {
+    clearEcosystemTimer();
+    setIsEcosystemOpen(true);
+  };
+
+  const closeEcosystem = () => {
+    clearEcosystemTimer();
+    ecosystemCloseTimer.current = setTimeout(() => {
+      setIsEcosystemOpen(false);
+      ecosystemCloseTimer.current = null;
+    }, 220);
+  };
+
+  const toggleEcosystem = () => {
+    clearEcosystemTimer();
+    setIsEcosystemOpen((open) => !open);
+  };
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/8 bg-[#0F203E]/94 backdrop-blur">
@@ -33,26 +59,29 @@ export default function Navbar() {
               <div
                 key={item.label}
                 className="relative"
-                onMouseEnter={() => setIsEcosystemOpen(true)}
-                onMouseLeave={() => setIsEcosystemOpen(false)}
+                onMouseEnter={openEcosystem}
+                onMouseLeave={closeEcosystem}
               >
                 <button
                   type="button"
                   className="inline-flex items-center rounded-full px-4 py-2 text-sm font-medium text-white/90 transition hover:bg-white/8 hover:text-white"
                   aria-expanded={isEcosystemOpen}
                   aria-haspopup="menu"
-                  onClick={() => setIsEcosystemOpen((open) => !open)}
+                  onClick={toggleEcosystem}
                 >
                   {item.label}
                   <span className="ml-2 text-xs">▾</span>
                 </button>
+
                 <div
-                  className={`absolute left-1/2 top-full mt-3 w-[22rem] -translate-x-1/2 rounded-[1.5rem] border border-white/12 bg-[#102240] p-2 shadow-[0_18px_50px_rgba(2,8,22,0.42)] transition duration-200 ${
+                  className={`absolute left-1/2 top-[calc(100%-1px)] w-[22rem] -translate-x-1/2 rounded-[1.5rem] border border-white/12 bg-[#102240] p-2 shadow-[0_18px_50px_rgba(2,8,22,0.42)] transition duration-200 ${
                     isEcosystemOpen
                       ? "visible translate-y-0 opacity-100"
                       : "pointer-events-none invisible -translate-y-2 opacity-0"
                   }`}
                   role="menu"
+                  onMouseEnter={openEcosystem}
+                  onMouseLeave={closeEcosystem}
                 >
                   {ecosystemNavigation.map((link) => (
                     <Link

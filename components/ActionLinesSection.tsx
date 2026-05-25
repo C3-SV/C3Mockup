@@ -1,60 +1,5 @@
-import Image from "next/image";
-import Link from "next/link";
 import SectionBadge from "./ui/SectionBadge";
-
-const ecosystemNodes = [
-  {
-    key: "compite",
-    name: "Compite",
-    description: "Programacion competitiva y excelencia tecnica.",
-    color: "#205298",
-    desktopPosition: "left-[5%] top-[18%]",
-    href: "/compite",
-  },
-  {
-    key: "crea",
-    name: "Crea",
-    description: "Hackathons, software y proyectos reales.",
-    color: "#33BEAC",
-    desktopPosition: "right-[7%] top-[18%]",
-    href: "/crea",
-  },
-  {
-    key: "conecta",
-    name: "Conecta",
-    description: "Comunidad, industria y oportunidades.",
-    color: "#4F5BA9",
-    desktopPosition: "left-1/2 top-[70%] -translate-x-1/2",
-    href: "/conecta",
-  },
-];
-
-const lineCards = [
-  {
-    title: "COMPITE",
-    description:
-      "Desarrollamos el maximo potencial tecnico a traves de desafios y competencias de clase mundial.",
-    bullets: ["Programacion competitiva", "ICPC", "Copa Salvadorena", "Entrenamientos"],
-    color: "#205298",
-    href: "/compite",
-  },
-  {
-    title: "CREA",
-    description:
-      "Convertimos conocimiento tecnico en construccion: prototipos, software y soluciones para retos reales.",
-    bullets: ["Hackathons", "Builders", "Desarrollo de software", "Proyectos reales"],
-    color: "#33BEAC",
-    href: "/crea",
-  },
-  {
-    title: "CONECTA",
-    description:
-      "Construimos el puente entre talento emergente, comunidad, instituciones y oportunidades reales.",
-    bullets: ["Comunidad", "Industria", "Mentoria", "Alianzas"],
-    color: "#4F5BA9",
-    href: "/conecta",
-  },
-];
+import C3EcosystemDiagram from "./C3EcosystemDiagram";
 
 export default function ActionLinesSection() {
   return (
@@ -70,79 +15,40 @@ export default function ActionLinesSection() {
         <div className="space-y-4">
           <h2 className="text-3xl font-bold md:text-5xl">Un ecosistema integrado</h2>
           <p className="max-w-3xl text-base leading-8 text-white/80 md:text-lg">
-            C3 no solo organiza eventos. Construimos un sistema donde el talento tecnico joven
+            C3 no solo organiza eventos. Construimos un sistema donde el talento técnico joven
             puede crecer de forma progresiva.
           </p>
         </div>
 
-        <div className="hidden rounded-[2.2rem] border border-white/12 bg-[#132548]/78 p-8 md:block">
-          <div className="relative mx-auto h-[33rem] max-w-[60rem]">
-            <svg
-              aria-hidden="true"
-              viewBox="0 0 960 500"
-              className="absolute inset-0 h-full w-full opacity-50"
-            >
-              <circle cx="480" cy="240" r="154" fill="none" stroke="rgba(255,255,255,0.12)" />
-              <line x1="480" y1="240" x2="205" y2="128" stroke="#205298" strokeWidth="1.8" />
-              <line x1="480" y1="240" x2="753" y2="128" stroke="#33BEAC" strokeWidth="1.8" />
-              <line x1="480" y1="240" x2="480" y2="390" stroke="#4F5BA9" strokeWidth="1.8" />
-            </svg>
-
-            <div className="absolute left-1/2 top-1/2 w-[18rem] -translate-x-1/2 -translate-y-1/2 rounded-[2rem] border border-white/18 bg-[#0f203e] p-6 text-center shadow-[0_22px_60px_rgba(2,8,22,0.52)]">
-              <Image
-                src="/brand/logo-c3-claro-con-color.png"
-                alt="Logo central de C3"
-                width={320}
-                height={320}
-                className="mx-auto h-auto w-40 object-contain"
-              />
-              <p className="mt-3 text-sm font-semibold uppercase tracking-[0.18em] text-white/80">
-                Plataforma C3
-              </p>
-            </div>
-
-            {ecosystemNodes.map((node) => (
-              <article
-                key={node.key}
-                className={`absolute w-[16.75rem] rounded-[1.6rem] border border-white/14 bg-[#152c55]/88 p-5 ${node.desktopPosition}`}
-                style={{ boxShadow: `0 18px 42px rgba(2,8,22,0.24)` }}
-              >
-                <div className="mb-4 h-1.5 w-16 rounded-full" style={{ backgroundColor: node.color }} />
-                <h3 className="text-2xl font-bold" style={{ color: node.color }}>
-                  {node.name}
-                </h3>
-                <p className="mt-2 text-sm leading-6 text-white/82">{node.description}</p>
-                <Link
-                  href={node.href}
-                  className="mt-4 inline-flex text-sm font-semibold text-white hover:underline"
-                >
-                  Explorar linea
-                </Link>
-              </article>
-            ))}
-          </div>
-        </div>
-
-        <div className="grid gap-5 md:hidden">
-          {ecosystemNodes.map((node) => (
-            <article
-              key={node.key}
-              className="rounded-3xl border border-white/14 bg-[#152c55]/88 p-5 shadow-[0_12px_30px_rgba(2,8,22,0.35)]"
-            >
-              <div className="mb-4 h-1.5 w-16 rounded-full" style={{ backgroundColor: node.color }} />
-              <h3 className="text-2xl font-bold" style={{ color: node.color }}>
-                {node.name}
-              </h3>
-              <p className="mt-2 text-sm leading-6 text-white/82">{node.description}</p>
-              <Link href={node.href} className="mt-4 inline-flex text-sm font-semibold text-white hover:underline">
-                Explorar linea
-              </Link>
-            </article>
-          ))}
-        </div>
+        <C3EcosystemDiagram />
 
         <div className="grid gap-6 lg:grid-cols-3">
-          {lineCards.map((card) => (
+          {[
+            {
+              title: "COMPITE",
+              description:
+                "Desarrollamos el máximo potencial técnico a través de desafíos y competencias de clase mundial.",
+              bullets: ["Programación competitiva", "ICPC", "Copa Salvadoreña", "Entrenamientos"],
+              color: "#205298",
+              href: "/compite",
+            },
+            {
+              title: "CREA",
+              description:
+                "Convertimos conocimiento técnico en construcción: prototipos, software y soluciones para retos reales.",
+              bullets: ["Hackathons", "Builders", "Desarrollo de software", "Proyectos reales"],
+              color: "#33BEAC",
+              href: "/crea",
+            },
+            {
+              title: "CONECTA",
+              description:
+                "Construimos el puente entre talento emergente, comunidad, instituciones y oportunidades reales.",
+              bullets: ["Comunidad", "Industria", "Mentoría", "Alianzas"],
+              color: "#4F5BA9",
+              href: "/conecta",
+            },
+          ].map((card) => (
             <article
               key={card.title}
               className="flex h-full flex-col rounded-[1.8rem] border border-white/13 bg-[#121f3d] p-6"
@@ -152,7 +58,9 @@ export default function ActionLinesSection() {
               <p className="mb-3 text-xs font-semibold tracking-[0.18em]" style={{ color: card.color }}>
                 {card.title}
               </p>
-              <h3 className="text-2xl font-bold leading-tight text-white">{card.title === "CONECTA" ? "Conecta" : card.title.charAt(0) + card.title.slice(1).toLowerCase()}</h3>
+              <h3 className="text-2xl font-bold leading-tight text-white">
+                {card.title === "CONECTA" ? "Conecta" : card.title.charAt(0) + card.title.slice(1).toLowerCase()}
+              </h3>
               <p className="mt-3 text-sm leading-7 text-white/82">{card.description}</p>
               <ul className="mt-4 space-y-2 text-sm text-white/82">
                 {card.bullets.map((bullet) => (
@@ -166,9 +74,9 @@ export default function ActionLinesSection() {
                   </li>
                 ))}
               </ul>
-              <Link href={card.href} className="mt-6 inline-flex text-sm font-semibold text-white hover:underline">
-                Ir a la linea
-              </Link>
+                <a href={card.href} className="mt-6 inline-flex text-sm font-semibold text-white hover:underline">
+                Ir a la línea
+              </a>
             </article>
           ))}
         </div>

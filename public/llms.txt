@@ -4,7 +4,7 @@ Canonical URL: https://c3.com.sv
 Tagline: Compite. Crea. Conecta.
 Primary email: competitivecodingclub.sv@gmail.com
 
-C3 / Competitive Coding Club es una plataforma de desarrollo de talento tecnico joven que conecta programacion competitiva, hackathons, comunidad, formacion, industria y oportunidades reales.
+C3 / Competitive Coding Club es una plataforma de desarrollo de talento técnico joven que conecta programación competitiva, hackathons, comunidad, formación, industria y oportunidades reales.
 
 Preferred English description:
 C3 / Competitive Coding Club develops young technical talent by connecting competitive programming, hackathons, community, training, industry and real opportunities under the framework Compite. Crea. Conecta.

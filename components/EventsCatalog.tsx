@@ -11,14 +11,14 @@ const filterButtons: { key: EventFilter; label: string }[] = [
   { key: "compite", label: "Compite" },
   { key: "crea", label: "Crea" },
   { key: "conecta", label: "Conecta" },
-  { key: "proximos", label: "Proximos" },
-  { key: "historicos", label: "Historicos" },
+  { key: "proximos", label: "Próximos" },
+  { key: "historicos", label: "Históricos" },
 ];
 
 const statusStyle: Record<EventStatus, string> = {
   "Inscripciones abiertas": "bg-[#dff6ec] text-[#0d6d4f] border-[#9adabf]",
-  Proximamente: "bg-[#e8f3ff] text-[#1f4f9b] border-[#9cbde8]",
-  Historico: "bg-[#f4f5f8] text-[#4f5c74] border-[#d2d8e4]",
+  "Próximamente": "bg-[#e8f3ff] text-[#1f4f9b] border-[#9cbde8]",
+  "Histórico": "bg-[#f4f5f8] text-[#4f5c74] border-[#d2d8e4]",
   "Apoyo institucional": "bg-[#ede9fb] text-[#5c4b9a] border-[#c3b7ee]",
 };
 
@@ -31,11 +31,11 @@ export default function EventsCatalog() {
     }
     if (activeFilter === "proximos") {
       return events.filter(
-        (event) => event.status === "Inscripciones abiertas" || event.status === "Proximamente",
+        (event) => event.status === "Inscripciones abiertas" || event.status === "Próximamente",
       );
     }
     if (activeFilter === "historicos") {
-      return events.filter((event) => event.status === "Historico" || event.status === "Apoyo institucional");
+      return events.filter((event) => event.status === "Histórico" || event.status === "Apoyo institucional");
     }
     return events.filter((event) => event.lines.includes(activeFilter));
   }, [activeFilter]);

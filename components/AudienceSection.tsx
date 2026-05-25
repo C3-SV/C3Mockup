@@ -1,11 +1,10 @@
 import { FaBuilding, FaGraduationCap, FaUserAstronaut } from "react-icons/fa";
 import Link from "next/link";
-import SectionBadge from "./ui/SectionBadge";
 
 const audiences = [
   {
     title: "Personas",
-    subtitle: "Para estudiantes, builders y talento tecnico joven.",
+    subtitle: "Para estudiantes, builders y talento técnico joven.",
     text: "Participa en competencias, hackathons, comunidad y espacios de aprendizaje para desarrollar habilidades, construir proyectos y conectar con oportunidades reales.",
     cta: "Participar en C3",
     href: "/eventos",
@@ -16,22 +15,22 @@ const audiences = [
   {
     title: "Instituciones educativas",
     subtitle: "Para colegios, universidades y programas formativos.",
-    text: "Colabora con C3 para llevar competencias, hackathons, charlas, talleres y experiencias tecnicas a tus estudiantes.",
+    text: "Colabora con C3 para llevar competencias, hackathons, charlas, talleres y experiencias técnicas a tus estudiantes.",
     cta: "Crear una alianza educativa",
     href: "/contacto",
     icon: FaGraduationCap,
     accent: "#33BEAC",
-    benefits: ["Charlas", "Talleres", "Activaciones tecnicas"],
+    benefits: ["Charlas", "Talleres", "Activaciones técnicas"],
   },
   {
     title: "Empresas y organizaciones",
     subtitle: "Para empresas, startups, sponsors y aliados del ecosistema.",
-    text: "Apoya experiencias de alto impacto, conecta con talento joven y fortalece el ecosistema tecnologico desde El Salvador hacia la region.",
+    text: "Apoya experiencias de alto impacto, conecta con talento joven y fortalece el ecosistema tecnológico desde El Salvador hacia la región.",
     cta: "Ser aliado",
     href: "/contacto",
     icon: FaBuilding,
     accent: "#4F5BA9",
-    benefits: ["Visibilidad", "Mentoria", "Alianzas estrategicas"],
+    benefits: ["Visibilidad", "Mentoría", "Alianzas estratégicas"],
   },
 ];
 
@@ -39,14 +38,13 @@ export default function AudienceSection() {
   return (
     <section id="audiencias" className="section-divider bg-[#F8FAFD] py-20 text-[#0F203E] md:py-24">
       <div className="container-shell space-y-8">
-        <SectionBadge label="Para quien es C3" />
         <div className="max-w-4xl space-y-4">
           <h2 className="text-3xl font-bold leading-tight md:text-4xl lg:text-5xl">
-            C3 conecta a quienes quieren construir el ecosistema tecnico joven
+            C3 conecta a quienes quieren construir el ecosistema técnico joven
           </h2>
           <p className="max-w-3xl text-base leading-8 text-[#31405c] md:text-lg">
             Desde estudiantes que quieren crecer, hasta instituciones y organizaciones que buscan
-            acercarse al talento tecnico emergente.
+            acercarse al talento técnico emergente.
           </p>
         </div>
 
@@ -98,7 +96,10 @@ export default function AudienceSection() {
 
                 <Link
                   href={audience.href}
-                  className="mt-auto inline-flex items-center rounded-full border border-[#0F203E] px-4 py-2.5 text-sm font-semibold text-[#0F203E] transition hover:bg-[#0F203E] hover:text-white"
+                  className="mt-8 inline-flex items-center rounded-full px-4 py-2.5 text-sm font-semibold text-white transition hover:brightness-110"
+                  style={{
+                    backgroundColor: audience.accent,
+                  }}
                 >
                   {audience.cta}
                 </Link>

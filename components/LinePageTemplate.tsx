@@ -32,7 +32,7 @@ export default function LinePageTemplate({ line }: LinePageTemplateProps) {
                 backgroundColor: `${visual.color}1a`,
               }}
             >
-              Linea {visual.name}
+              Línea {visual.name}
             </p>
             <h1 className="max-w-3xl text-4xl font-bold leading-tight md:text-5xl">{content.heroTitle}</h1>
             <p className="max-w-3xl text-base leading-8 text-white/82 md:text-lg">{content.heroDescription}</p>

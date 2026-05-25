@@ -1,5 +1,4 @@
 import Link from "next/link";
-import SectionBadge from "./ui/SectionBadge";
 import { events, lineVisuals } from "@/lib/content";
 
 export default function ProjectsSection() {
@@ -9,7 +8,7 @@ export default function ProjectsSection() {
         <div className="max-w-4xl">
           <h2 className="text-3xl font-bold leading-tight md:text-5xl">Evidencia viva del ecosistema C3</h2>
           <p className="mt-3 max-w-3xl text-base leading-8 text-[#31405c] md:text-lg">
-            Eventos, competencias, hackathons y colaboraciones institucionales que conectan talento tecnico
+            Eventos, competencias, hackathons y colaboraciones institucionales que conectan talento técnico
             joven con aprendizaje y oportunidades reales.
           </p>
         </div>

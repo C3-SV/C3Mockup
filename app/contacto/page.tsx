@@ -8,34 +8,34 @@ import { siteConfig } from "@/lib/site";
 
 const seoTitle = "Contacto | C3 / Competitive Coding Club";
 const seoDescription =
-  "Contacta a C3 para participar en eventos, proponer alianzas educativas, apoyar iniciativas o conectar con talento tecnico joven.";
+  "Contacta a C3 para participar en eventos, proponer alianzas educativas, apoyar iniciativas o conectar con talento técnico joven.";
 
 const contactPaths = [
   {
     title: "Quiero participar",
     description:
-      "Para estudiantes, builders y talento tecnico joven que quiere competir, crear proyectos y conectar con oportunidades.",
+      "Para estudiantes, builders y talento técnico joven que quiere competir, crear proyectos y conectar con oportunidades.",
     cta: "Participar en C3",
     href: "/eventos",
   },
   {
     title: "Quiero proponer una alianza educativa",
     description:
-      "Para colegios, universidades y programas formativos que desean colaborar con competencias, hackathons o experiencias tecnicas.",
-    cta: "Explorar linea Conecta",
+      "Para colegios, universidades y programas formativos que desean colaborar con competencias, hackathons o experiencias técnicas.",
+    cta: "Explorar línea Conecta",
     href: "/conecta",
   },
   {
-    title: "Quiero apoyar como empresa u organizacion",
+    title: "Quiero apoyar como empresa u organización",
     description:
-      "Para sponsors, startups y organizaciones interesadas en fortalecer el ecosistema tecnico joven desde El Salvador.",
+      "Para sponsors, startups y organizaciones interesadas en fortalecer el ecosistema técnico joven desde El Salvador.",
     cta: "Ser aliado",
     href: "/conecta",
   },
   {
     title: "Quiero comunicarme con el equipo",
     description:
-      "Para consultas institucionales, alianzas, contexto de iniciativas y coordinacion general del ecosistema C3.",
+      "Para consultas institucionales, alianzas, contexto de iniciativas y coordinación general del ecosistema C3.",
     cta: "Ir a FAQ",
     href: "/faq",
   },
@@ -73,7 +73,7 @@ export default function ContactoPage() {
             Contacto institucional para participar y colaborar
           </h1>
           <p className="max-w-3xl text-base leading-8 text-white/82 md:text-lg">
-            Elige la via que mejor se adapta a tu objetivo y te orientamos hacia la linea,
+            Elige la vía que mejor se adapta a tu objetivo y te orientamos hacia la línea,
             iniciativa o alianza adecuada.
           </p>
         </div>

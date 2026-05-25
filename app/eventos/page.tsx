@@ -11,9 +11,9 @@ import {
 } from "@/lib/structured-data";
 import { siteConfig } from "@/lib/site";
 
-const seoTitle = "Eventos C3 | Competencias, hackathons y comunidad tecnica";
+const seoTitle = "Eventos C3 | Competencias, hackathons y comunidad técnica";
 const seoDescription =
-  "Explora eventos de C3 relacionados con programacion competitiva, hackathons, comunidad, formacion y conexion con oportunidades reales.";
+  "Explora eventos de C3 relacionados con programación competitiva, hackathons, comunidad, formación y conexión con oportunidades reales.";
 
 export const metadata: Metadata = {
   title: seoTitle,
@@ -57,11 +57,11 @@ export default function EventosPage() {
         <div className="container-shell space-y-5">
           <SectionBadge label="Eventos C3" />
           <h1 className="max-w-4xl text-4xl font-bold leading-tight md:text-5xl">
-            Iniciativas que activan el ecosistema tecnico joven
+            Iniciativas que activan el ecosistema técnico joven
           </h1>
           <p className="max-w-3xl text-base leading-8 text-white/82 md:text-lg">
             Esta ruta centraliza competencias, hackathons y colaboraciones institucionales para
-            mostrar la ejecucion real de C3 y conectar hacia sus sitios satelite.
+            mostrar la ejecución real de C3 y conectar hacia sus sitios satélite.
           </p>
         </div>
       </section>

@@ -9,7 +9,7 @@ import { siteConfig } from "@/lib/site";
 
 const seoTitle = "Preguntas frecuentes sobre C3 | Competitive Coding Club";
 const seoDescription =
-  "Respuestas claras sobre que es C3, como participar, sus lineas de accion, eventos, comunidad, aliados y oportunidades.";
+  "Respuestas claras sobre qué es C3, cómo participar, sus líneas de acción, eventos, comunidad, aliados y oportunidades.";
 
 export const metadata: Metadata = {
   title: seoTitle,
@@ -43,7 +43,7 @@ export default function FaqPage() {
             Preguntas frecuentes sobre C3
           </h1>
           <p className="max-w-3xl text-base leading-8 text-white/82 md:text-lg">
-            Esta pagina responde dudas clave para personas, instituciones educativas y
+            Esta página responde dudas clave para personas, instituciones educativas y
             organizaciones que buscan participar o colaborar con C3.
           </p>
         </div>
@@ -63,7 +63,7 @@ export default function FaqPage() {
 
           <div className="rounded-3xl border border-[#d5deea] bg-white p-6">
             <p className="text-sm leading-7 text-[#364765]">
-              Si tu pregunta es especifica para alianzas o participacion, escribe por contacto.
+              Si tu pregunta es específica para alianzas o participación, escribe por contacto.
             </p>
             <Link
               href="/contacto"

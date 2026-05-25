@@ -41,12 +41,12 @@ export default function Hero() {
         <div className="space-y-8 md:pr-4">
           <div className="space-y-5">
             <h1 className="max-w-3xl text-4xl font-extrabold leading-tight md:text-6xl">
-              C3 desarrolla talento tecnico joven a traves de competencia, creacion y conexion.
+              C3 desarrolla talento técnico joven a través de competencia, creación y conexión.
             </h1>
             <p className="max-w-3xl text-base leading-8 text-white/85 md:text-lg">
-              Competitive Coding Club conecta programacion competitiva, hackathons, comunidad e
-              industria para abrir oportunidades reales a la proxima generacion tecnica de El
-              Salvador y la region.
+              Competitive Coding Club conecta programación competitiva, hackathons, comunidad e
+              industria para abrir oportunidades reales a la próxima generación técnica de El
+              Salvador y la región.
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-4">

@@ -3,7 +3,7 @@ import SectionBadge from "./ui/SectionBadge";
 
 type Initiative = {
   line: "Compite" | "Crea";
-  status: "Inscripciones abiertas" | "Proximamente";
+  status: "Inscripciones abiertas" | "Próximamente";
   title: string;
   description: string;
   cta: string;
@@ -17,9 +17,9 @@ const initiatives: Initiative[] = [
   {
     line: "Compite",
     status: "Inscripciones abiertas",
-    title: "Copa Salvadorena de Programacion",
+    title: "Copa Salvadoreña de Programación",
     description:
-      "La iniciativa principal de C3 para impulsar programacion competitiva, pensamiento algoritmico y excelencia tecnica en estudiantes de El Salvador.",
+      "La iniciativa principal de C3 para impulsar programación competitiva, pensamiento algorítmico y excelencia técnica en estudiantes de El Salvador.",
     cta: "Ir a la Copa",
     href: "https://copa.c3.com.sv",
     logo: "/brand/compite-blanco.png",
@@ -28,10 +28,10 @@ const initiatives: Initiative[] = [
   },
   {
     line: "Crea",
-    status: "Proximamente",
+    status: "Próximamente",
     title: "Hackathon de Turismo Creativo I",
     description:
-      "Una iniciativa enfocada en creacion, colaboracion, prototipos y solucion de retos reales desde tecnologia, turismo y cultura.",
+      "Una iniciativa enfocada en creación, colaboración, prototipos y solución de retos reales desde código, turismo y cultura.",
     cta: "Ver hackathon",
     href: "https://hackathon.c3.com.sv",
     logo: "/brand/crea-blanco.png",
@@ -41,11 +41,11 @@ const initiatives: Initiative[] = [
 ];
 
 const stats = [
-  { value: "+60", label: "miembros de comunidad", accent: "#205298" },
+  { value: "+60", label: "miembros de la comunidad", accent: "#205298" },
   { value: "+150", label: "personas alcanzadas", accent: "#33BEAC" },
   { value: "+130", label: "participantes en Copa 2025", accent: "#4F5BA9" },
   { value: "5+", label: "eventos organizados o apoyados", accent: "#46B8A8" },
-  { value: "2024", label: "fundacion", accent: "#2C519B" },
+  { value: "2024", label: "fundación", accent: "#2C519B" },
 ];
 
 export default function MissionVisionSection() {
@@ -60,11 +60,11 @@ export default function MissionVisionSection() {
           <div className="absolute left-[-6rem] top-[5rem] h-60 w-60 rounded-full border border-white/12" />
         </div>
         <div className="container-shell relative space-y-8">
-          <SectionBadge label="Lo proximo en C3" />
+          <SectionBadge label="Lo próximo en C3" />
           <div>
-            <h2 className="text-3xl font-bold text-white md:text-5xl">Proximas iniciativas</h2>
+            <h2 className="text-3xl font-bold text-white md:text-5xl">Próximas iniciativas</h2>
             <p className="mt-3 max-w-3xl text-base leading-8 text-white/78 md:text-lg">
-              Dos iniciativas activas marcan el siguiente ciclo de crecimiento tecnico joven en C3.
+              Dos iniciativas activas marcan el siguiente ciclo de crecimiento técnico joven en C3.
             </p>
           </div>
           <div className="grid gap-6 lg:grid-cols-2">
@@ -116,7 +116,7 @@ export default function MissionVisionSection() {
                   >
                     <Image
                       src={initiative.logo}
-                      alt={`Identidad visual de la linea ${initiative.line}`}
+                      alt={`Identidad visual de la línea ${initiative.line}`}
                       fill
                       className="object-contain p-2"
                     />
@@ -131,7 +131,7 @@ export default function MissionVisionSection() {
 
       <section className="section-divider bg-[#101A31] py-16 text-white md:py-20">
         <div className="container-shell space-y-7">
-          <SectionBadge label="Impacto inicial" />
+          {/*<SectionBadge label="Impacto inicial" />*/}
           <div className="flex flex-wrap items-end justify-between gap-4">
             <h3 className="text-3xl font-bold md:text-4xl">Datos que respaldan el avance de C3</h3>
             <p className="text-sm uppercase tracking-[0.14em] text-white/70">Actualizado a mayo 2026</p>
