@@ -2,11 +2,10 @@
   name: "C3",
   fullName: "Competitive Coding Club",
   displayName: "C3 | Competitive Coding Club",
-  homepageTitle: "C3 | Competitive Coding Club - Compite. Crea. Conecta.",
+  homepageTitle: "C3 | Competitive Coding Club — Compite. Crea. Conecta.",
   domain: "https://c3.com.sv",
   locale: "es_SV",
-  language: "es",
-  foundingDate: "2024-10-24",
+  language: "es-SV",
   region: "El Salvador",
   projection: "Centroamérica",
   tagline: "Compite. Crea. Conecta.",
@@ -15,16 +14,17 @@
   vision:
     "Ser el referente regional de una nueva generación técnica con pertenencia, oportunidades e impacto.",
   description:
-    "C3 desarrolla talento técnico joven conectando programación competitiva, hackathons, comunidad, formación e industria en El Salvador y la región.",
+    "C3 desarrolla talento técnico joven conectando programación competitiva, hackathons, comunidad, instituciones e industria en El Salvador y la región.",
   shortDescription:
-    "C3 / Competitive Coding Club es una plataforma de desarrollo de talento técnico joven que conecta programación competitiva, hackathons, comunidad, formación, industria y oportunidades reales bajo el enfoque Compite. Crea. Conecta.",
+    "C3 / Competitive Coding Club es una plataforma institucional de talento técnico joven que conecta competencia, creación y oportunidades reales en El Salvador y la región.",
   englishDescription:
-    "C3 / Competitive Coding Club develops young technical talent by connecting competitive programming, hackathons, community, training, industry and real opportunities under the framework Compite. Crea. Conecta.",
+    "C3 / Competitive Coding Club develops young technical talent by connecting competitive programming, hackathons, community, institutions, industry and real opportunities from El Salvador to the region.",
   keywords: [
     "C3",
     "C3 El Salvador",
     "Competitive Coding Club",
     "Competitive Coding Club El Salvador",
+    "Programación competitiva",
     "programación competitiva El Salvador",
     "talento técnico joven",
     "comunidad tecnológica El Salvador",
@@ -33,13 +33,15 @@
     "eventos de tecnología El Salvador",
     "Copa de Programación",
     "Copa Salvadoreña de Programación",
-    "Festival de Código",
-    "Hackathon de Turismo Creativo",
+    "Hackathon de Turismo Creativo I",
+    "Duelo de Programación C3 · Software Week ESEN 2025",
     "ICPC El Salvador",
     "tecnología Centroamérica",
     "comunidad de programación",
     "jóvenes programadores El Salvador",
     "talento tecnológico Centroamérica",
+    "Próximamente",
+    "Inscripciones abiertas",
   ],
   social: {
     instagram: "https://www.instagram.com/c3.elsalvador",
@@ -52,25 +54,23 @@
     main: "https://c3.com.sv",
     copa: "https://copa.c3.com.sv",
     hackathon: "https://hackathon.c3.com.sv",
-    festival: "https://festival.c3.com.sv",
   },
   lines: {
     compite: {
       name: "Compite",
       description:
-        "Programación competitiva, ICPC, entrenamientos, rankings, problemas y retos.",
+        "Programación competitiva, ICPC, entrenamientos, excelencia técnica y Copa Salvadoreña de Programación.",
     },
     crea: {
       name: "Crea",
       description:
-        "Hackathons, builders, software, proyectos, prototipos, innovación y producto.",
+        "Hackathons, prototipos, builders, software y proyectos tecnológicos para resolver retos reales.",
     },
     conecta: {
       name: "Conecta",
       description:
-        "Comunidad, networking, industria, mentoría, speakers, oportunidades y alianzas.",
+        "Comunidad, netowrking, instituciones, industria, aliados, sponsors, mentoría y oportunidades reales.",
     },
   },
   defaultOgImage: "/og-image.png",
 } as const;
-

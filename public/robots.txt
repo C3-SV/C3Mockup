@@ -5,5 +5,11 @@ Disallow: /internal/
 Disallow: /private/
 Disallow: /api/
 
-Host: c3.com.sv
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /auth/
+Disallow: /preview/
+Disallow: /test/
+
 Sitemap: https://c3.com.sv/sitemap.xml

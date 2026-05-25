@@ -1,30 +1,38 @@
-﻿import { faqItems, publicRoutes } from "@/lib/content";
+import { faqItems, publicRoutes } from "@/lib/content";
 import { siteConfig } from "@/lib/site";
 
 type WebPageType = "WebPage" | "AboutPage" | "CollectionPage" | "FAQPage" | "ContactPage";
 
+const organizationId = `${siteConfig.domain}/#organization`;
+const websiteId = `${siteConfig.domain}/#website`;
+
 export const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: siteConfig.displayName,
+  "@id": organizationId,
+  name: "C3 / Competitive Coding Club",
   alternateName: siteConfig.fullName,
   url: siteConfig.domain,
   email: siteConfig.contact.email,
   logo: `${siteConfig.domain}/brand/logo-c3-fondo-azul.png`,
-  foundingDate: siteConfig.foundingDate,
+  slogan: siteConfig.tagline,
+  areaServed: siteConfig.region,
   sameAs: [siteConfig.social.instagram, siteConfig.social.linkedin],
 };
 
 export const websiteJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  name: siteConfig.displayName,
+  "@id": websiteId,
+  name: "C3 / Competitive Coding Club",
   url: siteConfig.domain,
   inLanguage: "es-SV",
   description: siteConfig.description,
   publisher: {
     "@type": "Organization",
-    name: siteConfig.displayName,
+    "@id": organizationId,
+    name: "C3 / Competitive Coding Club",
+    url: siteConfig.domain,
   },
 };
 
@@ -42,17 +50,20 @@ export function getWebPageJsonLd({
   return {
     "@context": "https://schema.org",
     "@type": type,
+    "@id": `${siteConfig.domain}${path}#webpage`,
     name: title,
     description,
     url: `${siteConfig.domain}${path}`,
     isPartOf: {
       "@type": "WebSite",
-      name: siteConfig.displayName,
+      "@id": websiteId,
+      name: "C3 / Competitive Coding Club",
       url: siteConfig.domain,
     },
     about: {
       "@type": "Organization",
-      name: siteConfig.displayName,
+      "@id": organizationId,
+      name: "C3 / Competitive Coding Club",
       url: siteConfig.domain,
     },
     inLanguage: "es-SV",
@@ -69,9 +80,9 @@ export function getContactPageJsonLd(path: string, title: string, description: s
     contactPoint: [
       {
         "@type": "ContactPoint",
-        contactType: "customer support",
+        contactType: "Consultas generales",
         email: siteConfig.contact.email,
-        availableLanguage: ["Spanish"],
+        availableLanguage: ["es-SV"],
       },
     ],
   };
@@ -96,9 +107,10 @@ export function getItemListJsonLd(
       position: index + 1,
       url: item.url,
       item: {
-        "@type": "Event",
+        "@type": "Thing",
         name: item.name,
         description: item.description,
+        url: item.url,
       },
     })),
   };
@@ -136,6 +148,15 @@ export function getFaqPageJsonLd(path: string, title: string, description: strin
 }
 
 export function getBreadcrumbJsonLd(path: string) {
+  const routeLabels: Record<string, string> = {
+    "que-es-c3": "Qué es C3",
+    compite: "Compite",
+    crea: "Crea",
+    conecta: "Conecta",
+    eventos: "Eventos",
+    faq: "FAQ",
+    contacto: "Contacto",
+  };
   const routeParts = path.split("/").filter(Boolean);
   const items: Array<{
     "@type": "ListItem";
@@ -155,7 +176,7 @@ export function getBreadcrumbJsonLd(path: string) {
     items.push({
       "@type": "ListItem",
       position: index + 2,
-      name: segment,
+      name: routeLabels[segment] ?? segment,
       item: `${siteConfig.domain}/${routeParts.slice(0, index + 1).join("/")}`,
     });
   });
@@ -168,15 +189,25 @@ export function getBreadcrumbJsonLd(path: string) {
 }
 
 export function getSiteNavigationJsonLd() {
+  const routeLabels: Record<(typeof publicRoutes)[number], string> = {
+    "/": "Inicio",
+    "/que-es-c3": "Qué es C3",
+    "/compite": "Compite",
+    "/crea": "Crea",
+    "/conecta": "Conecta",
+    "/eventos": "Eventos",
+    "/faq": "FAQ",
+    "/contacto": "Contacto",
+  };
+
   return {
     "@context": "https://schema.org",
     "@type": "ItemList",
     itemListElement: publicRoutes.map((route, index) => ({
       "@type": "SiteNavigationElement",
       position: index + 1,
-      name: route === "/" ? "Inicio" : route.replace("/", ""),
+      name: routeLabels[route],
       url: `${siteConfig.domain}${route}`,
     })),
   };
 }
-

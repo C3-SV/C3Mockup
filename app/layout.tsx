@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Montserrat, Poppins } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import SeoJsonLd from "@/components/SeoJsonLd";
-import { organizationJsonLd, websiteJsonLd } from "@/lib/structured-data";
+import { getSiteNavigationJsonLd, organizationJsonLd, websiteJsonLd } from "@/lib/structured-data";
 import { siteConfig } from "@/lib/site";
 import "./globals.css";
 
@@ -20,21 +20,24 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.domain),
+  applicationName: siteConfig.displayName,
   title: siteConfig.homepageTitle,
   description: siteConfig.description,
   keywords: [...siteConfig.keywords],
-  authors: [{ name: siteConfig.name }],
-  creator: siteConfig.name,
-  publisher: siteConfig.name,
+  authors: [{ name: siteConfig.displayName }],
+  creator: siteConfig.displayName,
+  publisher: siteConfig.displayName,
+  category: "technology",
+  manifest: "/manifest.webmanifest",
   icons: {
     icon: [
+      { url: "/favicon.ico" },
       { url: "/icon.svg", type: "image/svg+xml" },
-      { url: "/icon-48.png", sizes: "48x48", type: "image/png" },
-      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
-      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+      { url: "/icon-192.png", type: "image/png", sizes: "192x192" },
+      { url: "/icon-512.png", type: "image/png", sizes: "512x512" },
     ],
-    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
-    shortcut: ["/favicon.ico"],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+    shortcut: "/favicon.ico",
   },
   alternates: {
     canonical: "/",
@@ -43,14 +46,14 @@ export const metadata: Metadata = {
     type: "website",
     locale: siteConfig.locale,
     url: siteConfig.domain,
-    siteName: siteConfig.name,
+    siteName: siteConfig.displayName,
     title: siteConfig.homepageTitle,
     description: siteConfig.description,
     images: [
       {
-        url: siteConfig.defaultOgImage,
-        width: 1200,
-        height: 630,
+        url: `${siteConfig.domain}${siteConfig.defaultOgImage}`,
+        width: 3508,
+        height: 2481,
         alt: siteConfig.homepageTitle,
       },
     ],
@@ -59,7 +62,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: siteConfig.homepageTitle,
     description: siteConfig.description,
-    images: [siteConfig.defaultOgImage],
+    images: [`${siteConfig.domain}${siteConfig.defaultOgImage}`],
   },
   robots: {
     index: true,
@@ -81,6 +84,7 @@ export default function RootLayout({
         {children}
         <SeoJsonLd data={organizationJsonLd} />
         <SeoJsonLd data={websiteJsonLd} />
+        <SeoJsonLd data={getSiteNavigationJsonLd()} />
         <Analytics />
       </body>
     </html>

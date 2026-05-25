@@ -3,28 +3,39 @@ import LinePageTemplate from "@/components/LinePageTemplate";
 import PageShell from "@/components/PageShell";
 import SeoJsonLd from "@/components/SeoJsonLd";
 import { linePageContent } from "@/lib/content";
-import { getWebPageJsonLd } from "@/lib/structured-data";
+import { createPageMetadata } from "@/lib/metadata";
+import { getBreadcrumbJsonLd, getWebPageJsonLd } from "@/lib/structured-data";
 import { siteConfig } from "@/lib/site";
 
 const seo = linePageContent.compite;
+const ogImage = `${siteConfig.domain}/brand/compite-blanco.png`;
 
-export const metadata: Metadata = {
+const baseMetadata = createPageMetadata({
   title: seo.seoTitle,
   description: seo.seoDescription,
-  alternates: {
-    canonical: "/compite",
-  },
+  path: "/compite",
+  keywords: [
+    "programación competitiva El Salvador",
+    "Copa Salvadoreña de Programación",
+    "ICPC El Salvador",
+    "entrenamientos programación",
+  ],
+});
+
+export const metadata: Metadata = {
+  ...baseMetadata,
   openGraph: {
-    title: seo.seoTitle,
-    description: seo.seoDescription,
-    url: `${siteConfig.domain}/compite`,
-    images: [siteConfig.defaultOgImage],
+    ...baseMetadata.openGraph,
+    images: [
+      {
+        url: ogImage,
+        alt: seo.seoTitle,
+      },
+    ],
   },
   twitter: {
-    card: "summary_large_image",
-    title: seo.seoTitle,
-    description: seo.seoDescription,
-    images: [siteConfig.defaultOgImage],
+    ...baseMetadata.twitter,
+    images: [ogImage],
   },
 };
 
@@ -34,11 +45,12 @@ export default function CompitePage() {
       <SeoJsonLd
         data={getWebPageJsonLd({
           path: "/compite",
-          title: "Compite",
+          title: seo.seoTitle,
           description: seo.seoDescription,
           type: "WebPage",
         })}
       />
+      <SeoJsonLd data={getBreadcrumbJsonLd("/compite")} />
       <LinePageTemplate line="compite" />
     </PageShell>
   );

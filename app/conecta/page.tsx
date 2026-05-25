@@ -3,28 +3,40 @@ import LinePageTemplate from "@/components/LinePageTemplate";
 import PageShell from "@/components/PageShell";
 import SeoJsonLd from "@/components/SeoJsonLd";
 import { linePageContent } from "@/lib/content";
-import { getWebPageJsonLd } from "@/lib/structured-data";
+import { createPageMetadata } from "@/lib/metadata";
+import { getBreadcrumbJsonLd, getWebPageJsonLd } from "@/lib/structured-data";
 import { siteConfig } from "@/lib/site";
 
 const seo = linePageContent.conecta;
+const ogImage = `${siteConfig.domain}/brand/conecta-blanco.png`;
 
-export const metadata: Metadata = {
+const baseMetadata = createPageMetadata({
   title: seo.seoTitle,
   description: seo.seoDescription,
-  alternates: {
-    canonical: "/conecta",
-  },
+  path: "/conecta",
+  keywords: [
+    "comunidad tecnológica El Salvador",
+    "talento técnico joven",
+    "sponsors tecnología",
+    "alianzas educativas",
+    "industria tecnológica",
+  ],
+});
+
+export const metadata: Metadata = {
+  ...baseMetadata,
   openGraph: {
-    title: seo.seoTitle,
-    description: seo.seoDescription,
-    url: `${siteConfig.domain}/conecta`,
-    images: [siteConfig.defaultOgImage],
+    ...baseMetadata.openGraph,
+    images: [
+      {
+        url: ogImage,
+        alt: seo.seoTitle,
+      },
+    ],
   },
   twitter: {
-    card: "summary_large_image",
-    title: seo.seoTitle,
-    description: seo.seoDescription,
-    images: [siteConfig.defaultOgImage],
+    ...baseMetadata.twitter,
+    images: [ogImage],
   },
 };
 
@@ -34,11 +46,12 @@ export default function ConectaPage() {
       <SeoJsonLd
         data={getWebPageJsonLd({
           path: "/conecta",
-          title: "Conecta",
+          title: seo.seoTitle,
           description: seo.seoDescription,
           type: "WebPage",
         })}
       />
+      <SeoJsonLd data={getBreadcrumbJsonLd("/conecta")} />
       <LinePageTemplate line="conecta" />
     </PageShell>
   );

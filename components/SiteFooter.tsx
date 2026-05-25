@@ -19,7 +19,7 @@ const socialLinks = [
 const satelliteLinks = [
   {
     href: siteConfig.sites.copa,
-    label: "Copa Salvadorena de Programacion",
+    label: "Copa Salvadoreña de Programación",
   },
   {
     href: siteConfig.sites.hackathon,

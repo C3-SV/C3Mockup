@@ -4,7 +4,8 @@ import C3SectionTransition from "@/components/C3SectionTransition";
 import PageShell from "@/components/PageShell";
 import C3BackgroundLayer from "@/components/backgrounds/C3BackgroundLayer";
 import SeoJsonLd from "@/components/SeoJsonLd";
-import { getContactPageJsonLd } from "@/lib/structured-data";
+import { createPageMetadata } from "@/lib/metadata";
+import { getBreadcrumbJsonLd, getContactPageJsonLd } from "@/lib/structured-data";
 import { siteConfig } from "@/lib/site";
 import { FaInstagram, FaLinkedinIn } from "react-icons/fa";
 import { FiMail } from "react-icons/fi";
@@ -66,30 +67,23 @@ const eventHelpCards = [
   },
 ] as const;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: seoTitle,
   description: seoDescription,
-  alternates: {
-    canonical: "/contacto",
-  },
-  openGraph: {
-    title: seoTitle,
-    description: seoDescription,
-    url: `${siteConfig.domain}/contacto`,
-    images: [siteConfig.defaultOgImage],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: seoTitle,
-    description: seoDescription,
-    images: [siteConfig.defaultOgImage],
-  },
-};
+  path: "/contacto",
+  keywords: [
+    "contacto C3",
+    "contactar Competitive Coding Club",
+    "alianzas C3",
+    "sponsors C3",
+  ],
+});
 
 export default function ContactoPage() {
   return (
     <PageShell backgroundClassName="bg-[#F4F7FB]">
       <SeoJsonLd data={getContactPageJsonLd("/contacto", seoTitle, seoDescription)} />
+      <SeoJsonLd data={getBreadcrumbJsonLd("/contacto")} />
 
       <section className="relative overflow-hidden bg-[#0F203E] py-16 text-white md:py-20">
         <C3BackgroundLayer variant="dots" line="brand" intensity="low" mask="bottom" className="opacity-85" />
