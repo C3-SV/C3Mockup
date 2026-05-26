@@ -201,7 +201,7 @@ export const teamLeaders: TeamLeader[] = [
     linkedinHref: "https://www.linkedin.com/in/rodrigo-l%C3%B3pez-/"
   },
   {
-    name: "Celeste",
+    name: "Celeste Aparicio",
     role: "Operations Co-Lead",
     photoSrc: "/team_members/team_c3_celeste.jpeg",
     photoAlt: "Celeste del equipo C3",
