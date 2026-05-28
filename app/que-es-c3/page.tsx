@@ -47,12 +47,73 @@ export default function QueEsC3Page() {
       <section className="section-divider bg-[#F4F7FB] py-16 text-[#0F203E] md:py-20">
         <div className="container-shell space-y-6">
           <article className="rounded-3xl border border-[#d5deea] bg-white p-7 shadow-[0_12px_30px_rgba(15,32,62,0.08)]">
-            <h2 className="text-2xl font-bold">Historia breve</h2>
-            <p className="mt-3 text-sm leading-7 text-[#364765]">
-              C3 nace desde la experiencia de programación competitiva en ESEN y evoluciona hacia
-              una plataforma institucional que integra eventos, comunidad, hackathons y conexión
-              con industria para abrir oportunidades reales.
-            </p>
+            <div className="space-y-8">
+              <div className="space-y-3">
+                <h2 className="text-2xl font-bold">Qué es C3</h2>
+                <p className="text-sm leading-7 text-[#364765]">
+                  C3 / Competitive Coding Club es una plataforma institucional de talento técnico
+                  joven que conecta competencia, creación y oportunidades reales para estudiantes,
+                  comunidades y aliados que quieren impulsar el ecosistema tecnológico.
+                </p>
+                <p className="text-sm leading-7 text-[#364765]">
+                  Nuestro enfoque une programación competitiva, hackathons, comunidad, formación e
+                  industria en una misma experiencia. La meta es que aprender, practicar, construir
+                  y participar en retos de alto nivel se sientan como parte del mismo camino.
+                </p>
+              </div>
+
+              <div className="space-y-3 border-t border-[#e4ebf3] pt-8">
+                <h2 className="text-2xl font-bold">Historia de C3</h2>
+                <p className="text-sm leading-7 text-[#364765]">
+                  La idea de C3 nació en 2024, durante nuestro primer año en ESEN. Junto a Roberto
+                  Polanco y Óscar Pleités, compartíamos experiencia en programación competitiva y
+                  tecnología, pero también una búsqueda en común: crear un espacio donde más
+                  personas pudieran acercarse a estos temas, aprender, practicar y competir en
+                  grandes eventos.
+                </p>
+                <p className="text-sm leading-7 text-[#364765]">
+                  No empezamos con una gran estructura ni con un plan perfecto. Comenzamos con una
+                  idea sencilla y honesta: compartir lo que ya habíamos aprendido, entrenar con
+                  otras personas y construir un espacio que hacía falta, uno que a nosotros también
+                  nos hubiera gustado encontrar antes.
+                </p>
+                <p className="text-sm leading-7 text-[#364765]">
+                  Con el tiempo entendimos que hacía falta algo más amplio. No bastaba con entrenar;
+                  también era necesario crear espacios donde los jóvenes pudieran competir, descubrir
+                  su talento y tener un primer acercamiento real al mundo de la tecnología. Así
+                  comenzamos a ampliar el equipo, sumando amigos como Rodrigo López, Fiorella
+                  Guzmán, Celeste Aparicio y varios compañeros de distintas carreras, con perfiles
+                  diferentes, ideas nuevas y muchas ganas de construir.
+                </p>
+                <p className="text-sm leading-7 text-[#364765]">
+                  Con ese esfuerzo colectivo realizamos la primera edición de la Copa Salvadoreña de
+                  Programación en mayo y junio de 2025. Ese primer gran evento nos cambió la forma
+                  de ver a C3: al reunir a tantos jóvenes de distintos colegios y universidades,
+                  vimos de cerca la emoción de competir, la alegría de resolver un problema y la
+                  satisfacción de descubrir que sí eran capaces de enfrentar grandes desafíos.
+                </p>
+                <p className="text-sm leading-7 text-[#364765]">
+                  Desde entonces, C3 empezó a crecer más allá de la programación competitiva.
+                  Comenzamos a construir comunidad con quienes habían participado en nuestros
+                  eventos, a conectar con patrocinadores, empresas, aliados y otras comunidades, y a
+                  abrir nuevas formas de crear proyectos, compartir conocimiento y generar
+                  oportunidades. Así nació una visión más amplia: competir, crear y conectar.
+                </p>
+                <p className="text-sm leading-7 text-[#364765]">
+                  C3 existe porque creemos en el talento joven. Porque lo hemos visto de cerca.
+                  Porque sabemos que, cuando una persona encuentra el espacio correcto, una comunidad
+                  que la acompaña y un reto que la empuja a crecer, pueden pasar cosas increíbles.
+                </p>
+                <p className="text-sm leading-7 text-[#364765]">
+                  Si alguna vez has querido aprender, competir, crear, conectar o simplemente
+                  encontrar un lugar donde tu talento pueda crecer, este espacio también es para ti.
+                </p>
+                <p className="pt-2 text-sm font-semibold leading-7 text-[#0F203E]">
+                  <strong>Bienvenido/a a C3.</strong>
+                </p>
+                <p className="text-sm leading-7 text-[#5c6a82]">— Christopher Marroquín</p>
+              </div>
+            </div>
           </article>
 
           <div className="grid gap-5 md:grid-cols-2">
@@ -94,7 +155,7 @@ export default function QueEsC3Page() {
               Equipo líder
             </h2>
             <p className="text-base leading-8 text-[#364765] md:text-lg">
-              Las personas que hacen que el C3 sea posible. 
+              Las personas que hacen que el C3 sea posible.
             </p>
           </div>
 
@@ -135,7 +196,7 @@ export default function QueEsC3Page() {
                     aria-label={`${member.name} en LinkedIn`}
                     title="LinkedIn"
                     className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#d5deea] bg-white text-[#205298] transition hover:border-[#205298] hover:bg-[#eef4fb]"
-                    >
+                  >
                     <FaLinkedinIn size={14} aria-hidden="true" />
                   </a>
 
