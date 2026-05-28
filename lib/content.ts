@@ -252,6 +252,7 @@ export const teamLeaders: TeamLeader[] = [
   {
     name: "Daniela Ayala",
     role: "Finance Lead",
+    photoSrc: "/team_members/team_c3_daniela.jpeg",
     photoAlt: "Daniela del equipo C3",
     linkedinHref: "https://www.linkedin.com/in/daniela-ayala-m/",
   },
