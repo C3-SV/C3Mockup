@@ -1,18 +1,24 @@
 import Link from "next/link";
 import { FaInstagram, FaLinkedinIn } from "react-icons/fa";
+import { FaTiktok } from "react-icons/fa6";
 import { ecosystemNavigation, mainNavigation } from "@/lib/content";
 import { siteConfig } from "@/lib/site";
 
 const socialLinks = [
+  {
+    href: siteConfig.social.linkedin,
+    label: "LinkedIn de C3",
+    icon: FaLinkedinIn,
+  },
   {
     href: siteConfig.social.instagram,
     label: "Instagram de C3",
     icon: FaInstagram,
   },
   {
-    href: siteConfig.social.linkedin,
-    label: "LinkedIn de C3",
-    icon: FaLinkedinIn,
+    href: siteConfig.social.tiktok,
+    label: "TikTok de C3",
+    icon: FaTiktok,
   },
 ];
 

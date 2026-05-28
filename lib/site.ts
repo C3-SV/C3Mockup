@@ -44,8 +44,9 @@
     "Inscripciones abiertas",
   ],
   social: {
-    instagram: "https://www.instagram.com/c3.elsalvador",
     linkedin: "https://www.linkedin.com/company/c3-sv",
+    instagram: "https://www.instagram.com/c3.elsalvador",
+    tiktok: "https://www.tiktok.com/@c3.elsalvador",
   },
   contact: {
     email: "competitivecodingclub.sv@gmail.com",

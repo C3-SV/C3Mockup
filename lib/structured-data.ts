@@ -17,7 +17,7 @@ export const organizationJsonLd = {
   logo: `${siteConfig.domain}/brand/logo-c3-fondo-azul.png`,
   slogan: siteConfig.tagline,
   areaServed: siteConfig.region,
-  sameAs: [siteConfig.social.instagram, siteConfig.social.linkedin],
+  sameAs: [siteConfig.social.linkedin, siteConfig.social.instagram, siteConfig.social.tiktok],
 };
 
 export const websiteJsonLd = {
