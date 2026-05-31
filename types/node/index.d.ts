@@ -7,6 +7,7 @@ declare namespace NodeJS {
 declare var process: {
   env: NodeJS.ProcessEnv;
   cwd(): string;
+  exitCode?: number;
 };
 
 declare const __dirname: string;

@@ -20,6 +20,7 @@ export type EventItem = {
   cta: string;
   href: string;
   external?: boolean;
+  featured?: boolean;
 };
 
 export const defaultEvents: EventItem[] = [
@@ -33,6 +34,7 @@ export const defaultEvents: EventItem[] = [
     cta: "Ir a la Copa",
     href: "https://copa.c3.com.sv",
     external: true,
+    featured: true,
   },
   {
     id: "hackathon-turismo-creativo-i",
@@ -44,6 +46,7 @@ export const defaultEvents: EventItem[] = [
     cta: "Ver hackathon",
     href: "https://hackathon.c3.com.sv",
     external: true,
+    featured: true,
   },
   {
     id: "icpc-centroamerica-el-salvador",
@@ -95,5 +98,8 @@ export function normalizeEventStatus(input: unknown): EventStatus {
 }
 
 export function toFirestoreEventDocument(event: EventItem): FirestoreEventDocument {
-  return { ...event };
+  return {
+    ...event,
+    featured: Boolean(event.featured),
+  };
 }

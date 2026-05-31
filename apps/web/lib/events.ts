@@ -75,6 +75,7 @@ function parseEventDoc(docId: string, data: Record<string, unknown>): EventItem 
     cta,
     href,
     external: Boolean(data.external),
+    featured: Boolean(data.featured),
   };
 }
 

@@ -2,6 +2,18 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { onAuthStateChanged, signInWithPopup, signOut } from "firebase/auth";
+import {
+  FiAlertCircle,
+  FiEdit3,
+  FiLayers,
+  FiLogOut,
+  FiPlus,
+  FiRefreshCw,
+  FiSave,
+  FiShield,
+  FiStar,
+  FiTrash2,
+} from "react-icons/fi";
 import { Badge, Button, Card } from "@c3/ui";
 import {
   eventStatuses,
@@ -32,6 +44,50 @@ type EventDraft = {
   cta: string;
   href: string;
   external: boolean;
+  featured: boolean;
+};
+
+type LineMeta = {
+  key: LineKey;
+  label: string;
+  description: string;
+  ring: string;
+  background: string;
+  text: string;
+};
+
+const lineMeta: Record<LineKey, LineMeta> = {
+  compite: {
+    key: "compite",
+    label: "Compite",
+    description: "Competencia y rendimiento",
+    ring: "border-[#205298]/30",
+    background: "bg-[#205298]/10",
+    text: "text-[#205298]",
+  },
+  crea: {
+    key: "crea",
+    label: "Crea",
+    description: "Construccion y prototipos",
+    ring: "border-[#33BEAC]/30",
+    background: "bg-[#33BEAC]/10",
+    text: "text-[#167a68]",
+  },
+  conecta: {
+    key: "conecta",
+    label: "Conecta",
+    description: "Comunidad y alianzas",
+    ring: "border-[#4F5BA9]/30",
+    background: "bg-[#4F5BA9]/10",
+    text: "text-[#4F5BA9]",
+  },
+};
+
+const statusStyle: Record<EventStatus, string> = {
+  [eventStatuses[0]]: "border-[#b9eadf] bg-[#ecfdf5] text-[#0f7a5f]",
+  [eventStatuses[1]]: "border-[#d8e2f0] bg-[#f4f7fb] text-[#42526b]",
+  [eventStatuses[2]]: "border-[#e6d8fa] bg-[#f8f3ff] text-[#6b3fd4]",
+  [eventStatuses[3]]: "border-[#d4e1f5] bg-[#eef4ff] text-[#205298]",
 };
 
 const emptyDraft: EventDraft = {
@@ -39,10 +95,11 @@ const emptyDraft: EventDraft = {
   title: "",
   description: "",
   lines: ["compite"],
-  status: "Próximamente",
+  status: eventStatuses[1],
   cta: "",
   href: "",
   external: false,
+  featured: false,
 };
 
 function slugify(value: string) {
@@ -66,6 +123,7 @@ function toDraft(event: EventItem): EventDraft {
     cta: event.cta,
     href: event.href,
     external: Boolean(event.external),
+    featured: Boolean(event.featured),
   };
 }
 
@@ -77,11 +135,7 @@ function buildDraftId(draft: EventDraft, isEditing: boolean) {
   return draft.id.trim() || slugify(draft.title);
 }
 
-async function fetchWithAuth<T>(
-  path: string,
-  token: string,
-  init: RequestInit = {},
-): Promise<T> {
+async function fetchWithAuth<T>(path: string, token: string, init: RequestInit = {}): Promise<T> {
   const response = await fetch(path, {
     ...init,
     headers: {
@@ -103,6 +157,18 @@ async function fetchWithAuth<T>(
   return data as T;
 }
 
+function lineLabel(line: LineKey) {
+  return lineMeta[line];
+}
+
+function compareEvents(a: EventItem, b: EventItem) {
+  if (Boolean(a.featured) !== Boolean(b.featured)) {
+    return Number(Boolean(b.featured)) - Number(Boolean(a.featured));
+  }
+
+  return a.title.localeCompare(b.title);
+}
+
 export function AdminDashboard() {
   const firebaseReady = isFirebaseConfigured();
   const [session, setSession] = useState<AdminSession | null>(null);
@@ -114,9 +180,14 @@ export function AdminDashboard() {
   const [draft, setDraft] = useState<EventDraft>(emptyDraft);
   const [message, setMessage] = useState<DashboardMessage>({ kind: "idle", text: "" });
 
+  const orderedEvents = useMemo(() => [...events].sort(compareEvents), [events]);
+  const featuredCount = useMemo(
+    () => events.reduce((count, event) => count + Number(Boolean(event.featured)), 0),
+    [events],
+  );
   const selectedEvent = useMemo(
-    () => events.find((event) => event.id === selectedEventId) ?? null,
-    [events, selectedEventId],
+    () => orderedEvents.find((event) => event.id === selectedEventId) ?? null,
+    [orderedEvents, selectedEventId],
   );
 
   useEffect(() => {
@@ -163,7 +234,7 @@ export function AdminDashboard() {
           text:
             error instanceof Error
               ? error.message
-              : "No pudimos validar la sesión de administración.",
+              : "No pudimos validar la sesion de administracion.",
         });
         await signOut(auth);
       } finally {
@@ -225,7 +296,7 @@ export function AdminDashboard() {
       console.error("Google sign-in failed:", error);
       setMessage({
         kind: "error",
-        text: error instanceof Error ? error.message : "No pudimos iniciar sesión con Google.",
+        text: error instanceof Error ? error.message : "No pudimos iniciar sesion con Google.",
       });
     }
   }
@@ -238,7 +309,7 @@ export function AdminDashboard() {
       console.error("Sign out failed:", error);
       setMessage({
         kind: "error",
-        text: error instanceof Error ? error.message : "No pudimos cerrar la sesión.",
+        text: error instanceof Error ? error.message : "No pudimos cerrar la sesion.",
       });
     }
   }
@@ -335,7 +406,7 @@ export function AdminDashboard() {
       return;
     }
 
-    const confirmed = window.confirm("¿Seguro que querés borrar este evento?");
+    const confirmed = window.confirm("Seguro que queres borrar este evento?");
     if (!confirmed) {
       return;
     }
@@ -366,17 +437,23 @@ export function AdminDashboard() {
   if (!firebaseReady) {
     return (
       <section className="container-shell py-10 md:py-14">
-        <Card className="p-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#5c6a82]">C3 Admin</p>
-          <h1 className="mt-3 text-3xl font-bold">Falta configurar Firebase</h1>
-          <p className="mt-3 max-w-2xl text-sm leading-7 text-[#364765]">
-            El panel está listo, pero necesita las variables `NEXT_PUBLIC_FIREBASE_*` para
-            autenticar con Google y acceder a Firestore.
-          </p>
-          <p className="mt-4 text-sm text-[#5c6a82]">
-            Revisa <code className="rounded bg-[#eef3f9] px-2 py-1">apps/admin/.env.example</code>
-            para completar la configuración.
-          </p>
+        <Card className="overflow-hidden">
+          <div className="bg-gradient-to-r from-[#0F203E] via-[#205298] to-[#33BEAC] px-6 py-5 text-white">
+            <div className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.2em] text-white/75">
+              <FiShield /> C3 Admin
+            </div>
+            <h1 className="mt-3 text-3xl font-bold">Falta configurar Firebase</h1>
+          </div>
+          <div className="space-y-3 px-6 py-6">
+            <p className="max-w-2xl text-sm leading-7 text-[#364765]">
+              El panel esta listo, pero necesita las variables `NEXT_PUBLIC_FIREBASE_*` para
+              autenticar con Google y acceder a Firestore.
+            </p>
+            <p className="text-sm text-[#5c6a82]">
+              Revisa <code className="rounded bg-[#eef3f9] px-2 py-1">apps/admin/.env.example</code>{" "}
+              para completar la configuracion.
+            </p>
+          </div>
         </Card>
       </section>
     );
@@ -386,7 +463,7 @@ export function AdminDashboard() {
     return (
       <section className="container-shell py-10 md:py-14">
         <Card className="p-8">
-          <p className="text-sm text-[#5c6a82]">Cargando sesión de administración...</p>
+          <p className="text-sm text-[#5c6a82]">Cargando sesion de administracion...</p>
         </Card>
       </section>
     );
@@ -395,30 +472,46 @@ export function AdminDashboard() {
   if (!session) {
     return (
       <section className="container-shell py-10 md:py-14">
-        <Card className="grid gap-6 p-8 md:grid-cols-[1.1fr_0.9fr] md:items-center">
-          <div className="space-y-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#5c6a82]">
-              C3 Admin
+        <Card className="grid gap-6 overflow-hidden md:grid-cols-[1.1fr_0.9fr] md:items-center">
+          <div className="bg-gradient-to-br from-[#0F203E] via-[#17335f] to-[#205298] p-8 text-white">
+            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/70">
+              <FiShield /> C3 Admin
+            </div>
+            <h1 className="mt-4 max-w-xl text-4xl font-bold leading-tight">
+              Panel privado para administrar eventos de C3
+            </h1>
+            <p className="mt-4 max-w-xl text-sm leading-7 text-white/82">
+              Inicia sesion con Google para gestionar el catalogo de eventos. El acceso se restringe
+              por allowlist de correo.
             </p>
-            <h1 className="text-4xl font-bold leading-tight">Panel de eventos</h1>
-            <p className="max-w-2xl text-sm leading-7 text-[#364765]">
-              Iniciá sesión con Google para gestionar el catálogo de eventos de C3. El acceso se
-              restringe por allowlist de correo.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <Button onClick={handleSignIn}>Iniciar con Google</Button>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Button
+                onClick={handleSignIn}
+                className="bg-[#33BEAC] text-[#0F203E] hover:bg-[#48c6b5]"
+              >
+                <FiShield /> Iniciar con Google
+              </Button>
             </div>
           </div>
 
-          <div className="rounded-[1.6rem] bg-[#0F203E] p-6 text-white">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/58">
-              Acceso privado
-            </p>
-            <p className="mt-3 text-sm leading-7 text-white/82">
-              Configura `ADMIN_ALLOWED_EMAILS` con las cuentas que pueden entrar al panel.
-            </p>
+          <div className="space-y-4 p-8">
+            <div className="grid gap-3">
+              <Badge className="w-fit border-[#dce7f4] bg-[#f4f7fb] text-[#205298]">
+                Acceso privado
+              </Badge>
+              <h2 className="text-2xl font-bold text-[#0F203E]">Control editorial en C3</h2>
+              <p className="text-sm leading-7 text-[#364765]">
+                Configura `ADMIN_ALLOWED_EMAILS` con las cuentas que pueden entrar al panel.
+              </p>
+            </div>
             {message.text ? (
-              <p className={`mt-4 text-sm font-medium ${message.kind === "error" ? "text-[#fca5a5]" : "text-[#a7f3d0]"}`}>
+              <p
+                className={`rounded-2xl border px-4 py-3 text-sm font-medium ${
+                  message.kind === "error"
+                    ? "border-[#f5c2c7] bg-[#fff5f5] text-[#b42318]"
+                    : "border-[#a7f3d0] bg-[#ecfdf5] text-[#0f7a5f]"
+                }`}
+              >
                 {message.text}
               </p>
             ) : null}
@@ -429,29 +522,69 @@ export function AdminDashboard() {
   }
 
   const metrics = [
-    { label: "Eventos", value: events.length.toString() },
-    { label: "Líneas activas", value: new Set(events.flatMap((event) => event.lines)).size.toString() },
-    { label: "Usuario", value: session.email },
+    { label: "Eventos", value: events.length.toString(), icon: FiLayers },
+    { label: "Destacados", value: featuredCount.toString(), icon: FiStar },
+    { label: "Usuario", value: session.email, icon: FiShield },
   ];
 
   return (
     <section className="container-shell py-8 md:py-12">
       <div className="flex flex-col gap-6">
-        <header className="flex flex-col gap-4 rounded-[1.8rem] border border-[#d5deea] bg-white p-6 shadow-[0_12px_30px_rgba(15,32,62,0.08)] md:flex-row md:items-center md:justify-between">
-          <div className="space-y-2">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#5c6a82]">C3 Admin</p>
-            <h1 className="text-3xl font-bold leading-tight">Eventos y contenido editorial</h1>
-            <p className="text-sm leading-7 text-[#364765]">
-              Sesión activa como <strong>{session.name}</strong> ({session.email})
-            </p>
+        <header className="overflow-hidden rounded-[1.8rem] border border-[#d5deea] bg-white shadow-[0_12px_30px_rgba(15,32,62,0.08)]">
+          <div className="bg-gradient-to-r from-[#0F203E] via-[#205298] to-[#33BEAC] px-6 py-5 text-white md:px-8">
+            <div className="flex flex-wrap items-center gap-3 text-xs font-semibold uppercase tracking-[0.2em] text-white/75">
+              <FiShield /> C3 Admin
+            </div>
+            <div className="mt-3 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+              <div>
+                <h1 className="text-3xl font-bold leading-tight md:text-4xl">
+                  Eventos, destacados y contenido editorial
+                </h1>
+                <p className="mt-2 max-w-3xl text-sm leading-7 text-white/82">
+                  Sesion activa como <strong>{session.name}</strong> ({session.email})
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                <Button
+                  onClick={handleNewEvent}
+                  className="bg-[#33BEAC] text-[#0F203E] hover:bg-[#48c6b5]"
+                >
+                  <FiPlus /> Agregar evento
+                </Button>
+                <Button
+                  variant="secondary"
+                  onClick={loadEvents}
+                  disabled={loadingEvents}
+                  className="border-white/20 bg-white/10 text-white hover:bg-white/18"
+                >
+                  <FiRefreshCw className={loadingEvents ? "animate-spin" : ""} />
+                  {loadingEvents ? "Actualizando..." : "Recargar"}
+                </Button>
+                <Button
+                  variant="ghost"
+                  onClick={handleSignOut}
+                  className="border border-[#f5c2c7] bg-[#fff5f5] text-[#b42318] hover:bg-[#ffeaea]"
+                >
+                  <FiLogOut /> Salir
+                </Button>
+              </div>
+            </div>
           </div>
-          <div className="flex flex-wrap gap-3">
-            <Button variant="secondary" onClick={loadEvents} disabled={loadingEvents}>
-              {loadingEvents ? "Actualizando..." : "Recargar"}
-            </Button>
-            <Button variant="ghost" onClick={handleSignOut}>
-              Salir
-            </Button>
+
+          <div className="grid gap-3 border-t border-[#dbe5ef] bg-[#f8fbfe] p-4 md:grid-cols-3 md:p-5">
+            {metrics.map((metric) => {
+              const Icon = metric.icon;
+
+              return (
+                <Card key={metric.label} className="p-5">
+                  <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#5c6a82]">
+                    <Icon className="text-[#205298]" />
+                    {metric.label}
+                  </div>
+                  <p className="mt-3 break-words text-2xl font-bold text-[#0F203E]">{metric.value}</p>
+                </Card>
+              );
+            })}
           </div>
         </header>
 
@@ -463,37 +596,44 @@ export function AdminDashboard() {
                 : "border-[#a7f3d0] bg-[#ecfdf5] text-[#0f7a5f]"
             }`}
           >
-            {message.text}
+            <span className="inline-flex items-center gap-2">
+              <FiAlertCircle />
+              {message.text}
+            </span>
           </div>
         ) : null}
 
         <div className="grid gap-4 md:grid-cols-3">
-          {metrics.map((metric) => (
-            <Card key={metric.label} className="p-5">
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#5c6a82]">
-                {metric.label}
-              </p>
-              <p className="mt-3 break-words text-2xl font-bold text-[#0F203E]">{metric.value}</p>
-            </Card>
-          ))}
+          {lineKeys.map((line) => {
+            const meta = lineLabel(line);
+
+            return (
+              <Card key={line} className={`border ${meta.ring} p-5`}>
+                <div className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${meta.background} ${meta.text}`}>
+                  {meta.label}
+                </div>
+                <p className="mt-3 text-lg font-bold text-[#0F203E]">{meta.description}</p>
+                <p className="mt-2 text-sm leading-6 text-[#5c6a82]">
+                  Linea fija del sistema. Solo se asigna por evento.
+                </p>
+              </Card>
+            );
+          })}
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
+        <div className="grid gap-6 lg:grid-cols-[0.92fr_1.08fr]">
           <Card className="p-6">
-            <div className="flex items-center justify-between gap-3">
+            <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#5c6a82]">
-                  Catálogo
-                </p>
+                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#5c6a82]">
+                  <FiLayers className="text-[#205298]" /> Catalogo
+                </div>
                 <h2 className="mt-2 text-2xl font-bold">Eventos</h2>
               </div>
-              <Button onClick={handleNewEvent} variant="secondary">
-                Nuevo evento
-              </Button>
             </div>
 
             <div className="mt-5 grid gap-3">
-              {events.map((event) => {
+              {orderedEvents.map((event) => {
                 const isActive = event.id === selectedEventId;
 
                 return (
@@ -503,18 +643,42 @@ export function AdminDashboard() {
                     onClick={() => handleSelectEvent(event)}
                     className={`rounded-2xl border p-4 text-left transition ${
                       isActive
-                        ? "border-[#0F203E] bg-[#f0f5fb]"
-                        : "border-[#d5deea] bg-white hover:border-[#9fb4d1]"
+                        ? "border-[#205298] bg-[#eef4ff] shadow-[0_8px_24px_rgba(32,82,152,0.08)]"
+                        : "border-[#d5deea] bg-white hover:border-[#9fb4d1] hover:bg-[#fbfdff]"
                     }`}
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div className="space-y-2">
-                        <p className="text-sm font-semibold text-[#0F203E]">{event.title}</p>
+                        <div className="flex flex-wrap items-center gap-2">
+                          <p className="text-sm font-semibold text-[#0F203E]">{event.title}</p>
+                          {event.featured ? (
+                            <Badge className="border-[#f2d58c] bg-[#fff9e8] text-[#9b6b00]">
+                              <FiStar className="mr-1" /> Destacado
+                            </Badge>
+                          ) : null}
+                        </div>
                         <p className="line-clamp-2 text-xs leading-6 text-[#5c6a82]">
                           {event.description}
                         </p>
                       </div>
-                      <Badge className="shrink-0">{event.status}</Badge>
+                      <Badge className={`${statusStyle[event.status]} shrink-0 border`}>
+                        {event.status}
+                      </Badge>
+                    </div>
+
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {event.lines.map((line) => {
+                        const meta = lineLabel(line);
+
+                        return (
+                          <span
+                            key={`${event.id}-${line}`}
+                            className={`inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-semibold ${meta.background} ${meta.text} ${meta.ring}`}
+                          >
+                            {meta.label}
+                          </span>
+                        );
+                      })}
                     </div>
                   </button>
                 );
@@ -523,26 +687,30 @@ export function AdminDashboard() {
           </Card>
 
           <Card className="p-6">
-            <div className="flex items-start justify-between gap-4">
+            <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#5c6a82]">
-                  Editor
-                </p>
+                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#5c6a82]">
+                  <FiEdit3 className="text-[#205298]" /> Editor
+                </div>
                 <h2 className="mt-2 text-2xl font-bold">
                   {selectedEventId ? "Editar evento" : "Crear evento"}
                 </h2>
               </div>
               <div className="flex flex-col items-end gap-2 text-right">
-                <Badge>{draft.status}</Badge>
+                <Badge className={`${statusStyle[draft.status]} border`}>
+                  {draft.status}
+                </Badge>
                 <span className="text-xs text-[#5c6a82]">
-                  {selectedEventId ? `ID: ${selectedEventId}` : `ID sugerido: ${buildDraftId(draft, false) || "pendiente"}`}
+                  {selectedEventId
+                    ? `ID: ${selectedEventId}`
+                    : `ID sugerido: ${buildDraftId(draft, false) || "pendiente"}`}
                 </span>
               </div>
             </div>
 
             <div className="mt-6 grid gap-4">
               <label className="grid gap-2">
-                <span className="text-sm font-semibold">Título</span>
+                <span className="text-sm font-semibold text-[#0F203E]">Titulo</span>
                 <input
                   value={draft.title}
                   onChange={(event) => updateField("title", event.target.value)}
@@ -552,7 +720,7 @@ export function AdminDashboard() {
               </label>
 
               <label className="grid gap-2">
-                <span className="text-sm font-semibold">Descripción</span>
+                <span className="text-sm font-semibold text-[#0F203E]">Descripcion</span>
                 <textarea
                   value={draft.description}
                   onChange={(event) => updateField("description", event.target.value)}
@@ -563,7 +731,7 @@ export function AdminDashboard() {
 
               <div className="grid gap-4 md:grid-cols-2">
                 <label className="grid gap-2">
-                  <span className="text-sm font-semibold">CTA</span>
+                  <span className="text-sm font-semibold text-[#0F203E]">CTA</span>
                   <input
                     value={draft.cta}
                     onChange={(event) => updateField("cta", event.target.value)}
@@ -573,7 +741,7 @@ export function AdminDashboard() {
                 </label>
 
                 <label className="grid gap-2">
-                  <span className="text-sm font-semibold">URL</span>
+                  <span className="text-sm font-semibold text-[#0F203E]">URL</span>
                   <input
                     value={draft.href}
                     onChange={(event) => updateField("href", event.target.value)}
@@ -585,7 +753,7 @@ export function AdminDashboard() {
 
               <div className="grid gap-4 md:grid-cols-[1.2fr_0.8fr]">
                 <label className="grid gap-2">
-                  <span className="text-sm font-semibold">Estado</span>
+                  <span className="text-sm font-semibold text-[#0F203E]">Estado</span>
                   <select
                     value={draft.status}
                     onChange={(event) => updateField("status", event.target.value as EventStatus)}
@@ -599,21 +767,25 @@ export function AdminDashboard() {
                   </select>
                 </label>
 
-                <label className="flex items-center gap-3 rounded-2xl border border-[#cfd9e5] bg-white px-4 py-3">
+                <label className="flex items-center justify-between gap-3 rounded-2xl border border-[#cfd9e5] bg-white px-4 py-3">
+                  <div>
+                    <span className="text-sm font-semibold text-[#0F203E]">Destacado</span>
+                    <p className="text-xs text-[#5c6a82]">Copa y Hackathon vienen activos por defecto.</p>
+                  </div>
                   <input
                     type="checkbox"
-                    checked={draft.external}
-                    onChange={(event) => updateField("external", event.target.checked)}
-                    className="h-4 w-4 rounded border-[#cfd9e5] text-[#205298]"
+                    checked={draft.featured}
+                    onChange={(event) => updateField("featured", event.target.checked)}
+                    className="h-5 w-5 rounded border-[#cfd9e5] text-[#205298]"
                   />
-                  <span className="text-sm font-medium">Link externo</span>
                 </label>
               </div>
 
               <div className="grid gap-2">
-                <span className="text-sm font-semibold">Líneas</span>
+                <span className="text-sm font-semibold text-[#0F203E]">Lineas</span>
                 <div className="flex flex-wrap gap-2">
                   {lineKeys.map((line) => {
+                    const meta = lineLabel(line);
                     const active = draft.lines.includes(line);
 
                     return (
@@ -623,11 +795,11 @@ export function AdminDashboard() {
                         onClick={() => toggleLine(line)}
                         className={`rounded-full border px-4 py-2 text-sm font-semibold transition ${
                           active
-                            ? "border-[#0F203E] bg-[#0F203E] text-white"
-                            : "border-[#cfd9e5] bg-white text-[#40506b] hover:border-[#0F203E]"
+                            ? `${meta.background} ${meta.text} ${meta.ring} shadow-[0_6px_16px_rgba(15,32,62,0.06)]`
+                            : "border-[#cfd9e5] bg-white text-[#40506b] hover:border-[#205298] hover:bg-[#f5f9ff]"
                         }`}
                       >
-                        {line}
+                        {meta.label}
                       </button>
                     );
                   })}
@@ -642,12 +814,20 @@ export function AdminDashboard() {
               </div>
 
               <div className="flex flex-wrap gap-3 pt-2">
-                <Button onClick={handleSave} disabled={saving}>
-                  {saving ? "Guardando..." : selectedEventId ? "Guardar cambios" : "Crear evento"}
+                <Button
+                  onClick={handleSave}
+                  disabled={saving}
+                  className="bg-[#33BEAC] text-[#0F203E] hover:bg-[#48c6b5]"
+                >
+                  <FiSave /> {saving ? "Guardando..." : selectedEventId ? "Guardar cambios" : "Crear evento"}
                 </Button>
                 {selectedEventId ? (
-                  <Button variant="ghost" onClick={handleDelete}>
-                    Eliminar
+                  <Button
+                    variant="ghost"
+                    onClick={handleDelete}
+                    className="border border-[#f5c2c7] bg-[#fff5f5] text-[#b42318] hover:bg-[#ffeaea]"
+                  >
+                    <FiTrash2 /> Eliminar
                   </Button>
                 ) : null}
               </div>

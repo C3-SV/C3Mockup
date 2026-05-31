@@ -1,6 +1,6 @@
 import "server-only";
 
-import { cert, getApps, initializeApp, type ServiceAccount } from "firebase-admin/app";
+import { cert, getApp, getApps, initializeApp, type App, type ServiceAccount } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
 import { getFirestore, type Firestore } from "firebase-admin/firestore";
 import {
@@ -60,6 +60,22 @@ export function isAllowedAdminEmail(email: string) {
   return allowedEmails.includes(email.trim().toLowerCase());
 }
 
+function getAdminApp(): App {
+  const serviceAccount = readServiceAccount();
+  if (!serviceAccount) {
+    throw new HttpError(500, "Firebase service account is not configured.");
+  }
+
+  if (getApps().length) {
+    return getApp();
+  }
+
+  return initializeApp({
+      credential: cert(serviceAccount),
+      projectId: serviceAccount.projectId,
+  });
+}
+
 let firestore: Firestore | null = null;
 
 export function getAdminFirestore() {
@@ -67,19 +83,7 @@ export function getAdminFirestore() {
     return firestore;
   }
 
-  const serviceAccount = readServiceAccount();
-  if (!serviceAccount) {
-    throw new HttpError(500, "Firebase service account is not configured.");
-  }
-
-  if (!getApps().length) {
-    initializeApp({
-      credential: cert(serviceAccount),
-      projectId: serviceAccount.projectId,
-    });
-  }
-
-  firestore = getFirestore();
+  firestore = getFirestore(getAdminApp());
   return firestore;
 }
 
@@ -91,7 +95,7 @@ export async function verifyAdminRequest(request: Request) {
     throw new HttpError(401, "Missing authorization token.");
   }
 
-  const decoded = await getAuth().verifyIdToken(token);
+  const decoded = await getAuth(getAdminApp()).verifyIdToken(token);
 
   if (!decoded.email) {
     throw new HttpError(403, "Google account email is required.");
@@ -153,6 +157,7 @@ function sanitizeEventPayload(input: unknown, fallbackId?: string): AdminEventRe
     cta,
     href,
     external: Boolean(payload.external),
+    featured: Boolean(payload.featured),
     createdAt,
     updatedAt,
   };
@@ -220,4 +225,25 @@ export async function updateAdminEvent(id: string, input: unknown) {
 
 export async function deleteAdminEvent(id: string) {
   await getAdminFirestore().collection(EVENTS_COLLECTION).doc(id).delete();
+}
+
+export async function upsertAdminEvents(events: AdminEventRecord[]) {
+  const db = getAdminFirestore();
+  const batch = db.batch();
+  const now = new Date().toISOString();
+
+  for (const event of events) {
+    const record = sanitizeEventPayload(
+      {
+        ...event,
+        createdAt: event.createdAt ?? now,
+        updatedAt: now,
+      },
+      event.id,
+    );
+
+    batch.set(db.collection(EVENTS_COLLECTION).doc(record.id), record, { merge: false });
+  }
+
+  await batch.commit();
 }
