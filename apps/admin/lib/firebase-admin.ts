@@ -5,6 +5,7 @@ import { getAuth } from "firebase-admin/auth";
 import { getFirestore, type Firestore } from "firebase-admin/firestore";
 import {
   defaultEvents,
+  compareEventsBySchedule,
   normalizeEventLines,
   normalizeEventStatus,
   type EventItem,
@@ -158,6 +159,14 @@ function sanitizeEventPayload(input: unknown, fallbackId?: string): AdminEventRe
     href,
     external: Boolean(payload.external),
     featured: Boolean(payload.featured),
+    eventDate:
+      typeof payload.eventDate === "string" && payload.eventDate.trim()
+        ? payload.eventDate.trim()
+        : undefined,
+    eventDateEnd:
+      typeof payload.eventDateEnd === "string" && payload.eventDateEnd.trim()
+        ? payload.eventDateEnd.trim()
+        : undefined,
     createdAt,
     updatedAt,
   };
@@ -180,28 +189,33 @@ export function parseAdminEventDoc(id: string, data: Record<string, unknown>): A
 export async function listAdminEvents() {
   try {
     const db = getAdminFirestore();
-    const snapshot = await db.collection(EVENTS_COLLECTION).orderBy("updatedAt", "desc").get();
+    const snapshot = await db.collection(EVENTS_COLLECTION).get();
     const now = new Date().toISOString();
 
     if (snapshot.empty) {
-      return defaultEvents.map((event) => ({
+      return defaultEvents
+        .map((event) => ({
         ...event,
         createdAt: now,
         updatedAt: now,
-      })) satisfies AdminEventRecord[];
+      }))
+        .sort(compareEventsBySchedule) satisfies AdminEventRecord[];
     }
 
     return snapshot.docs
       .map((doc) => parseAdminEventDoc(doc.id, doc.data() as Record<string, unknown>))
-      .filter((event): event is AdminEventRecord => event !== null);
+      .filter((event): event is AdminEventRecord => event !== null)
+      .sort(compareEventsBySchedule);
   } catch (error) {
     console.warn("Falling back to bundled events data in admin:", error);
     const now = new Date().toISOString();
-    return defaultEvents.map((event) => ({
-      ...event,
-      createdAt: now,
-      updatedAt: now,
-    })) satisfies AdminEventRecord[];
+    return defaultEvents
+      .map((event) => ({
+        ...event,
+        createdAt: now,
+        updatedAt: now,
+      }))
+      .sort(compareEventsBySchedule) satisfies AdminEventRecord[];
   }
 }
 

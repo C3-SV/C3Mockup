@@ -16,6 +16,8 @@ import {
 } from "react-icons/fi";
 import { Badge, Button, Card } from "@c3/ui";
 import {
+  compareEventsBySchedule,
+  formatEventSchedule,
   eventStatuses,
   lineKeys,
   type EventItem,
@@ -45,6 +47,8 @@ type EventDraft = {
   href: string;
   external: boolean;
   featured: boolean;
+  eventDate: string;
+  eventDateEnd: string;
 };
 
 const lineLabels: Record<LineKey, string> = {
@@ -70,6 +74,8 @@ const emptyDraft: EventDraft = {
   href: "",
   external: false,
   featured: false,
+  eventDate: "",
+  eventDateEnd: "",
 };
 
 function slugify(value: string) {
@@ -94,6 +100,8 @@ function toDraft(event: EventItem): EventDraft {
     href: event.href,
     external: Boolean(event.external),
     featured: Boolean(event.featured),
+    eventDate: event.eventDate ?? "",
+    eventDateEnd: event.eventDateEnd ?? "",
   };
 }
 
@@ -127,14 +135,6 @@ async function fetchWithAuth<T>(path: string, token: string, init: RequestInit =
   return data as T;
 }
 
-function compareEvents(a: EventItem, b: EventItem) {
-  if (Boolean(a.featured) !== Boolean(b.featured)) {
-    return Number(Boolean(b.featured)) - Number(Boolean(a.featured));
-  }
-
-  return a.title.localeCompare(b.title);
-}
-
 export function AdminDashboard() {
   const firebaseReady = isFirebaseConfigured();
   const [session, setSession] = useState<AdminSession | null>(null);
@@ -146,7 +146,7 @@ export function AdminDashboard() {
   const [draft, setDraft] = useState<EventDraft>(emptyDraft);
   const [message, setMessage] = useState<DashboardMessage>({ kind: "idle", text: "" });
 
-  const orderedEvents = useMemo(() => [...events].sort(compareEvents), [events]);
+  const orderedEvents = useMemo(() => [...events].sort(compareEventsBySchedule), [events]);
   const featuredCount = useMemo(
     () => events.reduce((count, event) => count + Number(Boolean(event.featured)), 0),
     [events],
@@ -341,6 +341,8 @@ export function AdminDashboard() {
         ...draft,
         id,
         lines: draft.lines,
+        eventDate: draft.eventDate.trim() || undefined,
+        eventDateEnd: draft.eventDateEnd.trim() || undefined,
       };
 
       const path = selectedEventId ? `/api/events/${encodeURIComponent(selectedEventId)}` : "/api/events";
@@ -596,11 +598,11 @@ export function AdminDashboard() {
                     }`}
                   >
                     <div className="flex items-start justify-between gap-3">
-                      <div className="space-y-2">
-                        <div className="flex flex-wrap items-center gap-2">
-                          <p className="text-sm font-semibold text-[#0F203E]">{event.title}</p>
-                          {event.featured ? (
-                            <Badge className="border-[#f2d58c] bg-[#fff9e8] text-[#9b6b00]">
+                    <div className="space-y-2">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <p className="text-sm font-semibold text-[#0F203E]">{event.title}</p>
+                        {event.featured ? (
+                          <Badge className="border-[#f2d58c] bg-[#fff9e8] text-[#9b6b00]">
                               <FiStar className="mr-1" /> Destacado
                             </Badge>
                           ) : null}
@@ -613,6 +615,12 @@ export function AdminDashboard() {
                         {event.status}
                       </Badge>
                     </div>
+
+                    {event.eventDate ? (
+                      <p className="mt-3 text-xs font-semibold uppercase tracking-[0.14em] text-[#5c6a82]">
+                        {formatEventSchedule(event)}
+                      </p>
+                    ) : null}
 
                     <div className="mt-4 flex flex-wrap gap-2">
                       {event.lines.map((line) => {
@@ -697,6 +705,28 @@ export function AdminDashboard() {
                 </label>
               </div>
 
+              <div className="grid gap-4 md:grid-cols-2">
+                <label className="grid gap-2">
+                  <span className="text-sm font-semibold text-[#0F203E]">Fecha principal</span>
+                  <input
+                    type="date"
+                    value={draft.eventDate}
+                    onChange={(event) => updateField("eventDate", event.target.value)}
+                    className="rounded-2xl border border-[#cfd9e5] bg-white px-4 py-3 text-sm outline-none transition focus:border-[#205298] focus:ring-4 focus:ring-[#205298]/10"
+                  />
+                </label>
+
+                <label className="grid gap-2">
+                  <span className="text-sm font-semibold text-[#0F203E]">Fecha final</span>
+                  <input
+                    type="date"
+                    value={draft.eventDateEnd}
+                    onChange={(event) => updateField("eventDateEnd", event.target.value)}
+                    className="rounded-2xl border border-[#cfd9e5] bg-white px-4 py-3 text-sm outline-none transition focus:border-[#205298] focus:ring-4 focus:ring-[#205298]/10"
+                  />
+                </label>
+              </div>
+
               <div className="grid gap-4 md:grid-cols-[1.2fr_0.8fr]">
                 <label className="grid gap-2">
                   <span className="text-sm font-semibold text-[#0F203E]">Estado</span>
@@ -716,7 +746,6 @@ export function AdminDashboard() {
                 <label className="flex items-center justify-between gap-3 rounded-2xl border border-[#cfd9e5] bg-white px-4 py-3">
                   <div>
                     <span className="text-sm font-semibold text-[#0F203E]">Destacado</span>
-                    <p className="text-xs text-[#5c6a82]">Copa y Hackathon vienen activos por defecto.</p>
                   </div>
                   <input
                     type="checkbox"
@@ -758,6 +787,15 @@ export function AdminDashboard() {
                   {selectedEventId || buildDraftId(draft, false) || "pendiente"}
                 </p>
               </div>
+
+              {draft.eventDate ? (
+                <div className="rounded-2xl border border-[#d5deea] bg-[#f8fbfe] p-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#5c6a82]">Orden temporal</p>
+                  <p className="mt-2 text-sm font-semibold text-[#0F203E]">
+                    {draft.eventDateEnd ? `${draft.eventDate} → ${draft.eventDateEnd}` : draft.eventDate}
+                  </p>
+                </div>
+              ) : null}
 
               <div className="flex flex-wrap gap-4 pt-2">
                 <Button

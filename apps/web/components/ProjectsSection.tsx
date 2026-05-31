@@ -1,7 +1,7 @@
 import Link from "next/link";
 import C3BackgroundLayer from "./backgrounds/C3BackgroundLayer";
 import { lineVisuals } from "@/lib/content";
-import type { EventItem } from "@c3/config";
+import { formatEventSchedule, type EventItem } from "@c3/config";
 
 type ProjectsSectionProps = {
   events: EventItem[];
@@ -53,6 +53,11 @@ export default function ProjectsSection({ events }: ProjectsSectionProps) {
                 </div>
 
                 <h3 className="text-2xl font-bold leading-tight text-[#0F203E]">{event.title}</h3>
+                {event.eventDate ? (
+                  <p className="mt-2 text-xs font-semibold uppercase tracking-[0.14em] text-[#5c6a82]">
+                    {formatEventSchedule(event)}
+                  </p>
+                ) : null}
                 <p className="mt-3 text-sm leading-7 text-[#344766]">{event.description}</p>
 
                 <div className="mt-auto pt-6">

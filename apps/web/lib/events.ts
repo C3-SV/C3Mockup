@@ -4,6 +4,7 @@ import { cert, getApps, initializeApp, type ServiceAccount } from "firebase-admi
 import { getFirestore } from "firebase-admin/firestore";
 import {
   defaultEvents,
+  compareEventsBySchedule,
   normalizeEventLines,
   normalizeEventStatus,
   type EventItem,
@@ -76,6 +77,12 @@ function parseEventDoc(docId: string, data: Record<string, unknown>): EventItem 
     href,
     external: Boolean(data.external),
     featured: Boolean(data.featured),
+    eventDate:
+      typeof data.eventDate === "string" && data.eventDate.trim() ? data.eventDate.trim() : undefined,
+    eventDateEnd:
+      typeof data.eventDateEnd === "string" && data.eventDateEnd.trim()
+        ? data.eventDateEnd.trim()
+        : undefined,
   };
 }
 
@@ -85,16 +92,17 @@ export async function getPublicEvents(): Promise<EventItem[]> {
     const snapshot = await db.collection(EVENTS_COLLECTION).orderBy("updatedAt", "desc").get();
 
     if (snapshot.empty) {
-      return defaultEvents;
+      return [...defaultEvents].sort(compareEventsBySchedule);
     }
 
     const events = snapshot.docs
       .map((doc) => parseEventDoc(doc.id, doc.data() as Record<string, unknown>))
-      .filter((event): event is EventItem => event !== null);
+      .filter((event): event is EventItem => event !== null)
+      .sort(compareEventsBySchedule);
 
-    return events.length ? events : defaultEvents;
+    return events.length ? events : [...defaultEvents].sort(compareEventsBySchedule);
   } catch (error) {
     console.warn("Falling back to bundled events data:", error);
-    return defaultEvents;
+    return [...defaultEvents].sort(compareEventsBySchedule);
   }
 }

@@ -21,6 +21,8 @@ export type EventItem = {
   href: string;
   external?: boolean;
   featured?: boolean;
+  eventDate?: string;
+  eventDateEnd?: string;
 };
 
 export const defaultEvents: EventItem[] = [
@@ -35,6 +37,7 @@ export const defaultEvents: EventItem[] = [
     href: "https://copa.c3.com.sv",
     external: true,
     featured: true,
+    eventDate: "2026-08-01",
   },
   {
     id: "hackathon-turismo-creativo-i",
@@ -47,6 +50,8 @@ export const defaultEvents: EventItem[] = [
     href: "https://hackathon.c3.com.sv",
     external: true,
     featured: true,
+    eventDate: "2026-07-11",
+    eventDateEnd: "2026-07-12",
   },
   {
     id: "icpc-centroamerica-el-salvador",
@@ -57,6 +62,7 @@ export const defaultEvents: EventItem[] = [
     status: "Apoyo institucional",
     cta: "Explorar eventos",
     href: "/eventos",
+    eventDate: "2026-08-29",
   },
   {
     id: "hackatlatam-fiesta-el-salvador",
@@ -67,6 +73,7 @@ export const defaultEvents: EventItem[] = [
     status: "Histórico",
     cta: "Explorar eventos",
     href: "/eventos",
+    eventDate: "2026-05-15",
   },
   {
     id: "duelo-programacion-c3-software-week-esen-2025",
@@ -77,6 +84,7 @@ export const defaultEvents: EventItem[] = [
     status: "Histórico",
     cta: "Explorar eventos",
     href: "/eventos",
+    eventDate: "2025-09-12",
   },
 ];
 
@@ -102,4 +110,85 @@ export function toFirestoreEventDocument(event: EventItem): FirestoreEventDocume
     ...event,
     featured: Boolean(event.featured),
   };
+}
+
+function parseEventDate(value?: string) {
+  if (!value) {
+    return null;
+  }
+
+  const parsed = new Date(`${value}T00:00:00Z`);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
+
+export function getEventSortDate(event: EventItem) {
+  return parseEventDate(event.eventDate);
+}
+
+function isUpcoming(eventDate: Date | null, now: Date) {
+  if (!eventDate) {
+    return false;
+  }
+
+  return eventDate.getTime() >= now.getTime();
+}
+
+export function compareEventsBySchedule(a: EventItem, b: EventItem) {
+  const now = new Date();
+  const aDate = getEventSortDate(a);
+  const bDate = getEventSortDate(b);
+  const aUpcoming = isUpcoming(aDate, now);
+  const bUpcoming = isUpcoming(bDate, now);
+
+  if (aUpcoming !== bUpcoming) {
+    return Number(bUpcoming) - Number(aUpcoming);
+  }
+
+  if (aDate && bDate && aDate.getTime() !== bDate.getTime()) {
+    return aUpcoming
+      ? aDate.getTime() - bDate.getTime()
+      : bDate.getTime() - aDate.getTime();
+  }
+
+  if (Boolean(a.featured) !== Boolean(b.featured)) {
+    return Number(Boolean(b.featured)) - Number(Boolean(a.featured));
+  }
+
+  return a.title.localeCompare(b.title);
+}
+
+const eventDateFormatter = new Intl.DateTimeFormat("es-ES", {
+  day: "numeric",
+  month: "short",
+  year: "numeric",
+});
+
+function formatDate(date: Date) {
+  return eventDateFormatter.format(date).replace(/\./g, "");
+}
+
+export function formatEventSchedule(event: EventItem) {
+  const start = getEventSortDate(event);
+  if (!start) {
+    return "";
+  }
+
+  const end = parseEventDate(event.eventDateEnd);
+  if (!end || end.getTime() === start.getTime()) {
+    return formatDate(start);
+  }
+
+  const startParts = formatDate(start).split(" ");
+  const endParts = formatDate(end).split(" ");
+
+  if (startParts.length === 3 && endParts.length === 3) {
+    const [startDay, startMonth, startYear] = startParts;
+    const [endDay, endMonth, endYear] = endParts;
+
+    if (startMonth === endMonth && startYear === endYear) {
+      return `${startDay}–${endDay} ${startMonth} ${startYear}`;
+    }
+  }
+
+  return `${formatDate(start)} — ${formatDate(end)}`;
 }
