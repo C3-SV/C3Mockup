@@ -47,40 +47,10 @@ type EventDraft = {
   featured: boolean;
 };
 
-type LineMeta = {
-  key: LineKey;
-  label: string;
-  description: string;
-  ring: string;
-  background: string;
-  text: string;
-};
-
-const lineMeta: Record<LineKey, LineMeta> = {
-  compite: {
-    key: "compite",
-    label: "Compite",
-    description: "Competencia y rendimiento",
-    ring: "border-[#205298]/30",
-    background: "bg-[#205298]/10",
-    text: "text-[#205298]",
-  },
-  crea: {
-    key: "crea",
-    label: "Crea",
-    description: "Construccion y prototipos",
-    ring: "border-[#33BEAC]/30",
-    background: "bg-[#33BEAC]/10",
-    text: "text-[#167a68]",
-  },
-  conecta: {
-    key: "conecta",
-    label: "Conecta",
-    description: "Comunidad y alianzas",
-    ring: "border-[#4F5BA9]/30",
-    background: "bg-[#4F5BA9]/10",
-    text: "text-[#4F5BA9]",
-  },
+const lineLabels: Record<LineKey, string> = {
+  compite: "Compite",
+  crea: "Crea",
+  conecta: "Conecta",
 };
 
 const statusStyle: Record<EventStatus, string> = {
@@ -155,10 +125,6 @@ async function fetchWithAuth<T>(path: string, token: string, init: RequestInit =
   }
 
   return data as T;
-}
-
-function lineLabel(line: LineKey) {
-  return lineMeta[line];
 }
 
 function compareEvents(a: EventItem, b: EventItem) {
@@ -603,24 +569,6 @@ export function AdminDashboard() {
           </div>
         ) : null}
 
-        <div className="grid gap-4 md:grid-cols-3">
-          {lineKeys.map((line) => {
-            const meta = lineLabel(line);
-
-            return (
-              <Card key={line} className={`border ${meta.ring} p-5`}>
-                <div className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${meta.background} ${meta.text}`}>
-                  {meta.label}
-                </div>
-                <p className="mt-3 text-lg font-bold text-[#0F203E]">{meta.description}</p>
-                <p className="mt-2 text-sm leading-6 text-[#5c6a82]">
-                  Linea fija del sistema. Solo se asigna por evento.
-                </p>
-              </Card>
-            );
-          })}
-        </div>
-
         <div className="grid gap-6 lg:grid-cols-[0.92fr_1.08fr]">
           <Card className="p-6">
             <div className="flex flex-wrap items-start justify-between gap-3">
@@ -668,14 +616,12 @@ export function AdminDashboard() {
 
                     <div className="mt-4 flex flex-wrap gap-2">
                       {event.lines.map((line) => {
-                        const meta = lineLabel(line);
-
                         return (
                           <span
                             key={`${event.id}-${line}`}
-                            className={`inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-semibold ${meta.background} ${meta.text} ${meta.ring}`}
+                            className="inline-flex items-center rounded-full border border-[#d5deea] bg-[#f7fafc] px-2.5 py-1 text-xs font-semibold text-[#4d5e79]"
                           >
-                            {meta.label}
+                            {lineLabels[line]}
                           </span>
                         );
                       })}
@@ -785,7 +731,7 @@ export function AdminDashboard() {
                 <span className="text-sm font-semibold text-[#0F203E]">Lineas</span>
                 <div className="flex flex-wrap gap-2">
                   {lineKeys.map((line) => {
-                    const meta = lineLabel(line);
+                    const label = lineLabels[line];
                     const active = draft.lines.includes(line);
 
                     return (
@@ -795,11 +741,11 @@ export function AdminDashboard() {
                         onClick={() => toggleLine(line)}
                         className={`rounded-full border px-4 py-2 text-sm font-semibold transition ${
                           active
-                            ? `${meta.background} ${meta.text} ${meta.ring} shadow-[0_6px_16px_rgba(15,32,62,0.06)]`
+                            ? "border-[#205298] bg-[#eef4ff] text-[#205298] shadow-[0_6px_16px_rgba(15,32,62,0.06)]"
                             : "border-[#cfd9e5] bg-white text-[#40506b] hover:border-[#205298] hover:bg-[#f5f9ff]"
                         }`}
                       >
-                        {meta.label}
+                        {label}
                       </button>
                     );
                   })}
