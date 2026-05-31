@@ -450,10 +450,10 @@ export function AdminDashboard() {
               Inicia sesion con Google para gestionar el catalogo de eventos. El acceso se restringe
               por allowlist de correo.
             </p>
-            <div className="mt-6 flex flex-wrap gap-3">
+            <div className="mt-8 flex flex-wrap gap-4">
               <Button
                 onClick={handleSignIn}
-                className="bg-[#33BEAC] text-[#0F203E] hover:bg-[#48c6b5]"
+                className="!min-h-[3.5rem] !gap-3 !px-7 !py-3.5 !whitespace-nowrap !rounded-full bg-[#33BEAC] text-[#0F203E] shadow-[0_12px_30px_rgba(51,190,172,0.22)] hover:bg-[#48c6b5]"
               >
                 <FiShield /> Iniciar con Google
               </Button>
@@ -510,10 +510,10 @@ export function AdminDashboard() {
                   Sesion activa como <strong>{session.name}</strong> ({session.email})
                 </p>
               </div>
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-4 md:gap-5">
                 <Button
                   onClick={handleNewEvent}
-                  className="bg-[#33BEAC] text-[#0F203E] hover:bg-[#48c6b5]"
+                  className="!min-h-[3.5rem] !gap-3 !px-7 !py-3.5 !whitespace-nowrap !rounded-full bg-[#33BEAC] text-[#0F203E] shadow-[0_12px_30px_rgba(51,190,172,0.22)] hover:bg-[#48c6b5]"
                 >
                   <FiPlus /> Agregar evento
                 </Button>
@@ -521,7 +521,7 @@ export function AdminDashboard() {
                   variant="secondary"
                   onClick={loadEvents}
                   disabled={loadingEvents}
-                  className="border-white/20 bg-white/10 text-white hover:bg-white/18"
+                  className="!min-h-[3.5rem] !gap-3 !px-7 !py-3.5 !whitespace-nowrap !rounded-full border-white/20 bg-white/10 text-white hover:bg-white/18"
                 >
                   <FiRefreshCw className={loadingEvents ? "animate-spin" : ""} />
                   {loadingEvents ? "Actualizando..." : "Recargar"}
@@ -529,7 +529,7 @@ export function AdminDashboard() {
                 <Button
                   variant="ghost"
                   onClick={handleSignOut}
-                  className="border border-[#f5c2c7] bg-[#fff5f5] text-[#b42318] hover:bg-[#ffeaea]"
+                  className="!min-h-[3.5rem] !gap-3 !px-7 !py-3.5 !whitespace-nowrap !rounded-full border border-[#f5c2c7] bg-[#fff5f5] text-[#b42318] hover:bg-[#ffeaea]"
                 >
                   <FiLogOut /> Salir
                 </Button>
@@ -759,11 +759,11 @@ export function AdminDashboard() {
                 </p>
               </div>
 
-              <div className="flex flex-wrap gap-3 pt-2">
+              <div className="flex flex-wrap gap-4 pt-2">
                 <Button
                   onClick={handleSave}
                   disabled={saving}
-                  className="bg-[#33BEAC] text-[#0F203E] hover:bg-[#48c6b5]"
+                  className="!min-h-[3.5rem] !gap-3 !px-7 !py-3.5 !whitespace-nowrap !rounded-full bg-[#33BEAC] text-[#0F203E] shadow-[0_12px_30px_rgba(51,190,172,0.18)] hover:bg-[#48c6b5]"
                 >
                   <FiSave /> {saving ? "Guardando..." : selectedEventId ? "Guardar cambios" : "Crear evento"}
                 </Button>
@@ -771,7 +771,7 @@ export function AdminDashboard() {
                   <Button
                     variant="ghost"
                     onClick={handleDelete}
-                    className="border border-[#f5c2c7] bg-[#fff5f5] text-[#b42318] hover:bg-[#ffeaea]"
+                    className="!min-h-[3.5rem] !gap-3 !px-7 !py-3.5 !whitespace-nowrap !rounded-full border border-[#f5c2c7] bg-[#fff5f5] text-[#b42318] hover:bg-[#ffeaea]"
                   >
                     <FiTrash2 /> Eliminar
                   </Button>
