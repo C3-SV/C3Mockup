@@ -9,9 +9,21 @@ declare var process: {
   cwd(): string;
 };
 
+declare const __dirname: string;
+
 declare class Buffer {
   length: number;
   toString(encoding?: string): string;
 
   static from(data: string | ArrayBuffer | ArrayLike<number>, encoding?: string): Buffer;
+}
+
+declare module "path" {
+  export function resolve(...segments: string[]): string;
+
+  const path: {
+    resolve(...segments: string[]): string;
+  };
+
+  export default path;
 }
