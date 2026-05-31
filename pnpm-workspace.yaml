@@ -1,4 +1,10 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+
 allowBuilds:
-  '@tsparticles/engine': set this to true or false
-  sharp: set this to true or false
-  unrs-resolver: set this to true or false
+  '@firebase/util': false
+  "@tsparticles/engine": true
+  protobufjs: false
+  sharp: true
+  unrs-resolver: true

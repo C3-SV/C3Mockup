@@ -1,54 +1,56 @@
-# C3 Shell Temporal
+# C3 Monorepo
 
-Landing institucional temporal de **C3 / Competitive Coding Club** para el dominio principal:
+Monorepo Turborepo para C3 con dos apps independientes:
 
-- `https://c3.com.sv`
-- `https://www.c3.com.sv`
+- `apps/web`: sitio público de `c3.com.sv`
+- `apps/admin`: panel interno para CRUD de eventos
+- `packages/ui`: componentes reutilizables
+- `packages/config`: tipos y datos compartidos
 
-## Proposito
+## Requisitos
 
-Este proyecto funciona como **shell temporal** del sitio principal de C3 y como punto de entrada para eventos activos:
+- Node.js 20.9+
+- `pnpm`
 
-- Copa Salvadorena de Programacion
-- Hackathon de Turismo Creativo I
-
-## Rutas publicas
-
-- `/` -> Landing temporal principal de C3
-- `/copa` -> Redirige al sitio externo de Copa
-- `/hackathon` -> Redirige al sitio externo de Hackathon de Turismo Creativo I
-
-## Redirecciones actuales
-
-La configuracion usa **redirects temporales** (no permanentes) hacia:
-
-- `https://copa.c3.com.sv`
-- `https://hackathon.c3.com.sv`
-
-Esto esta definido en:
-
-- `vercel.json` (produccion en Vercel)
-- `next.config.ts` (paridad para entorno local)
-
-## Publicacion de Hackathon de Turismo Creativo I
-
-El evento usa el sitio satelite oficial:
-
-- `https://hackathon.c3.com.sv`
-
-## Nota para evolucion futura
-
-Si mas adelante se quiere mantener visible la URL bajo:
-
-- `c3.com.sv/copa`
-- `c3.com.sv/hackathon`
-
-Se debe migrar de **redirects** a **rewrites** y configurar `basePath` en los proyectos destino.
-
-## Desarrollo local
+## Desarrollo
 
 ```bash
+pnpm install
 pnpm dev
 ```
 
-Abrir `http://localhost:3000`.
+### Ejecutar solo una app
+
+```bash
+pnpm dev:web
+pnpm dev:admin
+```
+
+## Build
+
+```bash
+pnpm build
+```
+
+O por app:
+
+```bash
+pnpm build:web
+pnpm build:admin
+```
+
+## Deploy
+
+- `apps/web` se despliega como proyecto Vercel independiente.
+- `apps/admin` se despliega como proyecto Vercel independiente.
+- Cada app tiene su propio `next.config.ts`, variables de entorno y build.
+
+## Variables de entorno
+
+- `apps/web/.env.local`: secretos del sitio público.
+- `apps/admin/.env.local`: Firebase Auth, Firestore y allowlist de admins.
+
+## Notas
+
+- El sitio público conserva rutas, metadata, SEO, assets y redirects.
+- El panel admin usa Google Auth con Firebase y maneja eventos en Firestore.

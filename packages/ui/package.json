@@ -1,0 +1,26 @@
+{
+  "name": "@c3/ui",
+  "private": true,
+  "version": "0.0.0",
+  "exports": {
+    ".": "./src/index.ts",
+    "./button": "./src/button.tsx",
+    "./badge": "./src/badge.tsx",
+    "./card": "./src/card.tsx",
+    "./footer": "./src/footer.tsx",
+    "./header": "./src/header.tsx",
+    "./page-shell": "./src/page-shell.tsx",
+    "./seo-json-ld": "./src/seo-json-ld.tsx",
+    "./utils": "./src/utils.ts"
+  },
+  "peerDependencies": {
+    "next": "16.2.5",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19"
+  }
+}
