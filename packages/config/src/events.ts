@@ -23,6 +23,8 @@ export type EventItem = {
   featured?: boolean;
   eventDate?: string;
   eventDateEnd?: string;
+  createdAt?: string;
+  updatedAt?: string;
 };
 
 export const defaultEvents: EventItem[] = [
@@ -121,8 +123,44 @@ function parseEventDate(value?: string) {
   return Number.isNaN(parsed.getTime()) ? null : parsed;
 }
 
+function parseEventTimestamp(value?: string) {
+  if (!value) {
+    return null;
+  }
+
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
+
 export function getEventSortDate(event: EventItem) {
   return parseEventDate(event.eventDate);
+}
+
+export function getEventLastModified(event: Pick<EventItem, "createdAt" | "eventDate" | "eventDateEnd" | "updatedAt">) {
+  return (
+    parseEventTimestamp(event.updatedAt) ??
+    parseEventTimestamp(event.createdAt) ??
+    parseEventDate(event.eventDateEnd) ??
+    parseEventDate(event.eventDate)
+  );
+}
+
+export function getLatestEventLastModified(
+  events: ReadonlyArray<Pick<EventItem, "createdAt" | "eventDate" | "eventDateEnd" | "updatedAt">>,
+) {
+  return events.reduce<Date | null>((latest, event) => {
+    const current = getEventLastModified(event);
+
+    if (!current) {
+      return latest;
+    }
+
+    if (!latest || current.getTime() > latest.getTime()) {
+      return current;
+    }
+
+    return latest;
+  }, null);
 }
 
 function isUpcoming(eventDate: Date | null, now: Date) {

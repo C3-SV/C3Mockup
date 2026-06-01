@@ -20,9 +20,9 @@ export function createPageMetadata({
   return {
     title,
     description,
-    keywords: keywords ? [...keywords] : undefined,
+    keywords: keywords ? [...new Set(keywords)] : undefined,
     alternates: {
-      canonical: path,
+      canonical: canonicalUrl,
     },
     openGraph: {
       type: "website",

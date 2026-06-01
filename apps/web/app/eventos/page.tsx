@@ -18,17 +18,22 @@ const seoDescription =
 
 export const revalidate = 60;
 
-export const metadata: Metadata = createPageMetadata({
+const baseMetadata = createPageMetadata({
   title: seoTitle,
   description: seoDescription,
   path: "/eventos",
-  keywords: [
-    "eventos tecnología El Salvador",
-    "competencias programación",
-    "hackathons El Salvador",
-    "eventos C3",
-  ],
+  keywords: ["eventos tecnología El Salvador", "competencias programación", "hackathons El Salvador", "eventos C3"],
 });
+
+export async function generateMetadata(): Promise<Metadata> {
+  const events = await getPublicEvents();
+  const keywords = [...(baseMetadata.keywords ?? []), ...events.slice(0, 5).map((event) => event.title)];
+
+  return {
+    ...baseMetadata,
+    keywords: [...new Set(keywords)],
+  };
+}
 
 export default async function EventosPage() {
   const events = await getPublicEvents();
@@ -39,6 +44,7 @@ export default async function EventosPage() {
       description: event.description,
       url: event.external ? event.href : `${siteConfig.domain}${event.href}`,
     })),
+    "Catálogo de eventos C3",
   );
 
   return (

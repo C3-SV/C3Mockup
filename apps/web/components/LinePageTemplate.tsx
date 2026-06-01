@@ -1,7 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
+import SeoJsonLd from "./SeoJsonLd";
 import C3BackgroundLayer from "./backgrounds/C3BackgroundLayer";
 import { linePageContent, lineVisuals, type LineKey } from "@/lib/content";
+import { getItemListJsonLd } from "@/lib/structured-data";
+import { siteConfig } from "@/lib/site";
 import type { EventItem } from "@c3/config";
 
 type LinePageTemplateProps = {
@@ -13,9 +16,21 @@ export default function LinePageTemplate({ line, events }: LinePageTemplateProps
   const visual = lineVisuals[line];
   const content = linePageContent[line];
   const relatedEvents = events.filter((event) => event.lines.includes(line));
+  const itemList = relatedEvents.length
+    ? getItemListJsonLd(
+        `/${line}`,
+        relatedEvents.map((event) => ({
+          name: event.title,
+          description: event.description,
+          url: event.external ? event.href : `${siteConfig.domain}${event.href}`,
+        })),
+        `Eventos relacionados con ${visual.name}`,
+      )
+    : null;
 
   return (
     <>
+      {itemList ? <SeoJsonLd data={itemList} /> : null}
       <section className="relative overflow-hidden bg-[#0F203E] py-18 text-white md:py-22">
         <C3BackgroundLayer variant="dots" line={line} intensity="low" className="opacity-70" />
         <div className="container-shell relative z-10 grid items-center gap-10 md:grid-cols-[1.15fr_0.85fr]">

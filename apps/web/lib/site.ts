@@ -34,6 +34,10 @@
     "Copa de Programación",
     "Copa Salvadoreña de Programación",
     "Hackathon de Turismo Creativo I",
+    "ICPC Centroamérica",
+    "Hack@Latam",
+    "Duelo de Programación C3",
+    "Software Week ESEN 2025",
     "Duelo de Programación C3 · Software Week ESEN 2025",
     "ICPC El Salvador",
     "tecnología Centroamérica",
@@ -70,7 +74,7 @@
     conecta: {
       name: "Conecta",
       description:
-        "Comunidad, netowrking, instituciones, industria, aliados, sponsors, mentoría y oportunidades reales.",
+        "Comunidad, networking, instituciones, industria, aliados, sponsors, mentoría y oportunidades reales.",
     },
   },
   defaultOgImage: "/og-image.png",

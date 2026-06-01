@@ -95,11 +95,12 @@ export function getCollectionPageJsonLd(path: string, title: string, description
 export function getItemListJsonLd(
   path: string,
   items: Array<{ name: string; url: string; description: string }>,
+  name = "Eventos C3",
 ) {
   return {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "Eventos C3",
+    name,
     url: `${siteConfig.domain}${path}`,
     numberOfItems: items.length,
     itemListElement: items.map((item, index) => ({

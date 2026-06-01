@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     shortcut: "/favicon.ico",
   },
   alternates: {
-    canonical: "/",
+    canonical: siteConfig.domain,
   },
   openGraph: {
     type: "website",

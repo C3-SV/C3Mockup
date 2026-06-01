@@ -1,5 +1,6 @@
 import "server-only";
 
+import { cache } from "react";
 import { cert, getApps, initializeApp, type ServiceAccount } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
 import {
@@ -77,6 +78,10 @@ function parseEventDoc(docId: string, data: Record<string, unknown>): EventItem 
     href,
     external: Boolean(data.external),
     featured: Boolean(data.featured),
+    createdAt:
+      typeof data.createdAt === "string" && data.createdAt.trim() ? data.createdAt.trim() : undefined,
+    updatedAt:
+      typeof data.updatedAt === "string" && data.updatedAt.trim() ? data.updatedAt.trim() : undefined,
     eventDate:
       typeof data.eventDate === "string" && data.eventDate.trim() ? data.eventDate.trim() : undefined,
     eventDateEnd:
@@ -86,7 +91,7 @@ function parseEventDoc(docId: string, data: Record<string, unknown>): EventItem 
   };
 }
 
-export async function getPublicEvents(): Promise<EventItem[]> {
+export const getPublicEvents = cache(async (): Promise<EventItem[]> => {
   try {
     const db = getAdminFirestore();
     const snapshot = await db.collection(EVENTS_COLLECTION).orderBy("updatedAt", "desc").get();
@@ -105,4 +110,4 @@ export async function getPublicEvents(): Promise<EventItem[]> {
     console.warn("Falling back to bundled events data:", error);
     return [...defaultEvents].sort(compareEventsBySchedule);
   }
-}
+});

@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "C3 / Competitive Coding Club",
     short_name: "C3",
-    description: "Plataforma institucional de talento t\u00E9cnico joven en El Salvador.",
+    description: siteConfig.shortDescription,
     start_url: "/",
     scope: "/",
     display: "standalone",
