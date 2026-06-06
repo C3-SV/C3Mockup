@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { deleteAdminEvent, HttpError, updateAdminEvent, verifyAdminRequest } from "@/lib/firebase-admin";
+import { triggerSiteRevalidation } from "@/lib/revalidate-site";
 
 type RouteContext = {
   params: Promise<{
@@ -13,8 +14,16 @@ export async function PATCH(request: Request, context: RouteContext) {
     const { id } = await context.params;
     const body = await request.json().catch(() => null);
     const event = await updateAdminEvent(id, body);
+    const revalidation = await triggerSiteRevalidation({
+      reason: `Updated event ${id}`,
+      source: "admin/api/events/[id]",
+    });
 
-    return NextResponse.json({ ok: true, event });
+    if (!revalidation.ok) {
+      console.warn("Site revalidation failed after updating an event:", revalidation.message);
+    }
+
+    return NextResponse.json({ ok: true, event, revalidation });
   } catch (error) {
     if (error instanceof HttpError) {
       return NextResponse.json({ ok: false, message: error.message }, { status: error.status });
@@ -30,8 +39,16 @@ export async function DELETE(request: Request, context: RouteContext) {
     await verifyAdminRequest(request);
     const { id } = await context.params;
     await deleteAdminEvent(id);
+    const revalidation = await triggerSiteRevalidation({
+      reason: `Deleted event ${id}`,
+      source: "admin/api/events/[id]",
+    });
 
-    return NextResponse.json({ ok: true });
+    if (!revalidation.ok) {
+      console.warn("Site revalidation failed after deleting an event:", revalidation.message);
+    }
+
+    return NextResponse.json({ ok: true, revalidation });
   } catch (error) {
     if (error instanceof HttpError) {
       return NextResponse.json({ ok: false, message: error.message }, { status: error.status });

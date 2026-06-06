@@ -38,6 +38,17 @@ const nextConfig: NextConfig = {
         destination: "https://hackathon.c3.com.sv/:path*",
         permanent: true,
       },
+      {
+        source: "/:path*",
+        has: [
+          {
+            type: "host",
+            value: "www.c3.com.sv",
+          },
+        ],
+        destination: "https://c3.com.sv/:path*",
+        permanent: true,
+      },
     ];
   },
   async headers() {

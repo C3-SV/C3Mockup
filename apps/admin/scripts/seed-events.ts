@@ -4,6 +4,7 @@ import path from "path";
 import { cert, getApps, initializeApp, type ServiceAccount } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
 import { defaultEvents, toFirestoreEventDocument } from "@c3/config";
+import { triggerSiteRevalidation } from "../lib/revalidate-site";
 
 const EVENTS_COLLECTION = "events";
 
@@ -98,6 +99,14 @@ async function main() {
   }
 
   await batch.commit();
+  const revalidation = await triggerSiteRevalidation({
+    reason: "Seeded default events into Firestore",
+    source: "admin/scripts/seed-events",
+  });
+
+  if (!revalidation.ok) {
+    console.warn("Site revalidation failed after seeding events:", revalidation.message);
+  }
   console.log(`Seeded ${defaultEvents.length} events into Firestore collection "${EVENTS_COLLECTION}".`);
 }
 

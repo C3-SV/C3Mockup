@@ -5,6 +5,7 @@ import {
   listAdminEvents,
   verifyAdminRequest,
 } from "@/lib/firebase-admin";
+import { triggerSiteRevalidation } from "@/lib/revalidate-site";
 
 export async function GET(request: Request) {
   try {
@@ -26,8 +27,16 @@ export async function POST(request: Request) {
     await verifyAdminRequest(request);
     const body = await request.json().catch(() => null);
     const event = await createAdminEvent(body);
+    const revalidation = await triggerSiteRevalidation({
+      reason: `Created event ${event.id}`,
+      source: "admin/api/events",
+    });
 
-    return NextResponse.json({ ok: true, event }, { status: 201 });
+    if (!revalidation.ok) {
+      console.warn("Site revalidation failed after creating an event:", revalidation.message);
+    }
+
+    return NextResponse.json({ ok: true, event, revalidation }, { status: 201 });
   } catch (error) {
     if (error instanceof HttpError) {
       return NextResponse.json({ ok: false, message: error.message }, { status: error.status });
