@@ -32,7 +32,7 @@ export const defaultEvents: EventItem[] = [
     id: "copa-salvadorena-programacion",
     title: "Copa Salvadoreña de Programación",
     description:
-      "La iniciativa principal de C3 para impulsar programación competitiva, pensamiento algorítmico y excelencia técnica en estudiantes de El Salvador.",
+      "La iniciativa principal de C3 para impulsar programación competitiva, pensamiento algorítmico y excelencia técnica en estudiantes de El Salvador. La fase virtual inicia el 1 de agosto y la fase presencial se celebra el 5 de septiembre.",
     lines: ["compite"],
     status: "Inscripciones abiertas",
     cta: "Ir a la Copa",
@@ -40,6 +40,7 @@ export const defaultEvents: EventItem[] = [
     external: true,
     featured: true,
     eventDate: "2026-08-01",
+    eventDateEnd: "2026-09-05",
   },
   {
     id: "hackathon-turismo-creativo-i",

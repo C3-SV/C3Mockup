@@ -11,9 +11,11 @@ export default function MovingRecapCards({ items }: MovingRecapCardsProps) {
     const visual = lineVisuals[item.line];
 
     return {
-      quote: item.description,
-      name: item.title,
-      title: `${visual.name} · ${item.status}${item.schedule ? ` · ${item.schedule}` : ""}`,
+      title: item.title,
+      description: item.description,
+      line: visual.name,
+      status: item.status,
+      schedule: item.schedule,
       href: item.href,
       external: item.external,
       cta: item.cta,
@@ -21,7 +23,7 @@ export default function MovingRecapCards({ items }: MovingRecapCardsProps) {
   });
 
   return (
-    <div className="rounded-[2rem] border border-white/10 bg-[#0E1930] p-3">
+    <div className="rounded-[2rem] border border-white/10 bg-[#0E1930] p-4 shadow-[0_18px_48px_rgba(2,8,22,0.2)] md:p-5">
       <InfiniteMovingCards items={cards} direction="left" speed="slow" pauseOnHover className="py-2" />
     </div>
   );

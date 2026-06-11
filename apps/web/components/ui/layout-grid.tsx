@@ -1,117 +1,109 @@
 "use client";
+
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 
 type Card = {
   id: number;
-  content: JSX.Element | React.ReactNode | string;
-  className: string;
+  title: string;
+  subtitle: string;
+  description: string;
   thumbnail: string;
+  accent: string;
+  className?: string;
 };
 
 export const LayoutGrid = ({ cards }: { cards: Card[] }) => {
-  const [selected, setSelected] = useState<Card | null>(null);
-  const [lastSelected, setLastSelected] = useState<Card | null>(null);
+  const [active, setActive] = useState<Card["id"] | null>(cards[0]?.id ?? null);
 
-  const handleClick = (card: Card) => {
-    setLastSelected(selected);
-    setSelected(card);
-  };
+  useEffect(() => {
+    if (!cards.length) {
+      setActive(null);
+      return;
+    }
 
-  const handleOutsideClick = () => {
-    setLastSelected(selected);
-    setSelected(null);
-  };
+    setActive((current) => current ?? cards[0].id);
+  }, [cards]);
 
   return (
-    <div className="relative mx-auto grid h-full w-full max-w-7xl grid-cols-1 gap-4 p-0 md:grid-cols-3 md:p-4">
-      {cards.map((card, i) => (
-        <div key={i} className={cn(card.className, "")}>
-          <motion.div
-            onClick={() => handleClick(card)}
+    <div className="grid gap-4 md:flex md:flex-row" onMouseLeave={() => setActive(cards[0]?.id ?? null)}>
+      {cards.map((card) => {
+        const isActive = active === card.id;
+
+        return (
+          <motion.article
+            key={card.id}
+            layout
+            tabIndex={0}
+            onFocus={() => setActive(card.id)}
+            onMouseEnter={() => setActive(card.id)}
             className={cn(
+              "group relative min-h-[20rem] overflow-hidden rounded-[2.2rem] border border-white/10 bg-[#122449]/94 outline-none transition duration-300 focus-visible:ring-2 focus-visible:ring-[#33BEAC]/45 md:min-h-[24rem]",
               card.className,
-              "relative min-h-[18rem] overflow-hidden md:min-h-[22rem]",
-              selected?.id === card.id
-                ? "absolute inset-0 z-50 m-auto flex h-1/2 w-full cursor-pointer flex-wrap items-center justify-center rounded-[1.5rem] border border-white/10 bg-[#0F203E] md:w-1/2 md:flex-col"
-                : lastSelected?.id === card.id
-                ? "z-40 h-full w-full rounded-[1.5rem] border border-white/10 bg-[#122449]"
-                : "h-full w-full rounded-[1.5rem] border border-white/10 bg-[#122449]"
             )}
-            layoutId={`card-${card.id}`}
+            style={{
+              flex: isActive ? "1.5 1 0%" : "0.9 1 0%",
+            }}
           >
-            {selected?.id === card.id && <SelectedCard selected={selected} />}
-            <ImageComponent card={card} />
-          </motion.div>
-        </div>
-      ))}
-      <motion.div
-        onClick={handleOutsideClick}
-        className={cn(
-          "absolute left-0 top-0 z-10 h-full w-full bg-[#0F203E] opacity-0",
-          selected?.id ? "pointer-events-auto" : "pointer-events-none"
-        )}
-        animate={{ opacity: selected?.id ? 0.3 : 0 }}
-      />
-    </div>
-  );
-};
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 transition duration-700 group-hover:scale-105"
+            >
+              <Image
+                src={card.thumbnail}
+                alt={card.title}
+                fill
+                sizes="(min-width: 768px) 33vw, 100vw"
+                className="object-cover object-top"
+              />
+            </div>
 
-const ImageComponent = ({ card }: { card: Card }) => {
-  return (
-    <motion.div
-      layoutId={`image-${card.id}-image`}
-      className="absolute inset-0 h-full w-full"
-    >
-      <Image
-        src={card.thumbnail}
-        alt="thumbnail"
-        fill
-        sizes="(min-width: 768px) 33vw, 100vw"
-        className={cn(
-          "object-cover object-top transition duration-200"
-        )}
-      />
-    </motion.div>
-  );
-};
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 bg-[linear-gradient(180deg,rgba(15,32,62,0.08)_0%,rgba(15,32,62,0.48)_60%,rgba(15,32,62,0.92)_100%)]"
+            />
+            <div className="absolute inset-x-0 top-0 h-[3px]" style={{ backgroundColor: card.accent }} />
 
-const SelectedCard = ({ selected }: { selected: Card | null }) => {
-  return (
-    <div className="relative z-[60] flex h-full w-full flex-col justify-end rounded-lg bg-transparent">
-      <motion.div
-        initial={{
-          opacity: 0,
-        }}
-        animate={{
-          opacity: 0.6,
-        }}
-        className="absolute inset-0 z-10 h-full w-full bg-[#0F203E] opacity-60"
-      />
-      <motion.div
-        layoutId={`content-${selected?.id}`}
-        initial={{
-          opacity: 0,
-          y: 100,
-        }}
-        animate={{
-          opacity: 1,
-          y: 0,
-        }}
-        exit={{
-          opacity: 0,
-          y: 100,
-        }}
-        transition={{
-          duration: 0.3,
-          ease: "easeInOut",
-        }}
-        className="relative z-[70] px-8 pb-4"
-      >
-        {selected?.content}
-      </motion.div>
+            <div className="relative flex h-full items-end">
+              <div className="w-full p-6 md:p-7">
+                <div className="flex items-center justify-between gap-3">
+                  <span
+                    className="inline-flex items-center rounded-full px-3 py-1 text-[0.64rem] font-semibold uppercase tracking-[0.16em]"
+                    style={{
+                      color: card.accent,
+                      backgroundColor: `${card.accent}16`,
+                      border: `1px solid ${card.accent}42`,
+                    }}
+                  >
+                    Comunidad C3
+                  </span>
+                  <span className="text-xs font-semibold uppercase tracking-[0.18em] text-white/50">
+                    0{card.id}
+                  </span>
+                </div>
+
+                <div
+                  className={cn(
+                    "mt-4 space-y-2 transition duration-300",
+                    isActive ? "translate-y-0 opacity-100" : "translate-y-2 opacity-92",
+                  )}
+                >
+                  <h3 className="text-2xl font-bold text-white md:text-[2rem]">{card.title}</h3>
+                  <p
+                    className="text-sm font-semibold uppercase tracking-[0.14em]"
+                    style={{ color: card.accent }}
+                  >
+                    {card.subtitle}
+                  </p>
+                  <p className="max-w-[28ch] text-sm leading-7 text-white/78">{card.description}</p>
+                </div>
+              </div>
+            </div>
+          </motion.article>
+        );
+      })}
     </div>
   );
 };

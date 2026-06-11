@@ -33,12 +33,13 @@ export function ScrollProgress({
     <motion.div
       ref={ref}
       className={cn(
-        "pointer-events-none fixed inset-x-0 top-0 z-50 h-[2px] origin-left",
+        "pointer-events-none absolute inset-x-0 bottom-0 z-[60] h-[2px] origin-left overflow-hidden",
         className
       )}
       style={{
         scaleX: scrollYProgress,
         backgroundImage: toneGradients[tone],
+        boxShadow: "0 0 18px rgba(51, 190, 172, 0.28)",
       }}
       {...props}
     />

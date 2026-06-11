@@ -1,7 +1,8 @@
 import Image from "next/image";
-import { FaArrowRight, FaCode, FaLayerGroup, FaTrophy, FaUsers } from "react-icons/fa";
-import { AnimatedGridPattern } from "./ui/animated-grid-pattern";
-import { BentoCard, BentoGrid } from "./ui/bento-grid";
+import Link from "next/link";
+import { FaArrowRight, FaCode, FaTrophy, FaUsers } from "react-icons/fa";
+import { MagicCard } from "./ui/magic-card";
+import { Button } from "./ui/button";
 import { lineVisuals } from "@/lib/content";
 import { siteConfig } from "@/lib/site";
 
@@ -41,103 +42,89 @@ const lineCards = [
   },
 ] as const;
 
+const toneByKey = {
+  compite: "blue",
+  crea: "turquoise",
+  conecta: "purple",
+} as const;
+
 export default function C3EcosystemBento() {
   return (
-    <BentoGrid className="grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-6">
-      <BentoCard
-        name="Un ecosistema para desarrollar talento técnico con impacto"
-        className="lg:col-span-3 lg:row-span-2"
-        background={
-          <div className="absolute inset-0 overflow-hidden rounded-[inherit]">
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(51,190,172,0.18),transparent_28%),radial-gradient(circle_at_82%_16%,rgba(79,91,169,0.18),transparent_24%),radial-gradient(circle_at_50%_82%,rgba(32,82,152,0.14),transparent_26%)]"
-            />
-            <AnimatedGridPattern
-              width={38}
-              height={38}
-              numSquares={48}
-              maxOpacity={0.15}
-              duration={3.8}
-              repeatDelay={0.45}
-              className="absolute inset-0 h-full w-full opacity-35 motion-reduce:hidden"
-            />
-            <div className="absolute inset-x-6 bottom-6 flex flex-wrap gap-2">
-              {(["Compite", "Crea", "Conecta"] as const).map((label) => (
-                <span
-                  key={label}
-                  className="rounded-full border border-white/10 bg-white/7 px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-white/85 backdrop-blur-sm"
-                >
-                  {label}
-                </span>
-              ))}
-            </div>
-          </div>
-        }
-        Icon={FaLayerGroup}
-        description="C3 no es una suma de piezas sueltas. Es una ruta clara para competir, construir y conectar con el ecosistema técnico."
-        href="/que-es-c3"
-        cta="Conocer C3"
-      />
+    <div className="grid gap-4 lg:grid-cols-3">
+      {lineCards.map((card) => {
+        const ToneIcon = card.icon;
+        const tone = toneByKey[card.key];
 
-      {lineCards.map((card) => (
-        <BentoCard
-          key={card.key}
-          name={card.name}
-          className="lg:col-span-1"
-          background={
-            <div className="absolute inset-0 overflow-hidden rounded-[inherit]">
+        return (
+          <MagicCard
+            key={card.key}
+            mode="gradient"
+            gradientSize={220}
+            gradientColor={`${card.color}20`}
+            gradientFrom={card.color}
+            gradientTo="#33BEAC"
+            className="h-full rounded-[2.15rem]"
+          >
+            <article className="group relative flex h-full flex-col overflow-hidden rounded-[inherit] bg-[#122449]/94 p-7 shadow-[0_20px_48px_rgba(2,8,22,0.28)] transition duration-300 hover:-translate-y-1">
               <div
                 aria-hidden="true"
-                className="absolute inset-0 opacity-80"
-                style={{
-                  background: `radial-gradient(circle at 20% 18%, ${card.color}2e, transparent 30%), radial-gradient(circle at 82% 18%, rgba(255,255,255,0.08), transparent 26%)`,
-                }}
+                className="absolute inset-x-0 top-0 h-[3px]"
+                style={{ backgroundColor: card.color }}
               />
-              <div className="absolute inset-x-4 bottom-4 flex items-center justify-between">
-                <Image
-                  src={card.logo}
-                  alt=""
-                  width={40}
-                  height={40}
-                  sizes="40px"
-                  className="h-10 w-10 object-contain opacity-90"
-                  aria-hidden="true"
-                />
-                <span
-                  className="rounded-full border px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.14em]"
-                  style={{
-                    color: card.color,
-                    backgroundColor: `${card.color}18`,
-                    borderColor: `${card.color}44`,
-                  }}
-                >
-                  {siteConfig.lines[card.key].name}
-                </span>
-              </div>
-            </div>
-          }
-          Icon={card.icon}
-          description={card.description}
-          href={card.href}
-          cta={card.cta}
-        />
-      ))}
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 bg-[radial-gradient(circle_at_18%_16%,rgba(255,255,255,0.08),transparent_22%),radial-gradient(circle_at_82%_14%,rgba(255,255,255,0.05),transparent_18%)] opacity-90"
+              />
 
-      <BentoCard
-        name="De competir a construir, de construir a conectar."
-        className="lg:col-span-3"
-        background={
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 rounded-[inherit] bg-[radial-gradient(circle_at_18%_18%,rgba(51,190,172,0.12),transparent_24%),radial-gradient(circle_at_88%_14%,rgba(79,91,169,0.14),transparent_22%)]"
-          />
-        }
-        Icon={FaArrowRight}
-        description="Una narrativa simple para entender cómo C3 acompaña al talento técnico joven en cada etapa de crecimiento."
-        href="/eventos"
-        cta="Explorar eventos"
-      />
-    </BentoGrid>
+              <div className="relative flex h-full flex-col">
+                <div className="flex items-start justify-between gap-4">
+                  <span
+                    className="inline-flex items-center rounded-full px-3 py-1 text-[0.64rem] font-semibold uppercase tracking-[0.16em]"
+                    style={{
+                      color: card.color,
+                      backgroundColor: `${card.color}14`,
+                      border: `1px solid ${card.color}4a`,
+                    }}
+                  >
+                    {siteConfig.lines[card.key].name}
+                  </span>
+                  <div
+                    className="flex h-12 w-12 items-center justify-center rounded-[1.15rem] border bg-white/6"
+                    style={{ borderColor: `${card.color}33` }}
+                  >
+                    <ToneIcon size={18} style={{ color: card.color }} />
+                  </div>
+                </div>
+
+                <div className="mt-6 flex items-center gap-3">
+                  <Image
+                    src={card.logo}
+                    alt=""
+                    width={44}
+                    height={44}
+                    className="h-11 w-11 object-contain"
+                    aria-hidden="true"
+                  />
+                  <h3 className="text-2xl font-bold text-white">{card.name}</h3>
+                </div>
+
+                <p className="mt-4 max-w-[32ch] text-base leading-8 text-white/80">
+                  {card.description}
+                </p>
+
+                <div className="mt-auto pt-7">
+                  <Button asChild variant="link" tone={tone} className="px-0 text-sm">
+                    <Link href={card.href}>
+                      {card.cta}
+                      <FaArrowRight className="ms-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+                </div>
+              </div>
+            </article>
+          </MagicCard>
+        );
+      })}
+    </div>
   );
 }

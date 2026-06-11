@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import ActionLinesSection from "@/components/ActionLinesSection";
 import AudienceSection from "@/components/AudienceSection";
 import C3SectionTransition from "@/components/C3SectionTransition";
+import CommunityActionSection from "@/components/CommunityActionSection";
+import EventsSection from "@/components/EventsSection";
 import FinalCtaSection from "@/components/FinalCtaSection";
 import Hero from "@/components/Hero";
 import MissionVisionSection from "@/components/MissionVisionSection";
 import Navbar from "@/components/Navbar";
-import ProjectsSection from "@/components/ProjectsSection";
 import SeoJsonLd from "@/components/SeoJsonLd";
 import SiteFooter from "@/components/SiteFooter";
 import { getPublicEvents } from "@/lib/events";
@@ -39,8 +40,11 @@ export default async function Home() {
         <MissionVisionSection events={events} />
         <C3SectionTransition variant="darkToDark" height="sm" className="relative z-10 -my-4" />
         <ActionLinesSection />
-        <ProjectsSection events={events} />
+        <CommunityActionSection />
+        <EventsSection events={events} />
+        <C3SectionTransition variant="darkToLight" height="sm" className="relative z-10 -my-4" />
         <AudienceSection />
+        <C3SectionTransition variant="lightToDark" height="sm" className="relative z-10 -my-4" />
         <FinalCtaSection />
       </main>
       <SiteFooter />

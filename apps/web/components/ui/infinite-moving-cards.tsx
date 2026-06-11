@@ -5,9 +5,11 @@ import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
 type MovingCardItem = {
-  quote: string;
-  name: string;
   title: string;
+  description: string;
+  line: string;
+  status: string;
+  schedule?: string;
   href?: string;
   external?: boolean;
   cta?: string;
@@ -47,11 +49,11 @@ export const InfiniteMovingCards = ({
       );
 
       if (speed === "fast") {
-        containerRef.current.style.setProperty("--animation-duration", "20s");
+        containerRef.current.style.setProperty("--animation-duration", "24s");
       } else if (speed === "normal") {
-        containerRef.current.style.setProperty("--animation-duration", "40s");
+        containerRef.current.style.setProperty("--animation-duration", "42s");
       } else {
-        containerRef.current.style.setProperty("--animation-duration", "80s");
+        containerRef.current.style.setProperty("--animation-duration", "72s");
       }
 
       setStart(true);
@@ -66,52 +68,66 @@ export const InfiniteMovingCards = ({
     <div
       ref={containerRef}
       className={cn(
-        "scroller relative z-20 max-w-7xl overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_20%,white_80%,transparent)]",
+        "scroller relative z-20 max-w-none overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_12%,white_88%,transparent)]",
         className,
       )}
     >
       <ul
         ref={scrollerRef}
         className={cn(
-          "flex w-max min-w-full shrink-0 flex-nowrap gap-4 py-4",
+          "flex w-max min-w-full shrink-0 flex-nowrap gap-5 py-3",
           start && "animate-scroll",
           pauseOnHover && "hover:[animation-play-state:paused]",
         )}
       >
         {items.map((item) => {
           const card = (
-            <blockquote>
-              <span className="relative z-20 text-sm leading-[1.6] font-normal text-white/84">
-                {item.quote}
-              </span>
-              <div className="relative z-20 mt-6 flex flex-row items-center justify-between gap-4">
-                <span className="flex flex-col gap-1">
-                  <span className="text-sm leading-[1.6] font-normal text-white">
-                    {item.name}
+            <blockquote className="flex h-full flex-col justify-between">
+              <div className="space-y-4">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="rounded-full border border-white/12 bg-white/6 px-3 py-1 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-white/72">
+                    {item.line}
                   </span>
-                  <span className="text-sm leading-[1.6] font-normal text-white/60">
+                  <span className="rounded-full border border-white/12 bg-white/6 px-3 py-1 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-white/72">
+                    {item.status}
+                  </span>
+                  {item.schedule ? (
+                    <span className="rounded-full border border-white/12 bg-white/6 px-3 py-1 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-white/72">
+                      {item.schedule}
+                    </span>
+                  ) : null}
+                </div>
+
+                <div className="space-y-3">
+                  <h3 className="text-2xl font-bold leading-tight text-white md:text-[1.95rem]">
                     {item.title}
-                  </span>
-                </span>
-                {item.cta ? (
-                  <span className="shrink-0 text-sm font-semibold text-[#33BEAC]">
-                    {item.cta}
-                  </span>
-                ) : null}
+                  </h3>
+                  <p className="max-w-[36ch] text-sm leading-7 text-white/78 md:text-[1rem]">
+                    {item.description}
+                  </p>
+                </div>
               </div>
+
+              {item.cta ? (
+                <span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[#33BEAC]">
+                  {item.cta}
+                  <span aria-hidden="true">→</span>
+                </span>
+              ) : null}
             </blockquote>
           );
 
           return (
             <li
-              key={item.name}
-              className="relative w-[350px] max-w-full shrink-0 rounded-2xl border border-white/10 bg-[#122449] px-8 py-6 shadow-[0_14px_32px_rgba(2,8,22,0.18)] md:w-[450px]"
+              key={item.title}
+              className="relative w-[20rem] max-w-full shrink-0 rounded-[1.7rem] border border-white/10 bg-[#122449] px-6 py-6 shadow-[0_14px_32px_rgba(2,8,22,0.18)] md:w-[32rem] md:px-7 md:py-7"
             >
               {item.href ? (
                 <Link
                   href={item.href}
                   target={item.external ? "_blank" : undefined}
                   rel={item.external ? "noreferrer" : undefined}
+                  className="block h-full"
                 >
                   {card}
                 </Link>
