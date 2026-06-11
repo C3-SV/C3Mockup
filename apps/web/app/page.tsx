@@ -31,12 +31,12 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen bg-[#0F203E]">
-      <Navbar />
+      <Navbar showScrollProgress />
       <main>
         <SeoJsonLd data={getWebPageJsonLd({ path: "/", title: seoTitle, description: seoDescription })} />
         <Hero />
         <C3SectionTransition variant="darkToDark" height="sm" className="relative z-10 -my-4" />
-        <MissionVisionSection />
+        <MissionVisionSection events={events} />
         <C3SectionTransition variant="darkToDark" height="sm" className="relative z-10 -my-4" />
         <ActionLinesSection />
         <ProjectsSection events={events} />

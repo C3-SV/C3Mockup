@@ -1,22 +1,88 @@
 @import "tailwindcss";
 
 :root {
+  color-scheme: light;
   --c3-navy: #0f203e;
   --c3-blue: #205298;
   --c3-turquoise: #33beac;
   --c3-purple: #4f5ba9;
   --c3-white: #ffffff;
   --c3-surface: #f4f7fb;
+  --c3-surface-dark: #132548;
+  --c3-surface-deep: #0e1930;
   --c3-soft-border: #dde6ef;
+  --c3-soft-border-dark: rgba(255, 255, 255, 0.12);
   --c3-muted: #5c6a82;
+  --c3-glow: rgba(51, 190, 172, 0.15);
+  --font-heading: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Poppins", ui-sans-serif, system-ui, sans-serif;
   --background: #ffffff;
   --foreground: #0f203e;
+  --card: #ffffff;
+  --card-foreground: #0f203e;
+  --popover: #ffffff;
+  --popover-foreground: #0f203e;
+  --primary: #205298;
+  --primary-foreground: #ffffff;
+  --secondary: #eef4fb;
+  --secondary-foreground: #0f203e;
+  --muted: #f3f7fb;
+  --muted-foreground: #5c6a82;
+  --accent: #e8f5f3;
+  --accent-foreground: #0f203e;
+  --destructive: #b42318;
+  --border: #dce6f1;
+  --input: #dce6f1;
+  --ring: #33beac;
+  --radius: 1rem;
+}
+
+.dark {
+  color-scheme: dark;
+  --background: #0f203e;
+  --foreground: #f4f8ff;
+  --card: #122449;
+  --card-foreground: #f4f8ff;
+  --popover: #122449;
+  --popover-foreground: #f4f8ff;
+  --primary: #33beac;
+  --primary-foreground: #0f203e;
+  --secondary: #132548;
+  --secondary-foreground: #f4f8ff;
+  --muted: #132548;
+  --muted-foreground: #93a1ba;
+  --accent: #1a315c;
+  --accent-foreground: #f4f8ff;
+  --destructive: #ef4444;
+  --border: rgba(255, 255, 255, 0.12);
+  --input: rgba(255, 255, 255, 0.14);
+  --ring: #33beac;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
   --font-sans: var(--font-body);
+}
+
+html {
+  background: var(--background);
 }
 
 body {
@@ -63,6 +129,34 @@ h6 {
   will-change: transform, opacity;
 }
 
+.c3-orbit-rotate {
+  animation: c3-orbit-rotate 34s linear infinite;
+  will-change: transform;
+}
+
+.c3-orbit-counter {
+  animation: c3-orbit-counter 34s linear infinite;
+  will-change: transform;
+}
+
+.c3-marquee-track {
+  animation: c3-marquee 34s linear infinite;
+  width: max-content;
+  will-change: transform;
+}
+
+.animate-orbit {
+  animation: orbit calc(var(--duration) * 1s) linear infinite;
+  left: calc(50% - (var(--icon-size) / 2));
+  top: calc(50% - (var(--icon-size) / 2));
+  transform-origin: center center;
+}
+
+.animate-scroll {
+  animation: scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear
+    infinite;
+}
+
 @keyframes c3-bg-drift {
   0% {
     transform: translate3d(0, 0, 0) scale(1);
@@ -99,11 +193,60 @@ h6 {
   }
 }
 
+@keyframes c3-orbit-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes c3-orbit-counter {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes c3-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes orbit {
+  from {
+    transform: rotate(calc(var(--angle) * 1deg)) translateX(calc(var(--radius) * 1px))
+      rotate(calc(var(--angle) * -1deg));
+  }
+  to {
+    transform: rotate(calc((var(--angle) + 360) * 1deg)) translateX(calc(var(--radius) * 1px))
+      rotate(calc((var(--angle) + 360) * -1deg));
+  }
+}
+
+@keyframes scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .c3-bg-drift,
   .c3-bg-grid-pan,
   .c3-bg-graph-dash,
-  .c3-bg-particle-drift {
+  .c3-bg-particle-drift,
+  .c3-orbit-rotate,
+  .c3-orbit-counter,
+  .c3-marquee-track,
+  .animate-orbit,
+  .animate-scroll {
     animation: none !important;
   }
 }

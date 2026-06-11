@@ -4,8 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { ecosystemNavigation, headerNavigation } from "@/lib/content";
+import { ScrollProgress } from "./ui/scroll-progress";
 
-export default function Navbar() {
+type NavbarProps = {
+  showScrollProgress?: boolean;
+};
+
+export default function Navbar({ showScrollProgress = false }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isEcosystemOpen, setIsEcosystemOpen] = useState(false);
   const ecosystemCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -36,7 +41,7 @@ export default function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/8 bg-[#0F203E]/94 backdrop-blur">
+    <header className="relative sticky top-0 z-50 border-b border-white/8 bg-[#0F203E]/94 backdrop-blur">
       <div className="container-shell flex items-center justify-between py-4 md:py-5">
         <Link
           href="/"
@@ -160,6 +165,8 @@ export default function Navbar() {
           </div>
         </div>
       ) : null}
+
+      {showScrollProgress ? <ScrollProgress tone="brand" className="z-[60]" /> : null}
     </header>
   );
 }

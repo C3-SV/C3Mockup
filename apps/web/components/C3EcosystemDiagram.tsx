@@ -91,6 +91,7 @@ function CircleNode({ node }: { node: DiagramNode }) {
             alt="Logo central de C3"
             width={176}
             height={176}
+            sizes="176px"
             className="h-48 w-48 object-contain"
           />
         </div>
@@ -111,6 +112,7 @@ function CircleNode({ node }: { node: DiagramNode }) {
             alt={`Logo de ${node.label}`}
             width={124}
             height={124}
+            sizes="124px"
             className="h-24 w-24 object-contain transition duration-200 group-hover:scale-[1.04]"
           />
         </Link>
@@ -150,6 +152,7 @@ export default function C3EcosystemDiagram() {
               alt="Logo central de C3"
               width={144}
               height={144}
+              sizes="144px"
               className="h-32 w-32 object-contain"
             />
           </div>
@@ -179,6 +182,7 @@ export default function C3EcosystemDiagram() {
                   alt={`Logo de ${node.label}`}
                   width={116}
                   height={116}
+                  sizes="116px"
                   className="h-[88px] w-[88px] object-contain"
                 />
               </div>

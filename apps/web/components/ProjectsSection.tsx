@@ -1,10 +1,12 @@
-import SeoJsonLd from "./SeoJsonLd";
 import Link from "next/link";
+import SeoJsonLd from "./SeoJsonLd";
 import C3BackgroundLayer from "./backgrounds/C3BackgroundLayer";
-import { lineVisuals } from "@/lib/content";
+import CommunityActionGrid from "./CommunityActionGrid";
+import MovingRecapCards from "./MovingRecapCards";
+import { getCommunityHighlights } from "@/lib/home";
 import { getItemListJsonLd } from "@/lib/structured-data";
 import { siteConfig } from "@/lib/site";
-import { formatEventSchedule, type EventItem } from "@c3/config";
+import { type EventItem } from "@c3/config";
 
 type ProjectsSectionProps = {
   events: EventItem[];
@@ -18,90 +20,48 @@ export default function ProjectsSection({ events }: ProjectsSectionProps) {
       description: event.description,
       url: event.external ? event.href : `${siteConfig.domain}${event.href}`,
     })),
-    "Eventos destacados C3",
+    "Highlights del ecosistema C3",
   );
+
+  const highlights = getCommunityHighlights(events);
 
   return (
     <>
       <SeoJsonLd data={itemList} />
-      <section id="eventos" className="section-divider relative overflow-hidden bg-[#F1F5FB] py-20 text-[#0F203E] md:py-24">
-        <C3BackgroundLayer variant="dots" line="compite" intensity="low" className="opacity-22 mix-blend-multiply" />
+      <section
+        id="c3-en-accion"
+        className="section-divider relative overflow-hidden bg-[#0F203E] py-20 text-white md:py-24"
+      >
+        <C3BackgroundLayer variant="dots" line="compite" intensity="low" className="opacity-16 mix-blend-screen" />
         <div className="container-shell relative z-10 space-y-8">
-          <div className="max-w-4xl">
-            <h2 className="text-3xl font-bold leading-tight md:text-5xl">Evidencia viva del ecosistema C3</h2>
-            <p className="mt-3 max-w-3xl text-base leading-8 text-[#31405c] md:text-lg">
-              Eventos, competencias, hackathons y colaboraciones institucionales que conectan talento técnico
-              joven con aprendizaje y oportunidades reales.
+          <div className="max-w-4xl space-y-4">
+            <span className="inline-flex rounded-full border border-white/12 bg-white/7 px-4 py-1 text-xs font-semibold uppercase tracking-[0.15em] text-white/78">
+              Comunidad
+            </span>
+            <h2 className="text-3xl font-bold leading-tight md:text-5xl">C3 en acción</h2>
+            <p className="max-w-3xl text-base leading-8 text-white/78 md:text-lg">
+              Evidencia viva de comunidad, competencias, hackathons y espacios técnicos que hacen
+              visible el trabajo de C3.
             </p>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {events.map((event) => {
-              const mainLine = lineVisuals[event.lines[0]];
+          <CommunityActionGrid />
 
-              return (
-                <article
-                  key={event.id}
-                  className="flex h-full flex-col rounded-[1.8rem] border border-[#D5DFEA] bg-white p-6 shadow-[0_16px_35px_rgba(15,32,62,0.08)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_22px_45px_rgba(15,32,62,0.14)]"
-                >
-                  <div className="mb-4 h-1.5 w-16 rounded-full" style={{ backgroundColor: mainLine.color }} />
-                  <div className="mb-4 flex flex-wrap items-center gap-2">
-                    {event.lines.map((line) => {
-                      const styles = lineVisuals[line];
-                      return (
-                        <span
-                          key={`${event.id}-${line}`}
-                          className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em]"
-                          style={{
-                            color: styles.color,
-                            backgroundColor: `${styles.color}1a`,
-                            border: `1px solid ${styles.color}73`,
-                          }}
-                        >
-                          {styles.name}
-                        </span>
-                      );
-                    })}
-                    <span className="rounded-full border border-[#cfd8e4] bg-[#F8FAFD] px-3 py-1 text-xs font-semibold uppercase tracking-[0.11em] text-[#4a5b77]">
-                      {event.status}
-                    </span>
-                  </div>
+          <div className="space-y-4">
+            <div className="flex flex-wrap items-end justify-between gap-4">
+              <div className="space-y-2">
+                <h3 className="text-2xl font-bold text-white md:text-3xl">Recaps reales</h3>
+                <p className="max-w-2xl text-sm leading-7 text-white/68">
+                  Highlights y actividades confirmadas que muestran el movimiento continuo del ecosistema.
+                </p>
+              </div>
+              <Link href="/eventos" className="text-sm font-semibold text-[#33BEAC] hover:underline">
+                Ver todos los eventos
+              </Link>
+            </div>
 
-                  <h3 className="text-2xl font-bold leading-tight text-[#0F203E]">{event.title}</h3>
-                  {event.eventDate ? (
-                    <p className="mt-2 text-xs font-semibold uppercase tracking-[0.14em] text-[#5c6a82]">
-                      {formatEventSchedule(event)}
-                    </p>
-                  ) : null}
-                  <p className="mt-3 text-sm leading-7 text-[#344766]">{event.description}</p>
-
-                  <div className="mt-auto pt-6">
-                    {event.external ? (
-                      <a
-                        href={event.href}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center rounded-full bg-[#0F203E] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#205298]"
-                      >
-                        {event.cta}
-                      </a>
-                    ) : (
-                      <Link
-                        href={event.href}
-                        className="inline-flex items-center rounded-full bg-[#0F203E] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#205298]"
-                      >
-                        {event.cta}
-                      </Link>
-                    )}
-                  </div>
-                </article>
-              );
-            })}
+            <MovingRecapCards items={highlights} />
           </div>
-
-          <Link href="/eventos" className="inline-flex text-sm font-semibold text-[#205298] hover:underline">
-            Ver hub completo de eventos
-          </Link>
         </div>
       </section>
     </>

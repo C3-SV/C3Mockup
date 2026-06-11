@@ -1,22 +1,10 @@
 import type { Metadata } from "next";
-import { Montserrat, Poppins } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import SeoJsonLd from "@/components/SeoJsonLd";
+import ThemeProvider from "@/components/theme-provider";
 import { getSiteNavigationJsonLd, organizationJsonLd, websiteJsonLd } from "@/lib/structured-data";
 import { siteConfig } from "@/lib/site";
 import "./globals.css";
-
-const montserrat = Montserrat({
-  variable: "--font-heading",
-  subsets: ["latin"],
-  weight: ["600", "700", "800"],
-});
-
-const poppins = Poppins({
-  variable: "--font-body",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.domain),
@@ -76,12 +64,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang={siteConfig.language}
-      className={`${montserrat.variable} ${poppins.variable} h-full scroll-smooth antialiased`}
-    >
-      <body className="min-h-full flex flex-col">
-        {children}
+    <html lang={siteConfig.language} className="dark h-full scroll-smooth antialiased" suppressHydrationWarning>
+      <body className="min-h-full flex flex-col bg-background text-foreground">
+        <ThemeProvider>{children}</ThemeProvider>
         <SeoJsonLd data={organizationJsonLd} />
         <SeoJsonLd data={websiteJsonLd} />
         <SeoJsonLd data={getSiteNavigationJsonLd()} />

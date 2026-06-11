@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import C3BackgroundLayer from "@/components/backgrounds/C3BackgroundLayer";
-import Button from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
   title: "404 | C3",
@@ -41,6 +42,7 @@ export default function NotFound() {
               alt="C3"
               width={96}
               height={96}
+              sizes="96px"
               className="h-14 w-auto sm:h-16"
               priority
             />
@@ -57,11 +59,11 @@ export default function NotFound() {
           </p>
 
           <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Button href="/" variant="primary" className="min-w-52">
-              Regresar al inicio
+            <Button asChild size="lg" className="min-w-52 rounded-full">
+              <Link href="/">Regresar al inicio</Link>
             </Button>
-            <Button href="/eventos" variant="secondary" className="min-w-52">
-              Ver eventos
+            <Button asChild variant="secondary" size="lg" className="min-w-52 rounded-full">
+              <Link href="/eventos">Ver eventos</Link>
             </Button>
           </div>
 

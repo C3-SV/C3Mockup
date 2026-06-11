@@ -100,6 +100,7 @@ export default function LinePageTemplate({ line, events }: LinePageTemplateProps
                 src={visual.logo}
                 alt={`Logo de ${visual.name}`}
                 fill
+                sizes="(min-width: 768px) 18rem, 14rem"
                 className="object-contain p-10 md:p-12"
               />
             </div>

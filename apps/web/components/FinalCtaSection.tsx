@@ -1,13 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import C3BackgroundLayer from "./backgrounds/C3BackgroundLayer";
-import Button from "./ui/Button";
+import { Button } from "./ui/button";
 
 export default function FinalCtaSection() {
   return (
     <section id="cta-final" className="section-divider relative overflow-hidden bg-[#0F203E] py-20 text-white md:py-24">
-      <C3BackgroundLayer variant="glow" line="brand" intensity="medium" className="opacity-80" />
-      <C3BackgroundLayer variant="particles" line="brand" intensity="low" animated className="opacity-50" />
+      <C3BackgroundLayer variant="glow" line="brand" intensity="medium" className="opacity-72" />
+      <C3BackgroundLayer variant="particles" line="brand" intensity="low" animated className="opacity-45" />
 
       <div className="container-shell relative z-10">
         <div className="rounded-[2.1rem] border border-white/14 bg-[#101f3e]/86 p-8 shadow-[0_24px_60px_rgba(4,10,24,0.5)] backdrop-blur-sm md:p-12">
@@ -17,6 +17,7 @@ export default function FinalCtaSection() {
                 src="/brand/logo-c3-claro-con-color.png"
                 alt="Logo C3 en llamado final"
                 fill
+                sizes="64px"
                 className="object-contain p-2"
               />
             </div>
@@ -26,16 +27,18 @@ export default function FinalCtaSection() {
           </div>
 
           <h2 className="max-w-3xl text-3xl font-bold leading-tight md:text-5xl">
-            Construyamos la próxima generación técnica de la región.
+            ¿Querés participar, competir o conectar con C3?
           </h2>
           <p className="mt-4 max-w-3xl text-base leading-8 text-white/84 md:text-lg">
             C3 une competencia, creación y conexión para abrir más oportunidades al talento joven.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-4">
-            <Button href="/eventos">Participar en C3</Button>
-            <Button href="/contacto" variant="secondary">
-              Ser aliado
+            <Button asChild size="lg" className="rounded-full px-6">
+              <Link href="/eventos">Participar ahora</Link>
+            </Button>
+            <Button asChild variant="secondary" size="lg" className="rounded-full px-6">
+              <Link href="/contacto">Ser aliado</Link>
             </Button>
             <Link
               href="/contacto"

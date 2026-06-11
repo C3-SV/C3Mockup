@@ -1,37 +1,74 @@
-import Image from "next/image";
 import Link from "next/link";
 import C3BackgroundLayer from "./backgrounds/C3BackgroundLayer";
-import Button from "./ui/Button";
+import OrbitingC3 from "./OrbitingC3";
+import { AnimatedGridPattern } from "./ui/animated-grid-pattern";
+import { BorderBeam } from "./ui/border-beam";
+import { Highlight } from "./ui/hero-highlight";
+import { Button } from "./ui/button";
 
 export default function Hero() {
   return (
-    <section id="inicio" className="relative overflow-hidden bg-[#0F203E] py-20 text-white md:py-28">
-      <C3BackgroundLayer variant="dots" line="brand" intensity="low" mask="bottom" className="opacity-90" />
+    <section
+      id="inicio"
+      className="relative overflow-hidden bg-[#0F203E] py-20 text-white md:py-28"
+    >
       <C3BackgroundLayer
-        variant="orbit"
+        variant="glow"
         line="brand"
         intensity="medium"
-        animated
         mask="bottom"
-        className="opacity-70"
+        className="opacity-55"
+      />
+      <AnimatedGridPattern
+        width={48}
+        height={48}
+        numSquares={72}
+        maxOpacity={0.22}
+        duration={3.5}
+        repeatDelay={0.35}
+        className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.18] [mask-image:linear-gradient(to_bottom,transparent,black_12%,black_88%,transparent)] motion-reduce:hidden"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-[radial-gradient(circle_at_18%_22%,rgba(32,82,152,0.24),transparent_34%),radial-gradient(circle_at_80%_24%,rgba(79,91,169,0.16),transparent_28%),radial-gradient(circle_at_52%_82%,rgba(51,190,172,0.18),transparent_32%)]"
       />
 
-      <div className="container-shell relative z-10 grid items-center gap-14 md:grid-cols-[1.15fr_0.85fr] xl:gap-20">
+      <div className="container-shell relative z-10 grid items-center gap-14 md:grid-cols-[1.1fr_0.9fr] xl:gap-20">
         <div className="space-y-8 md:pr-4">
           <div className="space-y-5">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/58">
+              Competitive Coding Club · El Salvador
+            </p>
             <h1 className="max-w-3xl text-4xl font-extrabold leading-tight md:text-6xl">
-              C3 desarrolla talento técnico joven a través de competencia, creación y conexión.
+              C3 desarrolla{" "}
+              <Highlight className="whitespace-normal rounded-xl px-2 py-1 text-[#0F203E] shadow-[0_10px_30px_rgba(51,190,172,0.22)] md:whitespace-nowrap">
+                talento técnico joven
+              </Highlight>{" "}
+              a través de competencia, creación y conexión.
             </h1>
-            <p className="max-w-3xl text-base leading-8 text-white/85 md:text-lg">
+            <p className="max-w-3xl text-base leading-8 text-white/84 md:text-lg">
               Competitive Coding Club conecta programación competitiva, hackathons, comunidad e
               industria para abrir oportunidades reales a la próxima generación técnica de El
               Salvador y la región.
             </p>
           </div>
+
           <div className="flex flex-wrap items-center gap-4">
-            <Button href="/eventos">Explorar eventos</Button>
-            <Button href="/contacto" variant="secondary">
-              Ser aliado
+            <div className="relative inline-flex rounded-full">
+              <BorderBeam
+                colorFrom="#205298"
+                colorTo="#33BEAC"
+                borderWidth={1}
+                size={96}
+                duration={8}
+                className="opacity-80"
+              />
+              <Button asChild size="lg" className="relative z-10 rounded-full px-6">
+                <Link href="/eventos">Participar ahora</Link>
+              </Button>
+            </div>
+            <Button asChild variant="secondary" size="lg" className="rounded-full px-6">
+              <Link href="/contacto">Ser aliado</Link>
             </Button>
             <Link
               href="/que-es-c3"
@@ -42,24 +79,8 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="relative flex justify-center md:justify-center">
-          <div className="relative flex flex-col items-center">
-            <Image
-              src="/brand/logo-c3-claro-con-color.png"
-              alt="Logo principal de C3"
-              width={920}
-              height={920}
-              className="mx-auto h-auto w-full max-w-[21rem] drop-shadow-[0_16px_35px_rgba(3,11,27,0.55)] md:max-w-[24rem]"
-              priority
-            />
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm font-semibold uppercase tracking-[0.18em] md:text-base">
-              <span className="text-[#205298]">Compite</span>
-              <span className="text-white/35">·</span>
-              <span className="text-[#33BEAC]">Crea</span>
-              <span className="text-white/35">·</span>
-              <span className="text-[#4F5BA9]">Conecta</span>
-            </div>
-          </div>
+        <div className="relative flex justify-center md:justify-end">
+          <OrbitingC3 />
         </div>
       </div>
     </section>
