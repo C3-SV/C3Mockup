@@ -76,12 +76,10 @@ export default function ScrollProgress({
     >
       <div className="relative h-[3px] overflow-hidden bg-white/10 shadow-[0_1px_2px_rgba(2,8,22,0.16)]">
         <div
-          className={cn(
-            "c3-scroll-flow absolute inset-y-0 left-0 origin-left rounded-full transition-[width] duration-100 ease-linear",
-            variant === "general" ? "bg-[length:180%_100%] bg-no-repeat" : "",
-          )}
+          className={cn("absolute inset-0 origin-left rounded-full", variant === "general" ? "" : "")}
           style={{
-            width: `${progress * 100}%`,
+            transform: `scaleX(${progress})`,
+            transformOrigin: "left center",
             ...fillStyle,
           }}
         />

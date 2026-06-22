@@ -96,10 +96,6 @@ h6 {
   animation: c3-button-shimmer 5.4s linear infinite;
 }
 
-.c3-scroll-flow {
-  animation: c3-scroll-flow 9s linear infinite;
-}
-
 @keyframes c3-bg-drift {
   0% {
     transform: translate3d(0, 0, 0) scale(1);
@@ -145,22 +141,12 @@ h6 {
   }
 }
 
-@keyframes c3-scroll-flow {
-  0% {
-    background-position: 0% 50%;
-  }
-  100% {
-    background-position: 180% 50%;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .c3-bg-drift,
   .c3-bg-grid-pan,
   .c3-bg-graph-dash,
   .c3-bg-particle-drift,
-  .c3-button-shimmer,
-  .c3-scroll-flow {
+  .c3-button-shimmer {
     animation: none !important;
   }
 }
