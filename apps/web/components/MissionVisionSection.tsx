@@ -1,6 +1,5 @@
 import Image from "next/image";
 import C3BackgroundLayer from "./backgrounds/C3BackgroundLayer";
-import C3SectionTransition from "./C3SectionTransition";
 
 type Initiative = {
   line: "Compite" | "Crea";
@@ -53,7 +52,7 @@ export default function MissionVisionSection() {
     <>
       <section
         id="proximas-iniciativas"
-        className="section-divider relative overflow-hidden bg-[#0F203E] py-20 text-white md:py-24"
+        className="section-divider relative overflow-hidden bg-[#0F203E] py-24 pb-28 text-white md:py-28 md:pb-32"
       >
         <C3BackgroundLayer variant="glow" line="crea" intensity="medium" mask="bottom" className="opacity-65" />
         <C3BackgroundLayer variant="dots" line="crea" intensity="low" mask="bottom" className="opacity-50" />
@@ -126,9 +125,7 @@ export default function MissionVisionSection() {
         </div>
       </section>
 
-      <C3SectionTransition variant="darkToDark" height="sm" className="relative z-10 -my-4" />
-
-      <section className="section-divider relative overflow-hidden bg-[#101A31] py-16 text-white md:py-20">
+      <section className="section-divider relative overflow-hidden bg-[linear-gradient(180deg,#0F203E_0%,#101A31_18%,#101A31_100%)] py-20 text-white md:py-24">
         <C3BackgroundLayer variant="glow" line="conecta" intensity="medium" mask="bottom" className="opacity-60" />
         <C3BackgroundLayer variant="dots" line="conecta" intensity="low" mask="bottom" className="opacity-35" />
         <div className="container-shell relative z-10 space-y-7">

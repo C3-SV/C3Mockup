@@ -3,7 +3,7 @@ import C3EcosystemDiagram from "./C3EcosystemDiagram";
 
 export default function ActionLinesSection() {
   return (
-    <section id="ecosistema" className="section-divider relative overflow-hidden bg-[#0F203E] py-20 text-white">
+    <section id="ecosistema" className="section-divider relative overflow-hidden bg-[#0F203E] py-24 text-white md:py-28">
       <C3BackgroundLayer variant="dots" line="brand" intensity="low" mask="top" className="opacity-70" />
       <C3BackgroundLayer
         variant="graph"

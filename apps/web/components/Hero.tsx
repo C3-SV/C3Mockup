@@ -1,11 +1,10 @@
 import Image from "next/image";
-import Link from "next/link";
 import C3BackgroundLayer from "./backgrounds/C3BackgroundLayer";
 import Button from "./ui/Button";
 
 export default function Hero() {
   return (
-    <section id="inicio" className="relative overflow-hidden bg-[#0F203E] py-20 text-white md:py-28">
+    <section id="inicio" className="relative overflow-hidden bg-[#0F203E] py-24 text-white md:py-32">
       <C3BackgroundLayer variant="dots" line="brand" intensity="low" mask="bottom" className="opacity-90" />
       <C3BackgroundLayer
         variant="orbit"
@@ -29,16 +28,15 @@ export default function Hero() {
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-4">
-            <Button href="/eventos">Explorar eventos</Button>
-            <Button href="/contacto" variant="secondary">
+            <Button href="/eventos" variant="featured" context="general" surface="dark">
+              Explorar eventos
+            </Button>
+            <Button href="/contacto" variant="secondary" context="general" surface="dark">
               Ser aliado
             </Button>
-            <Link
-              href="/que-es-c3"
-              className="text-sm font-semibold tracking-wide text-white/80 underline-offset-4 transition hover:text-white hover:underline"
-            >
+            <Button href="/que-es-c3" variant="text" context="general" surface="dark">
               Conocer C3
-            </Link>
+            </Button>
           </div>
         </div>
 
@@ -65,3 +63,4 @@ export default function Hero() {
     </section>
   );
 }
+

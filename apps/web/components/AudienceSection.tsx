@@ -37,7 +37,10 @@ const audiences = [
 
 export default function AudienceSection() {
   return (
-    <section id="audiencias" className="section-divider relative overflow-hidden bg-[#F8FAFD] py-20 text-[#0F203E] md:py-24">
+    <section
+      id="audiencias"
+      className="section-divider relative overflow-hidden bg-[linear-gradient(180deg,#F1F5FB_0%,#F8FAFD_16%,#F8FAFD_100%)] py-24 text-[#0F203E] md:py-28"
+    >
       <C3BackgroundLayer variant="dots" line="compite" intensity="low" className="opacity-20 mix-blend-multiply" />
       <div className="container-shell relative z-10 space-y-8">
         <div className="max-w-4xl space-y-4">

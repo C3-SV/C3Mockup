@@ -24,7 +24,10 @@ export default function ProjectsSection({ events }: ProjectsSectionProps) {
   return (
     <>
       <SeoJsonLd data={itemList} />
-      <section id="eventos" className="section-divider relative overflow-hidden bg-[#F1F5FB] py-20 text-[#0F203E] md:py-24">
+      <section
+        id="eventos"
+        className="section-divider relative overflow-hidden bg-[linear-gradient(180deg,#101A31_0%,#F1F5FB_12%,#F1F5FB_100%)] py-24 text-[#0F203E] md:py-28"
+      >
         <C3BackgroundLayer variant="dots" line="compite" intensity="low" className="opacity-22 mix-blend-multiply" />
         <div className="container-shell relative z-10 space-y-8">
           <div className="max-w-4xl">

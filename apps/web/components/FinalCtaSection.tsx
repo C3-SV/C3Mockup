@@ -1,14 +1,13 @@
 import Image from "next/image";
-import Link from "next/link";
-import C3BackgroundLayer from "./backgrounds/C3BackgroundLayer";
 import Button from "./ui/Button";
 
 export default function FinalCtaSection() {
   return (
-    <section id="cta-final" className="section-divider relative overflow-hidden bg-[#0F203E] py-20 text-white md:py-24">
-      <C3BackgroundLayer variant="glow" line="brand" intensity="medium" className="opacity-80" />
-      <C3BackgroundLayer variant="particles" line="brand" intensity="low" animated className="opacity-50" />
-
+    <section
+      id="cta-final"
+      className="section-divider relative overflow-hidden bg-[linear-gradient(180deg,#F8FAFD_0%,#0F203E_18%,#0F203E_100%)] py-24 text-white md:py-28"
+    >
+      <div className="absolute inset-x-0 top-0 h-24 bg-[linear-gradient(180deg,rgba(248,250,253,0.95)_0%,rgba(248,250,253,0)_100%)]" />
       <div className="container-shell relative z-10">
         <div className="rounded-[2.1rem] border border-white/14 bg-[#101f3e]/86 p-8 shadow-[0_24px_60px_rgba(4,10,24,0.5)] backdrop-blur-sm md:p-12">
           <div className="mb-8 flex items-center gap-4">
@@ -33,19 +32,19 @@ export default function FinalCtaSection() {
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-4">
-            <Button href="/eventos">Participar en C3</Button>
-            <Button href="/contacto" variant="secondary">
+            <Button href="/eventos" variant="featured" context="general" surface="dark">
+              Participar en C3
+            </Button>
+            <Button href="/contacto" variant="secondary" context="general" surface="dark">
               Ser aliado
             </Button>
-            <Link
-              href="/contacto"
-              className="text-sm font-semibold tracking-wide text-white/80 underline-offset-4 transition hover:text-white hover:underline"
-            >
+            <Button href="/contacto" variant="text" context="general" surface="dark">
               Contactar
-            </Link>
+            </Button>
           </div>
         </div>
       </div>
     </section>
   );
 }
+

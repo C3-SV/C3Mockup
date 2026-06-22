@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import ActionLinesSection from "@/components/ActionLinesSection";
 import AudienceSection from "@/components/AudienceSection";
-import C3SectionTransition from "@/components/C3SectionTransition";
 import FinalCtaSection from "@/components/FinalCtaSection";
 import Hero from "@/components/Hero";
 import MissionVisionSection from "@/components/MissionVisionSection";
@@ -9,6 +8,7 @@ import Navbar from "@/components/Navbar";
 import ProjectsSection from "@/components/ProjectsSection";
 import SeoJsonLd from "@/components/SeoJsonLd";
 import SiteFooter from "@/components/SiteFooter";
+import ScrollProgress from "@/components/ui/ScrollProgress";
 import { getPublicEvents } from "@/lib/events";
 import { createPageMetadata } from "@/lib/metadata";
 import { getWebPageJsonLd } from "@/lib/structured-data";
@@ -32,12 +32,11 @@ export default async function Home() {
   return (
     <div className="min-h-screen bg-[#0F203E]">
       <Navbar />
+      <ScrollProgress variant="general" />
       <main>
         <SeoJsonLd data={getWebPageJsonLd({ path: "/", title: seoTitle, description: seoDescription })} />
         <Hero />
-        <C3SectionTransition variant="darkToDark" height="sm" className="relative z-10 -my-4" />
         <MissionVisionSection />
-        <C3SectionTransition variant="darkToDark" height="sm" className="relative z-10 -my-4" />
         <ActionLinesSection />
         <ProjectsSection events={events} />
         <AudienceSection />
