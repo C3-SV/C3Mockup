@@ -148,10 +148,10 @@ export default function QueEsC3Page() {
         </div>
       </section>
 
-      <section className="section-divider relative overflow-hidden bg-white py-16 text-[#0F203E] md:py-20">
-        <div className="container-shell space-y-8">
-          <div className="max-w-3xl space-y-3">
-            <h2 className="text-3xl font-bold leading-tight md:text-4xl">
+      <section className="section-divider relative overflow-hidden bg-white py-14 text-[#0F203E] md:py-16">
+        <div className="container-shell space-y-5">
+          <div className="max-w-3xl space-y-2">
+            <h2 className="text-3xl font-bold leading-tight md:text-[2.15rem]">
               Equipo líder
             </h2>
             <p className="text-base leading-8 text-[#364765] md:text-lg">
@@ -159,23 +159,23 @@ export default function QueEsC3Page() {
             </p>
           </div>
 
-          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {teamLeaders.map((member) => (
               <article
                 key={member.name}
-                className="flex h-full flex-col rounded-[1.8rem] border border-[#d5deea] bg-[#F8FAFD] p-4 shadow-[0_12px_30px_rgba(15,32,62,0.06)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_36px_rgba(15,32,62,0.1)]"
+                className="flex h-full flex-col rounded-[1.45rem] border border-[#dbe4ef] bg-[#F8FAFD] p-3 shadow-[0_8px_18px_rgba(15,32,62,0.05)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_12px_24px_rgba(15,32,62,0.08)]"
               >
-                <div className="relative aspect-[4/5] overflow-hidden rounded-[1.4rem] border border-[#d5deea] bg-gradient-to-br from-[#e9f0f7] via-[#f8fbfe] to-white">
+                <div className="relative aspect-[4/4.08] overflow-hidden rounded-[1.15rem] border border-[#dbe4ef] bg-gradient-to-br from-[#edf3f8] via-[#f9fbfd] to-white">
                   {member.photoSrc ? (
                     <Image
                       src={member.photoSrc}
                       alt={member.photoAlt ?? member.name}
                       fill
-                      sizes="(min-width: 1024px) 30vw, (min-width: 768px) 45vw, 100vw"
+                      sizes="(min-width: 1024px) 28vw, (min-width: 768px) 42vw, 100vw"
                       className="object-cover"
                     />
                   ) : (
-                    <div className="flex h-full items-end p-4">
+                    <div className="flex h-full items-end p-2.5">
                       <div className="rounded-full bg-white/80 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-[#5c6a82] backdrop-blur-sm">
                         Imagen pendiente
                       </div>
@@ -183,21 +183,21 @@ export default function QueEsC3Page() {
                   )}
                 </div>
 
-                <div className="mt-4 space-y-1">
-                  <p className="text-lg font-bold leading-tight text-[#0F203E]">{member.name}</p>
-                  <p className="text-sm font-medium text-[#205298]">{member.role}</p>
+                <div className="mt-2.5 space-y-0.5">
+                  <p className="text-[0.98rem] font-bold leading-tight text-[#0F203E]">{member.name}</p>
+                  <p className="text-[0.78rem] font-medium leading-5 text-[#205298]">{member.role}</p>
                 </div>
 
-                <div className="mt-4 flex items-center gap-2">
+                <div className="mt-2.5 flex items-center gap-2">
                   <a
                     href={member.linkedinHref}
                     target="_blank"
                     rel="noreferrer"
                     aria-label={`${member.name} en LinkedIn`}
                     title="LinkedIn"
-                    className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#d5deea] bg-white text-[#205298] transition hover:border-[#205298] hover:bg-[#eef4fb]"
+                    className="inline-flex h-[1.875rem] w-[1.875rem] items-center justify-center rounded-full border border-[#dbe4ef] bg-white text-[#205298] transition hover:border-[#205298] hover:bg-[#eef4fb]"
                   >
-                    <FaLinkedinIn size={14} aria-hidden="true" />
+                    <FaLinkedinIn size={12} aria-hidden="true" />
                   </a>
 
                   {member.portfolioHref ? (
@@ -207,9 +207,9 @@ export default function QueEsC3Page() {
                       rel="noreferrer"
                       aria-label={`${member.name} portafolio`}
                       title="Portafolio"
-                      className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#d5deea] bg-white text-[#33BEAC] transition hover:border-[#33BEAC] hover:bg-[#effaf8]"
+                      className="inline-flex h-[1.875rem] w-[1.875rem] items-center justify-center rounded-full border border-[#dbe4ef] bg-white text-[#33BEAC] transition hover:border-[#33BEAC] hover:bg-[#effaf8]"
                     >
-                      <FiLink size={14} aria-hidden="true" />
+                      <FiLink size={12} aria-hidden="true" />
                     </a>
                   ) : null}
                 </div>
