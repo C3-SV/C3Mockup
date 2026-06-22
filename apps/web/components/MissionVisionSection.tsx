@@ -1,5 +1,6 @@
 import Image from "next/image";
 import C3BackgroundLayer from "./backgrounds/C3BackgroundLayer";
+import Button from "./ui/Button";
 
 type Initiative = {
   line: "Compite" | "Crea";
@@ -94,14 +95,17 @@ export default function MissionVisionSection() {
                     <p className="max-w-[44ch] text-base leading-8 text-white/82">
                       {initiative.description}
                     </p>
-                    <a
+                    <Button
                       href={initiative.href}
-                      className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-[#0F203E] transition group-hover:bg-[#33BEAC] group-hover:text-[#0F203E]"
                       target="_blank"
                       rel="noreferrer"
+                      variant="featured"
+                      context={initiative.line === "Compite" ? "compite" : "crea"}
+                      surface="dark"
+                      className="w-fit"
                     >
                       {initiative.cta}
-                    </a>
+                    </Button>
                   </div>
                   <div
                     className="relative hidden h-20 w-20 shrink-0 rounded-2xl border p-2 md:flex"

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { ButtonHTMLAttributes, ReactNode } from "react";
+import type { ButtonHTMLAttributes, CSSProperties, ReactNode } from "react";
 import { c3ContextTokens, c3Palette, type C3ButtonVariant, type C3Context, type C3Surface } from "@/lib/c3-theme";
 import { cn } from "./utils";
 
@@ -10,6 +10,7 @@ type SharedButtonProps = {
   context?: C3Context;
   surface?: C3Surface;
   loading?: boolean;
+  accent?: string;
 };
 
 type ButtonLinkProps = SharedButtonProps & {
@@ -57,9 +58,11 @@ function getVariantClasses(
   variant: C3ButtonVariant | "ghost",
   context: C3Context,
   surface: C3Surface,
+  accent?: string,
   disabled?: boolean,
 ) {
   const tokens = c3ContextTokens[context];
+  const hoverColor = accent ?? tokens.main;
 
   if (variant === "featured") {
     return {
@@ -95,13 +98,12 @@ function getVariantClasses(
     return {
       className: cn(
         surface === "dark"
-          ? "border-white/18 bg-white/8 text-white hover:border-white/26 hover:bg-white/12"
-          : "border-[#D5DFEA] bg-white text-[#0F203E] hover:border-[#B9C7D8] hover:bg-[#F8FAFD]",
+          ? "border-white/18 bg-white/8 text-white hover:border-[var(--button-hover)] hover:bg-[var(--button-hover)]"
+          : "border-[#D5DFEA] bg-white text-[#0F203E] hover:border-[var(--button-hover)] hover:bg-[var(--button-hover)] hover:text-white",
       ),
       style: {
-        borderColor: tokens.main,
-        color: surface === "dark" ? c3Palette.white : c3Palette.ink,
-      } as const,
+        ["--button-hover" as "--button-hover"]: hoverColor,
+      } as CSSProperties,
     };
   }
 
@@ -128,10 +130,11 @@ export function Button(props: ButtonLinkProps | ButtonNativeProps) {
   const variant = props.variant ?? "primary";
   const context = props.context ?? "general";
   const surface = props.surface ?? "dark";
+  const accent = props.accent;
   const disabled = "disabled" in props ? props.disabled : false;
   const loading = props.loading ?? false;
   const sharedClasses = getSharedClasses(surface, disabled, loading);
-  const variantConfig = getVariantClasses(variant, context, surface, disabled);
+  const variantConfig = getVariantClasses(variant, context, surface, accent, disabled);
   const className = cn(sharedClasses, variantConfig.className, props.className);
   const style = variantConfig.style ?? undefined;
   const isInteractive = !disabled && !loading;
@@ -144,6 +147,7 @@ export function Button(props: ButtonLinkProps | ButtonNativeProps) {
       variant: _variant,
       context: _context,
       surface: _surface,
+      accent: _accent,
       loading: _loading,
       disabled: _disabled,
       href,
@@ -217,6 +221,7 @@ export function Button(props: ButtonLinkProps | ButtonNativeProps) {
     variant: _variant,
     context: _context,
     surface: _surface,
+    accent: _accent,
     loading: _loading,
     disabled: nativeDisabled,
     type,

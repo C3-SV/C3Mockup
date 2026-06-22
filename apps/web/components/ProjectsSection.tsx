@@ -1,6 +1,7 @@
 import SeoJsonLd from "./SeoJsonLd";
 import Link from "next/link";
 import C3BackgroundLayer from "./backgrounds/C3BackgroundLayer";
+import Button from "./ui/Button";
 import { lineVisuals } from "@/lib/content";
 import { getItemListJsonLd } from "@/lib/structured-data";
 import { siteConfig } from "@/lib/site";
@@ -79,23 +80,17 @@ export default function ProjectsSection({ events }: ProjectsSectionProps) {
                   <p className="mt-3 text-sm leading-7 text-[#344766]">{event.description}</p>
 
                   <div className="mt-auto pt-6">
-                    {event.external ? (
-                      <a
-                        href={event.href}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center rounded-full bg-[#0F203E] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#205298]"
-                      >
-                        {event.cta}
-                      </a>
-                    ) : (
-                      <Link
-                        href={event.href}
-                        className="inline-flex items-center rounded-full bg-[#0F203E] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#205298]"
-                      >
-                        {event.cta}
-                      </Link>
-                    )}
+                    <Button
+                      href={event.href}
+                      target={event.external ? "_blank" : undefined}
+                      rel={event.external ? "noreferrer" : undefined}
+                      variant="secondary"
+                      context={mainLine.key}
+                      accent={mainLine.color}
+                      surface="light"
+                    >
+                      {event.cta}
+                    </Button>
                   </div>
                 </article>
               );
@@ -110,3 +105,4 @@ export default function ProjectsSection({ events }: ProjectsSectionProps) {
     </>
   );
 }
+

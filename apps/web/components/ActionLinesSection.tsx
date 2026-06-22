@@ -1,5 +1,36 @@
 import C3BackgroundLayer from "./backgrounds/C3BackgroundLayer";
 import C3EcosystemDiagram from "./C3EcosystemDiagram";
+import Button from "./ui/Button";
+
+const actionLines = [
+  {
+    title: "COMPITE",
+    description:
+      "Desarrollamos el máximo potencial técnico a través de desafíos y competencias de clase mundial.",
+    bullets: ["Programación competitiva", "ICPC", "Copa Salvadoreña de Programación", "Entrenamientos"],
+    color: "#205298",
+    href: "/compite",
+    context: "compite" as const,
+  },
+  {
+    title: "CREA",
+    description:
+      "Convertimos conocimiento técnico en construcción: prototipos, software y soluciones para retos reales.",
+    bullets: ["Hackathons", "Builders", "Desarrollo de software", "Proyectos reales"],
+    color: "#33BEAC",
+    href: "/crea",
+    context: "crea" as const,
+  },
+  {
+    title: "CONECTA",
+    description:
+      "Construimos el puente entre talento emergente, comunidad, instituciones y oportunidades reales.",
+    bullets: ["Comunidad", "Industria", "Mentoría", "Alianzas"],
+    color: "#4F5BA9",
+    href: "/conecta",
+    context: "conecta" as const,
+  },
+] as const;
 
 export default function ActionLinesSection() {
   return (
@@ -26,42 +57,14 @@ export default function ActionLinesSection() {
         <C3EcosystemDiagram />
 
         <div className="grid gap-6 lg:grid-cols-3">
-          {[
-            {
-              title: "COMPITE",
-              description:
-                "Desarrollamos el máximo potencial técnico a través de desafíos y competencias de clase mundial.",
-              bullets: ["Programación competitiva", "ICPC", "Copa Salvadoreña de Programación", "Entrenamientos"],
-              color: "#205298",
-              href: "/compite",
-            },
-            {
-              title: "CREA",
-              description:
-                "Convertimos conocimiento técnico en construcción: prototipos, software y soluciones para retos reales.",
-              bullets: ["Hackathons", "Builders", "Desarrollo de software", "Proyectos reales"],
-              color: "#33BEAC",
-              href: "/crea",
-            },
-            {
-              title: "CONECTA",
-              description:
-                "Construimos el puente entre talento emergente, comunidad, instituciones y oportunidades reales.",
-              bullets: ["Comunidad", "Industria", "Mentoría", "Alianzas"],
-              color: "#4F5BA9",
-              href: "/conecta",
-            },
-          ].map((card) => (
+          {actionLines.map((card) => (
             <article
               key={card.title}
               className="flex h-full flex-col rounded-[1.8rem] border border-white/13 bg-[#121f3d] p-6"
               style={{ boxShadow: "0 16px 40px rgba(2,8,22,0.22)" }}
             >
               <div className="mb-4 h-1.5 w-16 rounded-full" style={{ backgroundColor: card.color }} />
-              <h3 className="text-2xl font-bold leading-tight text-white">
-                {card.title}
-                {/*card.title === "CONECTA" ? "Conecta" : card.title.charAt(0) + card.title.slice(1).toLowerCase()*/}
-              </h3>
+              <h3 className="text-2xl font-bold leading-tight text-white">{card.title}</h3>
               <p className="mt-3 text-sm leading-7 text-white/82">{card.description}</p>
               <ul className="mt-4 space-y-2 text-sm text-white/82">
                 {card.bullets.map((bullet) => (
@@ -75,9 +78,15 @@ export default function ActionLinesSection() {
                   </li>
                 ))}
               </ul>
-              <a href={card.href} className="mt-6 inline-flex text-sm font-semibold text-white hover:underline">
+              <Button
+                href={card.href}
+                variant="text"
+                context={card.context}
+                surface="dark"
+                className="mt-6 w-fit"
+              >
                 Ir a la línea
-              </a>
+              </Button>
             </article>
           ))}
         </div>
@@ -85,3 +94,4 @@ export default function ActionLinesSection() {
     </section>
   );
 }
+

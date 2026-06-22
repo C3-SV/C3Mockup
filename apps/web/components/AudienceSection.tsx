@@ -1,6 +1,6 @@
 import C3BackgroundLayer from "./backgrounds/C3BackgroundLayer";
+import Button from "./ui/Button";
 import { FaBuilding, FaGraduationCap, FaUserAstronaut } from "react-icons/fa";
-import Link from "next/link";
 
 const audiences = [
   {
@@ -11,6 +11,7 @@ const audiences = [
     href: "/eventos",
     icon: FaUserAstronaut,
     accent: "#205298",
+    context: "compite" as const,
     benefits: ["Competencias", "Hackathons", "Comunidad"],
   },
   {
@@ -21,6 +22,7 @@ const audiences = [
     href: "/contacto",
     icon: FaGraduationCap,
     accent: "#33BEAC",
+    context: "crea" as const,
     benefits: ["Charlas", "Talleres", "Activaciones técnicas"],
   },
   {
@@ -31,6 +33,7 @@ const audiences = [
     href: "/contacto",
     icon: FaBuilding,
     accent: "#4F5BA9",
+    context: "conecta" as const,
     benefits: ["Visibilidad", "Mentoría", "Alianzas estratégicas"],
   },
 ];
@@ -99,15 +102,15 @@ export default function AudienceSection() {
                   ))}
                 </ul>
 
-                <Link
+                <Button
                   href={audience.href}
-                  className="mt-8 inline-flex items-center rounded-full px-4 py-2.5 text-sm font-semibold text-white transition hover:brightness-110"
-                  style={{
-                    backgroundColor: audience.accent,
-                  }}
+                  variant="primary"
+                  context={audience.context}
+                  surface="light"
+                  className="mt-8 w-fit"
                 >
                   {audience.cta}
-                </Link>
+                </Button>
               </article>
             );
           })}
@@ -116,3 +119,4 @@ export default function AudienceSection() {
     </section>
   );
 }
+
