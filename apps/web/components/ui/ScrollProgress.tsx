@@ -7,9 +7,14 @@ import { cn } from "./utils";
 type ScrollProgressProps = {
   variant?: C3Context;
   className?: string;
+  embedded?: boolean;
 };
 
-export default function ScrollProgress({ variant = "general", className }: ScrollProgressProps) {
+export default function ScrollProgress({
+  variant = "general",
+  className,
+  embedded = false,
+}: ScrollProgressProps) {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
@@ -56,18 +61,23 @@ export default function ScrollProgress({ variant = "general", className }: Scrol
       ? { backgroundImage: tokens.gradient }
       : {
           backgroundColor: tokens.main,
-          boxShadow: `0 0 18px ${tokens.glow}`,
+          boxShadow: `0 0 10px ${tokens.glow}`,
         };
 
   return (
     <div
       aria-hidden="true"
-      className={cn("pointer-events-none fixed inset-x-0 top-[var(--c3-navbar-offset)] z-40 w-full", className)}
+      className={cn(
+        embedded ? "pointer-events-none relative w-full" : "pointer-events-none fixed inset-x-0 top-[var(--c3-navbar-offset)] z-[60] w-full",
+        className,
+      )}
     >
-      <div className="relative h-1 overflow-hidden bg-[#0F203E]/8 shadow-[0_1px_0_rgba(255,255,255,0.08)_inset] backdrop-blur-sm">
-        <div className="absolute inset-0 bg-white/5" />
+      <div className="relative h-[3px] overflow-hidden bg-white/10 shadow-[0_1px_2px_rgba(2,8,22,0.16)]">
         <div
-          className="absolute inset-y-0 left-0 origin-left transition-[width] duration-100 ease-linear"
+          className={cn(
+            "c3-scroll-flow absolute inset-y-0 left-0 origin-left rounded-full transition-[width] duration-100 ease-linear",
+            variant === "general" ? "bg-[length:180%_100%] bg-no-repeat" : "",
+          )}
           style={{
             width: `${progress * 100}%`,
             ...fillStyle,

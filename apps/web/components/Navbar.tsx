@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { ecosystemNavigation, headerNavigation } from "@/lib/content";
+import ScrollProgress from "@/components/ui/ScrollProgress";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -121,6 +122,8 @@ export default function Navbar() {
           Menú
         </button>
       </div>
+
+      <ScrollProgress variant="general" embedded />
 
       {isMenuOpen ? (
         <div className="border-t border-white/10 bg-[#0F203E] lg:hidden">
