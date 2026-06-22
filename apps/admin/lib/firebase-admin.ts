@@ -10,7 +10,6 @@ import {
   normalizeEventStatus,
   type EventItem,
   type EventStatus,
-  type LineKey,
 } from "@c3/config";
 
 const EVENTS_COLLECTION = "events";
@@ -224,6 +223,16 @@ export async function createAdminEvent(input: unknown) {
   const db = getAdminFirestore();
   await db.collection(EVENTS_COLLECTION).doc(record.id).set(record, { merge: false });
   return record;
+}
+
+export async function getAdminEvent(id: string) {
+  const snapshot = await getAdminFirestore().collection(EVENTS_COLLECTION).doc(id).get();
+
+  if (!snapshot.exists) {
+    return null;
+  }
+
+  return parseAdminEventDoc(snapshot.id, snapshot.data() as Record<string, unknown>);
 }
 
 export async function updateAdminEvent(id: string, input: unknown) {

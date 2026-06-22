@@ -9,6 +9,8 @@
   --c3-surface: #f4f7fb;
   --c3-soft-border: #dde6ef;
   --c3-muted: #5c6a82;
+  --font-heading: "Montserrat", "Segoe UI";
+  --font-body: "Poppins", "Segoe UI";
   --background: #ffffff;
   --foreground: #0f203e;
 }

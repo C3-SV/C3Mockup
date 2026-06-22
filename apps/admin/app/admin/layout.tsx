@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import "./globals.css";
+import { AdminApp } from "@/components/admin-app";
+import { AdminProvider } from "@/components/admin-provider";
 
 export const metadata: Metadata = {
   title: "C3 Admin",
@@ -11,14 +12,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default function AdminSectionLayout({
   children,
 }: Readonly<{
   children: ReactNode;
 }>) {
   return (
-    <html lang="es" className="h-full scroll-smooth antialiased">
-      <body className="min-h-full bg-[#F4F7FB] text-[#0F203E]">{children}</body>
-    </html>
+    <AdminProvider>
+      <AdminApp>{children}</AdminApp>
+    </AdminProvider>
   );
 }

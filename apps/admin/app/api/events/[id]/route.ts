@@ -1,5 +1,11 @@
 import { NextResponse } from "next/server";
-import { deleteAdminEvent, HttpError, updateAdminEvent, verifyAdminRequest } from "@/lib/firebase-admin";
+import {
+  deleteAdminEvent,
+  getAdminEvent,
+  HttpError,
+  updateAdminEvent,
+  verifyAdminRequest,
+} from "@/lib/firebase-admin";
 import { triggerSiteRevalidation } from "@/lib/revalidate-site";
 
 type RouteContext = {
@@ -31,6 +37,27 @@ export async function PATCH(request: Request, context: RouteContext) {
 
     console.error("Unable to update event:", error);
     return NextResponse.json({ ok: false, message: "Unable to update event." }, { status: 500 });
+  }
+}
+
+export async function GET(request: Request, context: RouteContext) {
+  try {
+    await verifyAdminRequest(request);
+    const { id } = await context.params;
+    const event = await getAdminEvent(id);
+
+    if (!event) {
+      return NextResponse.json({ ok: false, message: "Event not found." }, { status: 404 });
+    }
+
+    return NextResponse.json({ ok: true, event });
+  } catch (error) {
+    if (error instanceof HttpError) {
+      return NextResponse.json({ ok: false, message: error.message }, { status: error.status });
+    }
+
+    console.error("Unable to load event:", error);
+    return NextResponse.json({ ok: false, message: "Unable to load event." }, { status: 500 });
   }
 }
 
