@@ -59,7 +59,7 @@ export default function Navbar() {
             "items" in item ? (
               <div
                 key={item.label}
-                className="relative"
+                className="relative z-20"
                 onMouseEnter={openEcosystem}
                 onMouseLeave={closeEcosystem}
               >
@@ -75,7 +75,7 @@ export default function Navbar() {
                 </button>
 
                 <div
-                  className={`absolute left-1/2 top-[calc(100%-1px)] w-[22rem] -translate-x-1/2 rounded-[1.5rem] border border-white/12 bg-[#102240] p-2 shadow-[0_18px_50px_rgba(2,8,22,0.42)] transition duration-200 ${
+                  className={`absolute left-1/2 top-[calc(100%-1px)] z-20 w-[22rem] -translate-x-1/2 rounded-[1.5rem] border border-white/12 bg-[#102240] p-2 shadow-[0_18px_50px_rgba(2,8,22,0.42)] transition duration-200 ${
                     isEcosystemOpen
                       ? "visible translate-y-0 opacity-100"
                       : "pointer-events-none invisible -translate-y-2 opacity-0"

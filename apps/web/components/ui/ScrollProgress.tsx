@@ -68,7 +68,9 @@ export default function ScrollProgress({
     <div
       aria-hidden="true"
       className={cn(
-        embedded ? "pointer-events-none relative w-full" : "pointer-events-none fixed inset-x-0 top-[var(--c3-navbar-offset)] z-[60] w-full",
+        embedded
+          ? "pointer-events-none relative z-0 w-full"
+          : "pointer-events-none fixed inset-x-0 top-[var(--c3-navbar-offset)] z-[60] w-full",
         className,
       )}
     >
