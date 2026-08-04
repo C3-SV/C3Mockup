@@ -54,3 +54,4 @@ pnpm build:admin
 
 - El sitio público conserva rutas, metadata, SEO, assets y redirects.
 - El panel admin usa Google Auth con Firebase y maneja eventos en Firestore.
+- prueba
