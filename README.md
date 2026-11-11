@@ -54,3 +54,20 @@ pnpm build:admin
 
 - El sitio público conserva rutas, metadata, SEO, assets y redirects.
 - El panel admin usa Google Auth con Firebase y maneja eventos en Firestore.
+
+## Documentación y flujo de trabajo
+
+- Entrada para agentes y colaboradores: [`AGENTS.md`](AGENTS.md). Producto y contenido: [`PRODUCT.md`](PRODUCT.md).
+- Índice de documentación: [`docs/README.md`](docs/README.md). Sistema de diseño vigente: [`docs/design-system/`](docs/design-system/README.md).
+- Spec y plan del rework de c3.com.sv: [`docs/superpowers/`](docs/superpowers/).
+- Pruebas, CI/CD y skills: [`docs/process/`](docs/process/).
+
+## Calidad
+
+```bash
+pnpm lint && pnpm typecheck && pnpm build
+pnpm test        # Vitest (se crea en la Fase 0 del plan)
+pnpm test:e2e    # Playwright a 390 y 1280 px + axe (Fase 0)
+```
+
+CI en GitHub Actions (`.github/workflows/ci.yml`); despliegue por Vercel (preview por PR, producción desde `main`).
