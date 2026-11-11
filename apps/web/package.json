@@ -12,7 +12,7 @@
     "@c3/config": "workspace:*",
     "@c3/ui": "workspace:*",
     "@tsparticles/react": "^4.0.5",
-    "@tsparticles/slim": "^4.0.5",
+    "@tsparticles/slim": "^4.5.3",
     "@vercel/analytics": "^2.0.1",
     "firebase-admin": "^13.0.0",
     "next": "16.2.5",
