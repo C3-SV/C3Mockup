@@ -57,7 +57,7 @@ Hacer una mejor versión de **c3.com.sv** usando el sistema de diseño recibido 
 
 **Resueltas tras la revisión independiente del spec** (también mías, revisables):
 
-11. **Despliegue por rama de integración.** Todo el trabajo vive en `feat/ds-rework`; cada tarea es un PR hacia esa rama (preview de Vercel por PR). **`main` y producción no cambian hasta que todas las páginas estén migradas** (Fase 8). Así nunca se publica un sitio a medio migrar.
+11. **Despliegue por rama de integración.** Todo el trabajo vive en la rama `dev` (rama de release, ADR-0007): no hay PR por tarea y el único PR es `dev → main` al cerrar la Fase 8. Cada push a `dev` pasa CI y tiene preview de Vercel. **`main` y producción no cambian hasta que todas las páginas estén migradas** (Fase 8). Así nunca se publica un sitio a medio migrar.
 12. **Fechas de eventos:** `EventItem.eventDate` y `eventDateEnd` ya son ISO (`AAAA-MM-DD`) y `packages/config` tiene `parseEventDate` e `isUpcoming`; «próximos/concluidos» se derivan de ahí sin tocar el admin.
 13. **Campos nuevos sin admin:** sin `kind`/`cover` la tarjeta usa el ícono genérico y el tinte de su área (aceptable). Los 5 `defaultEvents` reciben `kind` por commit (competencia, hackathon, etc., según su título actual); sin portadas hasta que existan.
 14. **`--c3-crea-texto` (`#0f766e`) y las variantes oscuras ya vienen definidas** en el paquete; solo se añaden por ADR los tokens que el paquete no tiene (§12.1 #5–6).

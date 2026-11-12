@@ -88,8 +88,8 @@ pnpm test:e2e             # Playwright, 390 y 1280 px + axe
 
 ## 7. Git, PR y despliegue
 
-- Rama por tarea: `feat/…`, `fix/…`, `docs/…`, `chore/…`. Commits convencionales (`feat(web): …`). Nunca commitear a `main` sin PR.
-- Cada PR enlaza la tarea del plan que cierra y adjunta capturas a 390 y 1280 px si toca UI.
+- Rama de release: **`dev`** (ADR-0007). Todo el trabajo se commitea ahí con commits convencionales (`feat(web): …`, `chore: …`). Un solo PR `dev → main` cuando terminen todas las fases del plan. Nunca commitear a `main` directamente.
+- El PR `dev → main` enlaza el plan completo, lista las tareas cerradas y adjunta capturas a 390 y 1280 px.
 - CI (GitHub Actions) corre en cada PR; CD es Vercel (preview por PR, producción al fusionar en `main`). Ver [`docs/process/ci-cd.md`](docs/process/ci-cd.md).
 - Nunca versionar `.env*`, claves de Firebase ni `node_modules`. No ejecutar `npx impeccable install` ni instalar terceros sin revisar licencia y origen.
 

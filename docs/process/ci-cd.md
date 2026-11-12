@@ -20,6 +20,7 @@ Archivo: [`.github/workflows/ci.yml`](../../.github/workflows/ci.yml). Corre en 
 
 - Dos proyectos Vercel independientes: `apps/web` y `apps/admin` (ver `README.md`).
 - **Preview** por PR; **producción** al fusionar en `main`.
+- **`dev`** (rama de release, ADR-0007): cada push pasa CI y tiene preview de Vercel. No es producción.
 - Protección de `main`: PR obligatorio, CI verde, sin push directo (configurar en GitHub → Settings → Branches).
 - El despliegue lo gestiona la integración Git de Vercel; CI no despliega. Así CI y CD no duplican el build.
 - Variables de entorno: solo en Vercel y en `.env.local` locales. Nunca versionadas.
