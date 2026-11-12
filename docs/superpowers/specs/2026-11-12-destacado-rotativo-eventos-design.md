@@ -1,7 +1,7 @@
 # Destacado rotativo de eventos en el home · diseño
 
 - **Fecha:** 2026-11-12
-- **Estado:** propuesta para aprobación. No se construye nada hasta que el responsable apruebe este documento.
+- **Estado:** aprobada por el responsable el 12-nov-2026 e implementada en `dev`. Pendiente de PR a `main`. Las decisiones están en [ADR-0011](../../decisions/0011-destacado-rotativo-y-tipos-de-evento.md#registro-de-decisiones-12-nov-2026).
 - **Relacionados:** [visión y misión](../../../apps/web/lib/site.ts), [PRODUCT.md](../../../PRODUCT.md), [ADR-0005](../../decisions/0005-decisiones-heredadas-del-ds.md), [ADR-0003](../../decisions/0003-alcance-solo-paginas-existentes.md), [pendientes](../../design-system/pendientes.md).
 
 ## 1. Intención
