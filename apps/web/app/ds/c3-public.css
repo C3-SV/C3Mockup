@@ -1,0 +1,24 @@
+/*
+ * CSS publico del DS (ACTUALIZACION-DS §13). Se extrae por bloques de docs/design-system/source/estilos/globals.css
+ * y se tokeniza. Se importa en capa `components` para que las utilidades de Tailwind sigan ganando en layout.
+ */
+
+/* Enlace para saltar la cabecera: invisible hasta que recibe el foco con el teclado. */
+.c3-saltar {
+  position: absolute;
+  left: 16px;
+  top: 8px;
+  z-index: 100;
+  padding: 10px 16px;
+  border-radius: var(--c3-radius-md);
+  background: var(--c3-superficie);
+  color: var(--c3-accion-intensa);
+  font-size: var(--c3-cuerpo-sm-size);
+  font-weight: 600;
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+
+.c3-saltar:focus {
+  transform: none;
+}

@@ -1,4 +1,7 @@
 @import "tailwindcss";
+@import "./ds/tokens.css";
+@import "./ds/tokens-extra.css";
+@import "./ds/c3-public.css" layer(components);
 
 :root {
   --c3-navy: #0f203e;
@@ -7,12 +10,13 @@
   --c3-turquoise: #33beac;
   --c3-purple: #4f5ba9;
   --c3-white: #ffffff;
-  --c3-surface: #f4f7fb;
+  --c3-surface: var(--c3-superficie-sutil);
   --c3-surface-soft: #f8fafd;
-  --c3-soft-border: #dde6ef;
-  --c3-muted: #5c6a82;
+  --c3-soft-border: var(--c3-borde);
+  --c3-muted: var(--c3-texto-suave);
   --background: #ffffff;
   --foreground: #0f203e;
+  color-scheme: light;
   --c3-section-pad: clamp(4.75rem, 7vw, 6.75rem);
   --c3-section-pad-compact: clamp(3.5rem, 5vw, 4.75rem);
   --c3-section-gap: clamp(1.5rem, 2vw, 2.5rem);
@@ -32,7 +36,15 @@
   --color-c3-blue: var(--c3-blue);
   --color-c3-turquoise: var(--c3-turquoise);
   --color-c3-purple: var(--c3-purple);
+  --color-c3-accion: var(--c3-accion);
+  --color-c3-crea-texto: var(--c3-crea-texto);
   --font-sans: var(--font-body);
+}
+
+/* Anillo de foco del DS (§6): visible en todo elemento enfocado por teclado. Sin capa: no lo anulan las utilidades. */
+:focus-visible {
+  outline: 3px solid var(--c3-foco);
+  outline-offset: 2px;
 }
 
 body {

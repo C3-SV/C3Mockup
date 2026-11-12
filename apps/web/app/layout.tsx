@@ -81,6 +81,9 @@ export default function RootLayout({
       className={`${montserrat.variable} ${poppins.variable} h-full scroll-smooth antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <a href="#contenido" className="c3-saltar">
+          Saltar al contenido
+        </a>
         {children}
         <SeoJsonLd data={organizationJsonLd} />
         <SeoJsonLd data={websiteJsonLd} />

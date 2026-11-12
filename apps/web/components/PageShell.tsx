@@ -11,7 +11,7 @@ export default function PageShell({ children, backgroundClassName = "bg-[#0F203E
   return (
     <div className={`min-h-screen ${backgroundClassName}`}>
       <Navbar />
-      <main>{children}</main>
+      <main id="contenido">{children}</main>
       <SiteFooter />
     </div>
   );

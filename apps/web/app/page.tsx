@@ -31,7 +31,7 @@ export default async function Home() {
   return (
     <div className="min-h-screen bg-[#0F203E]">
       <Navbar />
-      <main>
+      <main id="contenido">
         <SeoJsonLd data={getWebPageJsonLd({ path: "/", title: seoTitle, description: seoDescription })} />
         <Hero />
         <MissionVisionSection />

@@ -1,0 +1,29 @@
+/*
+ * Tokens de la guia §15.4 (ACTUALIZACION-DS §15.4, origen estilos/globals.css lineas 9-30) y puente
+ * de fuentes. Sin bloque oscuro (modo oscuro no activo).
+ */
+:root {
+  --c3-ancho-pagina: 1440px;
+  --c3-info-fondo: #e3ecf8;
+  --c3-exito-fondo: #e0f2ea;
+  --c3-advertencia-fondo: #fbefdd;
+  --c3-error-fondo: #fae6e3;
+  --c3-advertencia-tinte: #fbf6ec;
+  --c3-texto-cabecera: #a9b8d0;
+  --c3-navy-claro: #2c3f63;
+  --c3-text-mid: #36435a;
+  --c3-action-tint: #efeafc;
+  --c3-action-line: #e4ddfb;
+  --c3-action-soft: #a996ec;
+  --c3-compite-tint: #e9eff9;
+  --c3-crea-tint: #e4f6f3;
+  --c3-conecta-tint: #eceefa;
+  --c3-radius-card: 18px;
+  --c3-radius-block: 22px;
+  --c3-shadow-soft: 0 6px 22px rgba(15, 32, 62, 0.07);
+  --c3-shadow-action: 0 8px 20px rgba(101, 72, 199, 0.25);
+
+  /* next/font renombra las familias: las variables del DS apuntan a las de next/font (§4). */
+  --c3-font-titulo: var(--font-heading), "Montserrat", system-ui, sans-serif;
+  --c3-font-texto: var(--font-body), "Poppins", system-ui, sans-serif;
+}
