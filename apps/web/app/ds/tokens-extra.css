@@ -26,4 +26,20 @@
   /* next/font renombra las familias: las variables del DS apuntan a las de next/font (§4). */
   --c3-font-titulo: var(--font-heading), "Montserrat", system-ui, sans-serif;
   --c3-font-texto: var(--font-body), "Poppins", system-ui, sans-serif;
+  /* Colores de la extraccion de c3-public.css (DS §12.2: se tokenizan, no se copian hexadecimales). */
+  --c3-acento-sobre-navy: #b9a8f0;
+  --c3-texto-sobre-navy: #c3cde0;
+  --c3-enlace-sobre-navy: #b8c4d9;
+  --c3-borde-hover: #c5cee0;
+  --c3-borde-suave: #e2e7f0;
+  --c3-superficie-suave: #f7f9fd;
+  --c3-superficie-gris: #eef2f7;
+  --c3-info-borde: #c6d5ee;
+  --c3-exito-borde: #bfe3d1;
+  --c3-advertencia-borde: #f0d9b5;
+  --c3-error-borde: #f2c9c4;
+  /* Variables que la plantilla de linea fija por pagina (Compite por defecto). */
+  --c3-line-accent: var(--c3-compite);
+  --c3-line-text: var(--c3-compite);
+  --c3-line-tint: var(--c3-compite-tint);
 }
