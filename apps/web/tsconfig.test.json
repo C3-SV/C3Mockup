@@ -1,8 +1,8 @@
 {
-  "extends": "../tsconfig.json",
+  "extends": "./tsconfig.json",
   "compilerOptions": {
     "typeRoots": [
-      "../node_modules/@types"
+      "./node_modules/@types"
     ],
     "types": [
       "node"
@@ -10,8 +10,9 @@
     "noEmit": true
   },
   "include": [
-    "./**/*.ts",
-    "../playwright.config.ts"
+    "tests/**/*.ts",
+    "e2e/**/*.ts",
+    "playwright.config.ts"
   ],
   "exclude": [
     "node_modules"
