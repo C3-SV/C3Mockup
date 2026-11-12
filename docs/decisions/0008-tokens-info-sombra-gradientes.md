@@ -29,3 +29,7 @@ Los colores que el paquete escribe como hexadecimales en `estilos/globals.css` s
 - La prueba `tests/tokens/contrast.test.ts` sigue validando los valores del paquete. Si cambia `tokens.css`, la prueba avisa.
 - Cualquier nuevo gradiente, sombra de tarjeta o uso de `info` como color de línea exige un ADR nuevo.
 - Los pendientes #3, #4, #13 y #14 de `docs/design-system/pendientes.md` quedan cerrados por este ADR.
+
+## Ajuste de la Fase 5 (2026-11-11): cabecera de línea y foco
+- `--c3-line-on-fill` (texto sobre el color pleno de la línea; navy en Crea, blanco en Compite y Conecta) con valor por defecto en `tokens-extra.css`. Lo fija `lib/ds/line-theme.ts`.
+- Dentro de `.c3-line-hero` (`app/ds/line-pages.css`) se redefine `--c3-foco` como `var(--c3-line-on-fill)`. El foco global es violeta (`--c3-foco`) y sobre el color pleno de cada línea queda entre 1,03:1 y 2,75:1, por debajo del mínimo de 3:1 de WCAG 1.4.11. Redefinir la variable en el hero evita una regla con capa que no ganaría a la regla global sin capa. No se cambia `--c3-foco` en el resto de la página.
