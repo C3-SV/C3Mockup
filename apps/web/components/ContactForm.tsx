@@ -98,7 +98,7 @@ export default function ContactForm() {
           Formulario institucional
         </p>
         <p className="text-sm leading-7 text-[#364765]">
-          Contanos quién sos, qué buscás y cómo podemos ayudarte. 
+          Cuéntanos quién eres, qué buscas y cómo podemos ayudarte.
         </p>
       </div>
 
@@ -150,7 +150,7 @@ export default function ContactForm() {
             className="form-input"
             aria-invalid={Boolean(fieldErrors.consultationType)}
           >
-            <option value="">Elegí una opción</option>
+            <option value="">Elige una opción</option>
             {consultationOptions.map((option) => (
               <option key={option} value={option}>
                 {consultationLabels[option]}

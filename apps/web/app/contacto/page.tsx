@@ -94,7 +94,7 @@ export default function ContactoPage() {
           </h1>
           <p className="max-w-3xl text-base leading-8 text-white/82 md:text-lg">
             Ya sea para participar, proponer una alianza educativa, apoyar como empresa o consultar
-            sobre una iniciativa, elegí la vía que mejor se adapte a tu objetivo.
+            sobre una iniciativa, elige la vía que mejor se adapte a tu objetivo.
           </p>
         </div>
       </section>
@@ -105,10 +105,10 @@ export default function ContactoPage() {
         <div className="container-shell relative z-10 space-y-8">
           <div className="space-y-3">
             <h2 className="max-w-3xl text-3xl font-bold leading-tight md:text-4xl">
-              Enviá tu mensaje
+              Envía tu mensaje
             </h2>
             <p className="max-w-3xl text-base leading-8 text-white/82 md:text-lg">
-              Contanos quién sos, qué buscás y cómo podemos ayudarte. El equipo de C3 recibirá tu
+              Cuéntanos quién eres, qué buscas y cómo podemos ayudarte. El equipo de C3 recibirá tu
               mensaje.
             </p>
           </div>
@@ -161,7 +161,7 @@ export default function ContactoPage() {
         <div className="container-shell relative z-10 space-y-8">
           <div className="space-y-3">
             <h2 className="max-w-3xl text-3xl font-bold leading-tight md:text-4xl">
-              ¿Buscás información de un evento específico?
+              ¿Buscas información de un evento específico?
             </h2>
           </div>
 
