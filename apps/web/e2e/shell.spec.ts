@@ -1,11 +1,11 @@
 import { expect, test } from "@playwright/test";
 
 /**
- * El marco comun no debe cambiar el color de los titulares de las secciones que aun no se migran:
- * el hero es oscuro y su titular hereda blanco. Regresion encontrada al cambiar PageShell.
+ * La home está migrada al DS: lleva .c3-sitio y su titular toma el color navy del DS.
+ * (Antes, con el hero oscuro anterior, la regla .c3-sitio pisaba el blanco heredado: ver el registro de la Fase 2.)
  */
-test("el titular del hero sigue blanco sobre su fondo oscuro", async ({ page }) => {
+test("el titular de la home usa el color navy del DS", async ({ page }) => {
   await page.goto("/");
-  const color = await page.locator("#inicio h1").evaluate((el) => getComputedStyle(el).color);
-  expect(color).toBe("rgb(255, 255, 255)");
+  const color = await page.locator("main h1").evaluate((el) => getComputedStyle(el).color);
+  expect(color).toBe("rgb(15, 32, 62)");
 });
