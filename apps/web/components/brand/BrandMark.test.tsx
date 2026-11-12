@@ -3,10 +3,10 @@ import { describe, expect, it } from "vitest";
 import { BrandMark } from "./BrandMark";
 
 describe("BrandMark (logo completo existente, sin recrearlo)", () => {
-  it("variante header usa el logo a color del sitio", () => {
+  it("variante header usa el logo oscuro completo (c3-sim-azul, DS §7.4)", () => {
     render(<BrandMark variant="header" alt="Logo principal de C3" />);
     const img = screen.getByRole("img", { name: "Logo principal de C3" });
-    expect(img.getAttribute("src")).toContain("logo-c3-claro-con-color");
+    expect(img.getAttribute("src")).toContain("c3-sim-azul");
   });
 
   it("variante footer usa el logo blanco monocromatico", () => {

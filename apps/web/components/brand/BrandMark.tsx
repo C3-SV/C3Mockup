@@ -1,13 +1,15 @@
 import Image from "next/image";
 
 /**
- * Logo de C3. Se usan los archivos del sitio tal cual (ACTUALIZACION-DS §7.4): el logo completo
- * a color en fondo claro y el monocromatico blanco en navy. No se recrean ni se deforman.
+ * Logo de C3. Se usan los archivos oficiales tal cual, sin recrearlos ni deformarlos (DS §7.4).
+ * Cabecera (fondo claro): c3-sim-azul, el logo completo oscuro del paquete (decision 2026-11-11,
+ * tras revisar el navbar: la C del logo anterior es casi blanca y no se ve sobre blanco).
+ * Pie (fondo navy): monocromatico blanco.
  */
 export type BrandMarkVariant = "header" | "footer";
 
 const SOURCES: Record<BrandMarkVariant, { src: string; width: number; height: number }> = {
-  header: { src: "/brand/logo-c3-claro-con-color.png", width: 2048, height: 2048 },
+  header: { src: "/brand/c3/c3-sim-azul.png", width: 2920, height: 1234 },
   footer: { src: "/brand/logo-c3-blanco-monocromatico.png", width: 2652, height: 2744 },
 };
 
