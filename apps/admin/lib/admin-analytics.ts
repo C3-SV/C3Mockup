@@ -7,6 +7,7 @@ import {
   type EventStatus,
   type LineKey,
 } from "@c3/config";
+import type { BadgeTone } from "@c3/ui";
 import type { AdminStats } from "./admin-types";
 
 export const lineLabels: Record<LineKey, string> = {
@@ -15,51 +16,19 @@ export const lineLabels: Record<LineKey, string> = {
   conecta: "Conecta",
 };
 
-export const lineToneClasses: Record<LineKey, { chip: string; bar: string; border: string }> = {
-  compite: {
-    chip: "border-[#cfe0f6] bg-[#eef4ff] text-[#205298]",
-    bar: "bg-[#205298]",
-    border: "border-[#cfe0f6]",
-  },
-  crea: {
-    chip: "border-[#c8f0ea] bg-[#ecfdf5] text-[#0f7a5f]",
-    bar: "bg-[#33beac]",
-    border: "border-[#c8f0ea]",
-  },
-  conecta: {
-    chip: "border-[#e2d8f5] bg-[#f8f3ff] text-[#6b3fd4]",
-    bar: "bg-[#4f5ba9]",
-    border: "border-[#e2d8f5]",
-  },
+/** Color de cada línea en el panel: el tono de la etiqueta y la barra del gráfico. */
+export const lineTone: Record<LineKey, { badge: BadgeTone; bar: string }> = {
+  compite: { badge: "info", bar: "bg-line-compite" },
+  crea: { badge: "success", bar: "bg-line-crea" },
+  conecta: { badge: "brand", bar: "bg-line-conecta" },
 };
 
-type StatusTone = {
-  chip: string;
-  bar: string;
-  border: string;
-};
-
-export const statusToneByLabel: Partial<Record<EventStatus, StatusTone>> = {
-  "Inscripciones abiertas": {
-    chip: "border-[#c8f0ea] bg-[#ecfdf5] text-[#0f7a5f]",
-    bar: "bg-[#33beac]",
-    border: "border-[#c8f0ea]",
-  },
-  "Próximamente": {
-    chip: "border-[#dce7f4] bg-[#f4f7fb] text-[#42526b]",
-    bar: "bg-[#205298]",
-    border: "border-[#dce7f4]",
-  },
-  Histórico: {
-    chip: "border-[#e7e0f7] bg-[#f8f3ff] text-[#6b3fd4]",
-    bar: "bg-[#4f5ba9]",
-    border: "border-[#e7e0f7]",
-  },
-  "Apoyo institucional": {
-    chip: "border-[#d4e1f5] bg-[#eef4ff] text-[#205298]",
-    bar: "bg-[#205298]",
-    border: "border-[#d4e1f5]",
-  },
+/** Tono de la etiqueta de estado. El texto del estado es el del evento (contenido conservado). */
+export const statusTone: Partial<Record<EventStatus, BadgeTone>> = {
+  "Inscripciones abiertas": "success",
+  "Próximamente": "info",
+  Histórico: "neutral",
+  "Apoyo institucional": "brand",
 };
 
 function parseEventDate(value?: string) {
