@@ -1,16 +1,30 @@
 import type { ReactNode } from "react";
 import { cn } from "./utils";
 
+export type BadgeTone = "neutral" | "brand" | "info" | "success" | "warning" | "danger";
+
+const toneStyles: Record<BadgeTone, string> = {
+  neutral: "bg-subtle text-muted",
+  brand: "bg-brand-soft text-brand",
+  info: "bg-info-soft text-info",
+  success: "bg-success-soft text-success",
+  warning: "bg-warning-soft text-warning",
+  danger: "bg-danger-soft text-danger",
+};
+
 type BadgeProps = {
   children: ReactNode;
   className?: string;
+  tone?: BadgeTone;
 };
 
-export function Badge({ children, className }: BadgeProps) {
+/** Etiqueta de estado. El tono indica la clase de estado; el texto lo da quien la usa. */
+export function Badge({ children, className, tone = "neutral" }: BadgeProps) {
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-full border border-[#d5deea] bg-white px-3 py-1 text-xs font-semibold uppercase tracking-[0.11em] text-[#4a5b77]",
+        "inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-semibold whitespace-nowrap",
+        toneStyles[tone],
         className,
       )}
     >
