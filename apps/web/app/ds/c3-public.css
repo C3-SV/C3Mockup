@@ -1342,6 +1342,46 @@ textarea.c3-campo {
   cursor: default;
 }
 
+/* Filtros del catálogo de eventos (Tarea 6.1): botones con aria-pressed y 44 px de área táctil (DS §6). */
+.c3-filtros {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.c3-filtros__grupo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.c3-filtros__etiqueta {
+  min-width: 64px;
+  font: 600 13px var(--c3-font-texto);
+  color: var(--c3-texto-suave);
+}
+
+.c3-filtro {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid var(--c3-borde-fuerte);
+  border-radius: 999px;
+  background: var(--c3-superficie);
+  font: 600 14px var(--c3-font-texto);
+  color: var(--c3-texto);
+  cursor: pointer;
+}
+
+.c3-filtro[aria-pressed="true"] {
+  background: var(--c3-accion);
+  border-color: var(--c3-accion);
+  color: var(--c3-texto-inverso);
+}
+
 /* Dark closing panel. */
 .c3-cta {
   padding: 0 0 clamp(56px, 7vw, 88px);
