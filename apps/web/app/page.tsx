@@ -43,7 +43,7 @@ export default async function Home() {
       <SeoJsonLd data={getWebPageJsonLd({ path: "/", title: seoTitle, description: seoDescription })} />
       <SeoJsonLd data={itemList} />
       <Hero />
-      <IniciativasSection />
+      <IniciativasSection events={events} />
       <DatosSection />
       <LinesSection />
       <EventosSection cards={events.map((event) => toCatalogCard(event))} />

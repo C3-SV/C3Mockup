@@ -5,8 +5,16 @@ import { toCatalogCard } from "@/lib/ds/event-card";
 /** Tarjeta de experiencia (Tarea 3.2): conserva el texto del evento; «DEMO» nunca aparece. */
 
 describe("toCatalogCard", () => {
+  // Fecha de referencia fija: antes de la Copa (2026-08-01), para que el estado no dependa del día en que se corra.
+  const ANTES_DE_LA_COPA = new Date("2026-06-01T12:00:00Z");
+
+  it("un evento que ya terminó muestra «Histórico», no un estado abierto", () => {
+    const card = toCatalogCard(defaultEvents[0], new Date("2026-11-12T12:00:00Z"));
+    expect(card.state).toEqual({ label: "Histórico", tone: "neutro" });
+  });
+
   it("la Copa: línea Compite, estado con tono exito, enlace externo y acción del evento", () => {
-    const card = toCatalogCard(defaultEvents[0]);
+    const card = toCatalogCard(defaultEvents[0], ANTES_DE_LA_COPA);
     expect(card.line).toBe("compite");
     expect(card.otherLines).toEqual([]);
     expect(card.state).toEqual({ label: "Inscripciones abiertas", tone: "exito" });

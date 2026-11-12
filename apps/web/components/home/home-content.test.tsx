@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
+import { defaultEvents } from "@c3/config";
 import { AudienceSection } from "./AudienceSection";
 import { ClosingPanel } from "./ClosingPanel";
 import { DatosSection } from "./DatosSection";
@@ -16,7 +17,7 @@ function renderHome() {
   return render(
     <>
       <Hero />
-      <IniciativasSection />
+      <IniciativasSection events={defaultEvents} now={new Date("2026-11-12T12:00:00Z")} />
       <DatosSection />
       <LinesSection />
       <EventosSection cards={[]} />

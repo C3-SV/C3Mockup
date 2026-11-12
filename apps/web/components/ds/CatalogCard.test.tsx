@@ -6,7 +6,7 @@ import { CatalogCard } from "./CatalogCard";
 
 describe("CatalogCard (tarjeta de experiencia, DS §7.9)", () => {
   it("muestra titulo, resumen, linea, pastilla de estado y fecha", () => {
-    render(<CatalogCard card={toCatalogCard(defaultEvents[0])} />);
+    render(<CatalogCard card={toCatalogCard(defaultEvents[0], new Date("2026-06-01T12:00:00Z"))} />);
     expect(screen.getByRole("heading", { level: 3, name: "Copa Salvadoreña de Programación" })).toBeInTheDocument();
     expect(screen.getByText("La iniciativa principal de C3 para impulsar programación competitiva, pensamiento algorítmico y excelencia técnica en estudiantes de El Salvador.")).toBeInTheDocument();
     expect(screen.getByText("Compite")).toBeInTheDocument();
