@@ -30,6 +30,7 @@ export default function SiteFooter() {
           <div className="c3-footer__brand">
             <BrandMark variant="footer" alt="" />
             <p>{siteConfig.displayName}</p>
+            <p>Fundado el 24 de octubre de 2024.</p>
             <a href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a>
             <div className="c3-footer__redes">
               {socialLinks.map(({ href, label, icon: Icon }) => (
@@ -47,31 +48,40 @@ export default function SiteFooter() {
             </div>
           </div>
 
-          <ul>
-            {mainNavigation.map((item) => (
-              <li key={item.href}>
-                <Link href={item.href}>{item.label}</Link>
-              </li>
-            ))}
-          </ul>
+          <div>
+            <h2>Navegación</h2>
+            <ul>
+              {mainNavigation.map((item) => (
+                <li key={item.href}>
+                  <Link href={item.href}>{item.label}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-          <ul>
-            {ecosystemNavigation.map((line) => (
-              <li key={line.href}>
-                <Link href={line.href}>{line.label}</Link>
-              </li>
-            ))}
-          </ul>
+          <div>
+            <h2>Ecosistema</h2>
+            <ul>
+              {ecosystemNavigation.map((line) => (
+                <li key={line.href}>
+                  <Link href={line.href}>{line.label}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-          <ul>
-            {satelliteLinks.map((link) => (
-              <li key={link.href}>
-                <a href={link.href} target="_blank" rel="noreferrer">
-                  {link.label}
-                </a>
-              </li>
-            ))}
-          </ul>
+          <div>
+            <h2>Eventos</h2>
+            <ul>
+              {satelliteLinks.map((link) => (
+                <li key={link.href}>
+                  <a href={link.href} target="_blank" rel="noreferrer">
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
 
         <div className="c3-footer__base">
