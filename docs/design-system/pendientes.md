@@ -34,3 +34,13 @@ Los 16 asuntos abiertos de `source/ACTUALIZACION-DS-C3.md` §12.1, más las desv
 1. ¿Se puede conseguir el manual de marca y capturas de referencia del sistema aplicado?
 2. ¿Confirma la propuesta para la burbuja de la órbita en móvil?
 3. ¿Se publicarán paquetes o precios en el sitio? (Hoy: no.)
+
+## Pendientes de producto y contenido (fuera del DS)
+
+| # | Asunto | Postura | Cierra en |
+| --- | --- | --- | --- |
+| P1 | Página por evento con slug (`/eventos/{slug}`), redirecciones, metadatos y Open Graph por evento | Pendiente, posterior a las fotos. Requiere ADR (ADR-0003) y contenido por evento. Ver spec `docs/superpowers/specs/2026-11-12-destacado-rotativo-eventos-design.md` §9 | Fase 3 |
+| P2 | Sistema de fotos y biblioteca de assets en el admin: subida, recorte 16:9, texto alternativo, derechos, almacenamiento | Planeado en el mismo spec §8. Requiere ADR-0012, que reemplaza la fila de ADR-0005 sobre subida de archivos | Fase 2 |
+| P3 | Aprobación de textos nuevos: controles del carrusel, «Tipo de experiencia», texto del checkbox «Destacado» | Pendiente de responsable ⚠ | Fase 1 |
+| P4 | Eventos vigentes para el destacado rotativo | Confirmado por el responsable (12-nov-2026): las fechas guardadas son reales y el Hackathon de Turismo Creativo I puede destacarse. Pendiente: la Copa terminó el 5 de sept. de 2026, así que no rota hasta que se cargue una edición vigente o se marque otro evento | Responsable (carga de datos) |
+| P5 | Política de privacidad y términos básicos | Aplazado; está en el plan de rework | Iteración posterior |

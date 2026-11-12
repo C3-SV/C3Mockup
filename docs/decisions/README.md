@@ -12,6 +12,8 @@ Una decisión por archivo: `NNNN-titulo.md`. Estado: `propuesta`, `aceptada`, `r
 | [0006](0006-vocabulario-y-color-del-sitio-principal.md) | 2026-11-11 | Vocabulario (eventos y experiencias, sin «challenge») y violeta de acción del sitio principal | aceptada |
 | [0007](0007-rama-dev-y-un-pr-a-main.md) | 2026-11-11 | Rama `dev` de release y un solo PR a `main` | aceptada |
 | [0008](0008-tokens-info-sombra-gradientes.md) | 2026-11-11 | Excepciones de tokens: info = Compite, sombra de tarjeta, 4 gradientes, modo oscuro no activo, puente de fuentes | aceptada |
+| [0010](0010-panel-admin-estilo-dashboard.md) | 2026-11-12 | Panel admin con estilo de dashboard | aceptada |
+| [0011](0011-destacado-rotativo-y-tipos-de-evento.md) | 2026-11-12 | Destacado rotativo en el home y tipo de experiencia como respaldo visual | aceptada |
 
 ## Plantilla
 

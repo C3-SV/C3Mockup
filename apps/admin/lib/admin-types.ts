@@ -1,5 +1,5 @@
 import type { ComponentType } from "react";
-import type { EventItem, EventStatus, LineKey } from "@c3/config";
+import type { EventItem, EventStatus, ExperienceKind, LineKey } from "@c3/config";
 
 export type AdminSession = {
   email: string;
@@ -29,9 +29,13 @@ export type EventDraft = {
   href: string;
   external: boolean;
   featured: boolean;
+  /** Orden en el destacado rotativo. Texto del campo: vacío = sin orden (se ordena por fecha). */
+  featuredOrder: string;
   eventDate: string;
   eventDateEnd: string;
   status: EventStatus;
+  /** Tipo de experiencia. Vacío = sin tipo (ícono genérico). */
+  kind: ExperienceKind | "";
   lines: LineKey[];
   createdAt?: string;
   updatedAt?: string;

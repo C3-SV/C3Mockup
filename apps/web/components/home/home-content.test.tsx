@@ -30,8 +30,6 @@ function renderHome() {
 const HEADINGS_IN_ORDER = [
   "C3 desarrolla talento técnico joven a través de competencia, creación y conexión.",
   "Próximas iniciativas",
-  "Copa Salvadoreña de Programación",
-  "Hackathon de Turismo Creativo I",
   "Datos que respaldan el avance de C3",
   "Un ecosistema integrado",
   "COMPITE",
@@ -49,8 +47,6 @@ const LINKS: Array<[string, string]> = [
   ["Explorar eventos", "/eventos"],
   ["Ser aliado", "/contacto"],
   ["Conocer C3", "/que-es-c3"],
-  ["Ir a la Copa", "https://copa.c3.com.sv"],
-  ["Ver hackathon", "https://hackathon.c3.com.sv"],
   ["Ir a la línea", "/compite"],
   ["Ir a la línea", "/crea"],
   ["Ir a la línea", "/conecta"],

@@ -10,6 +10,7 @@ import PageShell from "@/components/PageShell";
 import SeoJsonLd from "@/components/SeoJsonLd";
 import { getPublicEvents } from "@/lib/events";
 import { toCatalogCard } from "@/lib/ds/event-card";
+import { splitForHome } from "@/lib/ds/featured-rotation";
 import { createPageMetadata } from "@/lib/metadata";
 import { getItemListJsonLd, getWebPageJsonLd } from "@/lib/structured-data";
 import { siteConfig } from "@/lib/site";
@@ -28,6 +29,8 @@ export const metadata: Metadata = createPageMetadata({
 
 export default async function Home() {
   const events = await getPublicEvents();
+  const now = new Date();
+  const { rotation, rest } = splitForHome(events, now);
   const itemList = getItemListJsonLd(
     "/",
     events.map((event) => ({
@@ -43,10 +46,13 @@ export default async function Home() {
       <SeoJsonLd data={getWebPageJsonLd({ path: "/", title: seoTitle, description: seoDescription })} />
       <SeoJsonLd data={itemList} />
       <Hero />
-      <IniciativasSection events={events} />
+      <IniciativasSection events={rest} now={now} spotlightCount={rotation.length} />
       <DatosSection />
       <LinesSection />
-      <EventosSection cards={events.map((event) => toCatalogCard(event))} />
+      <EventosSection
+        spotlight={rotation.map((event) => toCatalogCard(event, now))}
+        cards={rest.map((event) => toCatalogCard(event, now))}
+      />
       <AudienceSection />
       <ClosingPanel />
     </PageShell>

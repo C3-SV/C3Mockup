@@ -104,8 +104,8 @@ export function getStatusCounts(events: ReadonlyArray<EventItem>) {
   } as Record<string, number>;
 }
 
-export function getEventScheduleLabel(event: EventItem) {
-  return formatEventSchedule(event);
+export function getEventScheduleLabel(event: Pick<EventItem, "eventDate" | "eventDateEnd">) {
+  return formatEventSchedule(event as EventItem);
 }
 
 export function getCompactDateLabel(value?: string) {

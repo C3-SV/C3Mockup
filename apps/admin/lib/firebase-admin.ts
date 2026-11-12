@@ -4,12 +4,11 @@ import { cert, getApp, getApps, initializeApp, type App, type ServiceAccount } f
 import { getAuth } from "firebase-admin/auth";
 import { getFirestore, type Firestore } from "firebase-admin/firestore";
 import {
-  defaultEvents,
+  buildAdminEventRecord,
   compareEventsBySchedule,
-  normalizeEventLines,
-  normalizeEventStatus,
-  type EventItem,
-  type EventStatus,
+  defaultEvents,
+  normalizeFirebasePrivateKey,
+  type AdminEventRecord,
 } from "@c3/config";
 
 const EVENTS_COLLECTION = "events";
@@ -35,7 +34,7 @@ function readServiceAccount(): ServiceAccount | null {
   return {
     projectId,
     clientEmail,
-    privateKey: privateKey.replace(/\\n/g, "\n"),
+    privateKey: normalizeFirebasePrivateKey(privateKey),
   };
 }
 
@@ -71,8 +70,8 @@ function getAdminApp(): App {
   }
 
   return initializeApp({
-      credential: cert(serviceAccount),
-      projectId: serviceAccount.projectId,
+    credential: cert(serviceAccount),
+    projectId: serviceAccount.projectId,
   });
 }
 
@@ -108,67 +107,18 @@ export async function verifyAdminRequest(request: Request) {
   return decoded;
 }
 
-function slugify(value: string) {
-  return value
-    .trim()
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .replace(/-{2,}/g, "-");
-}
+export type { AdminEventRecord };
 
-export type AdminEventRecord = EventItem & {
-  createdAt: string;
-  updatedAt: string;
-};
-
+/**
+ * Registro que se guarda. Lo arma buildAdminEventRecord (packages/config), que conserva tipo, portada, origen y
+ * orden de destacado. Antes este paso descartaba esos campos y cada guardado los borraba de Firestore.
+ */
 function sanitizeEventPayload(input: unknown, fallbackId?: string): AdminEventRecord {
-  const payload = (input ?? {}) as Record<string, unknown>;
-  const title = typeof payload.title === "string" ? payload.title.trim() : "";
-  const description = typeof payload.description === "string" ? payload.description.trim() : "";
-  const href = typeof payload.href === "string" ? payload.href.trim() : "";
-  const cta = typeof payload.cta === "string" ? payload.cta.trim() : "";
-  const id =
-    typeof payload.id === "string" && payload.id.trim()
-      ? slugify(payload.id)
-      : fallbackId || slugify(title);
-
-  if (!title || !description || !href || !cta || !id) {
-    throw new HttpError(400, "Title, description, href, cta and id are required.");
+  try {
+    return buildAdminEventRecord(input, { fallbackId, now: new Date().toISOString() });
+  } catch (error) {
+    throw new HttpError(400, error instanceof Error ? error.message : "Invalid event payload.");
   }
-
-  const lines = normalizeEventLines(payload.lines);
-  if (!lines.length) {
-    throw new HttpError(400, "At least one line must be selected.");
-  }
-
-  const now = new Date().toISOString();
-  const createdAt = typeof payload.createdAt === "string" && payload.createdAt ? payload.createdAt : now;
-  const updatedAt = typeof payload.updatedAt === "string" && payload.updatedAt ? payload.updatedAt : now;
-
-  return {
-    id,
-    title,
-    description,
-    lines,
-    status: normalizeEventStatus(payload.status) as EventStatus,
-    cta,
-    href,
-    external: Boolean(payload.external),
-    featured: Boolean(payload.featured),
-    eventDate:
-      typeof payload.eventDate === "string" && payload.eventDate.trim()
-        ? payload.eventDate.trim()
-        : undefined,
-    eventDateEnd:
-      typeof payload.eventDateEnd === "string" && payload.eventDateEnd.trim()
-        ? payload.eventDateEnd.trim()
-        : undefined,
-    createdAt,
-    updatedAt,
-  };
 }
 
 export function parseAdminEventDoc(id: string, data: Record<string, unknown>): AdminEventRecord | null {
@@ -194,10 +144,10 @@ export async function listAdminEvents() {
     if (snapshot.empty) {
       return defaultEvents
         .map((event) => ({
-        ...event,
-        createdAt: now,
-        updatedAt: now,
-      }))
+          ...event,
+          createdAt: now,
+          updatedAt: now,
+        }))
         .sort(compareEventsBySchedule) satisfies AdminEventRecord[];
     }
 

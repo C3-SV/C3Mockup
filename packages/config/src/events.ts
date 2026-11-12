@@ -23,6 +23,16 @@ export const experienceKinds = [
 
 export type ExperienceKind = (typeof experienceKinds)[number];
 
+/** Nombre visible de cada tipo, igual en el sitio y en el admin. */
+export const experienceKindLabels: Record<ExperienceKind, string> = {
+  competencia: "Competencia",
+  hackathon: "Hackathon",
+  taller: "Taller",
+  charla: "Charla",
+  encuentro: "Encuentro",
+  reto: "Reto",
+};
+
 export type EventCover = {
   url: string;
   alt: string;
@@ -38,6 +48,8 @@ export type EventItem = {
   href: string;
   external?: boolean;
   featured?: boolean;
+  /** Orden entre los destacados del bloque rotativo (1 a 99). Vacío: se ordena por fecha. */
+  featuredOrder?: number;
   eventDate?: string;
   eventDateEnd?: string;
   kind?: ExperienceKind;
@@ -138,7 +150,21 @@ export function normalizeExperienceKind(input: unknown): ExperienceKind | undefi
     : undefined;
 }
 
-// Portadas solo desde hosts de C3, por https, con texto alternativo (ADR-0004 y DS §10).
+/** Orden de un destacado: entero de 1 a 99, como número o como texto. Cualquier otra cosa es «sin orden». */
+export function normalizeFeaturedOrder(input: unknown): number | undefined {
+  const value = typeof input === "string" && input.trim() !== "" ? Number(input.trim()) : input;
+  return typeof value === "number" && Number.isInteger(value) && value >= 1 && value <= 99 ? value : undefined;
+}
+
+/**
+ * La clave privada de servicio llega con saltos de línea escritos como «\n» (texto) en las variables de entorno.
+ * Se convierten en saltos reales antes de usarla.
+ */
+export function normalizeFirebasePrivateKey(value: string): string {
+  return value.replace(/\\n/g, "\n");
+}
+
+// Portadas solo desde hosts de C3, por https, con texto alternativo (ADR-0005 y DS §10).
 const C3_HOST = /(^|\.)c3\.com\.sv$/;
 
 export function normalizeEventCover(input: unknown): EventCover | undefined {
