@@ -363,7 +363,7 @@ export const faqItems = [
   {
     question: "¿Cómo me uno o participo en C3?",
     answer:
-      "Podés integrarte participando en eventos, siguiendo nuestras convocatorias y escribiendo por los canales oficiales para conocer la siguiente actividad disponible.",
+      "Puedes integrarte participando en eventos, siguiendo nuestras convocatorias y escribiendo por los canales oficiales para conocer la siguiente actividad disponible.",
   },
   {
     question: "¿Cuál es la relación entre C3, la Copa y el Hackathon?",
@@ -378,7 +378,7 @@ export const faqItems = [
   {
     question: "¿Cómo contacto a C3?",
     answer:
-      "Podés contactar a C3 por Instagram, LinkedIn, correo oficial competitivecodingclub.sv@gmail.com o desde la página de contacto.",
+      "Puedes contactar a C3 por Instagram, LinkedIn, correo oficial competitivecodingclub.sv@gmail.com o desde la página de contacto.",
   },
 ] as const;
 

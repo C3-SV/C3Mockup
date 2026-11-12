@@ -39,7 +39,7 @@ export const CONTACT_FORM_SUCCESS_MESSAGE =
   "Mensaje enviado correctamente. Gracias por contactar a C3.";
 
 export const CONTACT_FORM_GENERIC_ERROR_MESSAGE =
-  "No pudimos enviar el mensaje. Intentá de nuevo o escribinos por correo.";
+  "No pudimos enviar el mensaje. Intenta de nuevo o escríbenos por correo.";
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -81,13 +81,13 @@ export function validateContactSubmission(
   if (!submission.email) {
     errors.email = "El correo electrónico es obligatorio.";
   } else if (!emailPattern.test(submission.email)) {
-    errors.email = "Ingresá un correo electrónico válido.";
+    errors.email = "Ingresa un correo electrónico válido.";
   }
 
   if (!submission.consultationType) {
-    errors.consultationType = "Elegí un tipo de consulta.";
+    errors.consultationType = "Elige un tipo de consulta.";
   } else if (!consultationOptions.includes(submission.consultationType)) {
-    errors.consultationType = "Elegí un tipo de consulta válido.";
+    errors.consultationType = "Elige un tipo de consulta válido.";
   }
 
   if (!submission.message) {
