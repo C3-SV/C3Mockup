@@ -22,6 +22,13 @@ describe("FeaturedGrid (destacadas paginadas de 6, DS §7.16)", () => {
     expect(screen.queryByRole("navigation", { name: "Paginación" })).toBeNull();
   });
 
+  it("el mensaje de vacío se anuncia a lectores de pantalla y puede cambiarse", () => {
+    const { rerender } = render(<FeaturedGrid cards={[]} />);
+    expect(screen.getByRole("status")).toHaveTextContent("Todavía no hay eventos publicados. Vuelve pronto.");
+    rerender(<FeaturedGrid cards={[]} emptyMessage="No hay eventos de esta línea todavía." />);
+    expect(screen.getByRole("status")).toHaveTextContent("No hay eventos de esta línea todavía.");
+  });
+
   it("con 6 eventos muestra todos y no pagina", () => {
     const { container } = render(<FeaturedGrid cards={makeCards(6)} />);
     expect(articles(container)).toHaveLength(6);
