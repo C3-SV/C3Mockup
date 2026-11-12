@@ -45,8 +45,8 @@ Hacer una mejor versión de **c3.com.sv** usando el sistema de diseño recibido 
 ## 4. Mis llamadas (revisables; marcadas como tales)
 
 1. **Home sin banda de pasos.** Los cuatro pasos del DS (elegir challenge, inscribirte, entregar, evaluación) describen la plataforma, no a C3. No se inventa un proceso: la banda se omite hasta que el responsable dé pasos reales.
-2. **Navegación:** «Qué es C3» · «Eventos» · «Conoce C3 ▾» (Compite, Crea, Conecta) · «FAQ»; acción primaria única **«Contacto»**. Sin «Iniciar sesión» ni «Crear cuenta».
-3. **Pie en cuatro columnas:** marca; Conoce C3; Comunidad (Qué es C3, Eventos, FAQ, Contacto); Síguenos (redes de `siteConfig`, incluidos los sitios satélite de Copa y Hackathon con indicador de enlace externo).
+2. **Navegación:** «Inicio» · «Qué es C3» · «Ecosistema ▾» (Compite, Crea, Conecta) · «Eventos» · «FAQ»; el nombre del menú **se conserva** («Ecosistema», no «Conoce C3»: el contenido actual manda sobre el DS, decisión del responsable 2026-11-11); acción primaria única **«Contacto»**. Sin «Iniciar sesión» ni «Crear cuenta».
+3. **Pie en cuatro columnas** con el contenido actual: marca (logo blanco, nombre, correo, redes), navegación principal, las tres líneas y los dos sitios hermanos. Sin títulos de columna ni «Fundado en octubre de 2024» ni «Hecho en El Salvador» (el DS los trae; el sitio no); quedan como pregunta al responsable.
 4. **`next/font` se conserva** (no el `<link>` de Google del DS); sus variables se mapean a `--c3-font-titulo/-texto`.
 5. **`lang`:** se conserva `es-SV` (refina `es`).
 6. **Botón pequeño:** `.c3-btn--small` sube a 44 px de área táctil (el DS lo deja en 36).
@@ -88,7 +88,7 @@ apps/web/tests · e2e/    Vitest y Playwright
 
 ## 6. Comportamiento por pantalla
 
-**Shell.** Enlace «Saltar al contenido»; cabecera blanca fija (72 px / 64 px), «Conoce C3» como menú (Escape, clic fuera, `aria-expanded`, `aria-controls`), «Menú» bajo 900 px, `aria-current`; pie navy. Un `<main id="contenido">` por página.
+**Shell.** Enlace «Saltar al contenido»; cabecera blanca fija (72 px / 64 px), «Ecosistema» como menú (Escape, clic fuera, `aria-expanded`, `aria-controls`), «Menú» bajo 900 px, `aria-current`; pie navy. Un `<main id="contenido">` por página.
 
 **Home** (se **conserva el orden y los textos actuales** del sitio; cambia su apariencia al patrón DS que corresponde):
 
