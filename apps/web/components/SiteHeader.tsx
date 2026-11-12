@@ -64,7 +64,7 @@ export default function SiteHeader() {
   return (
     <header className="c3-site-header">
       <div className="c3-frame c3-site-header__row">
-        <Link href="/" aria-label="Ir al inicio" className="inline-flex items-center" onClick={closeMenus}>
+        <Link href="/" aria-label="Ir al inicio" className="c3-site-brand inline-flex items-center" onClick={closeMenus}>
           <BrandMark variant="header" alt="Logo principal de C3" imageClassName="h-[30px] w-auto" priority />
         </Link>
 

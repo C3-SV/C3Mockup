@@ -340,6 +340,11 @@ textarea.c3-campo {
   height: 34px;
 }
 
+/* Logo de la cabecera como enlace: área de toque de 44 px (su imagen mide 30 px de alto). */
+.c3-site-brand {
+  min-height: 44px;
+}
+
 .c3-site-nav {
   display: flex;
   align-items: center;
@@ -351,6 +356,7 @@ textarea.c3-campo {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  min-height: 44px;
   padding: 8px 12px;
   border: 0;
   border-radius: 10px;
@@ -452,7 +458,7 @@ textarea.c3-campo {
   display: none;
   align-items: center;
   gap: 8px;
-  height: 40px;
+  height: 44px;
   padding: 0 14px;
   border: 1px solid var(--c3-borde);
   border-radius: 10px;
@@ -1589,15 +1595,6 @@ textarea.c3-campo {
   font-weight: 800;
 }
 
-.c3-line-intro__dot {
-  flex: none;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: var(--c3-line-accent);
-  box-shadow: 0 0 0 6px var(--c3-line-tint);
-}
-
 .c3-line-intro .c3-orbit-visual {
   max-width: 400px;
   --c3-orbit-accent: var(--c3-line-accent);
@@ -1903,6 +1900,8 @@ textarea.c3-campo {
   flex-direction: column;
   gap: 10px;
   padding: 24px;
+  /* Un correo o una URL sin espacios no debe desbordar a 320 px. */
+  overflow-wrap: anywhere;
 }
 
 .c3-faq-item h2 {

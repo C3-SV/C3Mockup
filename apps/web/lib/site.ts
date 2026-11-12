@@ -78,4 +78,6 @@
     },
   },
   defaultOgImage: "/og-image.png",
+  /** Dimensiones reales de public/og-image.png (verificadas por tests/unit/metadata.test.ts). */
+  defaultOgImageSize: { width: 1200, height: 630 },
 } as const;

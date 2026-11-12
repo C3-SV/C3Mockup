@@ -34,8 +34,8 @@ export function createPageMetadata({
       images: [
         {
           url: imageUrl,
-          width: 3508,
-          height: 2481,
+          width: siteConfig.defaultOgImageSize.width,
+          height: siteConfig.defaultOgImageSize.height,
           alt: title,
         },
       ],
