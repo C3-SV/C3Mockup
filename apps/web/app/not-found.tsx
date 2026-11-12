@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import C3BackgroundLayer from "@/components/backgrounds/C3BackgroundLayer";
-import Button from "@/components/ui/Button";
+import Button from "@/components/ui/LegacyButton";
 
 export const metadata: Metadata = {
   title: "404 | C3",

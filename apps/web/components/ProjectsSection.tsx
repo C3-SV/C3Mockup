@@ -1,7 +1,7 @@
 import SeoJsonLd from "./SeoJsonLd";
 import Link from "next/link";
 import C3BackgroundLayer from "./backgrounds/C3BackgroundLayer";
-import Button from "./ui/Button";
+import Button from "./ui/LegacyButton";
 import { lineVisuals } from "@/lib/content";
 import { getItemListJsonLd } from "@/lib/structured-data";
 import { siteConfig } from "@/lib/site";

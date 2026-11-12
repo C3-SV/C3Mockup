@@ -1,6 +1,6 @@
 import Image from "next/image";
 import C3BackgroundLayer from "./backgrounds/C3BackgroundLayer";
-import Button from "./ui/Button";
+import Button from "./ui/LegacyButton";
 
 export default function Hero() {
   return (

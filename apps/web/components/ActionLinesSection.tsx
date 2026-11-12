@@ -1,6 +1,6 @@
 import C3BackgroundLayer from "./backgrounds/C3BackgroundLayer";
 import C3EcosystemDiagram from "./C3EcosystemDiagram";
-import Button from "./ui/Button";
+import Button from "./ui/LegacyButton";
 
 const actionLines = [
   {

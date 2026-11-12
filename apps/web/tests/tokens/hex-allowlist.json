@@ -27,7 +27,7 @@
   "components/SiteFooter.tsx",
   "components/SiteHeader.tsx",
   "components/backgrounds/c3-background-theme.ts",
-  "components/ui/Button.tsx",
+  "components/ui/LegacyButton.tsx",
   "components/ui/SectionBadge.tsx",
   "lib/c3-theme.ts",
   "lib/contact-form.ts",
