@@ -102,7 +102,7 @@ function getVariantClasses(
           : "border-[#D5DFEA] bg-white text-[#0F203E] hover:border-[var(--button-hover)] hover:bg-[var(--button-hover)] hover:text-white",
       ),
       style: {
-        ["--button-hover" as "--button-hover"]: hoverColor,
+        "--button-hover": hoverColor,
       } as CSSProperties,
     };
   }

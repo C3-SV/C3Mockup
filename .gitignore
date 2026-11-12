@@ -43,3 +43,8 @@ next-env.d.ts
 .turbo
 
 estilo.md
+
+# archivos temporales y store local de pnpm
+.pnpm-store/
+.tmp_*/
+tmp_*
