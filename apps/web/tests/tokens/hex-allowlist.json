@@ -25,7 +25,6 @@
   "components/ProjectCard.tsx",
   "components/ProjectsSection.tsx",
   "components/SiteFooter.tsx",
-  "components/SiteHeader.tsx",
   "components/backgrounds/c3-background-theme.ts",
   "components/ui/LegacyButton.tsx",
   "components/ui/SectionBadge.tsx",

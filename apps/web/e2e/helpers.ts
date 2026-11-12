@@ -11,9 +11,11 @@ export async function expectNoHorizontalScroll(page: Page) {
   expect(overflow, "scroll horizontal").toBeLessThanOrEqual(0);
 }
 
-/** Falla solo con violaciones de impacto serious o critical (WCAG 2.0 A/AA, 2.1 AA). */
-export async function expectNoSeriousA11y(page: Page) {
-  const results = await new AxeBuilder({ page }).withTags(WCAG_TAGS).analyze();
+/** Falla solo con violaciones de impacto serious o critical (WCAG 2.0 A/AA, 2.1 AA). `scope` limita el analisis a un selector. */
+export async function expectNoSeriousA11y(page: Page, scope?: string) {
+  let builder = new AxeBuilder({ page }).withTags(WCAG_TAGS);
+  if (scope) builder = builder.include(scope);
+  const results = await builder.analyze();
   const serious = results.violations.filter(
     (v) => v.impact === "serious" || v.impact === "critical",
   );

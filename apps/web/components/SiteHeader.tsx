@@ -1,45 +1,160 @@
-import Image from "next/image";
+"use client";
+
 import Link from "next/link";
-import { navItems } from "@/lib/content";
+import { usePathname } from "next/navigation";
+import { useEffect, useId, useRef, useState } from "react";
+import { BrandMark } from "@/components/brand/BrandMark";
+import { Button } from "@/components/ui/Button";
+import { ecosystemNavigation, headerNavigation } from "@/lib/content";
+
+/**
+ * Cabecera publica (DS §7.1). Mismos enlaces y textos que el sitio actual (lib/content):
+ * Inicio, Qué es C3, Ecosistema (Compite, Crea, Conecta), Eventos, FAQ y Contacto.
+ * Contacto pasa a ser la accion primaria del DS, no un enlace mas de la lista.
+ */
+const CONTACT_HREF = "/contacto";
+const navItems = headerNavigation.filter((item) => !("href" in item && item.href === CONTACT_HREF));
 
 export default function SiteHeader() {
+  const pathname = usePathname();
+  const [ecosystemOpen, setEcosystemOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const ecosystemRef = useRef<HTMLDivElement>(null);
+  const ecosystemButton = useRef<HTMLButtonElement>(null);
+  const menuButton = useRef<HTMLButtonElement>(null);
+  const ecosystemId = useId();
+  const menuId = useId();
+
+  // Escape cierra lo abierto y devuelve el foco a su disparador; un clic fuera cierra Ecosistema.
+  useEffect(() => {
+    if (!ecosystemOpen && !menuOpen) return;
+
+    function onPointerDown(event: MouseEvent) {
+      if (ecosystemRef.current && !ecosystemRef.current.contains(event.target as Node)) {
+        setEcosystemOpen(false);
+      }
+    }
+
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key !== "Escape") return;
+      if (ecosystemOpen) {
+        setEcosystemOpen(false);
+        ecosystemButton.current?.focus();
+      }
+      if (menuOpen) {
+        setMenuOpen(false);
+        menuButton.current?.focus();
+      }
+    }
+
+    document.addEventListener("mousedown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [ecosystemOpen, menuOpen]);
+
+  const isCurrent = (href: string) => (pathname === href ? "page" : undefined);
+  const closeMenus = () => {
+    setEcosystemOpen(false);
+    setMenuOpen(false);
+  };
+
   return (
-    <header className="sticky top-0 z-50 bg-[#0F203E]/95 backdrop-blur">
-      <div className="container-shell flex items-center justify-between py-4">
-        <Link
-          href="/"
-          aria-label="Ir al inicio de C3"
-          className="flex items-center gap-3 rounded-2xl px-3 py-2"
-        >
-          <Image
-            src="/brand/logo-c3-blanco-monocromatico.png"
-            alt="Logo principal de C3"
-            width={44}
-            height={44}
-            className="h-11 w-11 object-contain"
-            priority
-          />
+    <header className="c3-site-header">
+      <div className="c3-frame c3-site-header__row">
+        <Link href="/" aria-label="Ir al inicio" className="inline-flex items-center" onClick={closeMenus}>
+          <BrandMark variant="header" alt="Logo principal de C3" imageClassName="h-11 w-auto" priority />
         </Link>
 
-        <nav aria-label="Navegación principal" className="hidden items-center gap-6 md:flex">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="text-sm font-medium text-white/90 transition hover:text-white"
-            >
-              {item.label}
-            </Link>
-          ))}
+        <nav className="c3-site-nav" aria-label="Principal">
+          {navItems.map((item) =>
+            "items" in item ? (
+              <div key={item.label} className="c3-dropdown" ref={ecosystemRef}>
+                <button
+                  ref={ecosystemButton}
+                  type="button"
+                  className="c3-site-link"
+                  aria-expanded={ecosystemOpen}
+                  aria-controls={ecosystemId}
+                  onClick={() => setEcosystemOpen((open) => !open)}
+                >
+                  {item.label}
+                  <span className="c3-chevron" aria-hidden="true" />
+                </button>
+                <div id={ecosystemId} className="c3-dropdown__panel" hidden={!ecosystemOpen}>
+                  {ecosystemNavigation.map((line) => (
+                    <Link
+                      key={line.href}
+                      href={line.href}
+                      aria-current={isCurrent(line.href)}
+                      onClick={closeMenus}
+                    >
+                      <span className={`c3-dot c3-dot--${line.label.toLowerCase()}`} aria-hidden="true" />
+                      <b>{line.label}</b>
+                      <small>{line.description}</small>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="c3-site-link"
+                aria-current={isCurrent(item.href)}
+                onClick={closeMenus}
+              >
+                {item.label}
+              </Link>
+            ),
+          )}
         </nav>
 
-        <Link
-          href="/contacto"
-          data-cta="Contactar"
-          className="inline-flex items-center justify-center rounded-full border border-white/25 bg-white/12 px-5 py-2.5 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-white/20"
+        <div className="c3-site-actions">
+          <Button href={CONTACT_HREF} onClick={closeMenus}>
+            Contacto
+          </Button>
+        </div>
+
+        <button
+          ref={menuButton}
+          type="button"
+          className="c3-site-menu-button"
+          aria-expanded={menuOpen}
+          aria-controls={menuId}
+          onClick={() => setMenuOpen((open) => !open)}
         >
-          Contactar
-        </Link>
+          <span className="c3-site-menu-button__icon" aria-hidden="true" />
+          Menú
+        </button>
+      </div>
+
+      <div id={menuId} className="c3-site-mobile-panel" hidden={!menuOpen}>
+        <div className="c3-frame">
+          {navItems.map((item) =>
+            "items" in item ? (
+              <div key={item.label}>
+                <p className="c3-site-mobile-panel__group">{item.label}</p>
+                {ecosystemNavigation.map((line) => (
+                  <Link key={line.href} href={line.href} aria-current={isCurrent(line.href)} onClick={closeMenus}>
+                    {line.label}
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <Link key={item.href} href={item.href} aria-current={isCurrent(item.href)} onClick={closeMenus}>
+                {item.label}
+              </Link>
+            ),
+          )}
+          <div className="c3-site-mobile-panel__buttons">
+            <Button href={CONTACT_HREF} onClick={closeMenus}>
+              Contacto
+            </Button>
+          </div>
+        </div>
       </div>
     </header>
   );

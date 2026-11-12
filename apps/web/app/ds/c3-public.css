@@ -400,6 +400,11 @@ textarea.c3-campo {
   box-shadow: 0 18px 40px rgba(15, 32, 62, 0.12);
 }
 
+/* El panel va siempre en el DOM (lo lee la prueba de contenido); el atributo hidden debe ganar a display: grid. */
+.c3-dropdown__panel[hidden] {
+  display: none;
+}
+
 .c3-dropdown__panel a {
   display: grid;
   grid-template-columns: 12px 1fr;
