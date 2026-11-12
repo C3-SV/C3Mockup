@@ -15,3 +15,8 @@ El rework de c3.com.sv tiene nueve fases. Abrir un PR por tarea (decenas de PRs)
 - Los commits de `dev` pueden romper un estado intermedio; por eso CI corre en cada push y el PR final es el punto de revisión humana.
 - El historial de `main` queda con un commit de release en lugar de decenas de tareas. El detalle por tarea vive en el plan y en el historial de `dev`.
 - Se reemplaza la regla «PR por tarea» de la guía de flujo (`AGENTS.md` §7) y de la plantilla del plan.
+
+## Actualización (2026-11-11): una rama por fase
+- Cada fase del plan se trabaja en su propia rama `fase-N-<nombre>` desde `dev`.
+- Al cerrar la fase, la rama se fusiona a `dev` con `--no-ff` (el merge deja la fase visible en el historial) y se sube `dev`. La rama de la fase también se sube para trazabilidad.
+- Se mantiene un solo PR `dev → main` al terminar todas las fases (decisiones 1 a 5 de arriba).
