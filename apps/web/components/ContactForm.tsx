@@ -1,6 +1,7 @@
 "use client";
 
-import { type ChangeEvent, type FormEvent, type ReactNode, useMemo, useState } from "react";
+import { type ChangeEvent, type FormEvent, type ReactNode, useState } from "react";
+import { Button } from "@/components/ui/Button";
 import {
   CONTACT_FORM_GENERIC_ERROR_MESSAGE,
   CONTACT_FORM_SUCCESS_MESSAGE,
@@ -26,6 +27,24 @@ const consultationLabels: Record<(typeof consultationOptions)[number], string> =
   "Consulta general": "Consulta general",
 };
 
+type FieldName = Exclude<keyof ContactFormValues, "honeypot">;
+
+const fieldId = (name: FieldName) => `contacto-${name}`;
+const errorId = (name: FieldName) => `contacto-${name}-error`;
+
+/** Atributos de un control: id para su etiqueta, campo del DS y error asociado (aria-describedby). */
+function controlProps(name: FieldName, errors: ContactFieldErrors, required: boolean) {
+  const error = errors[name];
+  return {
+    id: fieldId(name),
+    name,
+    className: error ? "c3-campo c3-campo--error" : "c3-campo",
+    "aria-invalid": Boolean(error),
+    "aria-describedby": error ? errorId(name) : undefined,
+    "aria-required": required ? true : undefined,
+  } as const;
+}
+
 export default function ContactForm() {
   const [values, setValues] = useState<ContactFormValues>(initialValues);
   const [fieldErrors, setFieldErrors] = useState<ContactFieldErrors>({});
@@ -33,8 +52,7 @@ export default function ContactForm() {
   const [statusMessage, setStatusMessage] = useState("");
 
   const isLoading = status === "loading";
-
-  const hasMessage = useMemo(() => statusMessage.trim().length > 0, [statusMessage]);
+  const hasMessage = statusMessage.trim().length > 0;
 
   function handleChange(
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
@@ -89,175 +107,120 @@ export default function ContactForm() {
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="rounded-[2rem] border border-[#d5deea] bg-white p-6 shadow-[0_18px_48px_rgba(15,32,62,0.10)] md:p-8"
-    >
-      <div className="space-y-2">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#5c6a82]">
-          Formulario institucional
-        </p>
-        <p className="text-sm leading-7 text-[#364765]">
-          Cuéntanos quién eres, qué buscas y cómo podemos ayudarte.
-        </p>
-      </div>
+    <form onSubmit={handleSubmit} className="c3-card c3-form p-6 md:p-8">
+      <p className="c3-etiqueta">Formulario institucional</p>
+      <p className="c3-form__intro">Cuéntanos quién eres, qué buscas y cómo podemos ayudarte.</p>
 
-      <div className="mt-6 grid gap-5">
-        <div className="grid gap-5 md:grid-cols-2">
-          <Field label="Nombre completo" error={fieldErrors.fullName}>
-            <input
-              name="fullName"
-              value={values.fullName}
-              onChange={handleChange}
-              required
-              autoComplete="name"
-              className="form-input"
-              aria-invalid={Boolean(fieldErrors.fullName)}
-            />
-          </Field>
-
-          <Field label="Correo electrónico" error={fieldErrors.email}>
-            <input
-              type="email"
-              name="email"
-              value={values.email}
-              onChange={handleChange}
-              required
-              autoComplete="email"
-              className="form-input"
-              aria-invalid={Boolean(fieldErrors.email)}
-            />
-          </Field>
-        </div>
-
-        <Field label="Institución / organización" optional error={fieldErrors.organization}>
+      <div className="c3-form-two">
+        <Field name="fullName" label="Nombre completo" error={fieldErrors.fullName}>
           <input
-            name="organization"
-            value={values.organization}
-            onChange={handleChange}
-            autoComplete="organization"
-            className="form-input"
-            aria-invalid={Boolean(fieldErrors.organization)}
-          />
-        </Field>
-
-        <Field label="Tipo de consulta" error={fieldErrors.consultationType}>
-          <select
-            name="consultationType"
-            value={values.consultationType}
+            {...controlProps("fullName", fieldErrors, true)}
+            value={values.fullName}
             onChange={handleChange}
             required
-            className="form-input"
-            aria-invalid={Boolean(fieldErrors.consultationType)}
-          >
-            <option value="">Elige una opción</option>
-            {consultationOptions.map((option) => (
-              <option key={option} value={option}>
-                {consultationLabels[option]}
-              </option>
-            ))}
-          </select>
+            autoComplete="name"
+          />
         </Field>
 
-        <Field label="Mensaje" error={fieldErrors.message}>
-          <textarea
-            name="message"
-            value={values.message}
+        <Field name="email" label="Correo electrónico" error={fieldErrors.email}>
+          <input
+            {...controlProps("email", fieldErrors, true)}
+            type="email"
+            value={values.email}
             onChange={handleChange}
             required
-            minLength={20}
-            rows={7}
-            className="form-input resize-y"
-            aria-invalid={Boolean(fieldErrors.message)}
+            autoComplete="email"
           />
         </Field>
-
-        <div className="sr-only">
-          <label htmlFor="contact-company">Empresa</label>
-          <input
-            id="contact-company"
-            name="honeypot"
-            value={values.honeypot}
-            onChange={handleChange}
-            tabIndex={-1}
-            autoComplete="off"
-          />
-        </div>
       </div>
 
-      <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="inline-flex items-center justify-center rounded-full bg-[#33BEAC] px-6 py-3 text-sm font-semibold text-[#0F203E] transition hover:bg-[#46b8a8] disabled:cursor-not-allowed disabled:opacity-70"
+      <Field name="organization" label="Institución / organización" optional error={fieldErrors.organization}>
+        <input
+          {...controlProps("organization", fieldErrors, false)}
+          value={values.organization}
+          onChange={handleChange}
+          autoComplete="organization"
+        />
+      </Field>
+
+      <Field name="consultationType" label="Tipo de consulta" error={fieldErrors.consultationType}>
+        <select
+          {...controlProps("consultationType", fieldErrors, true)}
+          value={values.consultationType}
+          onChange={handleChange}
+          required
         >
+          <option value="">Elige una opción</option>
+          {consultationOptions.map((option) => (
+            <option key={option} value={option}>
+              {consultationLabels[option]}
+            </option>
+          ))}
+        </select>
+      </Field>
+
+      <Field name="message" label="Mensaje" error={fieldErrors.message}>
+        <textarea
+          {...controlProps("message", fieldErrors, true)}
+          value={values.message}
+          onChange={handleChange}
+          required
+          minLength={20}
+          rows={7}
+        />
+      </Field>
+
+      <div hidden>
+        <label htmlFor="contacto-empresa">Empresa</label>
+        <input
+          id="contacto-empresa"
+          name="honeypot"
+          value={values.honeypot}
+          onChange={handleChange}
+          tabIndex={-1}
+          autoComplete="off"
+        />
+      </div>
+
+      <div className="c3-form__footer">
+        <Button type="submit" variant="primario" disabled={isLoading}>
           {isLoading ? "Enviando..." : "Enviar mensaje"}
-        </button>
+        </Button>
 
-        <div
-          aria-live="polite"
-          className={`min-h-6 text-sm font-medium ${
-            status === "success"
-              ? "text-[#16846f]"
-              : status === "error"
-                ? "text-[#b42318]"
-                : "text-[#5c6a82]"
-          }`}
-        >
-          {hasMessage ? statusMessage : ""}
+        <div role={status === "error" ? "alert" : "status"}>
+          {hasMessage ? (
+            <p className={status === "error" ? "c3-alerta c3-alerta--error" : "c3-alerta c3-alerta--exito"}>
+              {statusMessage}
+            </p>
+          ) : null}
         </div>
       </div>
-
-      <style jsx>{`
-        .form-input {
-          width: 100%;
-          border-radius: 1.1rem;
-          border: 1px solid #cfd9e5;
-          background: #ffffff;
-          padding: 0.875rem 1rem;
-          font-size: 0.95rem;
-          line-height: 1.5;
-          color: #0f203e;
-          outline: none;
-          transition:
-            border-color 150ms ease,
-            box-shadow 150ms ease,
-            background-color 150ms ease;
-        }
-
-        .form-input::placeholder {
-          color: #8190a7;
-        }
-
-        .form-input:focus {
-          border-color: #205298;
-          box-shadow: 0 0 0 4px rgba(32, 82, 152, 0.12);
-        }
-
-        .form-input[aria-invalid="true"] {
-          border-color: #b42318;
-        }
-      `}</style>
     </form>
   );
 }
 
 type FieldProps = {
+  name: FieldName;
   label: string;
   children: ReactNode;
   error?: string;
   optional?: boolean;
 };
 
-function Field({ label, children, error, optional }: FieldProps) {
+/** Etiqueta visible asociada por htmlFor; el error va fuera de la etiqueta para no formar parte de su nombre. */
+function Field({ name, label, children, error, optional }: FieldProps) {
   return (
-    <label className="grid gap-2">
-      <span className="text-sm font-semibold text-[#0F203E]">
+    <div className="c3-field-group">
+      <label htmlFor={fieldId(name)} className="c3-etiqueta-campo">
         {label}
-        {optional ? <span className="ml-1 text-[#5c6a82]">(opcional)</span> : null}
-      </span>
+        {optional ? <span className="c3-ayuda"> (opcional)</span> : null}
+      </label>
       {children}
-      {error ? <span className="text-sm font-medium text-[#b42318]">{error}</span> : null}
-    </label>
+      {error ? (
+        <p id={errorId(name)} className="c3-error-campo">
+          {error}
+        </p>
+      ) : null}
+    </div>
   );
 }

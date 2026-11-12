@@ -1761,3 +1761,131 @@ textarea.c3-campo {
     justify-content: center;
   }
 }
+
+/* Contacto (Tarea 7.2): formulario, canales y ayuda sobre el DS (ACTUALIZACION-DS §7.6 campos, §7.9 tarjetas). */
+.c3-form {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.c3-form-two {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+@media (max-width: 640px) {
+  .c3-form-two {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.c3-form__intro {
+  font-size: var(--c3-cuerpo-sm-size);
+  line-height: 1.6;
+  color: var(--c3-texto-suave);
+}
+
+.c3-form__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  padding-top: 4px;
+}
+
+.c3-contacto-seccion {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-block: clamp(40px, 6vw, 64px);
+}
+
+.c3-contacto-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (min-width: 900px) {
+  .c3-contacto-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .c3-contacto-grid--dos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.c3-canal {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 22px;
+  color: var(--c3-texto);
+  text-decoration: none;
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.c3-canal:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--c3-shadow-soft);
+}
+
+.c3-canal__icono {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 6px;
+  border-radius: var(--c3-radius-md);
+  background: var(--c3-navy);
+  color: var(--c3-superficie);
+}
+
+.c3-canal__valor {
+  font-family: var(--c3-font-titulo);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.c3-canal__texto {
+  font-size: var(--c3-cuerpo-sm-size);
+  line-height: 1.6;
+  color: var(--c3-texto-suave);
+}
+
+.c3-canal__accion {
+  margin-top: auto;
+  padding-top: 8px;
+  font-weight: 600;
+  color: var(--c3-accion);
+}
+
+.c3-contacto-ayuda {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px;
+}
+
+.c3-contacto-ayuda .c3-btn {
+  align-self: flex-start;
+  margin-top: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .c3-canal {
+    transition: none;
+  }
+
+  .c3-canal:hover {
+    transform: none;
+  }
+}
