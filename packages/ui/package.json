@@ -7,6 +7,10 @@
     "./button": "./src/button.tsx",
     "./badge": "./src/badge.tsx",
     "./card": "./src/card.tsx",
+    "./footer": "./src/footer.tsx",
+    "./header": "./src/header.tsx",
+    "./page-shell": "./src/page-shell.tsx",
+    "./seo-json-ld": "./src/seo-json-ld.tsx",
     "./utils": "./src/utils.ts"
   },
   "peerDependencies": {
