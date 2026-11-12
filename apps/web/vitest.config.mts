@@ -1,9 +1,13 @@
 import react from "@vitejs/plugin-react";
-import tsconfigPaths from "vite-tsconfig-paths";
+import { fileURLToPath, URL } from "node:url";
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
-  plugins: [tsconfigPaths(), react()],
+  plugins: [react()],
+  resolve: {
+    // Mismo alias que tsconfig (`@/*` → raíz de apps/web). Explícito porque tsconfig.json excluye tests/.
+    alias: { "@": fileURLToPath(new URL("./", import.meta.url)) },
+  },
   test: {
     environment: "jsdom",
     setupFiles: ["tests/setup.ts"],
