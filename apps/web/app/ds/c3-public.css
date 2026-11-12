@@ -575,6 +575,39 @@ textarea.c3-campo {
   color: var(--c3-enlace-sobre-navy);
 }
 
+/* Correo y redes del pie: el DS no los describe; mismos tonos que los enlaces del pie. */
+.c3-footer__brand a {
+  font-size: 13px;
+  color: var(--c3-enlace-sobre-navy);
+  text-decoration: none;
+}
+
+.c3-footer__brand a:hover {
+  color: var(--c3-texto-inverso);
+  text-decoration: underline;
+}
+
+.c3-footer__redes {
+  display: flex;
+  gap: 10px;
+}
+
+.c3-footer__red {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--c3-enlace-sobre-navy);
+  border-radius: var(--c3-radius-pill);
+  color: var(--c3-enlace-sobre-navy);
+}
+
+.c3-footer__red:hover {
+  color: var(--c3-texto-inverso);
+  border-color: var(--c3-texto-inverso);
+}
+
 /* Shared site pieces. */
 .c3-eyebrow {
   font: 700 11px/1.2 var(--c3-font-titulo);
