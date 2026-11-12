@@ -1,0 +1,22 @@
+/*
+ * Páginas de línea (Tarea 5.1). Extensiones del sitio sobre las variables de línea del DS (--c3-line-*).
+ * La plantilla fija las variables en el contenedor .c3-line-page (lib/ds/line-theme.ts).
+ */
+
+.c3-line-page {
+  background: var(--c3-line-tint);
+}
+
+/* Más específico que «.c3-sitio h2» (navy): el título de eventos toma el color legible de la línea. */
+.c3-line-page .c3-line-events__title {
+  color: var(--c3-line-text);
+}
+
+/* El punto va junto a la primera línea del titular, no centrado sobre todo el bloque de varias líneas. */
+.c3-line-intro h1 {
+  align-items: flex-start;
+}
+
+.c3-line-intro__dot {
+  margin-top: 0.42em;
+}
