@@ -28,7 +28,7 @@ export const metadata: Metadata = createPageMetadata({
 
 export default function QueEsC3Page() {
   return (
-    <PageShell backgroundClassName="bg-[#0F203E]">
+    <PageShell>
       <SeoJsonLd data={getAboutPageJsonLd("/que-es-c3", seoTitle, seoDescription)} />
       <SeoJsonLd data={getBreadcrumbJsonLd("/que-es-c3")} />
 

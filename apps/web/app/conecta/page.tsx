@@ -47,7 +47,7 @@ export default async function ConectaPage() {
   const events = await getPublicEvents();
 
   return (
-    <PageShell backgroundClassName="bg-[#0F203E]">
+    <PageShell>
       <SeoJsonLd
         data={getWebPageJsonLd({
           path: "/conecta",

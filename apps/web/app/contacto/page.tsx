@@ -81,7 +81,7 @@ export const metadata: Metadata = createPageMetadata({
 
 export default function ContactoPage() {
   return (
-    <PageShell backgroundClassName="bg-[#F4F7FB]">
+    <PageShell>
       <SeoJsonLd data={getContactPageJsonLd("/contacto", seoTitle, seoDescription)} />
       <SeoJsonLd data={getBreadcrumbJsonLd("/contacto")} />
 

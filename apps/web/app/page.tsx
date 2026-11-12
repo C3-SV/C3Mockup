@@ -4,10 +4,9 @@ import AudienceSection from "@/components/AudienceSection";
 import FinalCtaSection from "@/components/FinalCtaSection";
 import Hero from "@/components/Hero";
 import MissionVisionSection from "@/components/MissionVisionSection";
-import Navbar from "@/components/Navbar";
+import PageShell from "@/components/PageShell";
 import ProjectsSection from "@/components/ProjectsSection";
 import SeoJsonLd from "@/components/SeoJsonLd";
-import SiteFooter from "@/components/SiteFooter";
 import { getPublicEvents } from "@/lib/events";
 import { createPageMetadata } from "@/lib/metadata";
 import { getWebPageJsonLd } from "@/lib/structured-data";
@@ -29,18 +28,14 @@ export default async function Home() {
   const events = await getPublicEvents();
 
   return (
-    <div className="min-h-screen bg-[#0F203E]">
-      <Navbar />
-      <main id="contenido">
-        <SeoJsonLd data={getWebPageJsonLd({ path: "/", title: seoTitle, description: seoDescription })} />
-        <Hero />
-        <MissionVisionSection />
-        <ActionLinesSection />
-        <ProjectsSection events={events} />
-        <AudienceSection />
-        <FinalCtaSection />
-      </main>
-      <SiteFooter />
-    </div>
+    <PageShell>
+      <SeoJsonLd data={getWebPageJsonLd({ path: "/", title: seoTitle, description: seoDescription })} />
+      <Hero />
+      <MissionVisionSection />
+      <ActionLinesSection />
+      <ProjectsSection events={events} />
+      <AudienceSection />
+      <FinalCtaSection />
+    </PageShell>
   );
 }

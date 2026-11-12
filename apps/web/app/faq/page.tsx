@@ -24,7 +24,7 @@ export const metadata: Metadata = createPageMetadata({
 
 export default function FaqPage() {
   return (
-    <PageShell backgroundClassName="bg-[#0F203E]">
+    <PageShell>
       <SeoJsonLd data={getFaqPageJsonLd("/faq", seoTitle, seoDescription)} />
       <SeoJsonLd data={getBreadcrumbJsonLd("/faq")} />
       <section className="relative overflow-hidden bg-[#0F203E] py-16 text-white md:py-20">

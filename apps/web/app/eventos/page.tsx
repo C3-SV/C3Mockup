@@ -48,7 +48,7 @@ export default async function EventosPage() {
   );
 
   return (
-    <PageShell backgroundClassName="bg-[#0F203E]">
+    <PageShell>
       <SeoJsonLd data={getCollectionPageJsonLd("/eventos", seoTitle, seoDescription)} />
       <SeoJsonLd data={itemList} />
       <SeoJsonLd data={getBreadcrumbJsonLd("/eventos")} />

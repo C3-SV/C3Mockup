@@ -1,16 +1,16 @@
 import type { ReactNode } from "react";
-import Navbar from "@/components/Navbar";
 import SiteFooter from "@/components/SiteFooter";
+import SiteHeader from "@/components/SiteHeader";
 
 type PageShellProps = {
   children: ReactNode;
-  backgroundClassName?: string;
 };
 
-export default function PageShell({ children, backgroundClassName = "bg-[#0F203E]" }: PageShellProps) {
+/** Marco comun de las paginas publicas: cabecera, contenido en <main id="contenido"> y pie (DS §7). */
+export default function PageShell({ children }: PageShellProps) {
   return (
-    <div className={`min-h-screen ${backgroundClassName}`}>
-      <Navbar />
+    <div className="c3-sitio">
+      <SiteHeader />
       <main id="contenido">{children}</main>
       <SiteFooter />
     </div>
