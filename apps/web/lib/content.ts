@@ -118,26 +118,22 @@ export const lineVisuals: Record<
   {
     key: LineKey;
     name: string;
-    color: string;
     logo: LineLogo;
   }
 > = {
   compite: {
     key: "compite",
     name: "Compite",
-    color: "#205298",
     logo: { src: "/brand/lines/compite.png", width: 2070, height: 2150 },
   },
   crea: {
     key: "crea",
     name: "Crea",
-    color: "#33BEAC",
     logo: { src: "/brand/lines/crea.png", width: 1906, height: 2171 },
   },
   conecta: {
     key: "conecta",
     name: "Conecta",
-    color: "#4F5BA9",
     logo: { src: "/brand/lines/conecta.png", width: 2069, height: 2190 },
   },
 };

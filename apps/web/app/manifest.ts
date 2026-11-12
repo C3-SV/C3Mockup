@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { siteConfig } from "@/lib/site";
+import { c3Hex } from "@/app/ds/tokens";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
@@ -9,8 +10,8 @@ export default function manifest(): MetadataRoute.Manifest {
     start_url: "/",
     scope: "/",
     display: "standalone",
-    background_color: "#0F203E",
-    theme_color: "#0F203E",
+    background_color: c3Hex.navy,
+    theme_color: c3Hex.navy,
     lang: siteConfig.language,
     icons: [
       {

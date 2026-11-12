@@ -14,8 +14,6 @@
   "dependencies": {
     "@c3/config": "workspace:*",
     "@c3/ui": "workspace:*",
-    "@tsparticles/react": "^4.0.5",
-    "@tsparticles/slim": "^4.0.5",
     "@vercel/analytics": "^2.0.1",
     "firebase-admin": "^13.0.0",
     "next": "16.2.5",
@@ -30,7 +28,6 @@
     "@testing-library/dom": "^10.4.2",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
-    "@testing-library/user-event": "^14.6.9",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

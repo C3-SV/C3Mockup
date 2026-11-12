@@ -1589,15 +1589,6 @@ textarea.c3-campo {
   font-weight: 800;
 }
 
-.c3-line-intro__dot {
-  flex: none;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: var(--c3-line-accent);
-  box-shadow: 0 0 0 6px var(--c3-line-tint);
-}
-
 .c3-line-intro .c3-orbit-visual {
   max-width: 400px;
   --c3-orbit-accent: var(--c3-line-accent);
