@@ -1,4 +1,4 @@
-import { formatEventSchedule, type EventCover, type EventItem, type ExperienceKind, type LineKey } from "@c3/config";
+import { formatEventSchedule, type EventCover, type EventItem, type EventStatus, type ExperienceKind, type LineKey } from "@c3/config";
 import { toPillState, type PillState } from "@/lib/ds/event-state";
 
 /** Datos de una tarjeta de experiencia (DS §7.9). Solo texto y enlaces del evento; sin DEMO. */
@@ -15,6 +15,10 @@ export type CatalogCardData = {
   href: string;
   external: boolean;
   cover?: EventCover;
+  /** Estado y fechas del evento: el catálogo filtra por ellos (isUpcomingEvent), no por el texto de la pastilla. */
+  status: EventStatus;
+  eventDate?: string;
+  eventDateEnd?: string;
 };
 
 /** La primera línea es la principal; el resto se muestra como texto. Un evento sin líneas no llega aquí (lo descarta el parseo). */
@@ -37,5 +41,8 @@ export function toCatalogCard(event: EventItem): CatalogCardData {
     href: event.href,
     external: Boolean(event.external),
     cover: event.cover,
+    status: event.status,
+    eventDate: event.eventDate,
+    eventDateEnd: event.eventDateEnd,
   };
 }

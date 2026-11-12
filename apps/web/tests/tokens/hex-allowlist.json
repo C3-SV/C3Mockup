@@ -1,6 +1,5 @@
 [
   "app/contacto/page.tsx",
-  "app/eventos/page.tsx",
   "app/faq/page.tsx",
   "app/globals.css",
   "app/manifest.ts",
@@ -8,7 +7,6 @@
   "app/que-es-c3/page.tsx",
   "components/C3SectionTransition.tsx",
   "components/ContactForm.tsx",
-  "components/EventsCatalog.tsx",
   "components/backgrounds/c3-background-theme.ts",
   "components/ui/LegacyButton.tsx",
   "lib/c3-theme.ts",
