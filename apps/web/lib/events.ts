@@ -3,7 +3,7 @@ import "server-only";
 import { cache } from "react";
 import { cert, getApps, initializeApp, type ServiceAccount } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
-import { defaultEvents, compareEventsBySchedule, type EventItem } from "@c3/config";
+import { defaultEvents, compareEventsBySchedule, normalizeFirebasePrivateKey, type EventItem } from "@c3/config";
 import { parseEventDocument } from "@/lib/events-parse";
 
 const EVENTS_COLLECTION = "events";
@@ -20,7 +20,7 @@ function readFirebaseServiceAccount(): ServiceAccount | null {
   return {
     projectId,
     clientEmail,
-    privateKey: privateKey.replace(/\n/g, "\n"),
+    privateKey: normalizeFirebasePrivateKey(privateKey),
   };
 }
 

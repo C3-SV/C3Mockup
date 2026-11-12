@@ -4,6 +4,8 @@
 @import "./ds/c3-public.css" layer(components);
 @import "./ds/home.css" layer(components);
 @import "./ds/line-pages.css" layer(components);
+/* Sin capa: el destacado rotativo debe ganar a los encabezados globales del DS (ADR-0011). */
+@import "./ds/spotlight.css";
 
 :root {
   color-scheme: light;

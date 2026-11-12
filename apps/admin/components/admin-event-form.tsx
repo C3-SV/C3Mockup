@@ -3,7 +3,17 @@
 import { useState, type FormEvent, type ReactNode } from "react";
 import { FiArrowLeft, FiSave, FiStar, FiTrash2 } from "react-icons/fi";
 import { Badge, Button, Card, Field, Input, Select, Textarea, cn } from "@c3/ui";
-import { eventStatuses, lineKeys, type EventItem, type EventStatus, type LineKey } from "@c3/config";
+import {
+  eventStatuses,
+  experienceKindLabels,
+  experienceKinds,
+  lineKeys,
+  normalizeFeaturedOrder,
+  type EventItem,
+  type EventStatus,
+  type ExperienceKind,
+  type LineKey,
+} from "@c3/config";
 import { getEventScheduleLabel, lineLabels } from "@/lib/admin-analytics";
 import type { EventDraft } from "@/lib/admin-types";
 import { DeleteEventDialog, EventLineChip, EventStatusBadge, normalizeDraft } from "./admin-events";
@@ -44,7 +54,7 @@ function getDefaultId(title: string) {
   return title.trim() ? slugify(title) : "";
 }
 
-type DraftErrors = Partial<Record<"title" | "description" | "cta" | "href" | "status" | "lines", string>>;
+type DraftErrors = Partial<Record<"title" | "description" | "cta" | "href" | "status" | "lines" | "featuredOrder", string>>;
 
 /** Bloque del formulario: encabezado sobrio y campos en rejilla. */
 function FormSection({ title, children }: { title: string; children: ReactNode }) {
@@ -133,6 +143,10 @@ export function EventForm({
       nextErrors.lines = "Selecciona al menos una línea.";
     }
 
+    if (nextDraft.featured && nextDraft.featuredOrder.trim() && normalizeFeaturedOrder(nextDraft.featuredOrder) === undefined) {
+      nextErrors.featuredOrder = "Usa un número entero entre 1 y 99.";
+    }
+
     return nextErrors;
   }
 
@@ -148,7 +162,7 @@ export function EventForm({
     await onSubmit(draft);
   }
 
-  const scheduleLabel = getEventScheduleLabel(draft as EventItem);
+  const scheduleLabel = getEventScheduleLabel(draft);
   const derivedId = draft.id.trim() || getDefaultId(draft.title);
 
   return (
@@ -220,6 +234,22 @@ export function EventForm({
                 </Select>
               </Field>
 
+              <Field label="Tipo de experiencia" hint="Elige el ícono de respaldo. Sin tipo, se usa un ícono genérico.">
+                <Select
+                  value={draft.kind}
+                  onChange={(event) => updateField("kind", event.target.value as ExperienceKind | "")}
+                >
+                  <option value="">Sin tipo</option>
+                  {experienceKinds.map((kind) => (
+                    <option key={kind} value={kind}>
+                      {experienceKindLabels[kind]}
+                    </option>
+                  ))}
+                </Select>
+              </Field>
+            </div>
+
+            <div className="grid gap-4 md:grid-cols-2">
               <label className="flex items-start gap-3 rounded-lg border border-line bg-surface p-3">
                 <input
                   type="checkbox"
@@ -229,9 +259,32 @@ export function EventForm({
                 />
                 <span className="grid gap-0.5">
                   <span className="text-sm font-medium text-ink">Destacado</span>
-                  <span className="text-xs text-muted">Aparece primero en la portada y en el catálogo.</span>
+                  <span className="text-xs text-muted">
+                    Puede aparecer en el destacado rotativo de la portada mientras el evento esté vigente.
+                  </span>
                 </span>
               </label>
+
+              {draft.featured ? (
+                <Field
+                  label="Orden en el destacado"
+                  hint="Opcional. El número más bajo sale primero. Vacío: se ordena por fecha."
+                  error={errors.featuredOrder}
+                  errorId="featured-order-error"
+                >
+                  <Input
+                    type="number"
+                    inputMode="numeric"
+                    min={1}
+                    max={99}
+                    step={1}
+                    value={draft.featuredOrder}
+                    onChange={(event) => updateField("featuredOrder", event.target.value)}
+                    aria-invalid={Boolean(errors.featuredOrder)}
+                    aria-describedby={errors.featuredOrder ? "featured-order-error" : undefined}
+                  />
+                </Field>
+              ) : null}
             </div>
           </FormSection>
 

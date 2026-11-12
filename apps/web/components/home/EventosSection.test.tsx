@@ -26,6 +26,12 @@ describe("EventosSection (evidencia viva, destacadas paginadas)", () => {
     expect(container.querySelectorAll("article.c3-exp")).toHaveLength(1);
   });
 
+  it("con destacados vigentes, muestra el destacado rotativo arriba del catálogo", () => {
+    const { container } = render(<EventosSection spotlight={cardsFrom(2)} cards={cardsFrom(3)} />);
+    expect(screen.getByRole("region", { name: "Eventos destacados" })).toBeInTheDocument();
+    expect(container.querySelectorAll("article.c3-exp")).toHaveLength(3);
+  });
+
   it("enlaza el hub completo de eventos", () => {
     render(<EventosSection cards={[]} />);
     expect(screen.getByRole("link", { name: /Ver hub completo de eventos/ })).toHaveAttribute("href", "/eventos");

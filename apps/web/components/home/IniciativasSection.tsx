@@ -9,30 +9,36 @@ import type { EventItem } from "@c3/config";
 const MAX_CARDS = 2;
 
 /**
- * Próximas iniciativas. Muestra los eventos próximos del catálogo, con su propio estado. Si no hay ninguno,
- * muestra los destacados, con la pastilla que corresponde a su fecha. Si tampoco hay destacados, no muestra la
- * sección (la evidencia viva del ecosistema sigue debajo).
+ * Próximas iniciativas: eventos con fecha por venir que no están ya en el destacado rotativo. Los eventos
+ * terminados no aparecen aquí, ni como destacados. El encabezado siempre se muestra; si no hay tarjetas, el
+ * texto dice dónde están las iniciativas con fecha (el destacado) o que por ahora no hay ninguna.
  */
-export function IniciativasSection({ events, now = new Date() }: { events: EventItem[]; now?: Date }) {
-  const upcoming = events.filter((event) => isUpcomingEvent(event, now));
-  const showingFeatured = upcoming.length === 0;
-  const items = (showingFeatured ? events.filter((event) => event.featured) : upcoming).slice(0, MAX_CARDS);
+export function IniciativasSection({
+  events,
+  now = new Date(),
+  spotlightCount = 0,
+}: {
+  events: EventItem[];
+  now?: Date;
+  spotlightCount?: number;
+}) {
+  const items = events.filter((event) => isUpcomingEvent(event, now)).slice(0, MAX_CARDS);
 
-  if (items.length === 0) {
-    return null;
-  }
+  const lead =
+    items.length > 0
+      ? "Iniciativas de C3 con fecha por venir."
+      : spotlightCount > 0
+        ? "Las iniciativas con fecha por venir se destacan más abajo, en Evidencia viva."
+        : "Por ahora no hay iniciativas próximas.";
 
   return (
     <section className="c3-featured" aria-labelledby="proximas-iniciativas">
       <div className="c3-frame">
         <div className="c3-section-head">
           <h2 id="proximas-iniciativas">Próximas iniciativas</h2>
-          <p className="c3-lead">
-            {showingFeatured
-              ? "Por ahora no hay iniciativas próximas. Estos son eventos destacados de C3."
-              : "Iniciativas de C3 con fecha por venir."}
-          </p>
+          <p className="c3-lead">{lead}</p>
         </div>
+        {items.length > 0 ? (
         <div className="c3-home-grid c3-home-grid--2">
           {items.map((event) => {
             const line = event.lines[0];
@@ -67,6 +73,7 @@ export function IniciativasSection({ events, now = new Date() }: { events: Event
             );
           })}
         </div>
+        ) : null}
       </div>
     </section>
   );

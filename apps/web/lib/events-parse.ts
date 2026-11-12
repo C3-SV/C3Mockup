@@ -3,6 +3,7 @@ import {
   normalizeEventLines,
   normalizeEventStatus,
   normalizeExperienceKind,
+  normalizeFeaturedOrder,
   type EventItem,
 } from "@c3/config";
 
@@ -42,6 +43,7 @@ export function parseEventDocument(docId: string, data: Record<string, unknown>)
     href,
     external: Boolean(data.external),
     featured: Boolean(data.featured),
+    featuredOrder: normalizeFeaturedOrder(data.featuredOrder),
     createdAt: text(data.createdAt),
     updatedAt: text(data.updatedAt),
     eventDate: text(data.eventDate),
