@@ -17,6 +17,13 @@ El paquete del DS (`docs/design-system/source/ACTUALIZACION-DS-C3.md` §12.1) de
 5. **Tokens añadidos por la guía §15.4** se declaran en `apps/web/app/ds/tokens-extra.css`. Los que el paquete no trae y el sitio necesita se añaden en el mismo archivo y se registran aquí.
 6. **Puente de fuentes:** las variables `--c3-font-titulo` y `--c3-font-texto` apuntan a `--font-heading` y `--font-body` de `next/font`. Poppins conserva el peso 700, porque el sitio lo usa en 86 lugares con `font-bold`.
 
+## Tokens añadidos en la Tarea 1.2
+Los colores que el paquete escribe como hexadecimales en `estilos/globals.css` se tokenizan. Los que no tienen token en `tokens.json` se declaran en `apps/web/app/ds/tokens-extra.css`:
+- Bordes de estado de pastilla: `--c3-info-borde`, `--c3-exito-borde`, `--c3-advertencia-borde`, `--c3-error-borde`.
+- Sobre navy: `--c3-texto-sobre-navy`, `--c3-enlace-sobre-navy`, `--c3-acento-sobre-navy`.
+- Neutros: `--c3-borde-hover`, `--c3-borde-suave`, `--c3-superficie-suave` (unifica #f7f9fd y #f8fafd: diferencia de 1 unidad), `--c3-superficie-gris`.
+- Línea: `--c3-line-accent`, `--c3-line-text`, `--c3-line-tint` con valor por defecto de Compite; la plantilla de línea los sobrescribe.
+
 ## Consecuencias
 - La prueba `tests/tokens/contrast.test.ts` sigue validando los valores del paquete. Si cambia `tokens.css`, la prueba avisa.
 - Cualquier nuevo gradiente, sombra de tarjeta o uso de `info` como color de línea exige un ADR nuevo.
