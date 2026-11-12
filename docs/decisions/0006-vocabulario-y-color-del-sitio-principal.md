@@ -14,6 +14,7 @@ El DS recibido nació del demo de **C3 Challenges**, una plataforma de retos emp
 8. **Logo:** el logo C3 **completo** que el sitio ya usa. No se adopta `c3-sim-azul.png` ni el logo simple del paquete en cabecera y pie. El símbolo `c3-symbol.png` solo se usa en la órbita del hero.
 9. **Limpieza:** se borra todo lo que el DS deja sin uso (componentes, estilos, assets, archivos temporales) para dejar el código más limpio.
 6. **Precios y paquetes comerciales:** no se publican.
+- **Nombre técnico del tipo de experiencia «reto» (2026-11-11).** El tipo que el DS llama `challenge` se llama `reto` en el código y en `experienceKinds` (`packages/config`). El término no aparece en la interfaz.
 
 ## Consecuencias
 - Se adaptan los textos de referencia del DS (§8, §10) antes de portarlos; el spec lista cada reemplazo.
