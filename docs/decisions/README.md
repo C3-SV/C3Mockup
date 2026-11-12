@@ -10,8 +10,6 @@ Una decisión por archivo: `NNNN-titulo.md`. Estado: `propuesta`, `aceptada`, `r
 | [0004](0004-calidad-vitest-playwright-gha.md) | 2026-11-11 | Calidad: Vitest, Playwright + axe, GitHub Actions, Vercel | aceptada |
 | [0005](0005-decisiones-heredadas-del-ds.md) | 2026-11-05 a 11-11 | Decisiones heredadas del paquete (parcialmente reemplazadas por 0006) | aceptada |
 | [0006](0006-vocabulario-y-color-del-sitio-principal.md) | 2026-11-11 | Vocabulario (eventos y experiencias, sin «challenge») y violeta de acción del sitio principal | aceptada |
-| [0007](0007-rama-dev-y-un-pr-a-main.md) | 2026-11-11 | Rama `dev` de release y un solo PR a `main` | aceptada |
-| [0008](0008-tokens-info-sombra-gradientes.md) | 2026-11-11 | Excepciones de tokens: info = Compite, sombra de tarjeta, 4 gradientes, modo oscuro no activo, puente de fuentes | aceptada |
 
 ## Plantilla
 

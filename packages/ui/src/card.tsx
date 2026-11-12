@@ -6,10 +6,12 @@ type CardProps = HTMLAttributes<HTMLDivElement> & {
   className?: string;
 };
 
-/** Superficie de contenido: borde suave, sin sombra. El relleno lo pone quien la usa. */
 export function Card({ children, className, ...props }: CardProps) {
   return (
-    <div className={cn("rounded-xl border border-line bg-surface", className)} {...props}>
+    <div
+      className={cn("rounded-[1.8rem] border border-[#d5deea] bg-white shadow-[0_12px_30px_rgba(15,32,62,0.08)]", className)}
+      {...props}
+    >
       {children}
     </div>
   );

@@ -45,8 +45,8 @@ Hacer una mejor versión de **c3.com.sv** usando el sistema de diseño recibido 
 ## 4. Mis llamadas (revisables; marcadas como tales)
 
 1. **Home sin banda de pasos.** Los cuatro pasos del DS (elegir challenge, inscribirte, entregar, evaluación) describen la plataforma, no a C3. No se inventa un proceso: la banda se omite hasta que el responsable dé pasos reales.
-2. **Navegación:** «Inicio» · «Qué es C3» · «Ecosistema ▾» (Compite, Crea, Conecta) · «Eventos» · «FAQ»; el nombre del menú **se conserva** («Ecosistema», no «Conoce C3»: el contenido actual manda sobre el DS, decisión del responsable 2026-11-11); acción primaria única **«Contacto»**. Sin «Iniciar sesión» ni «Crear cuenta».
-3. **Pie en cuatro columnas** con el contenido actual: marca (logo blanco, nombre, correo, redes), navegación principal, las tres líneas y los dos sitios hermanos. Sin títulos de columna ni «Fundado en octubre de 2024» ni «Hecho en El Salvador» (el DS los trae; el sitio no); quedan como pregunta al responsable.
+2. **Navegación:** «Qué es C3» · «Eventos» · «Conoce C3 ▾» (Compite, Crea, Conecta) · «FAQ»; acción primaria única **«Contacto»**. Sin «Iniciar sesión» ni «Crear cuenta».
+3. **Pie en cuatro columnas:** marca; Conoce C3; Comunidad (Qué es C3, Eventos, FAQ, Contacto); Síguenos (redes de `siteConfig`, incluidos los sitios satélite de Copa y Hackathon con indicador de enlace externo).
 4. **`next/font` se conserva** (no el `<link>` de Google del DS); sus variables se mapean a `--c3-font-titulo/-texto`.
 5. **`lang`:** se conserva `es-SV` (refina `es`).
 6. **Botón pequeño:** `.c3-btn--small` sube a 44 px de área táctil (el DS lo deja en 36).
@@ -57,7 +57,7 @@ Hacer una mejor versión de **c3.com.sv** usando el sistema de diseño recibido 
 
 **Resueltas tras la revisión independiente del spec** (también mías, revisables):
 
-11. **Despliegue por rama de integración.** Todo el trabajo vive en la rama `dev` (rama de release, ADR-0007): no hay PR por tarea y el único PR es `dev → main` al cerrar la Fase 8. Cada push a `dev` pasa CI y tiene preview de Vercel. **`main` y producción no cambian hasta que todas las páginas estén migradas** (Fase 8). Así nunca se publica un sitio a medio migrar.
+11. **Despliegue por rama de integración.** Todo el trabajo vive en `feat/ds-rework`; cada tarea es un PR hacia esa rama (preview de Vercel por PR). **`main` y producción no cambian hasta que todas las páginas estén migradas** (Fase 8). Así nunca se publica un sitio a medio migrar.
 12. **Fechas de eventos:** `EventItem.eventDate` y `eventDateEnd` ya son ISO (`AAAA-MM-DD`) y `packages/config` tiene `parseEventDate` e `isUpcoming`; «próximos/concluidos» se derivan de ahí sin tocar el admin.
 13. **Campos nuevos sin admin:** sin `kind`/`cover` la tarjeta usa el ícono genérico y el tinte de su área (aceptable). Los 5 `defaultEvents` reciben `kind` por commit (competencia, hackathon, etc., según su título actual); sin portadas hasta que existan.
 14. **`--c3-crea-texto` (`#0f766e`) y las variantes oscuras ya vienen definidas** en el paquete; solo se añaden por ADR los tokens que el paquete no tiene (§12.1 #5–6).
@@ -88,7 +88,7 @@ apps/web/tests · e2e/    Vitest y Playwright
 
 ## 6. Comportamiento por pantalla
 
-**Shell.** Enlace «Saltar al contenido»; cabecera blanca fija (72 px / 64 px), «Ecosistema» como menú (Escape, clic fuera, `aria-expanded`, `aria-controls`), «Menú» bajo 900 px, `aria-current`; pie navy. Un `<main id="contenido">` por página.
+**Shell.** Enlace «Saltar al contenido»; cabecera blanca fija (72 px / 64 px), «Conoce C3» como menú (Escape, clic fuera, `aria-expanded`, `aria-controls`), «Menú» bajo 900 px, `aria-current`; pie navy. Un `<main id="contenido">` por página.
 
 **Home** (se **conserva el orden y los textos actuales** del sitio; cambia su apariencia al patrón DS que corresponde):
 
@@ -131,7 +131,7 @@ CSS sin capa que anule utilidades (mitigado con `layer(components)` y prueba de 
 
 | Pregunta | Respuesta |
 | --- | --- |
-| Logo en cabecera | **Superado el 2026-11-11: la cabecera usa `c3-sim-azul.png`** (logo completo oscuro, tras revisar el navbar). Antes: **El logo C3 completo** que el sitio ya usa: `logo-c3-claro-con-color.png` sobre fondo claro y `logo-c3-blanco-monocromatico.png` sobre navy. No se adoptan `c3-sim-azul.png` ni el logo simple del paquete. `c3-symbol.png` solo para la órbita (el DS lo exige para sus puntos interactivos; mi llamada, revisable) |
+| Logo en cabecera | **El logo C3 completo** que el sitio ya usa: `logo-c3-claro-con-color.png` sobre fondo claro y `logo-c3-blanco-monocromatico.png` sobre navy. No se adoptan `c3-sim-azul.png` ni el logo simple del paquete. `c3-symbol.png` solo para la órbita (el DS lo exige para sus puntos interactivos; mi llamada, revisable) |
 | Titular y eyebrow | **Se conserva lo que ya está** (ver tabla de la home). «El talento se ve en acción» era texto del DS y no se usa |
 | Eventos de `defaultEvents` | **Todos reales. Sin DEMO.** Es el sitio real |
 | Manual de marca y capturas del DS aplicado | Pendiente, no bloquea |
