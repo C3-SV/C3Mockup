@@ -21,6 +21,12 @@ const EVENT_TITLES = new Set([
   "Capture The Flag: Del Aula al ICC",
 ]);
 
+/**
+ * CTA de un evento del catálogo (dato): «Ver eventos» viene del evento en Firestore, no de la copy.
+ * Se excluye por la misma razón que los títulos.
+ */
+const EVENT_CTA = new Set(["Ver eventos"]);
+
 test.skip(!process.env.CAPTURE_CONTENT, "solo para regenerar la linea base de contenido");
 
 test("captura titulares y enlaces del sitio actual", async ({ page }) => {
@@ -45,7 +51,7 @@ test("captura titulares y enlaces del sitio actual", async ({ page }) => {
     );
     out[route] = {
       headings: [...new Set(headings)].filter((h) => !EVENT_TITLES.has(h)),
-      links: links.filter((l) => !EVENT_TITLES.has(l.text)),
+      links: links.filter((l) => !EVENT_TITLES.has(l.text) && !EVENT_CTA.has(l.text)),
     };
   }
 

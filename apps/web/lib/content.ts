@@ -76,6 +76,40 @@ export const headerNavigation = [
   { href: "/contacto", label: "Contacto" },
 ] as const;
 
+/**
+ * Texto de las tres líneas en la home: la tarjeta de línea y la burbuja de la órbita lo leen de aquí.
+ * Es el contenido actual del sitio (no el de referencia del DS).
+ */
+export type HomeLineKey = "compite" | "crea" | "conecta";
+
+export const homeLines = [
+  {
+    key: "compite",
+    name: "Compite",
+    title: "COMPITE",
+    description: "Desarrollamos el máximo potencial técnico a través de desafíos y competencias de clase mundial.",
+    bullets: ["Programación competitiva", "ICPC", "Copa Salvadoreña de Programación", "Entrenamientos"],
+    href: "/compite",
+  },
+  {
+    key: "crea",
+    name: "Crea",
+    title: "CREA",
+    description:
+      "Convertimos conocimiento técnico en construcción: prototipos, software y soluciones para retos reales.",
+    bullets: ["Hackathons", "Builders", "Desarrollo de software", "Proyectos reales"],
+    href: "/crea",
+  },
+  {
+    key: "conecta",
+    name: "Conecta",
+    title: "CONECTA",
+    description: "Construimos el puente entre talento emergente, comunidad, instituciones y oportunidades reales.",
+    bullets: ["Comunidad", "Industria", "Mentoría", "Alianzas"],
+    href: "/conecta",
+  },
+] as const;
+
 export const lineVisuals: Record<
   LineKey,
   {

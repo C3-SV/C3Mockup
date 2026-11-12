@@ -4,17 +4,18 @@ import SiteHeader from "@/components/SiteHeader";
 
 type PageShellProps = {
   children: ReactNode;
+  /**
+   * true en las páginas ya migradas al DS: agrega .c3-sitio (tipografía y color de titulares del DS).
+   * Las páginas sin migrar no lo llevan: su regla de titulares pisaría el color heredado de sus
+   * secciones oscuras.
+   */
+  ds?: boolean;
 };
 
-/**
- * Marco comun de las paginas publicas: cabecera, contenido en <main id="contenido"> y pie (DS §7).
- * No lleva la clase .c3-sitio: su regla de titulares (navy) pisaria el color heredado de las
- * secciones oscuras que aun no se migran. Cada pagina que se migre al DS agrega .c3-sitio a su
- * propio contenedor (Fase 4 en adelante).
- */
-export default function PageShell({ children }: PageShellProps) {
+/** Marco común de las páginas públicas: cabecera, contenido en <main id="contenido"> y pie (DS §7). */
+export default function PageShell({ children, ds = false }: PageShellProps) {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className={ds ? "c3-sitio" : "flex min-h-screen flex-col"}>
       <SiteHeader />
       <main id="contenido" className="flex-1">
         {children}
