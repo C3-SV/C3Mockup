@@ -84,12 +84,12 @@ pnpm test                 # unitarias y de componentes (Vitest)
 pnpm test:e2e             # Playwright, 390 y 1280 px + axe
 ```
 
-`test` y `test:e2e` los crea la Fase 0 del plan; hasta entonces no existen. Si aún no están, dilo en el PR; no los simules.
+`test` y `test:e2e` ya existen. `test:e2e` corre contra `next start`: ejecuta `pnpm build:web` antes.
 
 ## 7. Git, PR y despliegue
 
-- Rama por tarea: `feat/…`, `fix/…`, `docs/…`, `chore/…`. Commits convencionales (`feat(web): …`). Nunca commitear a `main` sin PR.
-- Cada PR enlaza la tarea del plan que cierra y adjunta capturas a 390 y 1280 px si toca UI.
+- **Una rama por fase** del plan: `fase-N-<nombre>` desde `dev` (p. ej. `fase-4-home`). Al cerrar la fase se fusiona a `dev` con `--no-ff` y se sube `dev`; la rama de la fase también se sube para trazabilidad (ADR-0007, actualización 2026-11-11). Commits convencionales (`feat(web): …`, `chore: …`). Un solo PR `dev → main` al terminar todas las fases. Nunca commitear a `main` directamente.
+- El PR `dev → main` enlaza el plan completo, lista las tareas cerradas y adjunta capturas a 390 y 1280 px.
 - CI (GitHub Actions) corre en cada PR; CD es Vercel (preview por PR, producción al fusionar en `main`). Ver [`docs/process/ci-cd.md`](docs/process/ci-cd.md).
 - Nunca versionar `.env*`, claves de Firebase ni `node_modules`. No ejecutar `npx impeccable install` ni instalar terceros sin revisar licencia y origen.
 

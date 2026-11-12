@@ -3,9 +3,8 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { FiAlertCircle, FiCheckCircle, FiChevronRight, FiInbox } from "react-icons/fi";
-import { Badge, Button, Card } from "@c3/ui";
+import { Button, Card, cn } from "@c3/ui";
 import type { AdminFeedback } from "@/lib/admin-types";
-import { cn } from "@c3/ui";
 
 export type BreadcrumbItem = {
   label: string;
@@ -18,20 +17,22 @@ export function Breadcrumbs({ items }: { items: BreadcrumbItem[] }) {
   }
 
   return (
-    <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-1 text-xs font-semibold uppercase tracking-[0.18em] text-[#5c6a82]">
+    <nav aria-label="Ruta" className="flex flex-wrap items-center gap-1 text-sm text-muted">
       {items.map((item, index) => {
         const isLast = index === items.length - 1;
 
         return (
           <span key={`${item.label}-${index}`} className="inline-flex items-center gap-1">
             {item.href && !isLast ? (
-              <Link href={item.href} className="transition hover:text-[#205298]">
+              <Link href={item.href} className="hover:text-brand">
                 {item.label}
               </Link>
             ) : (
-              <span className={cn(isLast ? "text-[#0f203e]" : "")}>{item.label}</span>
+              <span aria-current={isLast ? "page" : undefined} className={cn(isLast ? "text-ink" : "")}>
+                {item.label}
+              </span>
             )}
-            {!isLast ? <FiChevronRight className="text-[0.8rem]" /> : null}
+            {!isLast ? <FiChevronRight className="text-xs" aria-hidden="true" /> : null}
           </span>
         );
       })}
@@ -39,46 +40,32 @@ export function Breadcrumbs({ items }: { items: BreadcrumbItem[] }) {
   );
 }
 
+/** Encabezado de página: título, descripción breve y acciones. Sin decoración. */
 export function PageHeader({
   breadcrumbs,
   title,
   description,
   actions,
-  eyebrow,
-  subtitle,
 }: {
   breadcrumbs: BreadcrumbItem[];
   title: string;
   description?: string;
   actions?: ReactNode;
-  eyebrow?: string;
-  subtitle?: ReactNode;
 }) {
   return (
-    <header className="rounded-[1.6rem] border border-[#d5deea] bg-white px-5 py-5 shadow-[0_12px_30px_rgba(15,32,62,0.06)] sm:px-6 sm:py-6">
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-        <div className="space-y-3">
-          <Breadcrumbs items={breadcrumbs} />
-          {eyebrow ? (
-            <Badge className="w-fit border-[#dce7f4] bg-[#f4f7fb] text-[#205298]">{eyebrow}</Badge>
-          ) : null}
-          <div className="space-y-2">
-            <h1 className="text-3xl font-bold tracking-tight text-[#0f203e] sm:text-[2rem]">{title}</h1>
-            {description ? (
-              <p className="max-w-3xl text-sm leading-7 text-[#5c6a82]">{description}</p>
-            ) : null}
-            {subtitle ? <div className="text-sm text-[#364765]">{subtitle}</div> : null}
-          </div>
-        </div>
-
-        {actions ? <div className="flex flex-wrap items-center gap-3 lg:justify-end">{actions}</div> : null}
+    <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+      <div className="min-w-0 space-y-1.5">
+        <Breadcrumbs items={breadcrumbs} />
+        <h1 className="text-2xl font-semibold tracking-tight text-ink">{title}</h1>
+        {description ? <p className="text-sm text-muted">{description}</p> : null}
       </div>
+      {actions ? <div className="flex flex-wrap items-center gap-2">{actions}</div> : null}
     </header>
   );
 }
 
 export function LoadingSkeleton({ className }: { className?: string }) {
-  return <div className={cn("animate-pulse rounded-2xl bg-[#e7eef6]", className)} />;
+  return <div className={cn("animate-pulse rounded-lg bg-subtle", className)} aria-hidden="true" />;
 }
 
 export function EmptyState({
@@ -93,23 +80,21 @@ export function EmptyState({
   action?: ReactNode;
 }) {
   return (
-    <Card className="p-6">
-      <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-        <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[#d5deea] bg-[#f8fbfe] text-[#205298]">
-          {icon ?? <FiInbox className="text-xl" />}
-        </div>
-        <div className="space-y-1">
-          <h3 className="text-lg font-semibold text-[#0f203e]">{title}</h3>
-          <p className="max-w-2xl text-sm leading-7 text-[#5c6a82]">{description}</p>
-        </div>
+    <Card className="flex flex-col items-center gap-3 px-6 py-10 text-center">
+      <div className="flex h-11 w-11 items-center justify-center rounded-full bg-subtle text-muted">
+        {icon ?? <FiInbox className="text-lg" aria-hidden="true" />}
       </div>
-      {action ? <div className="mt-5">{action}</div> : null}
+      <div className="space-y-1">
+        <h3 className="text-base font-semibold text-ink">{title}</h3>
+        <p className="max-w-md text-sm text-muted">{description}</p>
+      </div>
+      {action ? <div className="mt-2">{action}</div> : null}
     </Card>
   );
 }
 
 export function ErrorState({
-  title = "Algo salió mal",
+  title = "No se pudo cargar la información",
   description,
   onRetry,
 }: {
@@ -118,22 +103,19 @@ export function ErrorState({
   onRetry?: () => void;
 }) {
   return (
-    <Card className="p-6">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div className="space-y-2">
-          <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.16em] text-[#b42318]">
-            <FiAlertCircle />
-            Error
-          </div>
-          <h3 className="text-lg font-semibold text-[#0f203e]">{title}</h3>
-          <p className="max-w-2xl text-sm leading-7 text-[#5c6a82]">{description}</p>
+    <Card className="flex flex-col gap-4 p-6 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex gap-3">
+        <FiAlertCircle className="mt-0.5 shrink-0 text-lg text-danger" aria-hidden="true" />
+        <div className="space-y-1">
+          <h3 className="text-base font-semibold text-ink">{title}</h3>
+          <p className="text-sm text-muted">{description}</p>
         </div>
-        {onRetry ? (
-          <Button variant="ghost" onClick={onRetry} className="border border-[#d5deea] bg-white text-[#0f203e]">
-            Reintentar
-          </Button>
-        ) : null}
       </div>
+      {onRetry ? (
+        <Button variant="secondary" onClick={onRetry}>
+          Reintentar
+        </Button>
+      ) : null}
     </Card>
   );
 }
@@ -143,19 +125,20 @@ export function InlineFeedback({ feedback }: { feedback: AdminFeedback }) {
     return null;
   }
 
-  const tone =
-    feedback.kind === "success"
-      ? "border-[#a7f3d0] bg-[#ecfdf5] text-[#0f7a5f]"
-      : "border-[#f5c2c7] bg-[#fff5f5] text-[#b42318]";
-
-  const icon = feedback.kind === "success" ? <FiCheckCircle /> : <FiAlertCircle />;
+  const isSuccess = feedback.kind === "success";
+  const Icon = isSuccess ? FiCheckCircle : FiAlertCircle;
 
   return (
-    <div className={cn("rounded-2xl border px-4 py-3 text-sm font-medium", tone)} role="status" aria-live="polite">
-      <span className="inline-flex items-center gap-2">
-        {icon}
-        {feedback.text}
-      </span>
+    <div
+      role="status"
+      aria-live="polite"
+      className={cn(
+        "flex items-start gap-3 rounded-lg border px-4 py-3 text-sm",
+        isSuccess ? "border-success/25 bg-success-soft text-success" : "border-danger/25 bg-danger-soft text-danger",
+      )}
+    >
+      <Icon className="mt-0.5 shrink-0" aria-hidden="true" />
+      <span>{feedback.text}</span>
     </div>
   );
 }

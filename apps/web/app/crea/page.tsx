@@ -47,7 +47,7 @@ export default async function CreaPage() {
   const events = await getPublicEvents();
 
   return (
-    <PageShell backgroundClassName="bg-[#0F203E]">
+    <PageShell ds>
       <SeoJsonLd
         data={getWebPageJsonLd({
           path: "/crea",

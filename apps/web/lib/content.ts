@@ -2,23 +2,6 @@
 
 export type LineKey = "compite" | "crea" | "conecta";
 
-export type EventStatus =
-  | "Inscripciones abiertas"
-  | "Próximamente"
-  | "Histórico"
-  | "Apoyo institucional";
-
-export type EventItem = {
-  id: string;
-  title: string;
-  description: string;
-  lines: LineKey[];
-  status: EventStatus;
-  cta: string;
-  href: string;
-  external?: boolean;
-};
-
 export type TeamLeader = {
   name: string;
   role: string;
@@ -76,99 +59,67 @@ export const headerNavigation = [
   { href: "/contacto", label: "Contacto" },
 ] as const;
 
+/**
+ * Texto de las tres líneas en la home: la tarjeta de línea y la burbuja de la órbita lo leen de aquí.
+ * Es el contenido actual del sitio (no el de referencia del DS).
+ */
+export type HomeLineKey = "compite" | "crea" | "conecta";
+
+export const homeLines = [
+  {
+    key: "compite",
+    name: "Compite",
+    title: "COMPITE",
+    description: "Desarrollamos el máximo potencial técnico a través de desafíos y competencias de clase mundial.",
+    bullets: ["Programación competitiva", "ICPC", "Copa Salvadoreña de Programación", "Entrenamientos"],
+    href: "/compite",
+  },
+  {
+    key: "crea",
+    name: "Crea",
+    title: "CREA",
+    description:
+      "Convertimos conocimiento técnico en construcción: prototipos, software y soluciones para retos reales.",
+    bullets: ["Hackathons", "Builders", "Desarrollo de software", "Proyectos reales"],
+    href: "/crea",
+  },
+  {
+    key: "conecta",
+    name: "Conecta",
+    title: "CONECTA",
+    description: "Construimos el puente entre talento emergente, comunidad, instituciones y oportunidades reales.",
+    bullets: ["Comunidad", "Industria", "Mentoría", "Alianzas"],
+    href: "/conecta",
+  },
+] as const;
+
+/** Logo oscuro de cada línea (paquete DS, brand/lines): se ve sobre fondo claro o dentro de un panel blanco. */
+export type LineLogo = { src: string; width: number; height: number };
+
 export const lineVisuals: Record<
   LineKey,
   {
     key: LineKey;
     name: string;
-    color: string;
-    logo: string;
-    shortDescription: string;
-    softBg: string;
+    logo: LineLogo;
   }
 > = {
   compite: {
     key: "compite",
     name: "Compite",
-    color: "#205298",
-    logo: "/brand/compite-blanco.png",
-    shortDescription: "Programación competitiva, excelencia técnica y entrenamiento algorítmico.",
-    softBg: "rgba(32,82,152,0.28)",
+    logo: { src: "/brand/lines/compite.png", width: 2070, height: 2150 },
   },
   crea: {
     key: "crea",
     name: "Crea",
-    color: "#33BEAC",
-    logo: "/brand/crea-blanco.png",
-    shortDescription: "Hackathons, prototipos y proyectos de tecnología con impacto real.",
-    softBg: "rgba(51,190,172,0.28)",
+    logo: { src: "/brand/lines/crea.png", width: 1906, height: 2171 },
   },
   conecta: {
     key: "conecta",
     name: "Conecta",
-    color: "#4F5BA9",
-    logo: "/brand/conecta-blanco.png",
-    shortDescription: "Comunidad, industria y oportunidades para talento técnico joven.",
-    softBg: "rgba(79,91,169,0.30)",
+    logo: { src: "/brand/lines/conecta.png", width: 2069, height: 2190 },
   },
 };
-
-export const events: EventItem[] = [
-  {
-    id: "copa-salvadorena-programacion",
-    title: "Copa Salvadoreña de Programación",
-    description:
-      "La iniciativa principal de C3 para impulsar programación competitiva, pensamiento algorítmico y excelencia técnica en estudiantes de El Salvador.",
-    lines: ["compite"],
-    status: "Inscripciones abiertas",
-    cta: "Ir a la Copa",
-    href: siteConfig.sites.copa,
-    external: true,
-  },
-  {
-    id: "hackathon-turismo-creativo-i",
-    title: "Hackathon de Turismo Creativo I",
-    description:
-      "Una iniciativa enfocada en creación, colaboración, prototipos y solución de retos reales desde tecnología, turismo y cultura.",
-    lines: ["crea"],
-    status: "Inscripciones abiertas",
-    cta: "Ver hackathon",
-    href: siteConfig.sites.hackathon,
-    external: true,
-  },
-  {
-    id: "icpc-centroamerica-el-salvador",
-    title: "ICPC Centroamérica · sede El Salvador",
-    description:
-      "C3 apoya la articulación de comunidad, visibilidad y conexiones alrededor de la sede salvadoreña.",
-    lines: ["compite", "conecta"],
-    status: "Apoyo institucional",
-    cta: "Explorar eventos",
-    href: "/eventos",
-  },
-  {
-    id: "hackatlatam-fiesta-el-salvador",
-    title: "Hack@Latam · Fiesta El Salvador",
-    description:
-      "Participación y apoyo en experiencias de creación tecnológica con enfoque regional.",
-    lines: ["crea", "conecta"],
-    status: "Histórico",
-    cta: "Explorar eventos",
-    href: "/eventos",
-  },
-  {
-    id: "duelo-programacion-c3-software-week-esen-2025",
-    title: "Duelo de Programación C3 · Software Week ESEN 2025",
-    description:
-      "Actividad técnica orientada a resolver problemas en formato competitivo dentro del ecosistema universitario.",
-    lines: ["compite"],
-    status: "Histórico",
-    cta: "Explorar eventos",
-    href: "/eventos",
-  },
-];
-
-export const initiatives = events.slice(0, 2);
 
 export const teamLeaders: TeamLeader[] = [
   {
@@ -265,7 +216,6 @@ export const linePageContent: Record<
     heroDescription: string;
     seoTitle: string;
     seoDescription: string;
-    pillars: string[];
     primaryCta: { label: string; href: string; external?: boolean };
     secondaryCta: { label: string; href: string };
   }
@@ -277,7 +227,6 @@ export const linePageContent: Record<
     seoTitle: "Compite | Programación competitiva y excelencia técnica — C3",
     seoDescription:
       "La línea Compite de C3 impulsa programación competitiva, ICPC, entrenamientos, pensamiento algorítmico y la Copa Salvadoreña de Programación.",
-    pillars: ["Programación competitiva", "ICPC", "Copa Salvadoreña de Programación", "Entrenamientos"],
     primaryCta: { label: "Ir a la Copa", href: siteConfig.sites.copa, external: true },
     secondaryCta: { label: "Ver eventos C3", href: "/eventos" },
   },
@@ -288,7 +237,6 @@ export const linePageContent: Record<
     seoTitle: "Crea | Hackathons y proyectos tecnológicos — C3",
     seoDescription:
       "La línea Crea de C3 impulsa hackathons, prototipos, builders, software y proyectos tecnológicos para resolver retos reales.",
-    pillars: ["Hackathons", "Builders", "Desarrollo de software", "Proyectos reales"],
     primaryCta: {
       label: "Ver hackathon",
       href: siteConfig.sites.hackathon,
@@ -303,7 +251,6 @@ export const linePageContent: Record<
     seoTitle: "Conecta | Comunidad, industria y oportunidades — C3",
     seoDescription:
       "La línea Conecta de C3 une talento técnico joven con comunidad, instituciones educativas, empresas, aliados, sponsors y oportunidades reales.",
-    pillars: ["Comunidad", "Industria", "Mentoría", "Alianzas"],
     primaryCta: { label: "Contactar para colaborar", href: "/contacto" },
     secondaryCta: { label: "Ver eventos C3", href: "/eventos" },
   },
@@ -338,7 +285,7 @@ export const faqItems = [
   {
     question: "¿Cómo me uno o participo en C3?",
     answer:
-      "Podés integrarte participando en eventos, siguiendo nuestras convocatorias y escribiendo por los canales oficiales para conocer la siguiente actividad disponible.",
+      "Puedes integrarte participando en eventos, siguiendo nuestras convocatorias y escribiendo por los canales oficiales para conocer la siguiente actividad disponible.",
   },
   {
     question: "¿Cuál es la relación entre C3, la Copa y el Hackathon?",
@@ -353,7 +300,7 @@ export const faqItems = [
   {
     question: "¿Cómo contacto a C3?",
     answer:
-      "Podés contactar a C3 por Instagram, LinkedIn, correo oficial competitivecodingclub.sv@gmail.com o desde la página de contacto.",
+      "Puedes contactar a C3 por Instagram, LinkedIn, correo oficial competitivecodingclub.sv@gmail.com o desde la página de contacto.",
   },
 ] as const;
 

@@ -73,7 +73,7 @@ Que parezca SaaS genérico, página gamer, estética hacker, un sitio saturado d
 | Área | Estado |
 | --- | --- |
 | Textos, titulares y eyebrow (incluidos «El talento se ve en acción.» solo si ya existe en el sitio; si no, se conserva el actual) | **Se conservan**; solo ajuste de voseo a «tú» |
-| Logo | El logo C3 **completo** que el sitio ya usa (`logo-c3-claro-con-color.png` sobre claro, `logo-c3-blanco-monocromatico.png` sobre navy). No se cambia por el símbolo del paquete |
+| Logo | Cabecera: `c3-sim-azul.png`, el logo completo oscuro del paquete (decisión del 2026-11-11, tras revisar el navbar). Pie: `logo-c3-blanco-monocromatico.png` sobre navy. `logo-c3-claro-con-color.png` se retiró en la Fase 8 (sin usos en el sitio) |
 | Eventos | Reales (los de `defaultEvents` y los del admin). Sin DEMO |
 | Paquetes comerciales y precios | **No publicados.** Pendiente de confirmación del responsable |
 | Manual de marca oficial | No disponible en el repo. Pedir al responsable si se duda de logo o color |

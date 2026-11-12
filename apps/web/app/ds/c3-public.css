@@ -1,0 +1,2127 @@
+/*
+ * CSS publico del DS (ACTUALIZACION-DS §13). Se extrae por bloques de docs/design-system/source/estilos/globals.css
+ * y se tokeniza. Se importa en capa `components` para que las utilidades de Tailwind sigan ganando en layout.
+ */
+
+/* Enlace para saltar la cabecera: invisible hasta que recibe el foco con el teclado. */
+.c3-saltar {
+  position: absolute;
+  left: 16px;
+  top: 8px;
+  z-index: 100;
+  padding: 10px 16px;
+  border-radius: var(--c3-radius-md);
+  background: var(--c3-superficie);
+  color: var(--c3-accion-intensa);
+  font-size: var(--c3-cuerpo-sm-size);
+  font-weight: 600;
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+
+.c3-saltar:focus {
+  transform: none;
+}
+
+/* Contenedores de página: 48 px en escritorio, 16 px en móvil (guía de estilo, sección 8). */
+.c3-page {
+  padding: clamp(16px, 4vw, 48px);
+  box-sizing: border-box;
+}
+
+/* Etiquetas y textos de botón: Montserrat, MAYÚSCULAS, estilo «etiqueta» de la guía. */
+.c3-etiqueta {
+  font-family: var(--c3-font-titulo);
+  font-size: var(--c3-etiqueta-size);
+  font-weight: var(--c3-etiqueta-weight);
+  line-height: var(--c3-etiqueta-lh);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.c3-titulo {
+  font-family: var(--c3-font-titulo);
+}
+
+/* Buttons: at least 44 px tall; Poppins, sentence case since the November 2026 redesign. */
+.c3-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 0 22px;
+  border: 1px solid transparent;
+  border-radius: var(--c3-radius-md);
+  font-family: var(--c3-font-texto);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+
+.c3-btn--primario {
+  background: var(--c3-accion);
+  color: var(--c3-texto-inverso);
+  box-shadow: var(--c3-shadow-action);
+}
+
+.c3-btn--primario:hover {
+  background: var(--c3-accion-intensa);
+  color: var(--c3-texto-inverso);
+}
+
+.c3-btn--contorno {
+  background: var(--c3-superficie);
+  color: var(--c3-texto);
+  border-color: var(--c3-borde);
+}
+
+.c3-btn--contorno:hover {
+  border-color: var(--c3-borde-fuerte);
+  color: var(--c3-texto);
+}
+
+.c3-btn--blanco {
+  background: var(--c3-superficie);
+  color: var(--c3-navy);
+}
+
+.c3-btn--blanco:hover {
+  background: var(--c3-superficie-sutil);
+  color: var(--c3-navy);
+}
+
+.c3-btn--dark {
+  background: var(--c3-navy);
+  color: var(--c3-texto-inverso);
+}
+
+.c3-btn--dark:hover {
+  background: var(--c3-sec-navy);
+  color: var(--c3-texto-inverso);
+}
+
+.c3-btn--small {
+  min-height: 44px;
+  padding: 0 14px;
+  font-size: 13px;
+  border-radius: 10px;
+}
+
+.c3-btn:disabled,
+.c3-btn[aria-disabled="true"] {
+  background: var(--c3-superficie-sutil);
+  color: var(--c3-texto-suave);
+  border-color: var(--c3-borde);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+/* Estados: siempre con texto además de color (guía de estilo, sección 3). */
+.c3-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  padding: 3px 10px 3px 8px;
+  border: 1px solid transparent;
+  border-radius: var(--c3-radius-pill);
+  font-size: var(--c3-leyenda-size);
+  font-weight: 600;
+  line-height: var(--c3-leyenda-lh);
+  white-space: nowrap;
+}
+
+/* The dot repeats the color; the state is always readable in the text. */
+.c3-pill::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.c3-pill--neutro {
+  background: var(--c3-superficie-sutil);
+  border-color: var(--c3-borde);
+  color: var(--c3-text-mid);
+}
+
+.c3-pill--info {
+  background: var(--c3-info-fondo);
+  border-color: var(--c3-info-borde);
+  color: var(--c3-info);
+}
+
+.c3-pill--exito {
+  background: var(--c3-exito-fondo);
+  border-color: var(--c3-exito-borde);
+  color: var(--c3-exito);
+}
+
+.c3-pill--advertencia {
+  background: var(--c3-advertencia-fondo);
+  border-color: var(--c3-advertencia-borde);
+  color: var(--c3-advertencia);
+}
+
+.c3-pill--error {
+  background: var(--c3-error-fondo);
+  border-color: var(--c3-error-borde);
+  color: var(--c3-error);
+}
+
+.c3-card {
+  background: var(--c3-superficie);
+  border: 1px solid var(--c3-borde);
+  border-radius: var(--c3-radius-card);
+}
+
+/* Campos: 44 px mínimo, borde fuerte para delimitar el control (contraste 3:1). */
+.c3-campo {
+  width: 100%;
+  min-height: 46px;
+  padding: 0 14px;
+  border: 1px solid var(--c3-borde-fuerte);
+  border-radius: var(--c3-radius-md);
+  background: var(--c3-superficie);
+  color: var(--c3-texto);
+  font-family: var(--c3-font-texto);
+  font-size: var(--c3-cuerpo-size);
+}
+
+/* Own chevron so the arrow keeps the same inset from the edge in every browser. */
+select.c3-campo {
+  appearance: none;
+  padding-right: 44px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23536178' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  background-size: 16px;
+}
+
+select.c3-campo:disabled { opacity: 0.6; }
+
+textarea.c3-campo {
+  padding: 10px 14px;
+  min-height: 96px;
+  resize: vertical;
+}
+
+.c3-campo--error {
+  border-color: var(--c3-error);
+}
+
+.c3-etiqueta-campo {
+  font-size: var(--c3-cuerpo-sm-size);
+  font-weight: 600;
+  color: var(--c3-texto);
+}
+
+.c3-ayuda {
+  font-size: var(--c3-leyenda-size);
+  line-height: var(--c3-leyenda-lh);
+  color: var(--c3-texto-suave);
+}
+
+.c3-error-campo {
+  font-size: var(--c3-leyenda-size);
+  line-height: var(--c3-leyenda-lh);
+  color: var(--c3-error);
+  font-weight: 600;
+}
+
+.c3-alerta {
+  border-radius: var(--c3-radius-md);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.c3-alerta--error {
+  background: var(--c3-error-fondo);
+}
+
+.c3-alerta--error strong {
+  color: var(--c3-error);
+  font-weight: 600;
+  font-size: var(--c3-cuerpo-sm-size);
+}
+
+.c3-alerta--exito {
+  background: var(--c3-exito-fondo);
+}
+
+.c3-alerta--exito strong {
+  color: var(--c3-exito);
+  font-weight: 600;
+  font-size: var(--c3-cuerpo-sm-size);
+}
+
+.c3-alerta--info {
+  background: var(--c3-info-fondo);
+}
+
+.c3-alerta--advertencia {
+  background: var(--c3-advertencia-fondo);
+}
+
+.c3-alerta--advertencia strong {
+  color: var(--c3-advertencia);
+  font-weight: 600;
+  font-size: var(--c3-cuerpo-sm-size);
+}
+
+/* ── Public site: November 2026 redesign ("Páginas públicas" canvas) ─────────────────────────── */
+.c3-frame {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding-inline: clamp(16px, 4vw, 40px);
+}
+
+.c3-sitio {
+  background: var(--c3-superficie);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.c3-sitio > main {
+  flex: 1;
+}
+
+.c3-sitio h1,
+.c3-sitio h2,
+.c3-sitio h3 {
+  font-family: var(--c3-font-titulo);
+  letter-spacing: -0.035em;
+  color: var(--c3-navy);
+}
+
+.c3-dot {
+  display: inline-block;
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+
+.c3-dot--compite { background: var(--c3-compite); }
+.c3-dot--crea { background: var(--c3-crea); }
+.c3-dot--conecta { background: var(--c3-conecta); }
+
+/* Public header: white, sticky, with the "Conoce C3" dropdown. */
+.c3-site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--c3-borde);
+}
+
+.c3-site-header__row {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  height: 72px;
+}
+
+/* On the white headers (public and app) and the navy footer the logo needs no white plate behind it. */
+
+.c3-footer .c3-brand-mark img {
+  width: auto;
+  height: 34px;
+}
+
+/* Logo de la cabecera como enlace: área de toque de 44 px (su imagen mide 30 px de alto). */
+.c3-site-brand {
+  min-height: 44px;
+}
+
+.c3-site-nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+}
+
+.c3-site-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 10px;
+  background: none;
+  font-family: var(--c3-font-texto);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--c3-text-mid);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.c3-site-link:hover {
+  background: var(--c3-superficie-sutil);
+  color: var(--c3-texto);
+}
+
+.c3-site-link[aria-current="page"],
+.c3-site-link--active {
+  background: var(--c3-superficie-sutil);
+  color: var(--c3-texto);
+  font-weight: 600;
+}
+
+.c3-chevron {
+  width: 8px;
+  height: 8px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg) translateY(-2px);
+}
+
+.c3-dropdown {
+  position: relative;
+}
+
+.c3-dropdown__panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 300px;
+  padding: 8px;
+  display: grid;
+  background: var(--c3-superficie);
+  border: 1px solid var(--c3-borde);
+  border-radius: 16px;
+  box-shadow: 0 18px 40px rgba(15, 32, 62, 0.12);
+}
+
+/* El panel va siempre en el DOM (lo lee la prueba de contenido); el atributo hidden debe ganar a display: grid. */
+.c3-dropdown__panel[hidden] {
+  display: none;
+}
+
+.c3-dropdown__panel a {
+  display: grid;
+  grid-template-columns: 12px 1fr;
+  gap: 4px 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  color: var(--c3-texto);
+  text-decoration: none;
+}
+
+.c3-dropdown__panel a:hover,
+.c3-dropdown__panel a[aria-current="page"] {
+  background: var(--c3-superficie-sutil);
+}
+
+.c3-dropdown__panel .c3-dot {
+  align-self: center;
+}
+
+.c3-dropdown__panel b {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.c3-dropdown__panel small {
+  grid-column: 2;
+  font-size: 12px;
+  color: var(--c3-texto-suave);
+}
+
+.c3-site-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.c3-site-actions .c3-site-link {
+  color: var(--c3-texto);
+  font-weight: 600;
+}
+
+/* The account menu was built for navy headers; on the white one it switches to dark text. */
+
+.c3-site-menu-button {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--c3-borde);
+  border-radius: 10px;
+  background: var(--c3-superficie);
+  font: 600 13px var(--c3-font-texto);
+  color: var(--c3-texto);
+  cursor: pointer;
+}
+
+.c3-site-menu-button__icon {
+  position: relative;
+  width: 14px;
+  height: 10px;
+  border-top: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+}
+
+.c3-site-menu-button__icon::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 2px;
+  border-top: 2px solid currentColor;
+}
+
+.c3-site-mobile-panel {
+  padding: 12px 0 18px;
+  border-top: 1px solid var(--c3-borde);
+}
+
+.c3-site-mobile-panel a {
+  display: block;
+  padding: 11px 0;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--c3-texto);
+  text-decoration: none;
+}
+
+.c3-site-mobile-panel__group {
+  margin-top: 10px;
+  font: 700 10px var(--c3-font-titulo);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--c3-texto-suave);
+}
+
+.c3-site-mobile-panel__buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.c3-site-mobile-panel__buttons .c3-btn {
+  flex: 1;
+}
+
+/* Footer: navy, four columns. */
+.c3-footer {
+  background: var(--c3-navy);
+  padding: 56px 0 28px;
+}
+
+.c3-footer__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) repeat(3, minmax(0, 1fr));
+  gap: 32px;
+}
+
+.c3-footer__brand {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.c3-footer__brand p {
+  max-width: 30ch;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--c3-enlace-sobre-navy);
+}
+
+.c3-footer h2 {
+  margin-bottom: 14px;
+  font: 700 11px var(--c3-font-titulo);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--c3-texto-inverso);
+}
+
+.c3-footer ul {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.c3-footer ul a {
+  font-size: 14px;
+  color: var(--c3-enlace-sobre-navy);
+  text-decoration: none;
+}
+
+.c3-footer ul a:hover {
+  color: var(--c3-texto-inverso);
+  text-decoration: underline;
+}
+
+.c3-footer__base {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 12px;
+  color: var(--c3-enlace-sobre-navy);
+}
+
+/* Correo y redes del pie: el DS no los describe; mismos tonos que los enlaces del pie. */
+.c3-footer__brand a {
+  font-size: 13px;
+  color: var(--c3-enlace-sobre-navy);
+  text-decoration: none;
+}
+
+.c3-footer__brand a:hover {
+  color: var(--c3-texto-inverso);
+  text-decoration: underline;
+}
+
+.c3-footer__redes {
+  display: flex;
+  gap: 10px;
+}
+
+.c3-footer__red {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--c3-enlace-sobre-navy);
+  border-radius: var(--c3-radius-pill);
+  color: var(--c3-enlace-sobre-navy);
+}
+
+.c3-footer__red:hover {
+  color: var(--c3-texto-inverso);
+  border-color: var(--c3-texto-inverso);
+}
+
+/* Shared site pieces. */
+.c3-eyebrow {
+  font: 700 11px/1.2 var(--c3-font-titulo);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--c3-accion);
+}
+
+.c3-section-head {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 640px;
+}
+
+.c3-section-head h2 {
+  font-size: clamp(28px, 3.6vw, 40px);
+  line-height: 1.1;
+  font-weight: 800;
+}
+
+.c3-section-head p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--c3-texto-suave);
+}
+
+.c3-lead {
+  max-width: 34ch;
+  font-size: clamp(16px, 1.6vw, 19px);
+  line-height: 1.6;
+  color: var(--c3-texto-suave);
+}
+
+.c3-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.c3-arrow {
+  font-size: 13px;
+}
+
+/* Brand orbit (home and line pages). */
+.c3-orbit-visual {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  margin-left: auto;
+}
+
+.c3-orbit {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+}
+
+.c3-orbit__ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid var(--c3-borde-suave);
+}
+
+.c3-orbit__ring--outer {
+  inset: 0;
+  background: radial-gradient(circle, var(--c3-orbit-tint, var(--c3-superficie-suave)) 0 55%, transparent 56%);
+}
+
+.c3-orbit__ring--inner {
+  inset: 11%;
+}
+
+.c3-orbit__spin {
+  position: absolute;
+  border-radius: 50%;
+  animation: c3-spin 30s linear infinite;
+}
+
+.c3-orbit__spin--outer {
+  inset: 0;
+}
+
+.c3-orbit__spin--inner {
+  inset: 11%;
+  animation-duration: 22s;
+  animation-direction: reverse;
+}
+
+.c3-orbit__satellite {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 13px;
+  height: 13px;
+  margin: -6.5px 0 0 -6.5px;
+  border-radius: 50%;
+  border: 2px solid var(--c3-superficie);
+  background: var(--c3-orbit-accent, var(--c3-accion));
+  box-shadow: 0 0 0 4px rgba(15, 32, 62, 0.05);
+}
+
+.c3-orbit__satellite--bottom {
+  top: auto;
+  bottom: 0;
+  margin: 0 0 -6.5px -6.5px;
+}
+
+.c3-orbit__satellite--compite { background: var(--c3-orbit-accent, var(--c3-compite)); }
+.c3-orbit__satellite--crea { background: var(--c3-orbit-accent, var(--c3-crea)); }
+
+@keyframes c3-spin {
+  to { transform: rotate(360deg); }
+}
+
+.c3-orbit__mark {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 48%;
+  transform: translate(-50%, -50%);
+}
+
+.c3-orbit__mark img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* The line logo keeps no plate or fixed size inside the orbit; it fills the mark slot. */
+.c3-orbit__mark .c3-line-mark {
+  display: block;
+  width: 100%;
+  background: none;
+  border-radius: 0;
+}
+
+.c3-orbit__hotspot {
+  position: absolute;
+  width: 26%;
+  aspect-ratio: 1;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+
+.c3-orbit__hotspot:hover,
+.c3-orbit__hotspot[aria-pressed="true"] {
+  box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.9), 0 0 0 12px rgba(79, 91, 169, 0.14);
+}
+
+.c3-orbit__hotspot--compite { left: 87.3%; top: 32.6%; }
+.c3-orbit__hotspot--crea { left: 51.9%; top: 50.6%; }
+.c3-orbit__hotspot--conecta { left: 85.4%; top: 69.8%; }
+
+.c3-bubble {
+  position: absolute;
+  right: -24px;
+  bottom: -4px;
+  width: 230px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px 18px;
+  background: var(--c3-superficie);
+  border: 1px solid var(--c3-borde);
+  border-radius: 16px;
+  box-shadow: 0 18px 40px rgba(15, 32, 62, 0.1);
+}
+
+.c3-bubble[hidden] {
+  display: none;
+}
+
+.c3-bubble h3 {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.c3-bubble p {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--c3-texto-suave);
+}
+
+.c3-bubble a {
+  margin-top: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .c3-orbit__spin { animation: none; }
+  .c3-orbit__spin--outer { transform: rotate(-62deg); }
+  .c3-orbit__spin--inner { transform: rotate(38deg); }
+}
+
+/* The spinning rings grow their box while rotating; clip them so phones never scroll sideways. */
+.c3-hero,
+.c3-line-intro {
+  overflow-x: hidden;
+  overflow-x: clip;
+}
+
+/* Home. */
+.c3-hero {
+  padding: clamp(40px, 7vw, 88px) 0 clamp(32px, 4vw, 48px);
+}
+
+.c3-hero__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: 40px;
+  align-items: center;
+}
+
+.c3-hero__text {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  min-width: 0;
+}
+
+.c3-hero h1 {
+  font-size: clamp(40px, 6.2vw, 64px);
+  line-height: 1.02;
+  font-weight: 800;
+}
+
+.c3-hero h1 em {
+  font-style: normal;
+  color: var(--c3-accion);
+}
+
+.c3-lines {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  padding-bottom: clamp(56px, 8vw, 96px);
+}
+
+.c3-line-card {
+  display: grid;
+  grid-template-columns: 10px minmax(0, 1fr);
+  grid-template-rows: auto auto 1fr;
+  align-items: center;
+  gap: 6px 10px;
+  min-width: 0;
+  padding: 20px 22px;
+  border: 1px solid var(--c3-borde);
+  border-radius: var(--c3-radius-card);
+  background: var(--c3-superficie);
+  color: var(--c3-texto);
+  text-decoration: none;
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+}
+
+.c3-line-card:hover {
+  border-color: var(--c3-borde-hover);
+  box-shadow: var(--c3-shadow-soft);
+  transform: translateY(-2px);
+  color: var(--c3-texto);
+}
+
+.c3-line-card .c3-dot {
+  width: 10px;
+  height: 10px;
+}
+
+.c3-sitio .c3-line-card__title {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.c3-line-card p,
+.c3-line-card__go {
+  grid-column: 1 / -1;
+}
+
+.c3-line-card p {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--c3-texto-suave);
+}
+
+.c3-line-card__go {
+  align-self: end;
+  justify-self: end;
+  padding-top: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--c3-texto-suave);
+}
+
+.c3-line-card:hover .c3-line-card__go {
+  color: var(--c3-accion);
+}
+
+.c3-paths {
+  padding: clamp(48px, 6vw, 72px) 0;
+  background: var(--c3-superficie-sutil);
+  border-block: 1px solid var(--c3-borde);
+}
+
+.c3-paths .c3-section-head {
+  margin-bottom: 28px;
+}
+
+.c3-paths__grid,
+.c3-two-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.c3-path-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+  padding: clamp(22px, 2.6vw, 32px);
+  border: 1px solid var(--c3-borde);
+  border-radius: var(--c3-radius-block);
+  background: var(--c3-superficie);
+  box-shadow: var(--c3-shadow-soft);
+}
+
+.c3-path-card__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.c3-sitio .c3-path-card h2,
+.c3-sitio .c3-path-card h3 {
+  font-size: clamp(24px, 2.6vw, 30px);
+  line-height: 1.18;
+  font-weight: 800;
+}
+
+.c3-path-card p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--c3-texto-suave);
+}
+
+.c3-path-card__action {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 8px;
+}
+
+.c3-path-card--dark {
+  background: var(--c3-navy);
+  border-color: var(--c3-navy);
+  box-shadow: 0 14px 34px rgba(15, 32, 62, 0.22);
+}
+
+.c3-sitio .c3-path-card--dark h2,
+.c3-sitio .c3-path-card--dark h3 {
+  color: var(--c3-texto-inverso);
+}
+
+.c3-path-card--dark p {
+  color: var(--c3-texto-sobre-navy);
+}
+
+.c3-path-card--dark .c3-etiqueta {
+  color: var(--c3-conecta-claro);
+}
+
+.c3-path-card--dark .c3-dot {
+  background: var(--c3-conecta-claro);
+}
+
+.c3-band {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  margin-top: 24px;
+  padding: clamp(22px, 3vw, 32px);
+  border: 1px solid var(--c3-borde);
+  border-radius: var(--c3-radius-block);
+  background: var(--c3-superficie);
+}
+
+.c3-band__head {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  text-align: center;
+}
+
+.c3-band__head h2,
+.c3-band__head h3 {
+  font-size: clamp(22px, 2.4vw, 28px);
+  line-height: 1.15;
+  font-weight: 800;
+}
+
+/* Icon steps, only for real sequences (enroll, deliver...). */
+.c3-steps {
+  display: grid;
+  grid-template-columns: repeat(var(--c3-steps, 4), minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.c3-step {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+  text-align: center;
+}
+
+.c3-step__icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--c3-accion);
+  color: var(--c3-texto-inverso);
+  box-shadow: 0 0 0 5px var(--c3-action-tint);
+}
+
+.c3-step__icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.c3-step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 21px;
+  left: calc(50% + 34px);
+  width: calc(100% - 68px);
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--c3-action-soft), var(--c3-action-line));
+}
+
+.c3-step__body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 0 16px;
+}
+
+.c3-step__number {
+  font: 700 10px var(--c3-font-titulo);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--c3-accion);
+}
+
+.c3-step__body b {
+  font: 700 16px/1.3 var(--c3-font-titulo);
+  letter-spacing: -0.015em;
+  color: var(--c3-texto);
+}
+
+.c3-step__text {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--c3-texto-suave);
+}
+
+/* Vertical variant, used in the side column of the proposal page. */
+.c3-steps--vertical {
+  display: flex;
+  flex-direction: column;
+}
+
+.c3-steps--vertical .c3-step {
+  flex-direction: row;
+  align-items: stretch;
+  gap: 16px;
+  text-align: left;
+}
+
+.c3-steps--vertical .c3-step__icon {
+  width: 36px;
+  height: 36px;
+  flex: none;
+  box-shadow: 0 0 0 4px var(--c3-action-tint);
+}
+
+.c3-steps--vertical .c3-step__icon svg {
+  width: 17px;
+  height: 17px;
+}
+
+.c3-steps--vertical .c3-step:not(:last-child)::after {
+  top: 44px;
+  left: 17px;
+  width: 2px;
+  height: calc(100% - 50px);
+  background: linear-gradient(180deg, var(--c3-action-soft), var(--c3-action-line));
+}
+
+.c3-steps--vertical .c3-step__body {
+  align-items: flex-start;
+  padding: 6px 0 20px;
+}
+
+.c3-steps--vertical .c3-step:last-child .c3-step__body {
+  padding-bottom: 0;
+}
+
+/* Experience cards (home, line pages and catalog). */
+.c3-featured {
+  padding: clamp(56px, 7vw, 88px) 0 clamp(40px, 5vw, 56px);
+}
+
+.c3-featured--flush {
+  padding-top: 0;
+}
+
+.c3-featured__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.c3-featured__all {
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.c3-featured__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.c3-exp {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--c3-borde);
+  border-radius: var(--c3-radius-card);
+  background: var(--c3-superficie);
+  color: var(--c3-texto);
+  text-decoration: none;
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+}
+
+.c3-exp:hover {
+  border-color: var(--c3-borde-hover);
+  box-shadow: var(--c3-shadow-soft);
+  transform: translateY(-2px);
+  color: var(--c3-texto);
+}
+
+.c3-exp__media {
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: 132px;
+}
+
+/* Cover by link: next/image fills the media box; the DEMO badge moves to the corner so it never sits on a face. */
+.c3-exp__cover { object-fit: cover; object-position: center 20%; }
+
+.c3-exp--compite .c3-exp__media { background: var(--c3-compite-tint); color: var(--c3-compite); }
+.c3-exp--crea .c3-exp__media { background: var(--c3-crea-tint); color: var(--c3-crea-texto); }
+.c3-exp--conecta .c3-exp__media { background: var(--c3-conecta-tint); color: var(--c3-conecta); }
+
+.c3-exp__icon {
+  width: 46px;
+  height: 46px;
+  opacity: 0.45;
+}
+
+.c3-exp__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.c3-exp__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 18px;
+}
+
+.c3-exp__meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 8px;
+}
+
+.c3-exp__lines {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.c3-exp__line {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: 700 10px var(--c3-font-titulo);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.c3-exp__line .c3-dot {
+  width: 8px;
+  height: 8px;
+}
+
+.c3-exp--compite .c3-exp__line { color: var(--c3-compite); }
+.c3-exp--crea .c3-exp__line { color: var(--c3-crea-texto); }
+.c3-exp--conecta .c3-exp__line { color: var(--c3-conecta); }
+
+.c3-sitio .c3-exp h3 {
+  font-size: 16px;
+  line-height: 1.25;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.c3-exp__summary {
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--c3-texto-suave);
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.c3-exp__note { font-size: 12px; line-height: 1.45; color: var(--c3-advertencia); }
+.c3-exp__source { font-size: 12px; color: var(--c3-texto-suave); }
+
+.c3-exp__detail {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--c3-text-mid);
+}
+
+.c3-exp__detail svg {
+  width: 14px;
+  height: 14px;
+  flex: none;
+  color: var(--c3-texto-suave);
+}
+
+.c3-exp__footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 9px;
+  border-top: 1px solid var(--c3-borde);
+  font-size: 11px;
+  color: var(--c3-texto-suave);
+}
+
+.c3-exp__go {
+  font-weight: 600;
+  color: var(--c3-accion);
+  white-space: nowrap;
+}
+
+/* Catalog cards are taller: bigger media and three summary lines. */
+
+.c3-exp--skeleton {
+  pointer-events: none;
+}
+
+.c3-exp--skeleton .c3-exp__media {
+  background: var(--c3-superficie-sutil);
+}
+
+.c3-pagination {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 6px;
+  margin-top: 20px;
+}
+
+/* 44 px de área táctil mínima (DS §6): el DS deja 36 px; se sube igual que .c3-btn--small. */
+.c3-pagination__button {
+  min-width: 44px;
+  height: 44px;
+  padding: 0 10px;
+  border: 1px solid var(--c3-borde);
+  border-radius: 10px;
+  background: var(--c3-superficie);
+  font: 600 13px var(--c3-font-texto);
+  color: var(--c3-text-mid);
+  cursor: pointer;
+}
+
+.c3-pagination__button[aria-current="page"] {
+  background: var(--c3-accion);
+  border-color: var(--c3-accion);
+  color: var(--c3-texto-inverso);
+}
+
+.c3-pagination__button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+/* Filtros del catálogo de eventos (Tarea 6.1): botones con aria-pressed y 44 px de área táctil (DS §6). */
+.c3-filtros {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.c3-filtros__grupo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.c3-filtros__etiqueta {
+  min-width: 64px;
+  font: 600 13px var(--c3-font-texto);
+  color: var(--c3-texto-suave);
+}
+
+.c3-filtro {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid var(--c3-borde-fuerte);
+  border-radius: 999px;
+  background: var(--c3-superficie);
+  font: 600 14px var(--c3-font-texto);
+  color: var(--c3-texto);
+  cursor: pointer;
+}
+
+.c3-filtro[aria-pressed="true"] {
+  background: var(--c3-accion);
+  border-color: var(--c3-accion);
+  color: var(--c3-texto-inverso);
+}
+
+/* Dark closing panel. */
+.c3-cta {
+  padding: 0 0 clamp(56px, 7vw, 88px);
+}
+
+.c3-cta__panel {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 32px;
+  align-items: center;
+  overflow: hidden;
+  padding: clamp(28px, 5vw, 56px);
+  border-radius: 28px;
+  background: var(--c3-navy);
+}
+
+.c3-cta__text,
+.c3-cta__action {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+}
+
+.c3-cta__text .c3-etiqueta {
+  color: var(--c3-acento-sobre-navy);
+}
+
+.c3-sitio .c3-cta__panel h2 {
+  max-width: 20ch;
+  margin-top: 12px;
+  font-size: clamp(26px, 3.4vw, 38px);
+  line-height: 1.12;
+  font-weight: 800;
+  color: var(--c3-texto-inverso);
+}
+
+.c3-cta__panel p {
+  max-width: 52ch;
+  margin-top: 12px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--c3-texto-sobre-navy);
+}
+
+.c3-rings {
+  position: absolute;
+  right: -90px;
+  top: 50%;
+  width: 380px;
+  aspect-ratio: 1;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.c3-rings span {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.c3-rings span:nth-child(1) { inset: 0; }
+.c3-rings span:nth-child(2) { inset: 16%; }
+.c3-rings span:nth-child(3) { inset: 32%; }
+
+.c3-rings i {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.c3-rings i:nth-of-type(1) { background: var(--c3-compite); left: 14%; top: 21%; }
+.c3-rings i:nth-of-type(2) { background: var(--c3-crea); left: 29%; top: 76%; }
+.c3-rings i:nth-of-type(3) { background: var(--c3-conecta); left: 7%; top: 52%; }
+
+/* Inner page heading (catalog, proposal, sign in). */
+.c3-page-head {
+  padding: clamp(36px, 5vw, 56px) 0 28px;
+}
+
+.c3-page-head__text {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 760px;
+  min-width: 0;
+}
+
+.c3-page-head h1 {
+  font-size: clamp(34px, 4.6vw, 52px);
+  line-height: 1.05;
+  font-weight: 800;
+}
+
+.c3-page-head h1 em {
+  font-style: normal;
+  color: var(--c3-accion);
+}
+
+.c3-page-head p {
+  max-width: 62ch;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--c3-texto-suave);
+}
+
+.c3-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  font-size: 13px;
+  color: var(--c3-text-mid);
+}
+
+.c3-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.c3-filters {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+  gap: 16px;
+  align-items: end;
+  padding: 20px;
+  border: 1px solid var(--c3-borde);
+  border-radius: var(--c3-radius-card);
+  background: var(--c3-superficie-sutil);
+}
+
+.c3-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.c3-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--c3-texto);
+}
+
+.c3-checkbox input {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin: 1px 0 0;
+  accent-color: var(--c3-accion);
+}
+
+.c3-filters .c3-checkbox {
+  align-items: center;
+  min-height: 46px;
+}
+
+.c3-results__bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: 28px 0 16px;
+}
+
+.c3-results__count {
+  font-size: 14px;
+  color: var(--c3-texto-suave);
+}
+
+.c3-results__count b {
+  font-weight: 600;
+  color: var(--c3-texto);
+}
+
+.c3-empty-card {
+  padding: 28px;
+  border: 1px dashed var(--c3-borde);
+  border-radius: var(--c3-radius-card);
+  text-align: center;
+  font-size: 15px;
+  color: var(--c3-texto-suave);
+}
+
+/* Line pages share one template; the accent comes from --c3-line-accent. */
+.c3-line-intro {
+  padding: clamp(40px, 6vw, 80px) 0 clamp(40px, 5vw, 64px);
+}
+
+.c3-line-intro .c3-etiqueta {
+  color: var(--c3-line-text);
+}
+
+.c3-line-intro h1 {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-size: clamp(52px, 7.4vw, 84px);
+  line-height: 0.98;
+  font-weight: 800;
+}
+
+.c3-line-intro .c3-orbit-visual {
+  max-width: 400px;
+  --c3-orbit-accent: var(--c3-line-accent);
+  --c3-orbit-tint: var(--c3-line-tint);
+}
+
+.c3-line-intro .c3-orbit__mark {
+  width: 44%;
+}
+
+.c3-soft-section {
+  padding: clamp(48px, 6vw, 72px) 0;
+  background: var(--c3-superficie-sutil);
+  border-block: 1px solid var(--c3-borde);
+}
+
+/* 404. */
+.c3-not-found {
+  padding: clamp(96px, 11vw, 150px) 0;
+}
+
+.c3-not-found__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.c3-sitio .c3-not-found h1 {
+  max-width: 18ch;
+  font-size: clamp(32px, 4.4vw, 48px);
+  line-height: 1.08;
+  font-weight: 800;
+}
+
+.c3-not-found p {
+  max-width: 46ch;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--c3-texto-suave);
+}
+
+.c3-not-found__code {
+  padding: 6px 14px;
+  border-radius: var(--c3-radius-pill);
+  background: var(--c3-action-tint);
+  font: 800 13px var(--c3-font-titulo);
+  letter-spacing: 0.14em;
+  color: var(--c3-accion);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .c3-line-card,
+  .c3-exp,
+  .c3-btn {
+    transition: none;
+  }
+}
+
+/* Tablet and phone. */
+@media (max-width: 900px) {
+  .c3-site-nav,
+  .c3-site-actions .c3-btn {
+    display: none;
+  }
+
+  .c3-site-menu-button {
+    display: inline-flex;
+  }
+
+  /* 63 px plus the 1 px bottom border keeps the whole mobile header at 64 px. */
+  .c3-site-header__row {
+    justify-content: space-between;
+    height: 63px;
+  }
+
+  .c3-orbit-visual {
+    max-width: 360px;
+    margin: 0 auto;
+  }
+
+  /* Decision del spec §4.7 (DS §12.2 cerrado): en tableta y movil la burbuja va en linea, bajo la orbita. */
+  .c3-bubble {
+    position: static;
+    right: auto;
+    bottom: auto;
+    width: auto;
+    margin-top: 16px;
+  }
+
+  .c3-featured__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .c3-filters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .c3-steps {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .c3-steps .c3-step {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 16px;
+    text-align: left;
+  }
+
+  .c3-steps .c3-step__icon {
+    flex: none;
+  }
+
+  .c3-steps .c3-step:not(:last-child)::after {
+    top: 50px;
+    left: 21px;
+    width: 2px;
+    height: calc(100% - 56px);
+    background: linear-gradient(180deg, var(--c3-action-soft), var(--c3-action-line));
+  }
+
+  .c3-steps .c3-step__body {
+    align-items: flex-start;
+    padding: 10px 0 24px;
+  }
+
+  .c3-footer__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .c3-footer__brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 640px) {
+
+  .c3-lines,
+  .c3-deliverables,
+  .c3-form-two,
+  .c3-filters {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .c3-cta__panel {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .c3-rings {
+    right: -160px;
+    opacity: 0.6;
+  }
+
+  .c3-hero .c3-actions {
+    flex-direction: column;
+  }
+
+  .c3-hero .c3-actions .c3-btn {
+    justify-content: center;
+  }
+}
+
+/* Contacto (Tarea 7.2): formulario, canales y ayuda sobre el DS (ACTUALIZACION-DS §7.6 campos, §7.9 tarjetas). */
+.c3-form {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.c3-form-two {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+@media (max-width: 640px) {
+  .c3-form-two {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.c3-form__intro {
+  font-size: var(--c3-cuerpo-sm-size);
+  line-height: 1.6;
+  color: var(--c3-texto-suave);
+}
+
+.c3-form__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  padding-top: 4px;
+}
+
+.c3-seccion {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-block: clamp(40px, 6vw, 64px);
+}
+
+.c3-tarjetas {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (min-width: 900px) {
+  .c3-tarjetas {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .c3-tarjetas--dos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.c3-canal {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 22px;
+  color: var(--c3-texto);
+  text-decoration: none;
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.c3-canal:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--c3-shadow-soft);
+}
+
+.c3-canal__icono {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 6px;
+  border-radius: var(--c3-radius-md);
+  background: var(--c3-navy);
+  color: var(--c3-superficie);
+}
+
+.c3-canal__valor {
+  font-family: var(--c3-font-titulo);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.c3-canal__texto {
+  font-size: var(--c3-cuerpo-sm-size);
+  line-height: 1.6;
+  color: var(--c3-texto-suave);
+}
+
+.c3-canal__accion {
+  margin-top: auto;
+  padding-top: 8px;
+  font-weight: 600;
+  color: var(--c3-accion);
+}
+
+.c3-contacto-ayuda {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px;
+}
+
+.c3-contacto-ayuda .c3-btn {
+  align-self: flex-start;
+  margin-top: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .c3-canal {
+    transition: none;
+  }
+
+  .c3-canal:hover {
+    transform: none;
+  }
+}
+
+/* Páginas de contenido (Tarea 7.3): FAQ y Qué es C3 sobre el DS (§7.9 tarjetas, §3 color de línea). */
+.c3-faq-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 820px;
+}
+
+.c3-faq-item {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 24px;
+  /* Un correo o una URL sin espacios no debe desbordar a 320 px. */
+  overflow-wrap: anywhere;
+}
+
+.c3-faq-item h2 {
+  font-size: var(--c3-h3-size);
+  line-height: var(--c3-h3-lh);
+  font-weight: var(--c3-h3-weight);
+}
+
+.c3-faq-item p,
+.c3-tarjeta-texto p,
+.c3-texto-largo p {
+  font-size: var(--c3-cuerpo-size);
+  line-height: 1.7;
+  color: var(--c3-texto);
+}
+
+.c3-texto-largo {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding: clamp(24px, 4vw, 40px);
+}
+
+.c3-texto-largo__bloque {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.c3-texto-largo__bloque + .c3-texto-largo__bloque {
+  padding-top: 28px;
+  border-top: 1px solid var(--c3-borde);
+}
+
+.c3-texto-largo__cierre {
+  font-weight: 600;
+}
+
+.c3-texto-largo__firma {
+  color: var(--c3-texto-suave);
+}
+
+.c3-tarjeta-texto {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 28px;
+}
+
+.c3-tarjeta-texto h2 {
+  font-size: var(--c3-h3-size);
+  line-height: var(--c3-h3-lh);
+  font-weight: var(--c3-h3-weight);
+}
+
+.c3-enlaces-linea {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin-top: 8px;
+}
+
+.c3-enlace-linea {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.c3-enlace-linea:hover {
+  text-decoration: underline;
+}
+
+/* Crea base no es texto: el enlace usa el texto de Crea (ADR-0002, DS §3). */
+.c3-enlace-linea--compite { color: var(--c3-compite); }
+.c3-enlace-linea--crea { color: var(--c3-crea-texto); }
+.c3-enlace-linea--conecta { color: var(--c3-conecta); }
+
+.c3-equipo {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 12px;
+  transition:
+    transform 200ms ease,
+    box-shadow 200ms ease;
+}
+
+.c3-equipo:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--c3-shadow-soft);
+}
+
+.c3-equipo__foto {
+  position: relative;
+  aspect-ratio: 4 / 4.08;
+  overflow: hidden;
+  border: 1px solid var(--c3-borde);
+  border-radius: var(--c3-radius-md);
+  background: var(--c3-superficie-sutil);
+}
+
+.c3-equipo__foto img {
+  object-fit: cover;
+}
+
+.c3-equipo__pendiente {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--c3-superficie);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--c3-texto-suave);
+}
+
+.c3-equipo__texto {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.c3-equipo__nombre {
+  font-family: var(--c3-font-titulo);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--c3-navy);
+}
+
+.c3-equipo__rol {
+  font-size: var(--c3-cuerpo-sm-size);
+  line-height: 1.5;
+  color: var(--c3-compite);
+}
+
+.c3-equipo__enlaces {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.c3-equipo__enlace {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--c3-borde);
+  border-radius: 999px;
+  background: var(--c3-superficie);
+  color: var(--c3-compite);
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease;
+}
+
+.c3-equipo__enlace:hover {
+  border-color: var(--c3-borde-fuerte);
+  background: var(--c3-superficie-sutil);
+}
+
+.c3-equipo__enlace--portafolio {
+  color: var(--c3-crea-texto);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .c3-equipo,
+  .c3-equipo__enlace {
+    transition: none;
+  }
+
+  .c3-equipo:hover {
+    transform: none;
+  }
+}
+
+/* 404 dentro del shell (Tarea 7.4): texto centrado sobre el marco del sitio (DS §7, h1 de encabezado). */
+.c3-404 {
+  display: flex;
+  justify-content: center;
+  padding-block: clamp(56px, 10vw, 120px);
+  text-align: center;
+}
+
+.c3-404__texto {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  max-width: 640px;
+}
+
+.c3-404__texto h1 {
+  font-size: clamp(30px, 5vw, var(--c3-h1-size));
+  line-height: var(--c3-h1-lh);
+  font-weight: var(--c3-h1-weight);
+}
+
+.c3-404__texto p {
+  font-size: var(--c3-cuerpo-size);
+  line-height: 1.7;
+  color: var(--c3-texto-suave);
+}
+
+.c3-404__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.c3-404__texto .c3-404__pie {
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}

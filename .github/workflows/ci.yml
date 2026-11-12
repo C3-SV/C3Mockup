@@ -3,7 +3,7 @@ name: CI
 on:
   pull_request:
   push:
-    branches: [main]
+    branches: [main, dev]
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -44,8 +44,6 @@ jobs:
 
   test:
     name: Pruebas unitarias y de componentes
-    # Activar al completar la Fase 0 del plan (existe `pnpm test`).
-    if: false
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -60,8 +58,6 @@ jobs:
 
   e2e:
     name: E2E y accesibilidad (390 y 1280 px)
-    # Activar al completar la Fase 0 del plan (existe `pnpm test:e2e`).
-    if: false
     needs: quality
     runs-on: ubuntu-latest
     timeout-minutes: 25
@@ -75,7 +71,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter @c3/web exec playwright install --with-deps chromium
       - run: pnpm build:web
-      - run: pnpm test:e2e
+      - run: pnpm --filter @c3/web test:e2e
       - uses: actions/upload-artifact@v4
         if: failure()
         with:

@@ -1,3 +1,5 @@
+import { c3Hex } from "@/app/ds/tokens";
+
 export const consultationOptions = [
   "Participar en C3",
   "Alianza educativa",
@@ -39,7 +41,7 @@ export const CONTACT_FORM_SUCCESS_MESSAGE =
   "Mensaje enviado correctamente. Gracias por contactar a C3.";
 
 export const CONTACT_FORM_GENERIC_ERROR_MESSAGE =
-  "No pudimos enviar el mensaje. Intentá de nuevo o escribinos por correo.";
+  "No pudimos enviar el mensaje. Intenta de nuevo o escríbenos por correo.";
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -81,13 +83,13 @@ export function validateContactSubmission(
   if (!submission.email) {
     errors.email = "El correo electrónico es obligatorio.";
   } else if (!emailPattern.test(submission.email)) {
-    errors.email = "Ingresá un correo electrónico válido.";
+    errors.email = "Ingresa un correo electrónico válido.";
   }
 
   if (!submission.consultationType) {
-    errors.consultationType = "Elegí un tipo de consulta.";
+    errors.consultationType = "Elige un tipo de consulta.";
   } else if (!consultationOptions.includes(submission.consultationType)) {
-    errors.consultationType = "Elegí un tipo de consulta válido.";
+    errors.consultationType = "Elige un tipo de consulta válido.";
   }
 
   if (!submission.message) {
@@ -144,44 +146,44 @@ export function buildContactEmailHtml(data: Omit<CleanContactSubmission, "honeyp
   const organizationRow = data.organization
     ? `
         <tr>
-          <td style="padding:10px 0 10px 0;font-size:13px;font-weight:700;color:#6b7280;width:190px;vertical-align:top;">Institución / organización</td>
-          <td style="padding:10px 0;font-size:14px;line-height:1.7;color:#0f203e;">${escapeHtml(data.organization)}</td>
+          <td style="padding:10px 0 10px 0;font-size:13px;font-weight:700;color:${c3Hex.correo.etiqueta};width:190px;vertical-align:top;">Institución / organización</td>
+          <td style="padding:10px 0;font-size:14px;line-height:1.7;color:${c3Hex.navy};">${escapeHtml(data.organization)}</td>
         </tr>
       `
     : "";
 
   return `<!DOCTYPE html>
 <html lang="es">
-  <body style="margin:0;padding:0;background:#f4f7fb;font-family:Arial,Helvetica,sans-serif;color:#0f203e;">
+  <body style="margin:0;padding:0;background:${c3Hex.correo.fondo};font-family:Arial,Helvetica,sans-serif;color:${c3Hex.navy};">
     <div style="max-width:680px;margin:0 auto;padding:32px 20px;">
-      <div style="background:#0f203e;border-radius:24px 24px 0 0;padding:24px 28px;color:#ffffff;">
-        <p style="margin:0 0 8px 0;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#a7c0ff;">C3 / Competitive Coding Club</p>
+      <div style="background:${c3Hex.navy};border-radius:24px 24px 0 0;padding:24px 28px;color:${c3Hex.blanco};">
+        <p style="margin:0 0 8px 0;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:${c3Hex.correo.cabecera};">C3 / Competitive Coding Club</p>
         <h1 style="margin:0;font-size:26px;line-height:1.2;">Nuevo mensaje desde c3.com.sv</h1>
       </div>
-      <div style="background:#ffffff;border:1px solid #d5deea;border-top:none;border-radius:0 0 24px 24px;padding:28px;">
+      <div style="background:${c3Hex.blanco};border:1px solid ${c3Hex.correo.borde};border-top:none;border-radius:0 0 24px 24px;padding:28px;">
         <table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;border-collapse:collapse;">
           <tr>
-            <td style="padding:10px 0 10px 0;font-size:13px;font-weight:700;color:#6b7280;width:190px;vertical-align:top;">Nombre completo</td>
-            <td style="padding:10px 0;font-size:14px;line-height:1.7;color:#0f203e;">${escapeHtml(data.fullName)}</td>
+            <td style="padding:10px 0 10px 0;font-size:13px;font-weight:700;color:${c3Hex.correo.etiqueta};width:190px;vertical-align:top;">Nombre completo</td>
+            <td style="padding:10px 0;font-size:14px;line-height:1.7;color:${c3Hex.navy};">${escapeHtml(data.fullName)}</td>
           </tr>
           <tr>
-            <td style="padding:10px 0 10px 0;font-size:13px;font-weight:700;color:#6b7280;width:190px;vertical-align:top;">Correo electrónico</td>
-            <td style="padding:10px 0;font-size:14px;line-height:1.7;color:#0f203e;">${escapeHtml(data.email)}</td>
+            <td style="padding:10px 0 10px 0;font-size:13px;font-weight:700;color:${c3Hex.correo.etiqueta};width:190px;vertical-align:top;">Correo electrónico</td>
+            <td style="padding:10px 0;font-size:14px;line-height:1.7;color:${c3Hex.navy};">${escapeHtml(data.email)}</td>
           </tr>
           ${organizationRow}
           <tr>
-            <td style="padding:10px 0 10px 0;font-size:13px;font-weight:700;color:#6b7280;width:190px;vertical-align:top;">Tipo de consulta</td>
-            <td style="padding:10px 0;font-size:14px;line-height:1.7;color:#0f203e;">${escapeHtml(data.consultationType)}</td>
+            <td style="padding:10px 0 10px 0;font-size:13px;font-weight:700;color:${c3Hex.correo.etiqueta};width:190px;vertical-align:top;">Tipo de consulta</td>
+            <td style="padding:10px 0;font-size:14px;line-height:1.7;color:${c3Hex.navy};">${escapeHtml(data.consultationType)}</td>
           </tr>
           <tr>
-            <td colspan="2" style="padding-top:18px;font-size:13px;font-weight:700;color:#6b7280;">Mensaje</td>
+            <td colspan="2" style="padding-top:18px;font-size:13px;font-weight:700;color:${c3Hex.correo.etiqueta};">Mensaje</td>
           </tr>
           <tr>
-            <td colspan="2" style="padding-top:8px;font-size:14px;line-height:1.8;color:#0f203e;white-space:pre-wrap;">${escapeHtml(data.message)}</td>
+            <td colspan="2" style="padding-top:8px;font-size:14px;line-height:1.8;color:${c3Hex.navy};white-space:pre-wrap;">${escapeHtml(data.message)}</td>
           </tr>
         </table>
-        <div style="margin-top:24px;padding-top:16px;border-top:1px solid #d5deea;font-size:12px;line-height:1.7;color:#64748b;">
-          <strong style="color:#0f203e;">Source:</strong> c3.com.sv/contacto
+        <div style="margin-top:24px;padding-top:16px;border-top:1px solid ${c3Hex.correo.borde};font-size:12px;line-height:1.7;color:${c3Hex.correo.pie};">
+          <strong style="color:${c3Hex.navy};">Source:</strong> c3.com.sv/contacto
         </div>
       </div>
     </div>

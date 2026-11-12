@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
-import ActionLinesSection from "@/components/ActionLinesSection";
-import AudienceSection from "@/components/AudienceSection";
-import FinalCtaSection from "@/components/FinalCtaSection";
-import Hero from "@/components/Hero";
-import MissionVisionSection from "@/components/MissionVisionSection";
-import Navbar from "@/components/Navbar";
-import ProjectsSection from "@/components/ProjectsSection";
+import { AudienceSection } from "@/components/home/AudienceSection";
+import { ClosingPanel } from "@/components/home/ClosingPanel";
+import { DatosSection } from "@/components/home/DatosSection";
+import { EventosSection } from "@/components/home/EventosSection";
+import { Hero } from "@/components/home/Hero";
+import { IniciativasSection } from "@/components/home/IniciativasSection";
+import { LinesSection } from "@/components/home/LinesSection";
+import PageShell from "@/components/PageShell";
 import SeoJsonLd from "@/components/SeoJsonLd";
-import SiteFooter from "@/components/SiteFooter";
 import { getPublicEvents } from "@/lib/events";
+import { toCatalogCard } from "@/lib/ds/event-card";
 import { createPageMetadata } from "@/lib/metadata";
-import { getWebPageJsonLd } from "@/lib/structured-data";
+import { getItemListJsonLd, getWebPageJsonLd } from "@/lib/structured-data";
 import { siteConfig } from "@/lib/site";
 
 const seoTitle = siteConfig.homepageTitle;
@@ -27,20 +28,27 @@ export const metadata: Metadata = createPageMetadata({
 
 export default async function Home() {
   const events = await getPublicEvents();
+  const itemList = getItemListJsonLd(
+    "/",
+    events.map((event) => ({
+      name: event.title,
+      description: event.description,
+      url: event.external ? event.href : `${siteConfig.domain}${event.href}`,
+    })),
+    "Eventos destacados C3",
+  );
 
   return (
-    <div className="min-h-screen bg-[#0F203E]">
-      <Navbar />
-      <main>
-        <SeoJsonLd data={getWebPageJsonLd({ path: "/", title: seoTitle, description: seoDescription })} />
-        <Hero />
-        <MissionVisionSection />
-        <ActionLinesSection />
-        <ProjectsSection events={events} />
-        <AudienceSection />
-        <FinalCtaSection />
-      </main>
-      <SiteFooter />
-    </div>
+    <PageShell ds>
+      <SeoJsonLd data={getWebPageJsonLd({ path: "/", title: seoTitle, description: seoDescription })} />
+      <SeoJsonLd data={itemList} />
+      <Hero />
+      <IniciativasSection events={events} />
+      <DatosSection />
+      <LinesSection />
+      <EventosSection cards={events.map((event) => toCatalogCard(event))} />
+      <AudienceSection />
+      <ClosingPanel />
+    </PageShell>
   );
 }

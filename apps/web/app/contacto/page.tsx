@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import ContactForm from "@/components/ContactForm";
-import C3SectionTransition from "@/components/C3SectionTransition";
 import PageShell from "@/components/PageShell";
-import C3BackgroundLayer from "@/components/backgrounds/C3BackgroundLayer";
 import SeoJsonLd from "@/components/SeoJsonLd";
+import { Button } from "@/components/ui/Button";
 import { createPageMetadata } from "@/lib/metadata";
 import { getBreadcrumbJsonLd, getContactPageJsonLd } from "@/lib/structured-data";
 import { siteConfig } from "@/lib/site";
@@ -81,109 +80,78 @@ export const metadata: Metadata = createPageMetadata({
 
 export default function ContactoPage() {
   return (
-    <PageShell backgroundClassName="bg-[#F4F7FB]">
+    <PageShell ds>
       <SeoJsonLd data={getContactPageJsonLd("/contacto", seoTitle, seoDescription)} />
       <SeoJsonLd data={getBreadcrumbJsonLd("/contacto")} />
 
-      <section className="relative overflow-hidden bg-[#0F203E] py-16 text-white md:py-20">
-        <C3BackgroundLayer variant="dots" line="brand" intensity="low" mask="bottom" className="opacity-85" />
-
-        <div className="container-shell relative z-10 space-y-6">
-          <h1 className="max-w-4xl text-4xl font-bold leading-tight md:text-6xl">
-            Habla con nosotros
-          </h1>
-          <p className="max-w-3xl text-base leading-8 text-white/82 md:text-lg">
-            Ya sea para participar, proponer una alianza educativa, apoyar como empresa o consultar
-            sobre una iniciativa, elegí la vía que mejor se adapte a tu objetivo.
-          </p>
-        </div>
-      </section>
-      <C3SectionTransition variant="darkToDark" height="sm" className="relative z-10 -my-4" />
-
-      <section className="section-divider relative overflow-hidden bg-[#0F203E] py-16 text-white md:py-20">
-        <C3BackgroundLayer variant="graph" line="brand" intensity="low" animated mask="top" className="opacity-45" />
-        <div className="container-shell relative z-10 space-y-8">
-          <div className="space-y-3">
-            <h2 className="max-w-3xl text-3xl font-bold leading-tight md:text-4xl">
-              Enviá tu mensaje
-            </h2>
-            <p className="max-w-3xl text-base leading-8 text-white/82 md:text-lg">
-              Contanos quién sos, qué buscás y cómo podemos ayudarte. El equipo de C3 recibirá tu
-              mensaje.
+      <div className="c3-frame">
+        <div className="c3-page-head">
+          <div className="c3-page-head__text">
+            <h1>Habla con nosotros</h1>
+            <p>
+              Ya sea para participar, proponer una alianza educativa, apoyar como empresa o consultar
+              sobre una iniciativa, elige la vía que mejor se adapte a tu objetivo.
             </p>
           </div>
-          <ContactForm />
-
         </div>
+      </div>
+
+      <section className="c3-frame c3-seccion" aria-labelledby="contacto-envio">
+        <div className="c3-section-head">
+          <h2 id="contacto-envio">Envía tu mensaje</h2>
+          <p>
+            Cuéntanos quién eres, qué buscas y cómo podemos ayudarte. El equipo de C3 recibirá tu mensaje.
+          </p>
+        </div>
+        <ContactForm />
       </section>
 
-      <section className="section-divider relative overflow-hidden bg-[#F4F7FB] py-16 text-[#0F203E] md:py-20">
-        <C3BackgroundLayer variant="dots" line="compite" intensity="low" className="opacity-18 mix-blend-multiply" />
-        <div className="container-shell relative z-10 space-y-8">
-          <div className="space-y-3">
-            <h2 className="max-w-3xl text-3xl font-bold leading-tight md:text-4xl">
-              Canales oficiales
-            </h2>
-          </div>
-
-          <div className="grid gap-5 lg:grid-cols-3">
-            {officialChannels.map(({ title, value, description, cta, href, icon: Icon, external }) => (
-              <a
-                key={title}
-                href={href}
-                target={external ? "_blank" : undefined}
-                rel={external ? "noreferrer" : undefined}
-                className="flex h-full flex-col rounded-[1.7rem] border border-[#d5deea] bg-white p-6 shadow-[0_14px_36px_rgba(15,32,62,0.08)] transition hover:-translate-y-0.5 hover:shadow-[0_20px_48px_rgba(15,32,62,0.12)]"
-              >
-                <div className="flex items-start gap-4">
-                  <div className="min-w-0 flex-1 space-y-2 pr-3">
-                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#5c6a82]">
-                      {title}
-                    </p>
-                    <p className="text-lg font-bold leading-tight break-words">{value}</p>
-                  </div>
-                  <span className="ml-auto inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#0F203E] text-white">
-                    <Icon size={18} className="shrink-0" aria-hidden="true" />
+      <section className="c3-frame c3-seccion" aria-labelledby="contacto-canales">
+        <div className="c3-section-head">
+          <h2 id="contacto-canales">Canales oficiales</h2>
+        </div>
+        <div className="c3-tarjetas">
+          {officialChannels.map(({ title, value, description, cta, href, icon: Icon, external }) => (
+            <a
+              key={title}
+              href={href}
+              target={external ? "_blank" : undefined}
+              rel={external ? "noopener noreferrer" : undefined}
+              className="c3-card c3-canal"
+            >
+              <span className="c3-canal__icono">
+                <Icon size={18} aria-hidden="true" />
+              </span>
+              <span className="c3-etiqueta">{title}</span>
+              <span className="c3-canal__valor">{value}</span>
+              <span className="c3-canal__texto">{description}</span>
+              <span className="c3-canal__accion">
+                {cta}
+                {external ? (
+                  <span className="c3-arrow" aria-hidden="true">
+                    ↗
                   </span>
-                </div>
-                <p className="mt-4 text-sm leading-7 text-[#364765]">{description}</p>
-                <span className="mt-6 inline-flex w-fit rounded-full border border-[#0F203E] px-4 py-2 text-sm font-semibold text-[#0F203E] transition hover:bg-[#0F203E] hover:text-white">
-                  {cta}
-                </span>
-              </a>
-            ))}
-          </div>
+                ) : null}
+              </span>
+            </a>
+          ))}
         </div>
       </section>
 
-      <section className="section-divider relative overflow-hidden bg-white py-16 text-[#0F203E] md:py-20">
-        <C3BackgroundLayer variant="dots" line="compite" intensity="low" className="opacity-16 mix-blend-multiply" />
-        <div className="container-shell relative z-10 space-y-8">
-          <div className="space-y-3">
-            <h2 className="max-w-3xl text-3xl font-bold leading-tight md:text-4xl">
-              ¿Buscás información de un evento específico?
-            </h2>
-          </div>
-
-          <div className="grid gap-5 lg:grid-cols-2">
-            {eventHelpCards.map((card) => (
-              <article
-                key={card.title}
-                className="flex h-full flex-col rounded-[1.8rem] border border-[#d5deea] bg-[#F8FAFD] p-6 shadow-[0_12px_30px_rgba(15,32,62,0.06)]"
-              >
-                <h3 className="text-xl font-bold">{card.title}</h3>
-                <p className="mt-3 text-sm leading-7 text-[#364765]">{card.text}</p>
-                <a
-                  href={card.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-6 inline-flex w-fit rounded-full bg-[#0F203E] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#205298]"
-                >
-                  {card.cta}
-                </a>
-              </article>
-            ))}
-          </div>
+      <section className="c3-frame c3-seccion" aria-labelledby="contacto-eventos">
+        <div className="c3-section-head">
+          <h2 id="contacto-eventos">¿Buscas información de un evento específico?</h2>
+        </div>
+        <div className="c3-tarjetas c3-tarjetas--dos">
+          {eventHelpCards.map((card) => (
+            <article key={card.title} className="c3-card c3-contacto-ayuda">
+              <h3>{card.title}</h3>
+              <p className="c3-form__intro">{card.text}</p>
+              <Button variant="contorno" arrow href={card.href}>
+                {card.cta}
+              </Button>
+            </article>
+          ))}
         </div>
       </section>
     </PageShell>

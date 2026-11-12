@@ -11,6 +11,23 @@ export const eventStatuses = [
 
 export type EventStatus = (typeof eventStatuses)[number];
 
+/** Tipo de experiencia: solo cambia el ícono de la tarjeta. «reto» es lo que hoy se llama challenge (ADR-0006). */
+export const experienceKinds = [
+  "competencia",
+  "hackathon",
+  "taller",
+  "charla",
+  "encuentro",
+  "reto",
+] as const;
+
+export type ExperienceKind = (typeof experienceKinds)[number];
+
+export type EventCover = {
+  url: string;
+  alt: string;
+};
+
 export type EventItem = {
   id: string;
   title: string;
@@ -23,6 +40,9 @@ export type EventItem = {
   featured?: boolean;
   eventDate?: string;
   eventDateEnd?: string;
+  kind?: ExperienceKind;
+  cover?: EventCover;
+  source?: string;
   createdAt?: string;
   updatedAt?: string;
 };
@@ -30,6 +50,7 @@ export type EventItem = {
 export const defaultEvents: EventItem[] = [
   {
     id: "copa-salvadorena-programacion",
+    kind: "competencia",
     title: "Copa Salvadoreña de Programación",
     description:
       "La iniciativa principal de C3 para impulsar programación competitiva, pensamiento algorítmico y excelencia técnica en estudiantes de El Salvador.",
@@ -43,6 +64,7 @@ export const defaultEvents: EventItem[] = [
   },
   {
     id: "hackathon-turismo-creativo-i",
+    kind: "hackathon",
     title: "Hackathon de Turismo Creativo I",
     description:
       "Una iniciativa enfocada en creación, colaboración, prototipos y solución de retos reales desde tecnología, turismo y cultura.",
@@ -57,6 +79,7 @@ export const defaultEvents: EventItem[] = [
   },
   {
     id: "icpc-centroamerica-el-salvador",
+    kind: "competencia",
     title: "ICPC Centroamérica · sede El Salvador",
     description:
       "C3 apoya la articulación de comunidad, visibilidad y conexiones alrededor de la sede salvadoreña.",
@@ -68,6 +91,7 @@ export const defaultEvents: EventItem[] = [
   },
   {
     id: "hackatlatam-fiesta-el-salvador",
+    kind: "hackathon",
     title: "Hack@Latam · Fiesta El Salvador",
     description:
       "Participación y apoyo en experiencias de creación tecnológica con enfoque regional.",
@@ -79,6 +103,7 @@ export const defaultEvents: EventItem[] = [
   },
   {
     id: "duelo-programacion-c3-software-week-esen-2025",
+    kind: "competencia",
     title: "Duelo de Programación C3 · Software Week ESEN 2025",
     description:
       "Actividad técnica orientada a resolver problemas en formato competitivo dentro del ecosistema universitario.",
@@ -105,6 +130,39 @@ export function normalizeEventLines(input: unknown): LineKey[] {
 
 export function normalizeEventStatus(input: unknown): EventStatus {
   return eventStatuses.includes(input as EventStatus) ? (input as EventStatus) : "Próximamente";
+}
+
+export function normalizeExperienceKind(input: unknown): ExperienceKind | undefined {
+  return typeof input === "string" && (experienceKinds as readonly string[]).includes(input)
+    ? (input as ExperienceKind)
+    : undefined;
+}
+
+// Portadas solo desde hosts de C3, por https, con texto alternativo (ADR-0004 y DS §10).
+const C3_HOST = /(^|\.)c3\.com\.sv$/;
+
+export function normalizeEventCover(input: unknown): EventCover | undefined {
+  if (!input || typeof input !== "object") {
+    return undefined;
+  }
+
+  const { url, alt } = input as { url?: unknown; alt?: unknown };
+  if (typeof url !== "string" || typeof alt !== "string" || !alt.trim()) {
+    return undefined;
+  }
+
+  let parsed: URL;
+  try {
+    parsed = new URL(url.trim());
+  } catch {
+    return undefined;
+  }
+
+  if (parsed.protocol !== "https:" || !C3_HOST.test(parsed.hostname)) {
+    return undefined;
+  }
+
+  return { url: parsed.toString(), alt: alt.trim() };
 }
 
 export function toFirestoreEventDocument(event: EventItem): FirestoreEventDocument {
