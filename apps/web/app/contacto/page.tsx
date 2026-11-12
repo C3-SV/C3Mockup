@@ -96,7 +96,7 @@ export default function ContactoPage() {
         </div>
       </div>
 
-      <section className="c3-frame c3-contacto-seccion" aria-labelledby="contacto-envio">
+      <section className="c3-frame c3-seccion" aria-labelledby="contacto-envio">
         <div className="c3-section-head">
           <h2 id="contacto-envio">Envía tu mensaje</h2>
           <p>
@@ -106,11 +106,11 @@ export default function ContactoPage() {
         <ContactForm />
       </section>
 
-      <section className="c3-frame c3-contacto-seccion" aria-labelledby="contacto-canales">
+      <section className="c3-frame c3-seccion" aria-labelledby="contacto-canales">
         <div className="c3-section-head">
           <h2 id="contacto-canales">Canales oficiales</h2>
         </div>
-        <div className="c3-contacto-grid">
+        <div className="c3-tarjetas">
           {officialChannels.map(({ title, value, description, cta, href, icon: Icon, external }) => (
             <a
               key={title}
@@ -138,11 +138,11 @@ export default function ContactoPage() {
         </div>
       </section>
 
-      <section className="c3-frame c3-contacto-seccion" aria-labelledby="contacto-eventos">
+      <section className="c3-frame c3-seccion" aria-labelledby="contacto-eventos">
         <div className="c3-section-head">
           <h2 id="contacto-eventos">¿Buscas información de un evento específico?</h2>
         </div>
-        <div className="c3-contacto-grid c3-contacto-grid--dos">
+        <div className="c3-tarjetas c3-tarjetas--dos">
           {eventHelpCards.map((card) => (
             <article key={card.title} className="c3-card c3-contacto-ayuda">
               <h3>{card.title}</h3>

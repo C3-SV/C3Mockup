@@ -1795,25 +1795,25 @@ textarea.c3-campo {
   padding-top: 4px;
 }
 
-.c3-contacto-seccion {
+.c3-seccion {
   display: flex;
   flex-direction: column;
   gap: 24px;
   padding-block: clamp(40px, 6vw, 64px);
 }
 
-.c3-contacto-grid {
+.c3-tarjetas {
   display: grid;
   gap: 16px;
   grid-template-columns: minmax(0, 1fr);
 }
 
 @media (min-width: 900px) {
-  .c3-contacto-grid {
+  .c3-tarjetas {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .c3-contacto-grid--dos {
+  .c3-tarjetas--dos {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -1886,6 +1886,201 @@ textarea.c3-campo {
   }
 
   .c3-canal:hover {
+    transform: none;
+  }
+}
+
+/* Páginas de contenido (Tarea 7.3): FAQ y Qué es C3 sobre el DS (§7.9 tarjetas, §3 color de línea). */
+.c3-faq-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 820px;
+}
+
+.c3-faq-item {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 24px;
+}
+
+.c3-faq-item h2 {
+  font-size: var(--c3-h3-size);
+  line-height: var(--c3-h3-lh);
+  font-weight: var(--c3-h3-weight);
+}
+
+.c3-faq-item p,
+.c3-tarjeta-texto p,
+.c3-texto-largo p {
+  font-size: var(--c3-cuerpo-size);
+  line-height: 1.7;
+  color: var(--c3-texto);
+}
+
+.c3-texto-largo {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding: clamp(24px, 4vw, 40px);
+}
+
+.c3-texto-largo__bloque {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.c3-texto-largo__bloque + .c3-texto-largo__bloque {
+  padding-top: 28px;
+  border-top: 1px solid var(--c3-borde);
+}
+
+.c3-texto-largo__cierre {
+  font-weight: 600;
+}
+
+.c3-texto-largo__firma {
+  color: var(--c3-texto-suave);
+}
+
+.c3-tarjeta-texto {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 28px;
+}
+
+.c3-tarjeta-texto h2 {
+  font-size: var(--c3-h3-size);
+  line-height: var(--c3-h3-lh);
+  font-weight: var(--c3-h3-weight);
+}
+
+.c3-enlaces-linea {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin-top: 8px;
+}
+
+.c3-enlace-linea {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.c3-enlace-linea:hover {
+  text-decoration: underline;
+}
+
+/* Crea base no es texto: el enlace usa el texto de Crea (ADR-0002, DS §3). */
+.c3-enlace-linea--compite { color: var(--c3-compite); }
+.c3-enlace-linea--crea { color: var(--c3-crea-texto); }
+.c3-enlace-linea--conecta { color: var(--c3-conecta); }
+
+.c3-equipo {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 12px;
+  transition:
+    transform 200ms ease,
+    box-shadow 200ms ease;
+}
+
+.c3-equipo:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--c3-shadow-soft);
+}
+
+.c3-equipo__foto {
+  position: relative;
+  aspect-ratio: 4 / 4.08;
+  overflow: hidden;
+  border: 1px solid var(--c3-borde);
+  border-radius: var(--c3-radius-md);
+  background: var(--c3-superficie-sutil);
+}
+
+.c3-equipo__foto img {
+  object-fit: cover;
+}
+
+.c3-equipo__pendiente {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--c3-superficie);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--c3-texto-suave);
+}
+
+.c3-equipo__texto {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.c3-equipo__nombre {
+  font-family: var(--c3-font-titulo);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--c3-navy);
+}
+
+.c3-equipo__rol {
+  font-size: var(--c3-cuerpo-sm-size);
+  line-height: 1.5;
+  color: var(--c3-texto-suave);
+}
+
+.c3-equipo__enlaces {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.c3-equipo__enlace {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--c3-borde);
+  border-radius: 999px;
+  background: var(--c3-superficie);
+  color: var(--c3-compite);
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease;
+}
+
+.c3-equipo__enlace:hover {
+  border-color: var(--c3-borde-fuerte);
+  background: var(--c3-superficie-sutil);
+}
+
+.c3-equipo__enlace--portafolio {
+  color: var(--c3-crea-texto);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .c3-equipo,
+  .c3-equipo__enlace {
+    transition: none;
+  }
+
+  .c3-equipo:hover {
     transform: none;
   }
 }
