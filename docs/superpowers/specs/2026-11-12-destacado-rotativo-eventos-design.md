@@ -24,14 +24,14 @@ La visión de C3 no cambia: **ser el referente regional de una nueva generación
 
 **Anti-objetivos**
 - Que parezca una tienda genérica o un carrusel con mucho movimiento.
-- Que muestre eventos pasados como destacados. Los pasados no rotan ni aparecen en el bloque.
+- Que muestre eventos pasados como destacados, salvo que no haya destacados vigentes (§14).
 - Que una foto sin permiso o sin texto alternativo llegue al sitio.
 
 ## 3. Decisiones del responsable (12-nov-2026)
 
 1. Base: opción C (evento protagonista encima de la rejilla), con rotación.
 2. El evento grande rota entre los eventos destacados vigentes. Ejemplo: hoy la Copa; a veces la Hackathon u otro evento.
-3. Los eventos pasados no salen en ese bloque.
+3. Los eventos pasados no salen en ese bloque, salvo que no haya destacados vigentes (§14).
 4. Mientras no haya fotos, se conservan los íconos de tipo que el sitio ya tiene. Son las fotos de respaldo.
 5. Un evento sin foto no bloquea nada: las fotos se agregan después, en masa.
 6. Después se hace un sistema de fotos y assets en el admin, de calidad, para jalar las fotos desde ahí.
@@ -56,7 +56,7 @@ La visión de C3 no cambia: **ser el referente regional de una nueva generación
 
 ### 5.1 Qué eventos entran
 
-- Conjunto R = eventos con `featured = true` y `isUpcomingEvent(event, now)`.
+- Conjunto R = eventos con `featured = true` y `isUpcomingEvent(event, now)`. Si ninguno cumple, R = todos los destacados, los históricos incluidos (§14).
 - Orden: `eventDate` ascendente; sin fecha al final.
 - Máximo 5. Si hay más, se muestran los 5 primeros por fecha.
 - Se calcula en cada render. La página ya tiene `revalidate = 60`.
@@ -180,5 +180,7 @@ Cambios frente a la propuesta original:
 - **Datos:** con las fechas guardadas en producción, la Copa (hasta el 5 de sept. de 2026) y la Hackathon (julio de 2026) ya son pasadas. No hay destacado vigente hasta que se carguen eventos vigentes.
 
 Verificación: pruebas unitarias y de componentes (220), pruebas E2E (186 pasadas, 24 omitidas, como antes), lint, typecheck y build. Vista previa visual del bloque en 1280 y 390 px con fechas de ejemplo, con una ruta temporal que se borró después.
+
+- **Sin destacados vigentes, rotan los históricos destacados** (decisión del responsable, 12-nov-2026: no hay próximos y la Copa y la Hackathon son sus eventos más importantes). Hoy rotan la Copa y la Hackathon, con su estado «Histórico». Orden: el más reciente primero. Cuando haya un destacado vigente, rota solo ese.
 
 Fase 2 (fotos desde el admin, biblioteca de medios) sigue en §8 y requiere ADR-0012.

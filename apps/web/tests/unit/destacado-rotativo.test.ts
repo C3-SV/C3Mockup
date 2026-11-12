@@ -57,8 +57,17 @@ describe("selectRotation (destacado rotativo)", () => {
     expect(selectRotation(events, now)).toHaveLength(ROTATION_MAX);
   });
 
-  it("sin destacados vigentes no hay rotación", () => {
-    expect(selectRotation([ev("pasado", { eventDate: "2026-08-01" })], now)).toEqual([]);
+  it("sin destacados vigentes, rotan los destacados que ya terminaron, el más reciente primero", () => {
+    const events = [
+      ev("hackathon", { eventDate: "2026-07-11", eventDateEnd: "2026-07-12", status: "Histórico" }),
+      ev("copa", { eventDate: "2026-08-01", eventDateEnd: "2026-09-05", status: "Histórico" }),
+      ev("otro", { eventDate: "2026-05-15", status: "Histórico", featured: false }),
+    ];
+    expect(selectRotation(events, now).map((e) => e.id)).toEqual(["copa", "hackathon"]);
+  });
+
+  it("sin destacados ni eventos, no hay rotación", () => {
+    expect(selectRotation([ev("solo-normal", { featured: false })], now)).toEqual([]);
   });
 });
 
