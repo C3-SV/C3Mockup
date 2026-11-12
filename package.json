@@ -14,7 +14,8 @@
     "build:admin": "pnpm --filter @c3/admin build",
     "start:web": "pnpm --filter @c3/web start",
     "start:admin": "pnpm --filter @c3/admin start",
-    "test": "turbo test"
+    "test": "turbo test",
+    "test:e2e": "turbo test:e2e"
   },
   "devDependencies": {
     "turbo": "^2.8.4"

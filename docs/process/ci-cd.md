@@ -7,8 +7,8 @@ Archivo: [`.github/workflows/ci.yml`](../../.github/workflows/ci.yml). Corre en 
 | Job | Comandos | Estado |
 | --- | --- | --- |
 | `quality` | `pnpm install --frozen-lockfile` → `lint` → `typecheck` → `build` | Activo. **Hoy `lint` falla** (1 error en `components/ui/Button.tsx`); la Tarea 0.1 del plan lo corrige, y hasta entonces el job saldrá en rojo |
-| `test` | `pnpm test` | Se activa al completar la Fase 0 del plan (cambiar `if: false`) |
-| `e2e` | `playwright install --with-deps chromium` → `pnpm test:e2e` | Se activa con la Fase 0 |
+| `test` | `pnpm test` | Activo desde la Fase 0 |
+| `e2e` | `playwright install --with-deps chromium` → `pnpm test:e2e` | Activo desde la Fase 0 |
 
 - Node 22, pnpm según `packageManager`, caché de pnpm y de Turborepo.
 - Cancelación de ejecuciones previas por rama (`concurrency`).

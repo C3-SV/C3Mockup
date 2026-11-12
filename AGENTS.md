@@ -84,7 +84,7 @@ pnpm test                 # unitarias y de componentes (Vitest)
 pnpm test:e2e             # Playwright, 390 y 1280 px + axe
 ```
 
-`test` y `test:e2e` los crea la Fase 0 del plan; hasta entonces no existen. Si aún no están, dilo en el PR; no los simules.
+`test` y `test:e2e` ya existen. `test:e2e` corre contra `next start`: ejecuta `pnpm build:web` antes.
 
 ## 7. Git, PR y despliegue
 

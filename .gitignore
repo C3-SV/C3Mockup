@@ -48,3 +48,7 @@ estilo.md
 .pnpm-store/
 .tmp_*/
 tmp_*
+
+# playwright
+playwright-report/
+test-results/
