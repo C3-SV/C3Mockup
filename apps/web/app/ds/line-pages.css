@@ -1,21 +1,14 @@
 /*
- * Páginas de línea (Tarea 5.1 y ajustes de Fase 5). Extensiones del sitio sobre las variables de línea del DS
- * (--c3-line-*). La plantilla fija las variables en el contenedor .c3-line-page (lib/ds/line-theme.ts).
+ * Páginas de línea. Extensiones del sitio sobre las variables de línea del DS (--c3-line-*). La plantilla fija las
+ * variables en .c3-line-page (lib/ds/line-theme.ts). La cabecera va sobre el tinte de la página, sin banda de color:
+ * la órbita del DS lleva el color de la línea (anillos y puntos) y el logo oscuro de la línea va dentro.
  */
 
 .c3-line-page {
   background: var(--c3-line-tint);
 }
 
-/*
- * Cabecera a color pleno de la línea: el color se reconoce al entrar y el texto usa su variante legible.
- * El foco global (globals.css) usa --c3-foco (violeta): sobre el color pleno no se ve (1,03:1 a 2,75:1). Dentro de la
- * cabecera el foco toma el color legible de la línea; los botones lo heredan porque la variable se hereda.
- */
 .c3-line-page .c3-line-hero {
-  background: var(--c3-line-accent);
-  color: var(--c3-line-on-fill);
-  --c3-foco: var(--c3-line-on-fill);
   padding-block: clamp(56px, 9vw, 104px);
 }
 
@@ -38,46 +31,18 @@
   min-width: 0;
 }
 
-/* Más específico que «.c3-sitio h1» (navy): el titular toma el color legible de la línea. */
+/* Más específico que «.c3-sitio h1»: mismo tamaño de titular que el hero del home. */
 .c3-line-page .c3-line-hero h1 {
-  color: var(--c3-line-on-fill);
   font-size: clamp(40px, 6.2vw, 64px);
   line-height: 1.02;
   font-weight: 800;
 }
 
-.c3-line-page .c3-line-hero .c3-lead {
-  color: var(--c3-line-on-fill);
-}
-
-/* Logo de la línea sobre panel blanco: el logo oscuro se lee sobre cualquier color de línea. */
-.c3-line-hero__mark {
-  justify-self: center;
-  width: min(100%, 240px);
-  padding: 32px;
-  border-radius: var(--c3-radius-card);
-  background: var(--c3-superficie);
-}
-
-@media (min-width: 900px) {
-  .c3-line-hero__mark {
-    justify-self: end;
-    width: min(100%, 320px);
-  }
-}
-
-.c3-line-hero__mark img {
-  display: block;
+/* La órbita ocupa su columna, sin pasar de 400 px, y queda centrada en móvil. */
+.c3-line-hero .c3-orbit-visual {
   width: 100%;
-  height: auto;
-}
-
-/* El secundario sobre el color pleno: contorno y texto con el mismo color que el titular. */
-.c3-line-page .c3-line-hero .c3-btn--contorno,
-.c3-line-page .c3-line-hero .c3-btn--contorno:hover {
-  background: transparent;
-  color: var(--c3-line-on-fill);
-  border-color: currentColor;
+  max-width: 400px;
+  margin-inline: auto;
 }
 
 /* Más específico que «.c3-sitio h2» (navy): el título de eventos toma el color legible de la línea. */

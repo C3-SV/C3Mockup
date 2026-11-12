@@ -35,17 +35,17 @@ describe("LinePageTemplate (Crea)", () => {
     expect(page.style.getPropertyValue("--c3-line-accent")).toBe("var(--c3-crea)");
   });
 
-  it("usa el logo de su línea, no el símbolo de C3, y no muestra DEMO ni cuentas", () => {
+  it("usa el logo de su línea dentro de la órbita del DS, no el símbolo de C3, y no muestra DEMO ni cuentas", () => {
     const { container } = render(<LinePageTemplate line="crea" events={[]} />);
-    const logo = container.querySelector(".c3-line-hero img") as HTMLImageElement;
+    const logo = container.querySelector(".c3-line-hero .c3-orbit__mark img") as HTMLImageElement;
     expect(decodeURIComponent(logo.getAttribute("src") ?? "")).toContain("/brand/lines/crea.png");
-    expect(container.querySelector(".c3-orbit")).toBeNull();
+    expect(container.querySelector("img[src*='c3-symbol']")).toBeNull();
     expect(container.textContent ?? "").not.toMatch(/\bDEMO\b|Iniciar sesión|Crear cuenta/);
   });
 
-  it("la cabecera es un bloque propio de la línea y no muestra etiquetas (su color se comprueba en E2E)", () => {
+  it("la cabecera muestra la órbita del DS y no muestra etiquetas (los colores se comprueban en E2E)", () => {
     const { container } = render(<LinePageTemplate line="crea" events={[]} />);
-    expect(container.querySelector(".c3-line-page > .c3-line-hero")).not.toBeNull();
+    expect(container.querySelector(".c3-line-page > .c3-line-hero .c3-orbit-visual")).not.toBeNull();
     expect(container.querySelector(".c3-home-tags")).toBeNull();
   });
 
