@@ -44,8 +44,6 @@ jobs:
 
   test:
     name: Pruebas unitarias y de componentes
-    # Activar al completar la Fase 0 del plan (existe `pnpm test`).
-    if: false
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
