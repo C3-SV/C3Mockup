@@ -1,12 +1,7 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { StatePill } from "@/components/ui/StatePill";
-
-/** Logos oscuros de cada línea (paquete DS, brand/lines): se ven sobre el fondo claro. */
-const LINE_LOGOS = {
-  compite: { src: "/brand/lines/compite.png", width: 2070, height: 2150 },
-  crea: { src: "/brand/lines/crea.png", width: 1906, height: 2171 },
-} as const;
+import { lineVisuals } from "@/lib/content";
 
 /** Próximas iniciativas (antes MissionVisionSection). Textos y destinos actuales. */
 const INITIATIVES = [
@@ -49,10 +44,10 @@ export function IniciativasSection() {
                   {item.line}
                 </div>
                 <Image
-                  src={LINE_LOGOS[item.key].src}
+                  src={lineVisuals[item.key].logo.src}
                   alt={`Identidad visual de la línea ${item.line}`}
-                  width={LINE_LOGOS[item.key].width}
-                  height={LINE_LOGOS[item.key].height}
+                  width={lineVisuals[item.key].logo.width}
+                  height={lineVisuals[item.key].logo.height}
                   className="h-14 w-auto"
                 />
               </div>

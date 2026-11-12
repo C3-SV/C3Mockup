@@ -110,36 +110,35 @@ export const homeLines = [
   },
 ] as const;
 
+/** Logo oscuro de cada línea (paquete DS, brand/lines): se ve sobre fondo claro o dentro de un panel blanco. */
+export type LineLogo = { src: string; width: number; height: number };
+
 export const lineVisuals: Record<
   LineKey,
   {
     key: LineKey;
     name: string;
     color: string;
-    logo: string;
-    shortDescription: string;
+    logo: LineLogo;
   }
 > = {
   compite: {
     key: "compite",
     name: "Compite",
     color: "#205298",
-    logo: "/brand/compite-blanco.png",
-    shortDescription: "Programación competitiva, excelencia técnica y entrenamiento algorítmico.",
+    logo: { src: "/brand/lines/compite.png", width: 2070, height: 2150 },
   },
   crea: {
     key: "crea",
     name: "Crea",
     color: "#33BEAC",
-    logo: "/brand/crea-blanco.png",
-    shortDescription: "Hackathons, prototipos y proyectos de tecnología con impacto real.",
+    logo: { src: "/brand/lines/crea.png", width: 1906, height: 2171 },
   },
   conecta: {
     key: "conecta",
     name: "Conecta",
     color: "#4F5BA9",
-    logo: "/brand/conecta-blanco.png",
-    shortDescription: "Comunidad, industria y oportunidades para talento técnico joven.",
+    logo: { src: "/brand/lines/conecta.png", width: 2069, height: 2190 },
   },
 };
 
@@ -295,7 +294,6 @@ export const linePageContent: Record<
     heroDescription: string;
     seoTitle: string;
     seoDescription: string;
-    pillars: string[];
     primaryCta: { label: string; href: string; external?: boolean };
     secondaryCta: { label: string; href: string };
   }
@@ -307,7 +305,6 @@ export const linePageContent: Record<
     seoTitle: "Compite | Programación competitiva y excelencia técnica — C3",
     seoDescription:
       "La línea Compite de C3 impulsa programación competitiva, ICPC, entrenamientos, pensamiento algorítmico y la Copa Salvadoreña de Programación.",
-    pillars: ["Programación competitiva", "ICPC", "Copa Salvadoreña de Programación", "Entrenamientos"],
     primaryCta: { label: "Ir a la Copa", href: siteConfig.sites.copa, external: true },
     secondaryCta: { label: "Ver eventos C3", href: "/eventos" },
   },
@@ -318,7 +315,6 @@ export const linePageContent: Record<
     seoTitle: "Crea | Hackathons y proyectos tecnológicos — C3",
     seoDescription:
       "La línea Crea de C3 impulsa hackathons, prototipos, builders, software y proyectos tecnológicos para resolver retos reales.",
-    pillars: ["Hackathons", "Builders", "Desarrollo de software", "Proyectos reales"],
     primaryCta: {
       label: "Ver hackathon",
       href: siteConfig.sites.hackathon,
@@ -333,7 +329,6 @@ export const linePageContent: Record<
     seoTitle: "Conecta | Comunidad, industria y oportunidades — C3",
     seoDescription:
       "La línea Conecta de C3 une talento técnico joven con comunidad, instituciones educativas, empresas, aliados, sponsors y oportunidades reales.",
-    pillars: ["Comunidad", "Industria", "Mentoría", "Alianzas"],
     primaryCta: { label: "Contactar para colaborar", href: "/contacto" },
     secondaryCta: { label: "Ver eventos C3", href: "/eventos" },
   },

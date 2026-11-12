@@ -1,7 +1,7 @@
+import Image from "next/image";
 import Link from "next/link";
 import SeoJsonLd from "./SeoJsonLd";
 import { FeaturedGrid } from "@/components/ds/FeaturedGrid";
-import { HomeOrbit } from "@/components/ds/HomeOrbit";
 import { Button } from "@/components/ui/Button";
 import { linePageContent, lineVisuals } from "@/lib/content";
 import { toCatalogCard } from "@/lib/ds/event-card";
@@ -16,8 +16,9 @@ type LinePageTemplateProps = {
 };
 
 /**
- * Página de una línea (DS §9.1). Textos y acciones actuales; el color de la línea llega por variables
- * (lib/ds/line-theme.ts). Eventos: solo los que incluyen su línea.
+ * Página de una línea (DS §9.1). Cabecera a color pleno de la línea con su propio logo, y debajo los eventos de
+ * la línea. Textos y acciones actuales; el color llega por variables (lib/ds/line-theme.ts). Titulares, metadata
+ * y JSON-LD no cambian: solo se quitaron las repeticiones visuales (descripción corta, etiquetas y órbita de C3).
  */
 export default function LinePageTemplate({ line, events }: LinePageTemplateProps) {
   const visual = lineVisuals[line];
@@ -39,22 +40,13 @@ export default function LinePageTemplate({ line, events }: LinePageTemplateProps
     <div className="c3-line-page" style={lineTheme(line)}>
       {itemList ? <SeoJsonLd data={itemList} /> : null}
 
-      <section className="c3-line-intro">
-        <div className="c3-frame c3-hero__grid">
-          <div className="c3-hero__text">
-            <h1>
-              <span className="c3-line-intro__dot" aria-hidden="true" />
-              {content.heroTitle}
-            </h1>
+      <section className="c3-line-intro c3-line-hero">
+        <div className="c3-frame c3-line-hero__grid">
+          <div className="c3-line-hero__text">
+            <h1>{content.heroTitle}</h1>
             <p className="c3-lead">{content.heroDescription}</p>
-            <p>{visual.shortDescription}</p>
-            <ul className="c3-home-tags">
-              {content.pillars.map((pillar) => (
-                <li key={pillar}>{pillar}</li>
-              ))}
-            </ul>
             <div className="c3-actions">
-              <Button href={content.primaryCta.href} variant="primario" arrow={content.primaryCta.external}>
+              <Button href={content.primaryCta.href} variant="blanco" arrow={content.primaryCta.external}>
                 {content.primaryCta.label}
               </Button>
               <Button href={content.secondaryCta.href} variant="contorno">
@@ -62,11 +54,20 @@ export default function LinePageTemplate({ line, events }: LinePageTemplateProps
               </Button>
             </div>
           </div>
-          <HomeOrbit />
+          <div className="c3-line-hero__mark">
+            <Image
+              src={visual.logo.src}
+              alt={`Logo de ${visual.name}`}
+              width={visual.logo.width}
+              height={visual.logo.height}
+              priority
+              sizes="(min-width: 900px) 320px, 240px"
+            />
+          </div>
         </div>
       </section>
 
-      <section className="c3-featured" aria-labelledby="eventos-de-la-linea">
+      <section className="c3-featured c3-line-events" aria-labelledby="eventos-de-la-linea">
         <div className="c3-frame">
           <div className="c3-section-head">
             <h2 id="eventos-de-la-linea" className="c3-line-events__title">

@@ -35,10 +35,18 @@ describe("LinePageTemplate (Crea)", () => {
     expect(page.style.getPropertyValue("--c3-line-accent")).toBe("var(--c3-crea)");
   });
 
-  it("incluye la órbita del símbolo a 400 px y no muestra DEMO ni cuentas", () => {
+  it("usa el logo de su línea, no el símbolo de C3, y no muestra DEMO ni cuentas", () => {
     const { container } = render(<LinePageTemplate line="crea" events={[]} />);
-    expect(container.querySelector(".c3-line-intro .c3-orbit")).not.toBeNull();
+    const logo = container.querySelector(".c3-line-hero img") as HTMLImageElement;
+    expect(decodeURIComponent(logo.getAttribute("src") ?? "")).toContain("/brand/lines/crea.png");
+    expect(container.querySelector(".c3-orbit")).toBeNull();
     expect(container.textContent ?? "").not.toMatch(/\bDEMO\b|Iniciar sesión|Crear cuenta/);
+  });
+
+  it("la cabecera es un bloque propio de la línea y no muestra etiquetas (su color se comprueba en E2E)", () => {
+    const { container } = render(<LinePageTemplate line="crea" events={[]} />);
+    expect(container.querySelector(".c3-line-page > .c3-line-hero")).not.toBeNull();
+    expect(container.querySelector(".c3-home-tags")).toBeNull();
   });
 
   it("enlaza las acciones de cierre actuales", () => {

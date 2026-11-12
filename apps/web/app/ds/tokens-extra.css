@@ -41,6 +41,7 @@
   /* Variables que la plantilla de linea fija por pagina (Compite por defecto). */
   --c3-line-accent: var(--c3-compite);
   --c3-line-text: var(--c3-compite);
+  --c3-line-on-fill: var(--c3-texto-inverso);
   --c3-line-tint: var(--c3-pagina-compite);
 
   /* Fondo suave de cada pagina de linea (DS §3.1: #f3f6fc, #f1faf8, #f4f5fb). */
