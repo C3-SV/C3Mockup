@@ -23,6 +23,7 @@ Los colores que el paquete escribe como hexadecimales en `estilos/globals.css` s
 - Sobre navy: `--c3-texto-sobre-navy`, `--c3-enlace-sobre-navy`, `--c3-acento-sobre-navy`.
 - Neutros: `--c3-borde-hover`, `--c3-borde-suave`, `--c3-superficie-suave` (unifica #f7f9fd y #f8fafd: diferencia de 1 unidad), `--c3-superficie-gris`.
 - Línea: `--c3-line-accent`, `--c3-line-text`, `--c3-line-tint` con valor por defecto de Compite; la plantilla de línea los sobrescribe.
+- Fondo suave de cada página de línea (Tarea 5.1, DS §3.1): `--c3-pagina-compite` (#f3f6fc), `--c3-pagina-crea` (#f1faf8), `--c3-pagina-conecta` (#f4f5fb).
 
 ## Consecuencias
 - La prueba `tests/tokens/contrast.test.ts` sigue validando los valores del paquete. Si cambia `tokens.css`, la prueba avisa.

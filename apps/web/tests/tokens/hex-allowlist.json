@@ -9,7 +9,6 @@
   "components/C3SectionTransition.tsx",
   "components/ContactForm.tsx",
   "components/EventsCatalog.tsx",
-  "components/LinePageTemplate.tsx",
   "components/backgrounds/c3-background-theme.ts",
   "components/ui/LegacyButton.tsx",
   "lib/c3-theme.ts",

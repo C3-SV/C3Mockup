@@ -3,6 +3,7 @@
 @import "./ds/tokens-extra.css";
 @import "./ds/c3-public.css" layer(components);
 @import "./ds/home.css" layer(components);
+@import "./ds/line-pages.css" layer(components);
 
 :root {
   --c3-navy: #0f203e;

@@ -9,6 +9,18 @@ describe("SiteFooter (pie navy de cuatro columnas, DS §7.3)", () => {
     expect(container.querySelector(".c3-footer__grid")?.children).toHaveLength(4);
   });
 
+  it("cada columna de enlaces tiene su título, con palabras que ya usa el sitio", () => {
+    render(<SiteFooter />);
+    for (const title of ["Navegación", "Ecosistema", "Eventos"]) {
+      expect(screen.getByRole("heading", { level: 2, name: title })).toBeInTheDocument();
+    }
+  });
+
+  it("la marca dice cuándo se fundó C3 (fecha del Documento Maestro)", () => {
+    render(<SiteFooter />);
+    expect(screen.getByText("Fundado el 24 de octubre de 2024.")).toBeInTheDocument();
+  });
+
   it("conserva los enlaces del sitio actual con sus destinos", () => {
     const { container } = render(<SiteFooter />);
     const footer = within(container as HTMLElement);

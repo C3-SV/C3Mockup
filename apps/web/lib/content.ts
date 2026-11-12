@@ -118,7 +118,6 @@ export const lineVisuals: Record<
     color: string;
     logo: string;
     shortDescription: string;
-    softBg: string;
   }
 > = {
   compite: {
@@ -127,7 +126,6 @@ export const lineVisuals: Record<
     color: "#205298",
     logo: "/brand/compite-blanco.png",
     shortDescription: "Programación competitiva, excelencia técnica y entrenamiento algorítmico.",
-    softBg: "rgba(32,82,152,0.28)",
   },
   crea: {
     key: "crea",
@@ -135,7 +133,6 @@ export const lineVisuals: Record<
     color: "#33BEAC",
     logo: "/brand/crea-blanco.png",
     shortDescription: "Hackathons, prototipos y proyectos de tecnología con impacto real.",
-    softBg: "rgba(51,190,172,0.28)",
   },
   conecta: {
     key: "conecta",
@@ -143,7 +140,6 @@ export const lineVisuals: Record<
     color: "#4F5BA9",
     logo: "/brand/conecta-blanco.png",
     shortDescription: "Comunidad, industria y oportunidades para talento técnico joven.",
-    softBg: "rgba(79,91,169,0.30)",
   },
 };
 

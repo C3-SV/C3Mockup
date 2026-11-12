@@ -4,12 +4,30 @@ import { useState } from "react";
 import type { CatalogCardData } from "@/lib/ds/event-card";
 import { CatalogCard } from "@/components/ds/CatalogCard";
 
-/** Destacadas paginadas (DS §7.16): tarjetas por pagina, sin carga por lotes. Los datos ya vienen del servidor. */
-export function FeaturedGrid({ cards, pageSize = 6 }: { cards: CatalogCardData[]; pageSize?: number }) {
+const DEFAULT_EMPTY_MESSAGE = "Todavía no hay eventos publicados. Vuelve pronto.";
+
+/**
+ * Destacadas paginadas (DS §7.16): tarjetas por página, sin carga por lotes. Los datos ya vienen del servidor
+ * (no hay estado de carga: la página se entrega con sus eventos). Sin eventos muestra `emptyMessage`, anunciado
+ * a lectores de pantalla. Un fallo del catálogo no llega aquí: getPublicEvents cae a los eventos por defecto.
+ */
+export function FeaturedGrid({
+  cards,
+  pageSize = 6,
+  emptyMessage = DEFAULT_EMPTY_MESSAGE,
+}: {
+  cards: CatalogCardData[];
+  pageSize?: number;
+  emptyMessage?: string;
+}) {
   const [page, setPage] = useState(1);
 
   if (cards.length === 0) {
-    return <p className="c3-ayuda">Todavía no hay eventos publicados. Vuelve pronto.</p>;
+    return (
+      <p className="c3-ayuda" role="status">
+        {emptyMessage}
+      </p>
+    );
   }
 
   const totalPages = Math.ceil(cards.length / pageSize);

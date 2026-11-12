@@ -1,5 +1,12 @@
+import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { StatePill } from "@/components/ui/StatePill";
+
+/** Logos oscuros de cada línea (paquete DS, brand/lines): se ven sobre el fondo claro. */
+const LINE_LOGOS = {
+  compite: { src: "/brand/lines/compite.png", width: 2070, height: 2150 },
+  crea: { src: "/brand/lines/crea.png", width: 1906, height: 2171 },
+} as const;
 
 /** Próximas iniciativas (antes MissionVisionSection). Textos y destinos actuales. */
 const INITIATIVES = [
@@ -36,9 +43,18 @@ export function IniciativasSection() {
         <div className="c3-home-grid c3-home-grid--2">
           {INITIATIVES.map((item) => (
             <article key={item.key} className="c3-home-card">
-              <div className="c3-exp__line">
-                <span className={`c3-dot c3-dot--${item.key}`} aria-hidden="true" />
-                {item.line}
+              <div className="flex items-start justify-between gap-4">
+                <div className="c3-exp__line">
+                  <span className={`c3-dot c3-dot--${item.key}`} aria-hidden="true" />
+                  {item.line}
+                </div>
+                <Image
+                  src={LINE_LOGOS[item.key].src}
+                  alt={`Identidad visual de la línea ${item.line}`}
+                  width={LINE_LOGOS[item.key].width}
+                  height={LINE_LOGOS[item.key].height}
+                  className="h-14 w-auto"
+                />
               </div>
               <div>
                 <StatePill label={item.status} tone="exito" />

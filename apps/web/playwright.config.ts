@@ -5,6 +5,8 @@ const reducedMotion = process.env.PLAYWRIGHT_REDUCED_MOTION === "reduce" ? "redu
 
 export default defineConfig({
   testDir: "e2e",
+  // axe tarda más de 30 s en páginas grandes cuando corren dos workers (Chromium compartido): 60 s por prueba.
+  timeout: 60_000,
   // Contra build de produccion: `pnpm build:web` antes de correr las pruebas.
   webServer: {
     command: `pnpm exec next start -p ${PORT}`,
