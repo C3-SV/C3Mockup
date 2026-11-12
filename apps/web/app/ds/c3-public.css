@@ -1223,6 +1223,12 @@ textarea.c3-campo {
   gap: 6px 8px;
 }
 
+.c3-exp__lines {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
 .c3-exp__line {
   display: inline-flex;
   align-items: center;
@@ -1312,9 +1318,10 @@ textarea.c3-campo {
   margin-top: 20px;
 }
 
+/* 44 px de área táctil mínima (DS §6): el DS deja 36 px; se sube igual que .c3-btn--small. */
 .c3-pagination__button {
-  min-width: 36px;
-  height: 36px;
+  min-width: 44px;
+  height: 44px;
   padding: 0 10px;
   border: 1px solid var(--c3-borde);
   border-radius: 10px;
