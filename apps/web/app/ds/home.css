@@ -162,3 +162,8 @@
 .c3-home-link--claro {
   color: var(--c3-texto-inverso);
 }
+
+/* Encabezado de sección con texto de introducción más ancho (por defecto el lead mide 34 caracteres). */
+.c3-section-head--ancho .c3-lead {
+  max-width: 62ch;
+}

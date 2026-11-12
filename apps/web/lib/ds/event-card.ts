@@ -1,5 +1,5 @@
 import { formatEventSchedule, type EventCover, type EventItem, type EventStatus, type ExperienceKind, type LineKey } from "@c3/config";
-import { toPillState, type PillState } from "@/lib/ds/event-state";
+import { pillStatusFor, toPillState, type PillState } from "@/lib/ds/event-state";
 
 /** Datos de una tarjeta de experiencia (DS §7.9). Solo texto y enlaces del evento; sin DEMO. */
 export type CatalogCardData = {
@@ -22,7 +22,7 @@ export type CatalogCardData = {
 };
 
 /** La primera línea es la principal; el resto se muestra como texto. Un evento sin líneas no llega aquí (lo descarta el parseo). */
-export function toCatalogCard(event: EventItem): CatalogCardData {
+export function toCatalogCard(event: EventItem, now: Date = new Date()): CatalogCardData {
   const [line, ...otherLines] = event.lines;
   if (!line) {
     throw new Error(`El evento ${event.id} no tiene líneas`);
@@ -36,7 +36,7 @@ export function toCatalogCard(event: EventItem): CatalogCardData {
     title: event.title,
     summary: event.description,
     detail: formatEventSchedule(event) || undefined,
-    state: toPillState(event.status),
+    state: toPillState(pillStatusFor(event, now)),
     action: event.cta,
     href: event.href,
     external: Boolean(event.external),

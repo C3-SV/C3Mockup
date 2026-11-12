@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { defaultEvents, type EventItem } from "@c3/config";
-import { isUpcomingEvent, toPillState } from "@/lib/ds/event-state";
+import { isUpcomingEvent, pillStatusFor, toPillState } from "@/lib/ds/event-state";
 
 /** Estados de evento (Tarea 3.2): la pastilla muestra el texto actual del sitio; solo cambia el tono. */
 
@@ -54,5 +54,22 @@ describe("isUpcomingEvent", () => {
   it("si la fecha de fin es anterior a la de inicio, cuenta la más tardía", () => {
     const event = { eventDate: "2026-07-12", eventDateEnd: "2026-07-11", status: "Próximamente" as const };
     expect(isUpcomingEvent(event, new Date("2026-07-12T12:00:00Z"))).toBe(true);
+  });
+});
+
+describe("pillStatusFor", () => {
+  const now = new Date("2026-11-12T12:00:00Z");
+
+  it("un evento que ya terminó no dice «Inscripciones abiertas» ni «Próximamente»", () => {
+    expect(pillStatusFor({ eventDate: "2026-08-01", status: "Inscripciones abiertas" }, now)).toBe("Histórico");
+    expect(pillStatusFor({ eventDate: "2026-08-01", status: "Próximamente" }, now)).toBe("Histórico");
+  });
+
+  it("un evento próximo conserva su estado", () => {
+    expect(pillStatusFor({ eventDate: "2027-03-01", status: "Inscripciones abiertas" }, now)).toBe("Inscripciones abiertas");
+  });
+
+  it("un estado que no depende de la fecha se conserva aunque el evento haya pasado", () => {
+    expect(pillStatusFor({ eventDate: "2026-08-29", status: "Apoyo institucional" }, now)).toBe("Apoyo institucional");
   });
 });

@@ -2040,7 +2040,7 @@ textarea.c3-campo {
 .c3-equipo__rol {
   font-size: var(--c3-cuerpo-sm-size);
   line-height: 1.5;
-  color: var(--c3-texto-suave);
+  color: var(--c3-compite);
 }
 
 .c3-equipo__enlaces {

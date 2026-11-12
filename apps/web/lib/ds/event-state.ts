@@ -47,3 +47,20 @@ export function isUpcomingEvent(
 
   return Math.max(...days) + DAY_MS > now.getTime();
 }
+
+/** Estados que hablan de un evento por venir. Un evento que ya terminó no los muestra. */
+const TEMPORAL_STATUSES: ReadonlySet<string> = new Set(["Inscripciones abiertas", "Próximamente"]);
+
+/**
+ * Estado que se muestra en la pastilla. Un evento que ya terminó no dice «Inscripciones abiertas» ni
+ * «Próximamente», aunque el dato siga así: muestra «Histórico». Los demás estados se conservan.
+ */
+export function pillStatusFor(
+  event: Pick<EventItem, "eventDate" | "eventDateEnd" | "status">,
+  now: Date,
+): EventItem["status"] {
+  if (isUpcomingEvent(event, now) || !TEMPORAL_STATUSES.has(event.status)) {
+    return event.status;
+  }
+  return "Histórico";
+}
