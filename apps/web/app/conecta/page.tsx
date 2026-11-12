@@ -47,7 +47,7 @@ export default async function ConectaPage() {
   const events = await getPublicEvents();
 
   return (
-    <PageShell>
+    <PageShell ds>
       <SeoJsonLd
         data={getWebPageJsonLd({
           path: "/conecta",

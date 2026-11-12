@@ -46,7 +46,7 @@ export default async function CompitePage() {
   const events = await getPublicEvents();
 
   return (
-    <PageShell>
+    <PageShell ds>
       <SeoJsonLd
         data={getWebPageJsonLd({
           path: "/compite",

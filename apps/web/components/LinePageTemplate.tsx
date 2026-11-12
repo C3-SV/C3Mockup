@@ -1,17 +1,24 @@
-import Image from "next/image";
 import Link from "next/link";
 import SeoJsonLd from "./SeoJsonLd";
-import C3BackgroundLayer from "./backgrounds/C3BackgroundLayer";
-import { linePageContent, lineVisuals, type LineKey } from "@/lib/content";
+import { FeaturedGrid } from "@/components/ds/FeaturedGrid";
+import { HomeOrbit } from "@/components/ds/HomeOrbit";
+import { Button } from "@/components/ui/Button";
+import { linePageContent, lineVisuals } from "@/lib/content";
+import { toCatalogCard } from "@/lib/ds/event-card";
+import { lineTheme } from "@/lib/ds/line-theme";
 import { getItemListJsonLd } from "@/lib/structured-data";
 import { siteConfig } from "@/lib/site";
-import type { EventItem } from "@c3/config";
+import type { EventItem, LineKey } from "@c3/config";
 
 type LinePageTemplateProps = {
   line: LineKey;
   events: EventItem[];
 };
 
+/**
+ * Página de una línea (DS §9.1). Textos y acciones actuales; el color de la línea llega por variables
+ * (lib/ds/line-theme.ts). Eventos: solo los que incluyen su línea.
+ */
 export default function LinePageTemplate({ line, events }: LinePageTemplateProps) {
   const visual = lineVisuals[line];
   const content = linePageContent[line];
@@ -29,128 +36,62 @@ export default function LinePageTemplate({ line, events }: LinePageTemplateProps
     : null;
 
   return (
-    <>
+    <div className="c3-line-page" style={lineTheme(line)}>
       {itemList ? <SeoJsonLd data={itemList} /> : null}
-      <section className="relative overflow-hidden bg-[#0F203E] py-18 text-white md:py-22">
-        <C3BackgroundLayer variant="dots" line={line} intensity="low" className="opacity-70" />
-        <div className="container-shell relative z-10 grid items-center gap-10 md:grid-cols-[1.15fr_0.85fr]">
-          <div className="space-y-5">
-            {/*<p
-              className="inline-flex rounded-full border px-4 py-1 text-xs font-semibold uppercase tracking-[0.16em]"
-              style={{
-                borderColor: `${visual.color}88`,
-                color: visual.color,
-                backgroundColor: `${visual.color}1a`,
-              }}
-            >
-              Línea {visual.name}
-            </p>*/}
-            <h1 className="max-w-3xl text-4xl font-bold leading-tight md:text-5xl">{content.heroTitle}</h1>
-            <p className="max-w-3xl text-base leading-8 text-white/82 md:text-lg">{content.heroDescription}</p>
-            <div className="flex flex-wrap gap-3">
-              {content.primaryCta.external ? (
-                <a
-                  href={content.primaryCta.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center rounded-full px-5 py-2.5 text-sm font-semibold text-white transition hover:brightness-110"
-                  style={{ backgroundColor: visual.color }}
-                >
-                  {content.primaryCta.label}
-                </a>
-              ) : (
-                <Link
-                  href={content.primaryCta.href}
-                  className="inline-flex items-center rounded-full px-5 py-2.5 text-sm font-semibold text-white transition hover:brightness-110"
-                  style={{ backgroundColor: visual.color }}
-                >
-                  {content.primaryCta.label}
-                </Link>
-              )}
-              <Link
-                href={content.secondaryCta.href}
-                className="inline-flex items-center rounded-full border border-white/28 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-white/16"
-              >
-                {content.secondaryCta.label}
-              </Link>
-            </div>
 
-            <div className="max-w-3xl space-y-4 pt-3">
-              <p className="text-sm leading-7 text-white/86">{visual.shortDescription}</p>
-              <ul className="flex flex-wrap gap-2">
-                {content.pillars.map((pillar) => (
-                  <li
-                    key={pillar}
-                    className="rounded-full border px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.12em] shadow-[0_8px_18px_rgba(2,8,22,0.18)]"
-                    style={{
-                      borderColor: `${visual.color}aa`,
-                      backgroundColor: `${visual.color}`,
-                      color: "#F8FAFD",
-                    }}
-                  >
-                    {pillar}
-                  </li>
-                ))}
-              </ul>
+      <section className="c3-line-intro">
+        <div className="c3-frame c3-hero__grid">
+          <div className="c3-hero__text">
+            <h1>
+              <span className="c3-line-intro__dot" aria-hidden="true" />
+              {content.heroTitle}
+            </h1>
+            <p className="c3-lead">{content.heroDescription}</p>
+            <p>{visual.shortDescription}</p>
+            <ul className="c3-home-tags">
+              {content.pillars.map((pillar) => (
+                <li key={pillar}>{pillar}</li>
+              ))}
+            </ul>
+            <div className="c3-actions">
+              <Button href={content.primaryCta.href} variant="primario" arrow={content.primaryCta.external}>
+                {content.primaryCta.label}
+              </Button>
+              <Button href={content.secondaryCta.href} variant="contorno">
+                {content.secondaryCta.label}
+              </Button>
             </div>
           </div>
-          <div className="flex items-center justify-center md:justify-end">
-            <div className="relative flex h-56 w-56 items-center justify-center rounded-full border border-white/12 bg-[#102240]/90 shadow-[0_24px_56px_rgba(2,8,22,0.34)] md:h-72 md:w-72">
-              <Image
-                src={visual.logo}
-                alt={`Logo de ${visual.name}`}
-                fill
-                className="object-contain p-10 md:p-12"
-              />
-            </div>
-          </div>
+          <HomeOrbit />
         </div>
       </section>
 
-      <section className="section-divider relative overflow-hidden bg-[#F4F7FB] py-16 text-[#0F203E] md:py-20">
-        <C3BackgroundLayer variant="dots" line="compite" intensity="low" className="opacity-22 mix-blend-multiply" />
-        <div className="container-shell relative z-10 space-y-6">
-          <h2 className="text-3xl font-bold md:text-4xl">Eventos relacionados con {visual.name}</h2>
-          <div className="grid gap-4 md:grid-cols-2">
-            {relatedEvents.map((event) => (
-              <article key={event.id} className="rounded-3xl border border-[#d5deea] bg-white p-5">
-                <h3 className="text-xl font-bold">{event.title}</h3>
-                <p className="mt-2 text-sm leading-7 text-[#364765]">{event.description}</p>
-                {event.external ? (
-                  <a
-                    href={event.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="mt-4 inline-flex items-center rounded-full border border-[#0F203E] px-4 py-2 text-sm font-semibold text-[#0F203E] transition hover:bg-[#0F203E] hover:text-white"
-                  >
-                    {event.cta}
-                  </a>
-                ) : (
-                  <Link
-                    href={event.href}
-                    className="mt-4 inline-flex items-center rounded-full border border-[#0F203E] px-4 py-2 text-sm font-semibold text-[#0F203E] transition hover:bg-[#0F203E] hover:text-white"
-                  >
-                    {event.cta}
-                  </Link>
-                )}
-              </article>
-            ))}
+      <section className="c3-featured" aria-labelledby="eventos-de-la-linea">
+        <div className="c3-frame">
+          <div className="c3-section-head">
+            <h2 id="eventos-de-la-linea" className="c3-line-events__title">
+              Eventos relacionados con {visual.name}
+            </h2>
           </div>
-          <div className="flex flex-wrap gap-3 pt-2 text-sm">
-            <Link className="font-semibold text-[#205298] hover:underline" href="/eventos">
+          <div className="mt-6">
+            <FeaturedGrid
+              cards={relatedEvents.map((event) => toCatalogCard(event))}
+              emptyMessage={`Todavía no hay eventos de ${visual.name}.`}
+            />
+          </div>
+          <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3">
+            <Link href="/eventos" className="c3-home-link">
               Ver todos los eventos
             </Link>
-            <span className="text-[#7d8da5]">·</span>
-            <Link className="font-semibold text-[#205298] hover:underline" href="/faq">
+            <Link href="/faq" className="c3-home-link">
               Revisar FAQ
             </Link>
-            <span className="text-[#7d8da5]">·</span>
-            <Link className="font-semibold text-[#205298] hover:underline" href="/contacto">
+            <Link href="/contacto" className="c3-home-link">
               Contactar a C3
             </Link>
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 }
