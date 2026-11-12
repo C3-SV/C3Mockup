@@ -1,7 +1,6 @@
 [
   "app/globals.css",
   "app/manifest.ts",
-  "app/not-found.tsx",
   "components/backgrounds/c3-background-theme.ts",
   "components/ui/LegacyButton.tsx",
   "lib/c3-theme.ts",
