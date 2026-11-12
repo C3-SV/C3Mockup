@@ -7,7 +7,11 @@ export const ROTATION_MAX = 5;
 /** Tiempo entre diapositivas, en milisegundos. Con movimiento reducido no rota. */
 export const ROTATION_INTERVAL_MS = 8000;
 
-function compareRotation(a: EventItem, b: EventItem) {
+/**
+ * Orden de rotación: primero los que tienen featuredOrder (menor número primero). Después, por fecha: los
+ * vigentes de la más cercana a la más lejana; los históricos, de la más reciente a la más antigua.
+ */
+function compareRotation(a: EventItem, b: EventItem, newestFirst: boolean) {
   const aOrder = a.featuredOrder ?? Number.POSITIVE_INFINITY;
   const bOrder = b.featuredOrder ?? Number.POSITIVE_INFINITY;
 
@@ -15,19 +19,24 @@ function compareRotation(a: EventItem, b: EventItem) {
     return aOrder - bOrder;
   }
 
-  return (a.eventDate ?? "").localeCompare(b.eventDate ?? "") || a.title.localeCompare(b.title);
+  const byDate = (a.eventDate ?? "").localeCompare(b.eventDate ?? "");
+  return (newestFirst ? -byDate : byDate) || a.title.localeCompare(b.title);
 }
 
 /**
- * Eventos del destacado rotativo: marcados como destacados, vigentes (isUpcomingEvent) y con fecha.
- * Los que tienen orden (featuredOrder) van primero, de menor a mayor; el resto por fecha.
- * Los pasados nunca entran.
+ * Eventos del destacado rotativo. Si hay destacados vigentes (isUpcomingEvent y con fecha), rotan esos.
+ * Si no hay ninguno, rotan los destacados aunque ya hayan terminado (decisión del responsable, 12-nov-2026):
+ * así el home muestra los eventos más importantes mientras no haya próximos. Máximo ROTATION_MAX.
  */
 export function selectRotation(events: EventItem[], now: Date): EventItem[] {
-  return events
-    .filter((event) => Boolean(event.featured) && Boolean(event.eventDate) && isUpcomingEvent(event, now))
-    .sort(compareRotation)
-    .slice(0, ROTATION_MAX);
+  const featured = events.filter((event) => Boolean(event.featured));
+  const upcoming = featured.filter((event) => Boolean(event.eventDate) && isUpcomingEvent(event, now));
+
+  if (upcoming.length) {
+    return [...upcoming].sort((a, b) => compareRotation(a, b, false)).slice(0, ROTATION_MAX);
+  }
+
+  return [...featured].sort((a, b) => compareRotation(a, b, true)).slice(0, ROTATION_MAX);
 }
 
 /**
