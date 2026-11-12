@@ -33,3 +33,7 @@ Los colores que el paquete escribe como hexadecimales en `estilos/globals.css` s
 ## Ajuste de la Fase 5 (2026-11-11): cabecera de línea y foco
 - `--c3-line-on-fill` (texto sobre el color pleno de la línea; navy en Crea, blanco en Compite y Conecta) con valor por defecto en `tokens-extra.css`. Lo fija `lib/ds/line-theme.ts`.
 - Dentro de `.c3-line-hero` (`app/ds/line-pages.css`) se redefine `--c3-foco` como `var(--c3-line-on-fill)`. El foco global es violeta (`--c3-foco`) y sobre el color pleno de cada línea queda entre 1,03:1 y 2,75:1, por debajo del mínimo de 3:1 de WCAG 1.4.11. Redefinir la variable en el hero evita una regla con capa que no ganaría a la regla global sin capa. No se cambia `--c3-foco` en el resto de la página.
+
+### Revisión del mismo día (opción B, elegida por el responsable)
+- Se quita la banda de color de la cabecera de línea. La cabecera va sobre el tinte de la página, con la órbita del DS: los anillos y los puntos llevan el color de la línea y el logo oscuro va dentro.
+- Se retiran `--c3-line-on-fill` y la redefinición de `--c3-foco` dentro de `.c3-line-hero`. El foco vuelve al violeta del DS (`--c3-foco`), que se lee sobre el tinte.

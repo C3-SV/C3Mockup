@@ -20,12 +20,6 @@ describe("lineTheme", () => {
     expect(read(conecta, "--c3-line-text")).toBe("var(--c3-conecta)");
   });
 
-  it("el texto sobre el color de la línea es blanco en compite y conecta, y navy en crea (turquesa)", () => {
-    expect(read(lineTheme("compite") as unknown as Record<string, string>, "--c3-line-on-fill")).toBe("var(--c3-texto-inverso)");
-    expect(read(lineTheme("conecta") as unknown as Record<string, string>, "--c3-line-on-fill")).toBe("var(--c3-texto-inverso)");
-    expect(read(lineTheme("crea") as unknown as Record<string, string>, "--c3-line-on-fill")).toBe("var(--c3-navy)");
-  });
-
   it("nunca devuelve un hexadecimal literal", () => {
     for (const line of ["compite", "crea", "conecta"] as const) {
       expect(JSON.stringify(lineTheme(line))).not.toMatch(/#[0-9a-fA-F]{3,8}/);
