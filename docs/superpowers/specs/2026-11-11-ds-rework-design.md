@@ -131,7 +131,7 @@ CSS sin capa que anule utilidades (mitigado con `layer(components)` y prueba de 
 
 | Pregunta | Respuesta |
 | --- | --- |
-| Logo en cabecera | **El logo C3 completo** que el sitio ya usa: `logo-c3-claro-con-color.png` sobre fondo claro y `logo-c3-blanco-monocromatico.png` sobre navy. No se adoptan `c3-sim-azul.png` ni el logo simple del paquete. `c3-symbol.png` solo para la órbita (el DS lo exige para sus puntos interactivos; mi llamada, revisable) |
+| Logo en cabecera | **Superado el 2026-11-11: la cabecera usa `c3-sim-azul.png`** (logo completo oscuro, tras revisar el navbar). Antes: **El logo C3 completo** que el sitio ya usa: `logo-c3-claro-con-color.png` sobre fondo claro y `logo-c3-blanco-monocromatico.png` sobre navy. No se adoptan `c3-sim-azul.png` ni el logo simple del paquete. `c3-symbol.png` solo para la órbita (el DS lo exige para sus puntos interactivos; mi llamada, revisable) |
 | Titular y eyebrow | **Se conserva lo que ya está** (ver tabla de la home). «El talento se ve en acción» era texto del DS y no se usa |
 | Eventos de `defaultEvents` | **Todos reales. Sin DEMO.** Es el sitio real |
 | Manual de marca y capturas del DS aplicado | Pendiente, no bloquea |
