@@ -340,6 +340,11 @@ textarea.c3-campo {
   height: 34px;
 }
 
+/* Logo de la cabecera como enlace: área de toque de 44 px (su imagen mide 30 px de alto). */
+.c3-site-brand {
+  min-height: 44px;
+}
+
 .c3-site-nav {
   display: flex;
   align-items: center;
@@ -351,6 +356,7 @@ textarea.c3-campo {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  min-height: 44px;
   padding: 8px 12px;
   border: 0;
   border-radius: 10px;
@@ -452,7 +458,7 @@ textarea.c3-campo {
   display: none;
   align-items: center;
   gap: 8px;
-  height: 40px;
+  height: 44px;
   padding: 0 14px;
   border: 1px solid var(--c3-borde);
   border-radius: 10px;
