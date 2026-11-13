@@ -1,8 +1,9 @@
 import type { MetadataRoute } from "next";
 import { publicRoutes } from "@/lib/content";
+import { getPublishedEventPages } from "@/lib/event-detail";
 import { getPublicEvents } from "@/lib/events";
 import { siteConfig } from "@/lib/site";
-import { getLatestEventLastModified } from "@c3/config";
+import { getLatestEventLastModified, type EventItem } from "@c3/config";
 
 export const dynamic = "force-dynamic";
 
@@ -25,11 +26,46 @@ const eventAwareRoutes = new Set<(typeof publicRoutes)[number]>([
   "/eventos",
 ]);
 
+/** Fecha de modificación real del documento (updatedAt, o createdAt si falta); si no hay ninguna válida, ninguna. */
+function documentLastModified(event: Pick<EventItem, "updatedAt" | "createdAt">): Date | undefined {
+  for (const value of [event.updatedAt, event.createdAt]) {
+    if (!value) continue;
+    const date = new Date(value);
+    if (!Number.isNaN(date.getTime())) return date;
+  }
+  return undefined;
+}
+
+/**
+ * Fichas publicadas (documentos reales con reserva activa). Si Firestore falla, el sitemap sigue con las rutas
+ * generales y sin fichas: no se sustituye por defaultEvents ni se inventan direcciones.
+ */
+async function readEventPageEntries(): Promise<MetadataRoute.Sitemap> {
+  try {
+    const pages = await getPublishedEventPages();
+    return pages.map((event) => {
+      const entry: MetadataRoute.Sitemap[number] = {
+        url: `${siteConfig.domain}/eventos/${event.page?.slug}`,
+        changeFrequency: "monthly",
+        priority: 0.7,
+      };
+      const lastModified = documentLastModified(event);
+      if (lastModified) {
+        entry.lastModified = lastModified;
+      }
+      return entry;
+    });
+  } catch (error) {
+    console.warn("Sitemap sin fichas de evento: no se pudo leer Firestore.", error);
+    return [];
+  }
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const events = await getPublicEvents();
   const lastModified = getLatestEventLastModified(events) ?? new Date();
 
-  return publicRoutes.map((path) => {
+  const routes = publicRoutes.map((path) => {
     const entry: MetadataRoute.Sitemap[number] = {
       url: `${siteConfig.domain}${path}`,
       changeFrequency: eventAwareRoutes.has(path) ? "weekly" : "monthly",
@@ -43,4 +79,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     return entry;
   });
+
+  return [...routes, ...(await readEventPageEntries())];
 }

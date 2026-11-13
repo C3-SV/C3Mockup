@@ -15,7 +15,7 @@ export type AdminSession = {
   picture?: string;
 };
 
-export type AdminFeedbackKind = "idle" | "success" | "error";
+export type AdminFeedbackKind = "idle" | "success" | "warning" | "error";
 
 export type AdminFeedback = {
   kind: AdminFeedbackKind;

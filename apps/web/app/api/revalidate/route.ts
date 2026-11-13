@@ -2,6 +2,7 @@ import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import {
   eventDrivenRevalidationPaths,
+  getRevalidationPathType,
   isEventDrivenRevalidationPath,
 } from "@c3/config";
 
@@ -43,7 +44,13 @@ export async function POST(request: Request) {
   const paths = resolvePaths(body);
 
   for (const path of paths) {
-    revalidatePath(path);
+    // El patrón /eventos/[slug] exige el tipo «page»; las rutas literales se revalidan sin tipo.
+    const type = getRevalidationPathType(path);
+    if (type) {
+      revalidatePath(path, type);
+    } else {
+      revalidatePath(path);
+    }
   }
 
   return NextResponse.json({

@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import PageShell from "@/components/PageShell";
+import SeoJsonLd from "@/components/SeoJsonLd";
 import { EventDetail } from "@/components/events/EventDetail";
 import { getPublicEventBySlug } from "@/lib/event-detail";
 import { createPageMetadata } from "@/lib/metadata";
+import { getEventBreadcrumbJsonLd, getEventWebPageJsonLd } from "@/lib/structured-data";
 
 /**
  * Ficha permanente de una edición (spec 2026-11-13). Las fichas se generan bajo demanda (ISR): con
@@ -26,12 +28,14 @@ export async function generateMetadata({ params }: EventPageProps): Promise<Meta
     notFound();
   }
 
-  // Título, descripción, canonical y Open Graph propios del evento (no los del layout ni los de la home), con la
-  // imagen institucional por defecto. Sitemap y JSON-LD son de la tarea T5.
+  // Título, descripción, canonical y Open Graph propios del evento (no los del layout ni los de la home). La
+  // imagen es la portada autorizada del evento (host de C3 y descripción alternativa, ya validadas al leerlo) o,
+  // si no la hay, la institucional.
   return createPageMetadata({
     title: event.title,
     description: event.description,
     path: `/eventos/${event.page?.slug ?? slug}`,
+    image: event.cover ? { url: event.cover.url, alt: event.cover.alt } : undefined,
   });
 }
 
@@ -44,6 +48,9 @@ export default async function EventDetailPage({ params }: EventPageProps) {
 
   return (
     <PageShell ds>
+      {/* Solo WebPage y BreadcrumbList (R6): Event exige campos que no se verifican sin conexión. */}
+      <SeoJsonLd data={getEventWebPageJsonLd(event)} />
+      <SeoJsonLd data={getEventBreadcrumbJsonLd(event)} />
       <EventDetail event={event} now={new Date()} />
     </PageShell>
   );

@@ -126,6 +126,7 @@ export function InlineFeedback({ feedback }: { feedback: AdminFeedback }) {
   }
 
   const isSuccess = feedback.kind === "success";
+  const isWarning = feedback.kind === "warning";
   const Icon = isSuccess ? FiCheckCircle : FiAlertCircle;
 
   return (
@@ -134,7 +135,11 @@ export function InlineFeedback({ feedback }: { feedback: AdminFeedback }) {
       aria-live="polite"
       className={cn(
         "flex items-start gap-3 rounded-lg border px-4 py-3 text-sm",
-        isSuccess ? "border-success/25 bg-success-soft text-success" : "border-danger/25 bg-danger-soft text-danger",
+        isSuccess
+          ? "border-success/25 bg-success-soft text-success"
+          : isWarning
+            ? "border-warning/25 bg-warning-soft text-warning"
+            : "border-danger/25 bg-danger-soft text-danger",
       )}
     >
       <Icon className="mt-0.5 shrink-0" aria-hidden="true" />

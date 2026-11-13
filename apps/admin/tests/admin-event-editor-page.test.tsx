@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import type { AdminEventRecord } from "@c3/config";
 import { AdminEventEditorPage } from "@/components/admin-event-editor-page";
-import { AdminApiError } from "@/lib/admin-api";
+import { AdminApiError, REFRESH_PENDING_MESSAGE } from "@/lib/admin-api";
 import { buildEventPayload, normalizeDraft } from "@/lib/event-draft";
 import { makeAdminEvent } from "./fixtures/event-page-fixtures";
 
@@ -207,5 +207,49 @@ describe("AdminEventEditorPage: tras guardar no se pierde el foco ni el estado",
     fireEvent.change(titleInput(), { target: { value: "Otro título" } });
 
     expect(screen.queryByRole("status")).toBeNull();
+  });
+});
+
+describe("AdminEventEditorPage: el refresco del sitio puede quedar pendiente (T5)", () => {
+  it("guardado con refresco pendiente: se confirma el guardado con aviso, no como error ni como éxito pleno", async () => {
+    const event = makeAdminEvent();
+    data.updateEvent.mockResolvedValue({ ...event, updatedAt: "2026-11-13T18:00:00.000Z", refreshPending: true });
+    renderEdit(event);
+
+    save();
+
+    await waitFor(() =>
+      expect(data.setFeedback).toHaveBeenCalledWith({ kind: "warning", text: REFRESH_PENDING_MESSAGE }),
+    );
+    expect(data.setFeedback).not.toHaveBeenCalledWith({ kind: "error", text: expect.anything() });
+    expect(data.setFeedback).not.toHaveBeenCalledWith({ kind: "success", text: "Evento actualizado correctamente." });
+  });
+
+  it("guardado con refresco confirmado: éxito normal", async () => {
+    const event = makeAdminEvent();
+    data.updateEvent.mockResolvedValue({ ...event, updatedAt: "2026-11-13T18:00:00.000Z" });
+    renderEdit(event);
+
+    save();
+
+    await waitFor(() =>
+      expect(data.setFeedback).toHaveBeenCalledWith({ kind: "success", text: "Evento actualizado correctamente." }),
+    );
+  });
+
+  it("borrado con refresco pendiente: se confirma el borrado con aviso", async () => {
+    const event = makeAdminEvent();
+    data.deleteEvent.mockResolvedValue({ refreshPending: true });
+    renderEdit(event);
+
+    fireEvent.click(screen.getByRole("button", { name: /eliminar/i }));
+    const confirm = await screen.findAllByRole("button", { name: /eliminar|sí/i });
+    fireEvent.click(confirm[confirm.length - 1]);
+
+    await waitFor(() => expect(data.deleteEvent).toHaveBeenCalledTimes(1));
+    await waitFor(() =>
+      expect(data.setFeedback).toHaveBeenCalledWith({ kind: "warning", text: REFRESH_PENDING_MESSAGE }),
+    );
+    expect(routerMock.push).toHaveBeenCalledWith("/admin/events");
   });
 });

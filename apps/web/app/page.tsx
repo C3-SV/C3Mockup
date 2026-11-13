@@ -11,7 +11,7 @@ import { getPublicEvents } from "@/lib/events";
 import { toCatalogCard } from "@/lib/ds/event-card";
 import { splitForHome } from "@/lib/ds/featured-rotation";
 import { createPageMetadata } from "@/lib/metadata";
-import { getItemListJsonLd, getWebPageJsonLd } from "@/lib/structured-data";
+import { getEventItemListEntry, getItemListJsonLd, getWebPageJsonLd } from "@/lib/structured-data";
 import { siteConfig } from "@/lib/site";
 
 const seoTitle = siteConfig.homepageTitle;
@@ -32,11 +32,7 @@ export default async function Home() {
   const { rotation, rest } = splitForHome(events, now);
   const itemList = getItemListJsonLd(
     "/",
-    events.map((event) => ({
-      name: event.title,
-      description: event.description,
-      url: event.external ? event.href : `${siteConfig.domain}${event.href}`,
-    })),
+    events.map(getEventItemListEntry),
     "Eventos destacados C3",
   );
 

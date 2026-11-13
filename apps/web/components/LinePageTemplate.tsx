@@ -6,8 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { linePageContent, lineVisuals } from "@/lib/content";
 import { toCatalogCard } from "@/lib/ds/event-card";
 import { lineTheme } from "@/lib/ds/line-theme";
-import { getItemListJsonLd } from "@/lib/structured-data";
-import { siteConfig } from "@/lib/site";
+import { getEventItemListEntry, getItemListJsonLd } from "@/lib/structured-data";
 import type { EventItem, LineKey } from "@c3/config";
 
 type LinePageTemplateProps = {
@@ -28,11 +27,7 @@ export default function LinePageTemplate({ line, events }: LinePageTemplateProps
   const itemList = relatedEvents.length
     ? getItemListJsonLd(
         `/${line}`,
-        relatedEvents.map((event) => ({
-          name: event.title,
-          description: event.description,
-          url: event.external ? event.href : `${siteConfig.domain}${event.href}`,
-        })),
+        relatedEvents.map(getEventItemListEntry),
         `Eventos relacionados con ${visual.name}`,
       )
     : null;

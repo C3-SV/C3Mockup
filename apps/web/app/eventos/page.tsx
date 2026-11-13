@@ -7,9 +7,9 @@ import { createPageMetadata } from "@/lib/metadata";
 import {
   getBreadcrumbJsonLd,
   getCollectionPageJsonLd,
+  getEventItemListEntry,
   getItemListJsonLd,
 } from "@/lib/structured-data";
-import { siteConfig } from "@/lib/site";
 
 const seoTitle = "Eventos C3 | Competencias, hackathons y comunidad técnica";
 const seoDescription =
@@ -38,11 +38,7 @@ export default async function EventosPage() {
   const events = await getPublicEvents();
   const itemList = getItemListJsonLd(
     "/eventos",
-    events.map((event) => ({
-      name: event.title,
-      description: event.description,
-      url: event.external ? event.href : `${siteConfig.domain}${event.href}`,
-    })),
+    events.map(getEventItemListEntry),
     "Catálogo de eventos C3",
   );
 

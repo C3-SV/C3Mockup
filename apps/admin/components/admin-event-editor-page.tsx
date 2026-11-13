@@ -10,6 +10,7 @@ import { AdminMain, AdminTopbar } from "./admin-shell";
 import { EmptyState, ErrorState, LoadingSkeleton } from "./admin-primitives";
 import { EventForm } from "./admin-event-form";
 import type { EventDraft } from "@/lib/admin-types";
+import { REFRESH_PENDING_MESSAGE } from "@/lib/admin-api";
 import { buildEventPayload } from "@/lib/event-draft";
 
 function getEventLabel(event?: AdminEventRecord | null, fallback = "Evento") {
@@ -75,16 +76,25 @@ export function AdminEventEditorPage({
 
     try {
       if (mode === "create") {
-        const created = await createEvent(buildEventPayload(draft));
-        setGlobalFeedback({ kind: "success", text: "Evento creado correctamente." });
+        const { refreshPending, ...created } = await createEvent(buildEventPayload(draft));
+        setGlobalFeedback(
+          refreshPending
+            ? { kind: "warning", text: REFRESH_PENDING_MESSAGE }
+            : { kind: "success", text: "Evento creado correctamente." },
+        );
         router.replace(`/admin/events/${encodeURIComponent(created.id)}`);
         setResolvedEvent(created);
         return;
       }
 
       const targetId = eventId || resolvedEvent?.id || draft.id;
-      const updated = await updateEvent(targetId, buildEventPayload(draft));
-      setGlobalFeedback({ kind: "success", text: "Evento actualizado correctamente." });
+      const { refreshPending, ...updated } = await updateEvent(targetId, buildEventPayload(draft));
+      // El guardado ya está confirmado; si el sitio aún no se refrescó, se avisa sin aparentar error ni éxito pleno.
+      setGlobalFeedback(
+        refreshPending
+          ? { kind: "warning", text: REFRESH_PENDING_MESSAGE }
+          : { kind: "success", text: "Evento actualizado correctamente." },
+      );
       setResolvedEvent(updated);
     } catch (error) {
       const message = error instanceof Error ? error.message : "No pudimos guardar el evento.";
@@ -101,8 +111,12 @@ export function AdminEventEditorPage({
     setGlobalFeedback({ kind: "idle", text: "" });
 
     try {
-      await deleteEvent(eventIdToDelete);
-      setGlobalFeedback({ kind: "success", text: "Evento eliminado correctamente." });
+      const result = await deleteEvent(eventIdToDelete);
+      setGlobalFeedback(
+        result?.refreshPending
+          ? { kind: "warning", text: REFRESH_PENDING_MESSAGE }
+          : { kind: "success", text: "Evento eliminado correctamente." },
+      );
       router.push("/admin/events");
     } catch (error) {
       const message = error instanceof Error ? error.message : "No pudimos eliminar el evento.";
