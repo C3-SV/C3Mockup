@@ -5,7 +5,6 @@ import type { AdminEventRecord } from "@c3/config";
 import { AdminEventEditorPage } from "@/components/admin-event-editor-page";
 import { AdminApiError } from "@/lib/admin-api";
 import { buildEventPayload, normalizeDraft } from "@/lib/event-draft";
-import { routerMock } from "./stubs/next-navigation";
 import { makeAdminEvent } from "./fixtures/event-page-fixtures";
 
 /**
@@ -23,7 +22,17 @@ const data = vi.hoisted(() => ({
   setFeedback: vi.fn(),
 }));
 
+const routerMock = vi.hoisted(() => ({
+  push: vi.fn(),
+  replace: vi.fn(),
+  refresh: vi.fn(),
+  back: vi.fn(),
+  prefetch: vi.fn(),
+}));
+
 vi.mock("@/components/admin-provider", () => ({ useAdminData: () => data }));
+// Fuera de la aplicación de Next no hay enrutador montado: se simula aquí, solo para esta pantalla.
+vi.mock("next/navigation", () => ({ useRouter: () => routerMock, usePathname: () => "/admin/events" }));
 
 const save = () => fireEvent.click(screen.getByRole("button", { name: /guardar cambios|crear evento/i }));
 const titleInput = () => screen.getByPlaceholderText("Nombre del evento");
