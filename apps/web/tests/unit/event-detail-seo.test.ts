@@ -61,7 +61,7 @@ describe("metadata de la ficha", () => {
     expect((metadata.openGraph as { url: string }).url).toBe(`https://c3.com.sv/eventos/${SLUG}`);
   });
 
-  it("sin portada autorizada usa la imagen institucional (OG y Twitter)", async () => {
+  it("sin portada usa la imagen institucional (OG y Twitter)", async () => {
     const metadata = await route.generateMetadata({ params: Promise.resolve({ slug: SLUG }) });
     const og = metadata.openGraph as { images: Array<{ url: string; width?: number; height?: number }> };
     const institutional = `${siteConfig.domain}${siteConfig.defaultOgImage}`;
@@ -71,14 +71,17 @@ describe("metadata de la ficha", () => {
     expect((metadata.twitter as { images: string[] }).images).toEqual([institutional]);
   });
 
-  it("con portada autorizada la usa como imagen con su descripción alternativa, sin inventar dimensiones", async () => {
+  it("aunque el evento tenga portada, la imagen es la institucional (no se pueden verificar sus dimensiones)", async () => {
     found.event = makeEvent({ cover: { url: "https://cdn.c3.com.sv/copa.jpg", alt: "Podio de la Copa" } });
 
     const metadata = await route.generateMetadata({ params: Promise.resolve({ slug: SLUG }) });
     const og = metadata.openGraph as { images: Array<Record<string, unknown>> };
+    const institutional = `${siteConfig.domain}${siteConfig.defaultOgImage}`;
 
-    expect(og.images).toEqual([{ url: "https://cdn.c3.com.sv/copa.jpg", alt: "Podio de la Copa" }]);
-    expect((metadata.twitter as { images: string[] }).images).toEqual(["https://cdn.c3.com.sv/copa.jpg"]);
+    expect(og.images).toHaveLength(1);
+    expect(og.images[0]).toMatchObject({ url: institutional, ...siteConfig.defaultOgImageSize });
+    expect((metadata.twitter as { images: string[] }).images).toEqual([institutional]);
+    expect(JSON.stringify(metadata)).not.toContain("copa.jpg");
   });
 
   it("createPageMetadata sin opción de imagen se comporta como siempre", () => {

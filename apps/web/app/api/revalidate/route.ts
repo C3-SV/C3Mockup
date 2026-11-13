@@ -1,3 +1,4 @@
+import { timingSafeEqual } from "node:crypto";
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import {
@@ -18,6 +19,13 @@ function readWebhookSecret() {
   return process.env.REVALIDATION_WEBHOOK_SECRET?.trim();
 }
 
+/** Comparación en tiempo constante; una longitud distinta es un rechazo sin lanzar (timingSafeEqual lanzaría). */
+function secretsMatch(provided: string, expected: string) {
+  const a = Buffer.from(provided);
+  const b = Buffer.from(expected);
+  return a.length === b.length && timingSafeEqual(a, b);
+}
+
 function resolvePaths(body: RevalidateRequestBody | null) {
   const requestedPaths = Array.isArray(body?.paths) ? body?.paths : [];
   const candidatePaths = requestedPaths.length ? requestedPaths : [...eventDrivenRevalidationPaths];
@@ -36,7 +44,7 @@ export async function POST(request: Request) {
   }
 
   const providedSecret = request.headers.get(WEBHOOK_SECRET_HEADER)?.trim();
-  if (!providedSecret || providedSecret !== secret) {
+  if (!providedSecret || !secretsMatch(providedSecret, secret)) {
     return NextResponse.json({ ok: false, message: "Unauthorized." }, { status: 401 });
   }
 

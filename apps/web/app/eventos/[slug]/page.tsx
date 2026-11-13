@@ -28,14 +28,13 @@ export async function generateMetadata({ params }: EventPageProps): Promise<Meta
     notFound();
   }
 
-  // Título, descripción, canonical y Open Graph propios del evento (no los del layout ni los de la home). La
-  // imagen es la portada autorizada del evento (host de C3 y descripción alternativa, ya validadas al leerlo) o,
-  // si no la hay, la institucional.
+  // Título, descripción, canonical y Open Graph propios del evento (no los del layout ni los de la home). La imagen
+  // es siempre la institucional: la portada no guarda dimensiones y no se puede comprobar que se presente bien
+  // en una tarjeta social (spec §8).
   return createPageMetadata({
     title: event.title,
     description: event.description,
     path: `/eventos/${event.page?.slug ?? slug}`,
-    image: event.cover ? { url: event.cover.url, alt: event.cover.alt } : undefined,
   });
 }
 

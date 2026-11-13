@@ -37,28 +37,23 @@ function documentLastModified(event: Pick<EventItem, "updatedAt" | "createdAt">)
 }
 
 /**
- * Fichas publicadas (documentos reales con reserva activa). Si Firestore falla, el sitemap sigue con las rutas
- * generales y sin fichas: no se sustituye por defaultEvents ni se inventan direcciones.
+ * Fichas publicadas (documentos reales con reserva activa). Si Firestore falla, el error se propaga: la petición
+ * del sitemap falla y se reintenta, en vez de publicar un sitemap sin fichas ni sustituirlas por defaultEvents.
  */
 async function readEventPageEntries(): Promise<MetadataRoute.Sitemap> {
-  try {
-    const pages = await getPublishedEventPages();
-    return pages.map((event) => {
-      const entry: MetadataRoute.Sitemap[number] = {
-        url: `${siteConfig.domain}/eventos/${event.page?.slug}`,
-        changeFrequency: "monthly",
-        priority: 0.7,
-      };
-      const lastModified = documentLastModified(event);
-      if (lastModified) {
-        entry.lastModified = lastModified;
-      }
-      return entry;
-    });
-  } catch (error) {
-    console.warn("Sitemap sin fichas de evento: no se pudo leer Firestore.", error);
-    return [];
-  }
+  const pages = await getPublishedEventPages();
+  return pages.map((event) => {
+    const entry: MetadataRoute.Sitemap[number] = {
+      url: `${siteConfig.domain}/eventos/${event.page?.slug}`,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    };
+    const lastModified = documentLastModified(event);
+    if (lastModified) {
+      entry.lastModified = lastModified;
+    }
+    return entry;
+  });
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

@@ -6,11 +6,6 @@ type PageMetadataOptions = {
   description: string;
   path: string;
   keywords?: readonly string[];
-  /**
-   * Imagen propia para compartir (p. ej. la portada autorizada de un evento). Sin ella se usa la institucional.
-   * Sin dimensiones no se declaran width/height: no se inventan.
-   */
-  image?: { url: string; alt: string };
 };
 
 export function createPageMetadata({
@@ -18,18 +13,9 @@ export function createPageMetadata({
   description,
   path,
   keywords,
-  image,
 }: PageMetadataOptions): Metadata {
   const canonicalUrl = `${siteConfig.domain}${path}`;
-  const imageUrl = image?.url ?? `${siteConfig.domain}${siteConfig.defaultOgImage}`;
-  const openGraphImage = image
-    ? { url: image.url, alt: image.alt }
-    : {
-        url: imageUrl,
-        width: siteConfig.defaultOgImageSize.width,
-        height: siteConfig.defaultOgImageSize.height,
-        alt: title,
-      };
+  const imageUrl = `${siteConfig.domain}${siteConfig.defaultOgImage}`;
 
   return {
     title,
@@ -45,7 +31,14 @@ export function createPageMetadata({
       siteName: siteConfig.displayName,
       title,
       description,
-      images: [openGraphImage],
+      images: [
+        {
+          url: imageUrl,
+          width: siteConfig.defaultOgImageSize.width,
+          height: siteConfig.defaultOgImageSize.height,
+          alt: title,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",

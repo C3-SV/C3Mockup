@@ -62,6 +62,18 @@ describe("POST /api/revalidate", () => {
     expect(revalidate.calls).toEqual([]);
   });
 
+  it("secreto de otra longitud → 401 sin lanzar; secreto correcto → 200", async () => {
+    for (const wrong of ["x", `${SECRET}extra`, SECRET.slice(0, -1), "é".repeat(SECRET.length)]) {
+      const response = await POST(request({ paths: ["/eventos"] }, wrong));
+      expect(response.status).toBe(401);
+    }
+    expect(revalidate.calls).toEqual([]);
+
+    const right = await POST(request({ paths: ["/eventos"] }, SECRET));
+    expect(right.status).toBe(200);
+    expect(revalidate.calls).toEqual([["/eventos"]]);
+  });
+
   it("el patrón permitido llama a revalidatePath con el tipo «page»", async () => {
     const response = await POST(request({ paths: ["/eventos/[slug]"] }));
 

@@ -136,13 +136,9 @@ describe("sitemap", () => {
     }
   });
 
-  it("si Firestore falla, las rutas generales siguen y no se inventan fichas", async () => {
+  it("si Firestore falla, el sitemap falla (y se reintenta): no devuelve un sitemap sin fichas", async () => {
     store.failEvents = true;
-    const warn = vi.spyOn(console, "warn").mockImplementation(() => undefined);
 
-    const entries = await sitemap();
-
-    expect(entries.map((entry) => entry.url)).toEqual(generalRoutes);
-    warn.mockRestore();
+    await expect(sitemap()).rejects.toThrow("Firestore no disponible");
   });
 });
