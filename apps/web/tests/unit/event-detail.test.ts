@@ -32,6 +32,7 @@ vi.mock("@/lib/events", () => ({
   }),
 }));
 
+import { defaultEvents } from "@c3/config";
 import { getPublicEventBySlug } from "@/lib/event-detail";
 
 const SLUG = "copa-salvadorena-programacion-2026";
@@ -173,7 +174,7 @@ describe("getPublicEventBySlug", () => {
   it("si Firestore falla al leer la reserva, rechaza: ni null ni defaultEvents", async () => {
     store.failOn = "reservations";
     await expect(getPublicEventBySlug(SLUG)).rejects.toThrow("Firestore no disponible");
-    await expect(getPublicEventBySlug("copa-salvadorena-programacion")).rejects.toThrow("Firestore no disponible");
+    await expect(getPublicEventBySlug(defaultEvents[0].id)).rejects.toThrow("Firestore no disponible");
   });
 
   it("si Firestore falla al leer el documento, rechaza", async () => {
@@ -183,8 +184,10 @@ describe("getPublicEventBySlug", () => {
   });
 
   it("los eventos por defecto nunca habilitan una ficha", async () => {
-    // Con Firestore vacío, ni el id ni el slug de un evento por defecto resuelven.
-    await expect(getPublicEventBySlug("copa-salvadorena-programacion")).resolves.toBeNull();
-    await expect(getPublicEventBySlug("hackathon-c3")).resolves.toBeNull();
+    // Con Firestore vacío, el id de cada evento por defecto (que es un slug válido) no resuelve ninguna ficha.
+    expect(defaultEvents.length).toBeGreaterThan(1);
+    for (const event of defaultEvents) {
+      await expect(getPublicEventBySlug(event.id)).resolves.toBeNull();
+    }
   });
 });

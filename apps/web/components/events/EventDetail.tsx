@@ -12,7 +12,7 @@ import {
 import { Button } from "@/components/ui/Button";
 import { StatePill } from "@/components/ui/StatePill";
 import { lineVisuals } from "@/lib/content";
-import { pillStatusFor, toPillState } from "@/lib/ds/event-state";
+import { toPillState } from "@/lib/ds/event-state";
 
 /**
  * Ficha pública de una edición (spec 2026-11-13, §6–§7). Recibe solo la proyección pública: nada de borradores ni
@@ -178,28 +178,36 @@ export function EventDetail({ event, now }: { event: EventItem; now: Date }) {
     throw new Error(`El evento ${event.id} no tiene una ficha publicada.`);
   }
 
-  const primaryLine = event.lines[0];
   const schedule = formatEventSchedule(event);
-  const state = toPillState(pillStatusFor(event, now));
+
+  // La fase sale del helper de la ficha (día local de El Salvador, el mismo que decide la participación): la
+  // pastilla dice «Histórico» solo si la edición terminó; si no, conserva el estado del evento (R23).
+  const phase = getEventPagePhase(event, now);
+  const state = toPillState(phase === "ended" ? "Histórico" : event.status);
 
   // Participar solo con inscripciones abiertas y una edición que sabemos que no terminó (spec §6; R20).
-  const phase = getEventPagePhase(event, now);
   const canParticipate =
     Boolean(page.participation) && event.status === "Inscripciones abiertas" && (phase === "upcoming" || phase === "ongoing");
 
   const ownHref = `/eventos/${page.slug}`;
+  // La pestaña nueva depende de event.external (dato del evento), no del esquema del enlace.
+  const siteLinkTarget = event.external
+    ? { target: "_blank", rel: "noopener noreferrer" }
+    : { target: undefined, rel: undefined };
   const showSiteLink = Boolean(event.href) && event.href !== ownHref;
 
   return (
-    <div className={`c3-event${primaryLine ? ` c3-event--${primaryLine}` : ""}`}>
+    <div className="c3-event">
       <div className="c3-frame">
         <nav className="c3-event__crumbs" aria-label="Ruta de navegación">
           <ol>
             <li>
               <Link href="/">Inicio</Link>
+              <span aria-hidden="true">/</span>
             </li>
             <li>
               <Link href="/eventos">Eventos</Link>
+              <span aria-hidden="true">/</span>
             </li>
             <li>
               <span aria-current="page">{event.title}</span>
@@ -237,7 +245,7 @@ export function EventDetail({ event, now }: { event: EventItem; now: Date }) {
         {event.cover ? (
           <figure className="c3-event__cover">
             <div className="c3-event__media">
-              <Image src={event.cover.url} alt={event.cover.alt} fill sizes="(min-width: 1180px) 1100px, 100vw" unoptimized priority />
+              <Image src={event.cover.url} alt={event.cover.alt} fill sizes="(min-width: 1180px) 1100px, 100vw" unoptimized preload />
             </div>
           </figure>
         ) : null}
@@ -270,8 +278,8 @@ export function EventDetail({ event, now }: { event: EventItem; now: Date }) {
           <section className="c3-event__section" aria-labelledby="evento-materiales">
             <h2 id="evento-materiales">Materiales</h2>
             <ul className="c3-event__list c3-event__list--links">
-              {page.resources.map((resource) => (
-                <li key={resource.url}>
+              {page.resources.map((resource, index) => (
+                <li key={`${index}-${resource.url}`}>
                   <TextLink href={resource.url}>{resource.title}</TextLink>
                 </li>
               ))}
@@ -283,7 +291,7 @@ export function EventDetail({ event, now }: { event: EventItem; now: Date }) {
           <section className="c3-event__section" aria-labelledby="evento-sitio">
             <h2 id="evento-sitio">Sitio del evento</h2>
             <div className="c3-event__actions">
-              <Button variant="contorno" href={event.href} arrow>
+              <Button variant="contorno" href={event.href} arrow {...siteLinkTarget}>
                 {event.cta}
               </Button>
             </div>

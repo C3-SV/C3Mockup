@@ -27,8 +27,8 @@
   min-width: 0;
 }
 
-.c3-event__crumbs li + li::before {
-  content: "/";
+/* El separador es un span aria-hidden en el marcado: lo omiten los lectores de pantalla. */
+.c3-event__crumbs li > span[aria-hidden="true"] {
   color: var(--c3-borde-fuerte);
 }
 

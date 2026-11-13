@@ -1,6 +1,6 @@
 import { render, screen, within } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
-import type { EventItem, PublicEventMemory, PublicEventPage } from "@c3/config";
+import { describe, expect, it, vi } from "vitest";
+import { formatEventSchedule, type EventItem, type PublicEventMemory, type PublicEventPage } from "@c3/config";
 import { EventDetail } from "./EventDetail";
 
 /** Detalle público de una edición (T4, spec §6-§7): un h1, secciones solo con contenido, participación según fase. */
@@ -59,10 +59,86 @@ describe("EventDetail", () => {
     expect(screen.getByText("Compite")).toBeInTheDocument();
   });
 
-  it("muestra la fecha del evento por día y el estado", () => {
-    render(<EventDetail event={event()} now={NOW} />);
-    expect(screen.getAllByText(/2026/).length).toBeGreaterThan(0);
+  it("muestra la fecha del evento por día; sin fecha no hay línea de fecha", () => {
+    const dated = event();
+    const expected = formatEventSchedule(dated);
+    expect(expected).toMatch(/ago/);
+    const { unmount } = render(<EventDetail event={dated} now={NOW} />);
+    expect(screen.getByText(expected)).toBeInTheDocument();
+    expect(screen.getByText(/Fecha:/)).toBeInTheDocument();
+    unmount();
+
+    render(<EventDetail event={event({ eventDate: undefined, eventDateEnd: undefined })} now={NOW} />);
+    expect(screen.queryByText(/Fecha:/)).toBeNull();
+    expect(screen.queryByText(expected)).toBeNull();
+  });
+
+  it("la pastilla sale del helper de la ficha: nunca dice «Histórico» mientras se muestra la inscripción (R23)", () => {
+    // 2-ago-2026 18:30 en El Salvador (3-ago 00:30 UTC): último día del evento, la inscripción sigue visible.
+    render(<EventDetail event={event()} now={new Date("2026-08-03T00:30:00Z")} />);
+    expect(screen.getByRole("link", { name: /Inscribirme en la Copa/ })).toBeInTheDocument();
+    expect(screen.queryByText("Histórico")).toBeNull();
     expect(screen.getByText("Inscripciones abiertas")).toHaveClass("c3-pill");
+  });
+
+  it("fase terminada: la pastilla dice «Histórico»; con fecha desconocida conserva el estado", () => {
+    const { unmount } = render(
+      <EventDetail event={event({ eventDate: "2026-05-01", eventDateEnd: "2026-05-02" })} now={NOW} />,
+    );
+    expect(screen.getByText("Histórico")).toHaveClass("c3-pill");
+    expect(screen.queryByText("Inscripciones abiertas")).toBeNull();
+    unmount();
+
+    render(<EventDetail event={event({ eventDate: undefined, eventDateEnd: undefined })} now={NOW} />);
+    expect(screen.getByText("Inscripciones abiertas")).toBeInTheDocument();
+  });
+
+  it("el separador de las migas no lo leen los lectores de pantalla", () => {
+    render(<EventDetail event={event()} now={NOW} />);
+    const crumbs = screen.getByRole("navigation", { name: /ruta/i });
+    const separators = Array.from(crumbs.querySelectorAll("li > span")).filter((node) => node.textContent === "/");
+    expect(separators).toHaveLength(2);
+    for (const separator of separators) {
+      expect(separator).toHaveAttribute("aria-hidden", "true");
+    }
+  });
+
+  it("la raíz lleva solo la clase c3-event (sin clase de línea sin regla)", () => {
+    const { container } = render(<EventDetail event={event()} now={NOW} />);
+    expect((container.firstElementChild as HTMLElement).className).toBe("c3-event");
+  });
+
+  it("el sitio del evento abre en pestaña nueva según event.external, no según el esquema del enlace", () => {
+    const { unmount } = render(<EventDetail event={event({ external: false, href: "https://c3.com.sv/evento" })} now={NOW} />);
+    const internal = screen.getByRole("link", { name: /Ir a la Copa/ });
+    expect(internal).toHaveAttribute("href", "https://c3.com.sv/evento");
+    expect(internal).not.toHaveAttribute("target");
+    unmount();
+
+    render(<EventDetail event={event({ external: true })} now={NOW} />);
+    const external = screen.getByRole("link", { name: /Ir a la Copa/ });
+    expect(external).toHaveAttribute("target", "_blank");
+    expect(external).toHaveAttribute("rel", expect.stringContaining("noopener"));
+  });
+
+  it("dos materiales con el mismo enlace no repiten clave de React", () => {
+    const spy = vi.spyOn(console, "error").mockImplementation(() => undefined);
+    render(
+      <EventDetail
+        event={event({
+          page: page({
+            resources: [
+              { title: "Reglamento", url: "https://c3.com.sv/doc.pdf" },
+              { title: "Reglamento (copia)", url: "https://c3.com.sv/doc.pdf" },
+            ],
+          }),
+        })}
+        now={NOW}
+      />,
+    );
+    expect(screen.getAllByRole("link", { name: /Reglamento/ })).toHaveLength(2);
+    expect(spy.mock.calls.flat().join(" ")).not.toMatch(/same key|unique "key"/i);
+    spy.mockRestore();
   });
 
   it("una memoria sin cifras, productos ni fotos no deja encabezados vacíos", () => {
