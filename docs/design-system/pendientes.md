@@ -40,12 +40,21 @@ Los 16 asuntos abiertos de `source/ACTUALIZACION-DS-C3.md` §12.1, más las desv
 
 | # | Asunto | Postura | Cierra en |
 | --- | --- | --- | --- |
-| P1 | Página por evento con slug (`/eventos/{slug}`), redirecciones, metadatos y Open Graph por evento | Pendiente, posterior a las fotos. Requiere ADR (ADR-0003) y contenido por evento. Ver spec `docs/superpowers/specs/2026-11-12-destacado-rotativo-eventos-design.md` §9 | Fase 3 |
+| P1 | Página por edición con slug (`/eventos/{slug}`), memoria, resultados, metadatos y Open Graph | Planificación preparada para revisión (13-nov-2026). Admin estructurado y micrositios conservados; la nueva propuesta permite iniciar sin biblioteca de fotos. Requiere spec aprobada, ADR de alcance y contenido real. Ver enlaces al final | Plan nuevo, sin ejecutar |
 | P2 | Sistema de fotos y biblioteca de assets en el admin: subida, recorte 16:9, texto alternativo, derechos, almacenamiento | Planeado en el mismo spec §8. Requiere ADR-0012, que reemplaza la fila de ADR-0005 sobre subida de archivos | Fase 2 |
 | P3 | Aprobación de textos nuevos: controles del carrusel, «Tipo de experiencia», texto del checkbox «Destacado» | Pendiente de responsable ⚠ | Fase 1 |
 | P4 | Eventos vigentes para el destacado rotativo | Confirmado por el responsable (12-nov-2026): las fechas guardadas son reales y el Hackathon de Turismo Creativo I puede destacarse. Sin destacados vigentes, rotan la Copa y la Hackathon como históricos (decisión del 12-nov-2026). Cuando haya un destacado vigente, rota solo ese | Responsable (carga de datos) |
-| P5 | Política de privacidad y términos básicos | Aplazado; está en el plan de rework | Iteración posterior |
+| P5 | Privacidad, términos y convivencia | Planificación preparada para revisión (13-nov-2026). Identificación de responsables pendiente; inventario y aprobación de textos requeridos antes de publicar. Ver enlaces al final | Plan nuevo, sin ejecutar |
 | P6 | Órbita del símbolo del hero: los anillos giran sin botón de pausa (WCAG 2.2.2). Ya existía antes del destacado rotativo | Pendiente de decisión: pausa visible o límite de vueltas. Documentar en `docs/decisions` | Antes del cierre a `main` o después, según el responsable |
 | P8 | El orden de la rejilla (`compareEventsBySchedule`) considera próximo solo si la fecha de inicio es futura, mientras `isUpcomingEvent` cuenta también los eventos en curso. Un evento en curso no destacado puede quedar después de los futuros, en la página 2 de la rejilla | Pendiente de decisión: unificar las dos definiciones de «vigente». Afecta el orden de /eventos también | Posterior |
 | P9 | El JSON-LD ItemList de la home se llama «Eventos destacados C3» pero lista todo el catálogo (`apps/web/app/page.tsx`) | Pendiente: renombrar el ItemList o listar solo los destacados. Cambia el SEO, así que lo aprueba el responsable | Posterior |
 | P7 | Dependabot: quitar `.github/dependabot.yml` y cerrar los PR `dependabot/*` abiertos (#3 a #12, excepto #9) | Decidido quitarlo (12-nov-2026); en pausa a petición del responsable. No incluido en el PR a `main` | Responsable |
+
+## Planificación de contenido institucional (13-nov-2026)
+
+Estos registros actualizan la postura de P1 y P5 sin declarar implementación terminada:
+
+- **P1, eventos:** [spec](../superpowers/specs/2026-11-13-eventos-memorias-design.md) y [plan](../superpowers/plans/2026-11-13-eventos-memorias.md) preparados para revisión. Ficha por edición, admin estructurado, memoria/resultados dentro de la ficha y micrositios conservados. La nueva propuesta permite empezar sin biblioteca de fotos; P2 sigue independiente. Requiere aprobar spec, ADR de ampliación y contenido real antes de publicar.
+- **P5, legal:** [spec](../superpowers/specs/2026-11-13-legal-convivencia-design.md) y [plan](../superpowers/plans/2026-11-13-legal-convivencia.md) preparados para revisión. C3 aún no es entidad legal; identificación de responsables pendiente. Preparación técnica posible; publicación condicionada a inventario y textos aprobados.
+- **P10, Empieza en C3:** [spec](../superpowers/specs/2026-11-13-empieza-en-c3-design.md) y [plan](../superpowers/plans/2026-11-13-empieza-en-c3.md) preparados para revisión. Entrada principal por comunidad WhatsApp facilitada por responsable; FAQ conserva ruta y función de apoyo. Confirmar enlace y copy antes de publicar.
+- Las demás propuestas quedan en [ideas futuras](../product/ideas-futuras-sitio-institucional.md); no son tareas aprobadas ni cambios pendientes de este rework.

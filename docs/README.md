@@ -19,3 +19,15 @@ En la raíz: [`AGENTS.md`](../AGENTS.md) (entrada de agentes y colaboradores), [
 - Cambia un token o una regla → ADR nuevo con fecha y actualiza `design-system/README.md`.
 - Cierras una tarea del plan → marca la casilla en el mismo PR.
 - Reemplazas un documento → muévelo a `archive/` con un aviso al inicio.
+
+## Planificación de contenido institucional · 13-nov-2026
+
+Estado: tres propuestas para revisión, sin implementación ni publicación. Las respuestas del responsable están registradas en cada spec; las decisiones técnicas propuestas requieren revisión antes de ejecutar.
+
+| Iniciativa | Spec | Plan |
+| --- | --- | --- |
+| Fichas por edición, memorias y resultados | [Spec](superpowers/specs/2026-11-13-eventos-memorias-design.md) | [Plan](superpowers/plans/2026-11-13-eventos-memorias.md) |
+| Legal y convivencia | [Spec](superpowers/specs/2026-11-13-legal-convivencia-design.md) | [Plan](superpowers/plans/2026-11-13-legal-convivencia.md) |
+| Empieza en C3 | [Spec](superpowers/specs/2026-11-13-empieza-en-c3-design.md) | [Plan](superpowers/plans/2026-11-13-empieza-en-c3.md) |
+
+[Ideas futuras de contenido y UI/UX](product/ideas-futuras-sitio-institucional.md): Colabora, publicaciones/SEO, historias, timeline, impacto acumulado, aliados, boletín y otras propuestas con dependencias y prioridad.
