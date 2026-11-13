@@ -15,7 +15,7 @@ El responsable quiere que los eventos y experiencias se vean como un catálogo, 
 - **Respaldo sin foto:** el tinte de la línea y el ícono de tipo (`KindIcon`), a 72 px en móvil y 96 px en escritorio. Un evento sin tipo usa el ícono genérico. Las fotos se agregan después, sin cambiar el código.
 - **Los eventos pasados solo rotan si están marcados como destacados y no hay destacados vigentes.** Nunca aparecen en Próximas iniciativas. La rejilla sigue mostrando todo el catálogo, con los pasados al final marcados como «Histórico».
 - **Ningún evento aparece dos veces en el home:** el destacado no se repite en la rejilla ni en Próximas iniciativas.
-- **Próximas iniciativas conserva su encabezado.** Si no hay tarjetas, el texto dice dónde están las iniciativas con fecha o que por ahora no hay ninguna.
+- **Próximas iniciativas se retiró el 13-nov-2026** (decisión 19). Sus eventos siguen en la rejilla, donde los próximos van primero.
 - **Admin:** campo «Tipo de experiencia» (opcional) y «Orden en el destacado» (opcional, entero de 1 a 99, visible solo si el evento es destacado). El campo «Destacado» deja de prometer lo que no hacía.
 - **Accesibilidad:** pausa manual persistente; pausa temporal que se levanta al salir; controles de 44 px con nombre y estado; anuncio de cambio solo por acción del usuario; anillo de foco visible sobre el panel navy.
 
@@ -42,7 +42,7 @@ Para consultarlas luego. «Responsable» = decidido por el responsable del proye
 | 6 | Sistema de fotos y biblioteca en el admin después; páginas por evento con slug después | Responsable | Spec §8 y §9; P1 y P2 |
 | 7 | La Hackathon de Turismo Creativo I puede aparecer destacada | Responsable | P4 |
 | 8 | Las fechas guardadas en Firestore son reales | Responsable | P4 |
-| 9 | Próximas iniciativas no usa destacados terminados como respaldo; conserva su encabezado | Implementación | Spec §14 |
+| 9 | Próximas iniciativas no usa destacados terminados como respaldo (después se retiró, decisión 19) | Implementación | Spec §14 |
 | 10 | Un destacado sin fecha no entra a la rotación de vigentes | Implementación | `featured-rotation.ts` |
 | 11 | Pausa: la manual persiste; la temporal (puntero de ratón o foco dentro del bloque) se levanta al salir; también se pausa fuera de pantalla | Implementación | Spec §5.4 |
 | 12 | Sin deslizamiento táctil propio en móvil; se usan botones y puntos de 44 px | Implementación | Spec §14 |
@@ -52,5 +52,7 @@ Para consultarlas luego. «Responsable» = decidido por el responsable del proye
 | 16 | Corregir el guardado del admin, que borraba tipo, portada y origen | Implementación (corrección) | `buildAdminEventRecord` en `packages/config` |
 | 17 | Convertir los saltos de línea escritos como texto en la clave privada de Firebase | Implementación (corrección) | `normalizeFirebasePrivateKey` |
 | 18 | Se mantiene el número 0009 sin uso y esta decisión es 0011 | Implementación | `docs/decisions/README.md` |
+| 19 | Se retira «Próximas iniciativas» y la evidencia viva pasa a ir justo después del hero (orden: Hero, evidencia viva, datos, líneas, audiencias, cierre). Se borra `IniciativasSection` y su prueba | Responsable (opción A, 13-nov-2026) | `app/page.tsx`, `e2e/home-orden.spec.ts` |
+| 20 | Se quita el CSS `.c3-home-grid--2`, que solo usaba Próximas | Implementación | `app/ds/home.css` |
 
 Qué no cambia: el hero, las cifras, las líneas, el cierre, la visión y la misión, y la tarjeta de la rejilla.

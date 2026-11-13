@@ -48,7 +48,7 @@ La visión de C3 no cambia: **ser el referente regional de una nueva generación
 | Cuántos | 0 → el bloque no se muestra. 1 → se muestra fijo, sin controles. 2 o más → rota. | Evita controles inútiles y un bloque vacío. |
 | Rotación | Automática cada 8 s, con pausa. Con movimiento reducido, no rota. | Netflix/Disney rotan; la pausa y el movimiento reducido son obligatorios (ver §5.4). |
 | Evento en el bloque | Sale de la rejilla para no repetirse en la misma pantalla. | Evita duplicados visibles. |
-| Próximas iniciativas | Sigue existiendo y no repite los eventos que ya están en el bloque. Si queda vacía, no se muestra. | Conserva la sección actual sin duplicar. |
+| Próximas iniciativas | Retirada el 13-nov-2026 (decisión del responsable, ver §14). Sus eventos quedan en la rejilla. | — |
 | Sin foto | Fondo con el tinte de la línea y el ícono de tipo, centrado. | Es el respaldo que pidió el responsable. |
 | Enlace del botón | Usa el `cta` del evento; externo abre en pestaña nueva. | Igual que hoy en las tarjetas. |
 
@@ -94,7 +94,7 @@ La visión de C3 no cambia: **ser el referente regional de una nueva generación
 ### 5.5 Rejilla y Próximas iniciativas
 
 - La rejilla muestra todos los eventos que no están en el bloque, en el orden actual (`compareEventsBySchedule`), de 6 en 6. Sin cambios en su diseño.
-- Próximas iniciativas excluye los eventos que están en el bloque. Ya no tiene respaldo con destacados terminados (ver §14).
+- Próximas iniciativas se retiró el 13-nov-2026 (ver §14).
 - La rejilla muestra todo el catálogo; los pasados van al final, marcados «Histórico» (decisión del responsable, §14).
 
 ## 6. Admin (Fase 1)
@@ -134,7 +134,7 @@ Según AGENTS.md §5, con salida real pegada en el PR:
 
 - **TDD:** primero las pruebas, en rojo.
   - Selección de rotación: destacados vigentes, orden por fecha, máximo 5, vacío, uno solo.
-  - Exclusión: la rejilla y Próximas iniciativas no repiten los eventos del bloque.
+  - Exclusión: la rejilla no repite los eventos del bloque.
   - Respaldo de ícono: por tipo y genérico.
   - Clave privada (Fase 0, b) y conservación de datos del admin (Fase 0, c).
 - **Componente:** pausa al puntero y al foco; sin rotación con movimiento reducido; teclado; etiquetas.
@@ -171,7 +171,8 @@ Respuestas del responsable: (1) la rejilla muestra también los pasados, al fond
 
 Cambios frente a la propuesta original:
 
-- **Próximas iniciativas ya no usa destacados terminados como respaldo.** Sin próximos, conserva el encabezado y dice «Por ahora no hay iniciativas próximas.», o dice que las iniciativas con fecha están en el destacado de abajo. Textos nuevos pendientes de aprobación (P3 en pendientes.md).
+- **13-nov-2026: se retiró «Próximas iniciativas».** La evidencia viva (destacado y rejilla) va justo después del hero. Orden: hero, evidencia viva, datos, líneas, audiencias, cierre. Aprobado por el responsable (opción A). Sus eventos ya salen en la rejilla, donde los próximos van primero.
+- **Antes, Próximas iniciativas ya no usaba destacados terminados como respaldo.** Sin próximos, conserva el encabezado y dice «Por ahora no hay iniciativas próximas.», o dice que las iniciativas con fecha están en el destacado de abajo. Textos nuevos pendientes de aprobación (P3 en pendientes.md).
 - **El destacado requiere fecha.** Un destacado sin fecha no entra al bloque; así no se queda para siempre.
 - **Pausa:** la manual persiste; la temporal (puntero de ratón o foco dentro del bloque) se levanta al salir; también se pausa fuera de pantalla.
 - **Sin deslizamiento táctil propio.** Móvil usa los botones de 44 px y los puntos; los puntos pasan a otra línea si no caben.

@@ -13,6 +13,7 @@ const archivosRetirados = [
   "components/Navbar.tsx",
   "components/C3SectionTransition.tsx",
   "components/ProjectCard.tsx",
+  "components/home/IniciativasSection.tsx",
   "components/ui/ScrollProgress.tsx",
   "components/ui/SectionBadge.tsx",
   "components/ui/LegacyButton.tsx",
