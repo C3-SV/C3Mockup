@@ -44,3 +44,6 @@ La rama actual prepara documentación e infraestructura. No declara que la opera
 - [Términos, versión 0.1](terminos.md): uso del sitio institucional y reglas separadas por evento.
 - [Convivencia, versión 0.1](codigo-de-conducta.md): expectativas básicas; canal, alcance y procedimiento sin confirmar.
 - Los tres documentos son explicativos e internos. No están aprobados y no se han integrado en código ni en rutas públicas.
+## Infraestructura T2 preparada
+
+El renderer compartido apps/web/components/legal/LegalDocument.tsx acepta únicamente datos estructurados, no inserta HTML y genera anclas únicas. El registro apps/web/lib/legal-content.ts permanece vacío: los borradores internos no se importan en la app. No se crean rutas, enlaces del pie ni avisos de contacto hasta cerrar el gate T1.

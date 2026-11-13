@@ -74,14 +74,16 @@ T0 → T1 es un gate editorial. La infraestructura T2 se puede preparar en rama 
 **Interfaces:**
 - LegalDocumentId = "privacidad" | "terminos" | "codigo-de-conducta".
 - LegalDocumentData = { id: LegalDocumentId; title: string; version: string; reviewedAt: string; sections: Array<{id:string;title:string;paragraphs:string[];items?:string[]}> }.
-- legalDocuments: Record<LegalDocumentId, LegalDocumentData>, solo textos aprobados al integrar.
+- legalDocuments: Partial<Record<LegalDocumentId, LegalDocumentData>>; permanece vacío hasta contar con textos aprobados.
 - LegalDocument({document}: {document:LegalDocumentData}): sección semántica de lectura dentro de PageShell del consumidor.
 
-- [ ] Prueba con fixture interno: un h1, versión/fecha visible, índice enlaza ids únicos, email largo no se trunca y texto con etiquetas no se ejecuta. Assert: enlace "#responsable" tiene sección id="responsable".
-- [ ] Ejecutar pnpm --filter @c3/web exec vitest run components/legal/LegalDocument.test.tsx → rojo.
-- [ ] Implementar renderer, índice cuando hay varias secciones, mailto del contacto aprobado y CSS mínimo con scroll-margin-top. Sin HTML libre ni banners.
+- [x] Prueba con fixture interno: un h1, versión/fecha visible, índice enlaza ids únicos, email largo no se trunca y texto con etiquetas no se ejecuta. Assert: enlace "#responsable" tiene sección id="responsable".
+- [x] Ejecutar pnpm --filter @c3/web exec vitest run components/legal/LegalDocument.test.tsx → rojo.
+- [x] Implementar renderer, índice cuando hay varias secciones, mailto de correos incluidos en contenido aprobado y CSS mínimo con scroll-margin-top. Sin HTML libre ni banners.
 - [ ] Integrar texto T1 en datos estáticos solo tras aprobación; fixtures de prueba quedan dentro de tests y nunca en rutas públicas.
-- [ ] Verde, typecheck y commit feat(web): presentar documentos legales accesibles.
+- [x] Verde, typecheck y commit feat(web): presentar documentos legales accesibles.
+
+> Gate T1 abierto: el registry sigue vacío; no se crean páginas ni enlaces públicos con borradores internos.
 
 ### T3: Rutas, pie y aviso de contacto
 
