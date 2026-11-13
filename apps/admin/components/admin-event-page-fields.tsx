@@ -190,7 +190,8 @@ function CheckField({
   describedByIds?: string[];
   below?: ReactNode;
 }) {
-  const describedBy = useDescribedBy([path], describedByIds);
+  const descriptionId = useId();
+  const describedBy = useDescribedBy([path], [description ? descriptionId : undefined, ...(describedByIds ?? [])]);
 
   return (
     <div className="grid gap-1.5">
@@ -203,11 +204,14 @@ function CheckField({
           className="mt-0.5 h-5 w-5 shrink-0 accent-brand"
           {...describedBy}
         />
-        <span className="grid gap-0.5">
-          <span className="text-sm font-medium text-ink">{title}</span>
-          {description ? <span className="text-xs text-muted">{description}</span> : null}
-        </span>
+        <span className="text-sm font-medium text-ink">{title}</span>
       </label>
+      {/* La advertencia no forma parte del nombre del control: se lee como su descripción (aria-describedby). */}
+      {description ? (
+        <p id={descriptionId} className="text-xs text-muted">
+          {description}
+        </p>
+      ) : null}
       {below}
       <ErrorText path={path} />
     </div>
@@ -402,6 +406,8 @@ export type EventPageFieldsProps = {
   event?: AdminEventRecord | null;
   /** Estado y fechas que el editor tiene ahora en el formulario, para avisar de la regla de la memoria (R9). */
   schedule?: Pick<EventDraft, "status" | "eventDate" | "eventDateEnd">;
+  /** Instante con el que se evalúa si la edición terminó. Por defecto, el de montaje del bloque (valor estable). */
+  now?: Date;
 };
 
 function Group({ legend, children }: { legend: string; children: ReactNode }) {
@@ -419,8 +425,9 @@ const MODALITY_LABELS: Record<EventModality, string> = {
   hibrida: "Híbrida",
 };
 
-export function EventPageFields({ value, onChange, errors = {}, event = null, schedule }: EventPageFieldsProps) {
+export function EventPageFields({ value, onChange, errors = {}, event = null, schedule, now }: EventPageFieldsProps) {
   const prefix = useId();
+  const [mountedAt] = useState(() => new Date());
   const containerRef = useRef<HTMLElement>(null);
   const focusKey = useRef<string | null>(null);
   const [confirmingRemoval, setConfirmingRemoval] = useState(false);
@@ -487,7 +494,7 @@ export function EventPageFields({ value, onChange, errors = {}, event = null, sc
     const memory = value.memory ?? undefined;
     const phase = getEventPagePhase(
       schedule ?? { status: event?.status ?? "Próximamente", eventDate: event?.eventDate, eventDateEnd: event?.eventDateEnd },
-      new Date(),
+      now ?? mountedAt,
     );
     const memoryHintId = `${prefix}-memory-phase`;
     const savedPublished = savedPage?.publication === "published";
@@ -656,7 +663,7 @@ export function EventPageFields({ value, onChange, errors = {}, event = null, sc
                   phase !== "ended" ? (
                     <p id={memoryHintId} className="text-xs text-muted">
                       Esta edición todavía no tiene una fecha final confirmada ya pasada ni el estado Histórico, y no
-                      se deduce de la fecha principal. Confirma una de las dos en «Fechas» o «Estado» para poder
+                      se deduce de la fecha principal. Confirma una de las dos en «Fecha final» o «Estado» para poder
                       publicar la memoria.
                     </p>
                   ) : null

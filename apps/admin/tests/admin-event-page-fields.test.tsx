@@ -77,7 +77,8 @@ describe("EventPageFields: estructura y ficha existente", () => {
 
     const publish = screen.getByRole("switch", { name: /publicar ficha/i });
     expect(publish).toBeChecked();
-    expect(publish).toHaveAccessibleName(/públicos al guardar/i);
+    expect(publish).toHaveAccessibleName("Publicar ficha");
+    expect(publish).toHaveAccessibleDescription(/públicos al guardar/i);
   });
 
   it("la publicación es un interruptor explícito que no cambia nada más", () => {
@@ -217,7 +218,9 @@ describe("EventPageFields: memoria, resultados y fotos", () => {
     savedHarness({ schedule: { status: "Próximamente", eventDate: "2025-05-10", eventDateEnd: "" } });
 
     expect(screen.getByText(/fecha final confirmada/i)).toBeInTheDocument();
-    expect(screen.getByRole("switch", { name: /publicar memoria/i })).toHaveAccessibleDescription(/fecha final confirmada/i);
+    const memorySwitch = screen.getByRole("switch", { name: "Publicar memoria" });
+    expect(memorySwitch).toHaveAccessibleDescription(/fecha final confirmada/i);
+    expect(memorySwitch).toHaveAccessibleDescription(/se hace pública al guardar/i);
   });
 
   it("no muestra el aviso cuando la edición está terminada", () => {

@@ -114,14 +114,41 @@ export function EventForm({
   const [showPageErrors, setShowPageErrors] = useState(false);
   const [serverErrors, setServerErrors] = useState<EventPageErrors>({});
   const [submitAlert, setSubmitAlert] = useState<SubmitAlert | null>(null);
+  // Contador de guardados correctos (0 = ninguno visible): su cambio mueve el foco al estado de éxito.
+  const [savedCount, setSavedCount] = useState(0);
   const alertRef = useRef<HTMLDivElement>(null);
+  const savedRef = useRef<HTMLDivElement>(null);
   const alertTitleId = useId();
+
+  // Tras un guardado correcto el registro guardado vuelve como `initialEvent`: el borrador se relee de él (slug ya
+  // bloqueado, memoria quitada…) sin remontar el formulario. Ajuste de estado durante el render, sin efecto.
+  const [syncedEvent, setSyncedEvent] = useState(initialEvent);
+  if (initialEvent !== syncedEvent) {
+    setSyncedEvent(initialEvent);
+    setDraft(normalizeDraft(initialEvent));
+    setErrors({});
+    setShowPageErrors(false);
+    setServerErrors({});
+  }
 
   useEffect(() => {
     if (submitAlert) {
       alertRef.current?.focus();
     }
   }, [submitAlert]);
+
+  useEffect(() => {
+    if (savedCount > 0) {
+      savedRef.current?.focus();
+    }
+  }, [savedCount]);
+
+  /** Cualquier cambio del borrador deja obsoletos los errores del servidor, el resumen y el aviso de guardado. */
+  function markEdited() {
+    setServerErrors({});
+    setSubmitAlert(null);
+    setSavedCount(0);
+  }
 
   const pageErrors = useMemo<EventPageErrors>(
     () => ({ ...(showPageErrors ? validatePageDraft(draft) : {}), ...serverErrors }),
@@ -130,11 +157,14 @@ export function EventForm({
 
   function updatePage(next: EventPageDraft | undefined) {
     setDraft((current) => {
-      const { page: previous, ...rest } = current;
-      void previous;
-      return next ? { ...rest, page: next } : rest;
+      const updated = { ...current };
+      delete updated.page;
+      if (next) {
+        updated.page = next;
+      }
+      return updated;
     });
-    setServerErrors({});
+    markEdited();
   }
 
   function updateField<K extends keyof EventDraft>(field: K, value: EventDraft[K]) {
@@ -149,6 +179,7 @@ export function EventForm({
     });
 
     setErrors((current) => ({ ...current, [field]: undefined }));
+    markEdited();
   }
 
   function toggleLine(line: LineKey) {
@@ -164,6 +195,7 @@ export function EventForm({
     });
 
     setErrors((current) => ({ ...current, lines: undefined }));
+    markEdited();
   }
 
   function validate(nextDraft: EventDraft) {
@@ -215,8 +247,10 @@ export function EventForm({
     }
 
     setSubmitAlert(null);
+    setSavedCount(0);
     try {
       await onSubmit(draft);
+      setSavedCount((count) => count + 1);
     } catch (error) {
       const failure = describeSaveFailure(error);
       setServerErrors(failure.fieldErrors);
@@ -424,6 +458,17 @@ export function EventForm({
               </div>
             </dl>
           </FormSection>
+
+          {savedCount > 0 ? (
+            <div
+              ref={savedRef}
+              tabIndex={-1}
+              role="status"
+              className="rounded-lg border border-success/25 bg-success-soft p-3 text-sm font-medium text-success outline-none focus-visible:ring-[3px] focus-visible:ring-brand/40"
+            >
+              Cambios guardados.
+            </div>
+          ) : null}
 
           {submitAlert ? (
             <div

@@ -172,8 +172,8 @@ export function AdminEventEditorPage({
         />
       ) : (
         <EventForm
-          // Tras guardar, el borrador se vuelve a leer del registro guardado (slug ya bloqueado, memoria quitada…).
-          key={`${resolvedEvent?.id || mode}:${resolvedEvent?.updatedAt ?? ""}`}
+          // El formulario no se remonta al guardar: relee el registro guardado por su cuenta y conserva el foco.
+          key={resolvedEvent?.id || mode}
           mode={mode}
           initialEvent={resolvedEvent}
           saving={saving}

@@ -6,8 +6,9 @@ export default defineConfig({
     // Mismo alias que tsconfig (`@/*` → raíz de apps/admin).
     alias: {
       "@": fileURLToPath(new URL("./", import.meta.url)),
-      // Las pruebas de componentes no usan el enrutador: un enlace simple basta (ver tests/stubs/next-link.tsx).
+      // Las pruebas de componentes no usan el enrutador de Next: enlace simple y enrutador simulado (tests/stubs/).
       "next/link": fileURLToPath(new URL("./tests/stubs/next-link.tsx", import.meta.url)),
+      "next/navigation": fileURLToPath(new URL("./tests/stubs/next-navigation.ts", import.meta.url)),
     },
   },
   test: {

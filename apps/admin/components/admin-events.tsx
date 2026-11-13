@@ -244,9 +244,6 @@ export function hasActiveFilters(filters: EventFiltersState) {
   );
 }
 
-/** La normalización del borrador vive en lib/event-draft.ts (pura y sin React); se reexporta por compatibilidad. */
-export { normalizeDraft } from "@/lib/event-draft";
-
 export function DeleteEventDialog({
   open,
   eventTitle,

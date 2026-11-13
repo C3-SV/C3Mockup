@@ -108,7 +108,9 @@ describe("EventForm: ficha estructurada", () => {
   it("advierte que los cambios de una ficha publicada se hacen públicos al guardar", () => {
     renderForm();
 
-    expect(screen.getByRole("switch", { name: /publicar ficha/i })).toHaveAccessibleName(/públicos al guardar/i);
+    const publish = screen.getByRole("switch", { name: /publicar ficha/i });
+    expect(publish).toHaveAccessibleName("Publicar ficha");
+    expect(publish).toHaveAccessibleDescription(/públicos al guardar/i);
   });
 });
 
@@ -222,6 +224,20 @@ describe("EventForm: errores del servidor", () => {
     expect(await screen.findByRole("alert", { name: /no se guardó/i })).toHaveTextContent("No se pudo leer la respuesta del servidor.");
   });
 
+  it("los errores del servidor se limpian con cualquier cambio del borrador, también fuera de la ficha", async () => {
+    const onSubmit = vi.fn(async () => {
+      throw new AdminApiError("Invalid event page", 400, { audience: "Máximo 300 caracteres." });
+    });
+    renderForm({ onSubmit });
+
+    submit();
+    await screen.findByText("Máximo 300 caracteres.");
+
+    fireEvent.change(screen.getByPlaceholderText("Nombre del evento"), { target: { value: "Otro título" } });
+
+    await waitFor(() => expect(screen.queryByText("Máximo 300 caracteres.")).toBeNull());
+  });
+
   it("los errores del servidor se limpian al editar la ficha", async () => {
     const onSubmit = vi.fn(async () => {
       throw new AdminApiError("Invalid event page", 400, { audience: "Máximo 300 caracteres." });
@@ -234,6 +250,32 @@ describe("EventForm: errores del servidor", () => {
     fireEvent.change(screen.getByRole("textbox", { name: "Público" }), { target: { value: "Otro" } });
 
     await waitFor(() => expect(screen.queryByText("Máximo 300 caracteres.")).toBeNull());
+  });
+});
+
+describe("EventForm: aviso de la regla de la memoria (R9)", () => {
+  it("apunta a las etiquetas reales «Fecha final» y «Estado» cuando la memoria aún no se puede publicar", () => {
+    renderForm({ event: makeAdminEvent({ status: "Próximamente", eventDate: "2025-05-10", eventDateEnd: undefined }) });
+
+    const hint = screen.getByText(/fecha final confirmada/i);
+    expect(hint).toHaveTextContent("«Fecha final»");
+    expect(hint).toHaveTextContent("«Estado»");
+    expect(hint).not.toHaveTextContent("«Fechas»");
+  });
+
+  it("se retira en cuanto la edición queda terminada en el formulario", () => {
+    renderForm({ event: makeAdminEvent({ status: "Próximamente", eventDate: "2025-05-10", eventDateEnd: undefined }) });
+    expect(screen.getByText(/fecha final confirmada/i)).toBeInTheDocument();
+
+    fireEvent.change(screen.getByRole("combobox", { name: "Estado" }), { target: { value: "Histórico" } });
+
+    expect(screen.queryByText(/fecha final confirmada/i)).toBeNull();
+  });
+
+  it("no se muestra si la memoria ya es publicable (fecha final pasada confirmada)", () => {
+    renderForm();
+
+    expect(screen.queryByText(/fecha final confirmada/i)).toBeNull();
   });
 });
 
