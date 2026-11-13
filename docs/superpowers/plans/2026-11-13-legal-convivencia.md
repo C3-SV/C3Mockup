@@ -10,7 +10,7 @@
 
 **Spec:** [2026-11-13-legal-convivencia-design.md](../specs/2026-11-13-legal-convivencia-design.md).
 
-**Estado:** borrador para revisión, 13-nov-2026. No ejecutado; la spec y decisiones editoriales deben aprobarse antes de implementar. No confundir una casilla de redacción con una tarea de producto terminada.
+**Estado:** preparación técnica en curso (rama fase-5-legal, 13-nov-2026). La aprobación factual/legal y la identificación del responsable siguen siendo gates de publicación.
 
 ## Global Constraints
 
@@ -43,12 +43,14 @@ T0 → T1 es un gate editorial. La infraestructura T2 se puede preparar en rama 
 
 **Interfaces:** una fila por tratamiento con fuente técnica, finalidad confirmada, categorías de datos, proveedores, acceso, conservación, canal de solicitudes, responsable de respuesta y estado confirmado/pendiente. Sin secretos en documentación.
 
-- [ ] Revisar apps/web/components/ContactForm.tsx, lib/contact-form.ts, lib/brevo.ts, app/api/contact/route.ts, app/layout.tsx, next.config.ts y despliegue; no leer ni copiar valores de .env.
+- [x] Revisar apps/web/components/ContactForm.tsx, lib/contact-form.ts, lib/brevo.ts, app/api/contact/route.ts, app/layout.tsx, next.config.ts y despliegue; no leer ni copiar valores de .env.
 - [ ] Confirmar con responsable configuración real de Brevo, buzón, hosting, Analytics, imágenes, logs y WhatsApp; distinguir visitantes de administradores Firebase.
 - [ ] Identificar persona/personas responsables del sitio y tratamiento, contacto y jurisdicción aplicable. Confirmar canal, alcance y responsables de reportes de convivencia.
 - [ ] Consultar fuentes oficiales vigentes aplicables; anotar URL, autoridad, fecha, jurisdicción y conclusión respaldada. Revisar documentación oficial de proveedores sobre configuración efectiva. No completar bases jurídicas/plazos por intuición.
 - [ ] Decidir con evidencia si hace falta política separada de cookies o controles. Si amplía trabajo, añadir tarea concreta y revisión de alcance antes de implementación.
-- [ ] Verificar consistencia: todo dato confirmado tiene fuente; toda incógnita tiene dueño; no afirmar cumplimiento. Commit docs: inventariar operación y responsables legales.
+- [x] Verificar consistencia: todo dato confirmado tiene fuente; toda incógnita tiene dueño; no afirmar cumplimiento. Commit docs: inventariar operación y responsables legales.
+
+> **Gate T0 abierto:** el inventario técnico quedó documentado; faltan confirmaciones de cuentas, responsables, canales y normativa complementaria antes de cerrar el inventario legal.
 
 ### T1: Redacción y aprobación de tres documentos
 
