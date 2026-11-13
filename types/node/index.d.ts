@@ -6,6 +6,7 @@ declare namespace NodeJS {
 
 declare var process: {
   env: NodeJS.ProcessEnv;
+  argv: string[];
   cwd(): string;
   exitCode?: number;
 };
@@ -32,4 +33,5 @@ declare module "path" {
 declare module "fs" {
   export function existsSync(path: string): boolean;
   export function readFileSync(path: string, encoding: BufferEncoding): string;
+  export function writeFileSync(path: string, data: string, options?: { flag?: string; mode?: number }): void;
 }

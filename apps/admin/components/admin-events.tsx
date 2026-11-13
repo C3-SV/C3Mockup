@@ -4,9 +4,9 @@ import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { FiEdit3, FiSearch, FiStar, FiTrash2 } from "react-icons/fi";
 import { Badge, Button, Card, Field, Input, Select, Table, Td, Th, Tr, cn } from "@c3/ui";
-import { eventStatuses, lineKeys, type EventItem, type EventStatus, type LineKey } from "@c3/config";
+import { eventStatuses, lineKeys, type AdminEventRecord, type EventStatus, type LineKey } from "@c3/config";
 import { getEventScheduleLabel, lineLabels, lineTone, statusTone } from "@/lib/admin-analytics";
-import type { EventDraft, EventFiltersState } from "@/lib/admin-types";
+import type { EventFiltersState } from "@/lib/admin-types";
 import { EmptyState, LoadingSkeleton } from "./admin-primitives";
 
 export function EventStatusBadge({ status }: { status: EventStatus }) {
@@ -23,7 +23,7 @@ export function EventList({
   emptyTitle = "No hay eventos para mostrar",
   emptyDescription = "Aún no hay eventos que coincidan con estos filtros.",
 }: {
-  events: EventItem[];
+  events: AdminEventRecord[];
   emptyTitle?: string;
   emptyDescription?: string;
 }) {
@@ -91,7 +91,7 @@ export function EventList({
   );
 }
 
-export function UpcomingEventsList({ events }: { events: EventItem[] }) {
+export function UpcomingEventsList({ events }: { events: AdminEventRecord[] }) {
   return (
     <EventList
       events={events}
@@ -202,7 +202,7 @@ function normalizeText(value: string) {
     .replace(/[̀-ͯ]/g, "");
 }
 
-export function filterEvents(events: EventItem[], filters: EventFiltersState) {
+export function filterEvents(events: AdminEventRecord[], filters: EventFiltersState) {
   const search = normalizeText(filters.search);
 
   return events.filter((event) => {
@@ -242,26 +242,6 @@ export function hasActiveFilters(filters: EventFiltersState) {
       filters.line !== "all" ||
       filters.featured,
   );
-}
-
-export function normalizeDraft(event?: EventItem | null): EventDraft {
-  return {
-    id: event?.id ?? "",
-    title: event?.title ?? "",
-    description: event?.description ?? "",
-    cta: event?.cta ?? "",
-    href: event?.href ?? "",
-    external: Boolean(event?.external),
-    featured: Boolean(event?.featured),
-    featuredOrder: event?.featuredOrder ? String(event.featuredOrder) : "",
-    eventDate: event?.eventDate ?? "",
-    eventDateEnd: event?.eventDateEnd ?? "",
-    status: event?.status ?? "Próximamente",
-    kind: event?.kind ?? "",
-    lines: event?.lines?.length ? ([...event.lines] as LineKey[]) : ["compite"],
-    createdAt: event?.createdAt,
-    updatedAt: event?.updatedAt,
-  };
 }
 
 export function DeleteEventDialog({

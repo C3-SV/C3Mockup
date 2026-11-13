@@ -7,8 +7,16 @@ import {
   type User,
 } from "firebase/auth";
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-import type { EventItem } from "@c3/config";
-import { fetchAdminEvent, fetchAdminEvents, fetchAdminSession, fetchAdminApi } from "@/lib/admin-api";
+import type { AdminEventRecord } from "@c3/config";
+import {
+  fetchAdminEvent,
+  fetchAdminEvents,
+  fetchAdminSession,
+  fetchAdminApi,
+  getRefreshPending,
+  type RefreshPending,
+  type SiteRevalidationStatus,
+} from "@/lib/admin-api";
 import { getFirebaseClient, isFirebaseConfigured } from "@/lib/firebase-client";
 import type { AdminFeedback, AdminSession } from "@/lib/admin-types";
 
@@ -18,17 +26,18 @@ type AdminContextValue = {
   firebaseReady: boolean;
   authState: AdminAuthState;
   session: AdminSession | null;
-  events: EventItem[];
+  events: AdminEventRecord[];
   eventsLoading: boolean;
   feedback: AdminFeedback;
   setFeedback: (feedback: AdminFeedback) => void;
   signIn: () => Promise<void>;
   signOut: () => Promise<void>;
   reloadEvents: () => Promise<void>;
-  getEventById: (eventId: string) => Promise<EventItem>;
-  createEvent: (payload: unknown) => Promise<EventItem>;
-  updateEvent: (eventId: string, payload: unknown) => Promise<EventItem>;
-  deleteEvent: (eventId: string) => Promise<void>;
+  getEventById: (eventId: string) => Promise<AdminEventRecord>;
+  /** El guardado ya está confirmado cuando resuelve; `refreshPending` avisa de que el sitio aún no se refrescó. */
+  createEvent: (payload: unknown) => Promise<AdminEventRecord & RefreshPending>;
+  updateEvent: (eventId: string, payload: unknown) => Promise<AdminEventRecord & RefreshPending>;
+  deleteEvent: (eventId: string) => Promise<RefreshPending | void>;
 };
 
 const AdminContext = createContext<AdminContextValue | null>(null);
@@ -49,11 +58,19 @@ function buildFriendlyMessage(error: unknown, fallback: string) {
   return fallback;
 }
 
+/** Solo marca el aviso cuando hace falta: un refresco confirmado deja el registro tal cual. */
+function withRefreshState(
+  event: AdminEventRecord,
+  response: { revalidation?: SiteRevalidationStatus },
+): AdminEventRecord & RefreshPending {
+  return getRefreshPending(response) ? { ...event, refreshPending: true } : event;
+}
+
 export function AdminProvider({ children }: { children: ReactNode }) {
   const firebaseReady = isFirebaseConfigured();
   const [authState, setAuthState] = useState<AdminAuthState>(firebaseReady ? "loading" : "config-missing");
   const [session, setSession] = useState<AdminSession | null>(null);
-  const [events, setEvents] = useState<EventItem[]>([]);
+  const [events, setEvents] = useState<AdminEventRecord[]>([]);
   const [eventsLoading, setEventsLoading] = useState(false);
   const [feedback, setFeedback] = useState<AdminFeedback>({ kind: "idle", text: "" });
 
@@ -133,22 +150,20 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   }
 
   async function createEvent(payload: unknown) {
-    const response = await withAuthenticatedToken((token) => fetchAdminApi<{ ok: true; event: EventItem }>(
-      "/api/events",
-      token,
-      {
+    const response = await withAuthenticatedToken((token) =>
+      fetchAdminApi<{ ok: true; event: AdminEventRecord; revalidation?: SiteRevalidationStatus }>("/api/events", token, {
         method: "POST",
         body: JSON.stringify(payload),
-      },
-    ));
+      }),
+    );
 
     await reloadEvents();
-    return response.event;
+    return withRefreshState(response.event, response);
   }
 
   async function updateEvent(eventId: string, payload: unknown) {
     const response = await withAuthenticatedToken((token) =>
-      fetchAdminApi<{ ok: true; event: EventItem }>(
+      fetchAdminApi<{ ok: true; event: AdminEventRecord; revalidation?: SiteRevalidationStatus }>(
         `/api/events/${encodeURIComponent(eventId)}`,
         token,
         {
@@ -159,17 +174,20 @@ export function AdminProvider({ children }: { children: ReactNode }) {
     );
 
     await reloadEvents();
-    return response.event;
+    return withRefreshState(response.event, response);
   }
 
   async function deleteEvent(eventId: string) {
-    await withAuthenticatedToken((token) =>
-      fetchAdminApi<{ ok: true }>(`/api/events/${encodeURIComponent(eventId)}`, token, {
-        method: "DELETE",
-      }),
+    const response = await withAuthenticatedToken((token) =>
+      fetchAdminApi<{ ok: true; revalidation?: SiteRevalidationStatus }>(
+        `/api/events/${encodeURIComponent(eventId)}`,
+        token,
+        { method: "DELETE" },
+      ),
     );
 
     await reloadEvents();
+    return { refreshPending: getRefreshPending(response) };
   }
 
   async function signIn() {

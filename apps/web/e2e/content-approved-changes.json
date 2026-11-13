@@ -1,0 +1,17 @@
+{
+  "_comment": [
+    "Registro de cambios de contenido APROBADOS a las tarjetas migradas a ficha por edicion (spec 2026-11-13, §11; plan eventos-memorias, T6; ruling R4).",
+    "Esta VACIO a proposito: no hay ninguna excepcion aprobada. Una entrada solo se agrega tras la aprobacion del responsable y su ADR.",
+    "No reemplaza ni regenera e2e/content-baseline.json, que sigue intacto, ni se usa voseo-map.json para cambios de producto. Ningun cambio de titulares cabe aqui.",
+    "Cada elemento de «entries» describe UN enlace de content-baseline.json cuyo destino pasa a ser la ficha interna, con estos campos exactos (todos obligatorios, texto plano):",
+    "  route: ruta de la pagina tal como aparece en el baseline (p. ej. \"/eventos\").",
+    "  originalText: texto del enlace en el baseline, sin cambios.",
+    "  originalHref: destino del enlace en el baseline. Es tambien el micrositio que la ficha debe seguir mostrando como enlace informativo.",
+    "  eventId: id del evento en Firestore (events/{id}) cuya tarjeta cambia.",
+    "  slug: slug nuevo e inmutable de la ficha; el destino interno esperado es /eventos/{slug}.",
+    "  adr: referencia del ADR aprobado que autoriza la excepcion (p. ej. \"ADR-0013\").",
+    "Estado: el consumidor de este registro aun no esta implementado. Solo existe la validacion de su forma (content-approved-changes.spec.ts); ninguna prueba de conservacion lo lee todavia, y el registro esta vacio y pendiente de aprobacion del responsable. Cuando se implemente ese consumidor, solo debera admitir entradas EXACTAS de este registro (enlace interno nuevo y CTA original dentro de la ficha); cualquier otra diferencia contra el baseline seguiria fallando.",
+    "Si la excepcion no se aprueba, no se agrega nada y se conservan los enlaces secundarios originales en las paginas afectadas."
+  ],
+  "entries": []
+}

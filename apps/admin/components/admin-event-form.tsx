@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useId, useMemo, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { FiArrowLeft, FiSave, FiStar, FiTrash2 } from "react-icons/fi";
 import { Badge, Button, Card, Field, Input, Select, Textarea, cn } from "@c3/ui";
 import {
@@ -9,14 +9,18 @@ import {
   experienceKinds,
   lineKeys,
   normalizeFeaturedOrder,
-  type EventItem,
+  type AdminEventRecord,
+  type EventPageErrors,
   type EventStatus,
   type ExperienceKind,
   type LineKey,
 } from "@c3/config";
+import { AdminApiError } from "@/lib/admin-api";
 import { getEventScheduleLabel, lineLabels } from "@/lib/admin-analytics";
-import type { EventDraft } from "@/lib/admin-types";
-import { DeleteEventDialog, EventLineChip, EventStatusBadge, normalizeDraft } from "./admin-events";
+import type { EventDraft, EventPageDraft } from "@/lib/admin-types";
+import { normalizeDraft, validatePageDraft } from "@/lib/event-draft";
+import { DeleteEventDialog, EventLineChip, EventStatusBadge } from "./admin-events";
+import { EventPageFields } from "./admin-event-page-fields";
 
 function slugify(value: string) {
   return value
@@ -56,6 +60,24 @@ function getDefaultId(title: string) {
 
 type DraftErrors = Partial<Record<"title" | "description" | "cta" | "href" | "status" | "lines" | "featuredOrder", string>>;
 
+/** Resumen que se anuncia (y recibe el foco) cuando el guardado no prospera. */
+type SubmitAlert = { title: string; detail?: string };
+
+/**
+ * Qué mostrar cuando falla el guardado. Un 400 con errores por campo se explica junto a los controles: el resumen
+ * solo manda a revisarlos. Un 409 (slug o id ocupado) y cualquier otro fallo muestran el mensaje del servidor.
+ */
+function describeSaveFailure(error: unknown): { alert: SubmitAlert; fieldErrors: EventPageErrors } {
+  const message = error instanceof Error && error.message ? error.message : "No pudimos guardar el evento.";
+  const status = error instanceof AdminApiError ? error.status : undefined;
+  const fieldErrors = error instanceof AdminApiError ? error.errors : {};
+
+  if (status === 400 && Object.keys(fieldErrors).length > 0) {
+    return { alert: { title: "No se guardó el evento.", detail: "Revisa los campos marcados." }, fieldErrors };
+  }
+  return { alert: { title: "No se guardó el evento.", detail: message }, fieldErrors };
+}
+
 /** Bloque del formulario: encabezado sobrio y campos en rejilla. */
 function FormSection({ title, children }: { title: string; children: ReactNode }) {
   return (
@@ -76,9 +98,10 @@ export function EventForm({
   onDelete,
 }: {
   mode: "create" | "edit";
-  initialEvent?: EventItem | null;
+  initialEvent?: AdminEventRecord | null;
   saving?: boolean;
   deleting?: boolean;
+  /** Rechaza si el guardado falla: el formulario muestra el error (400 por campo, 409, red) y conserva lo escrito. */
   onSubmit: (draft: EventDraft) => Promise<void>;
   onCancel: () => void;
   onDelete?: (eventId: string) => Promise<void>;
@@ -86,6 +109,63 @@ export function EventForm({
   const [draft, setDraft] = useState<EventDraft>(() => normalizeDraft(initialEvent));
   const [errors, setErrors] = useState<DraftErrors>({});
   const [deleteOpen, setDeleteOpen] = useState(false);
+  // Errores de la ficha: los del validador compartido se recalculan en vivo tras el primer intento de guardar; los
+  // del servidor se conservan hasta que el editor cambia la ficha (sus índices ya no valdrían).
+  const [showPageErrors, setShowPageErrors] = useState(false);
+  const [serverErrors, setServerErrors] = useState<EventPageErrors>({});
+  const [submitAlert, setSubmitAlert] = useState<SubmitAlert | null>(null);
+  // Contador de guardados correctos (0 = ninguno visible): su cambio mueve el foco al estado de éxito.
+  const [savedCount, setSavedCount] = useState(0);
+  const alertRef = useRef<HTMLDivElement>(null);
+  const savedRef = useRef<HTMLDivElement>(null);
+  const alertTitleId = useId();
+
+  // Tras un guardado correcto el registro guardado vuelve como `initialEvent`: el borrador se relee de él (slug ya
+  // bloqueado, memoria quitada…) sin remontar el formulario. Ajuste de estado durante el render, sin efecto.
+  const [syncedEvent, setSyncedEvent] = useState(initialEvent);
+  if (initialEvent !== syncedEvent) {
+    setSyncedEvent(initialEvent);
+    setDraft(normalizeDraft(initialEvent));
+    setErrors({});
+    setShowPageErrors(false);
+    setServerErrors({});
+  }
+
+  useEffect(() => {
+    if (submitAlert) {
+      alertRef.current?.focus();
+    }
+  }, [submitAlert]);
+
+  useEffect(() => {
+    if (savedCount > 0) {
+      savedRef.current?.focus();
+    }
+  }, [savedCount]);
+
+  /** Cualquier cambio del borrador deja obsoletos los errores del servidor, el resumen y el aviso de guardado. */
+  function markEdited() {
+    setServerErrors({});
+    setSubmitAlert(null);
+    setSavedCount(0);
+  }
+
+  const pageErrors = useMemo<EventPageErrors>(
+    () => ({ ...(showPageErrors ? validatePageDraft(draft) : {}), ...serverErrors }),
+    [draft, serverErrors, showPageErrors],
+  );
+
+  function updatePage(next: EventPageDraft | undefined) {
+    setDraft((current) => {
+      const updated = { ...current };
+      delete updated.page;
+      if (next) {
+        updated.page = next;
+      }
+      return updated;
+    });
+    markEdited();
+  }
 
   function updateField<K extends keyof EventDraft>(field: K, value: EventDraft[K]) {
     setDraft((current) => {
@@ -99,6 +179,7 @@ export function EventForm({
     });
 
     setErrors((current) => ({ ...current, [field]: undefined }));
+    markEdited();
   }
 
   function toggleLine(line: LineKey) {
@@ -114,6 +195,7 @@ export function EventForm({
     });
 
     setErrors((current) => ({ ...current, lines: undefined }));
+    markEdited();
   }
 
   function validate(nextDraft: EventDraft) {
@@ -154,12 +236,26 @@ export function EventForm({
     event.preventDefault();
     const nextErrors = validate(draft);
     setErrors(nextErrors);
+    setShowPageErrors(true);
+    setServerErrors({});
 
-    if (Object.keys(nextErrors).length > 0) {
+    // El validador compartido avisa antes de enviar (publicar la memoria incompleta, enlaces, límites); el
+    // servidor vuelve a validar todo y sigue siendo la autoridad.
+    if (Object.keys(nextErrors).length > 0 || Object.keys(validatePageDraft(draft)).length > 0) {
+      setSubmitAlert({ title: "Revisa los campos marcados antes de guardar." });
       return;
     }
 
-    await onSubmit(draft);
+    setSubmitAlert(null);
+    setSavedCount(0);
+    try {
+      await onSubmit(draft);
+      setSavedCount((count) => count + 1);
+    } catch (error) {
+      const failure = describeSaveFailure(error);
+      setServerErrors(failure.fieldErrors);
+      setSubmitAlert(failure.alert);
+    }
   }
 
   const scheduleLabel = getEventScheduleLabel(draft);
@@ -334,6 +430,14 @@ export function EventForm({
             ) : null}
           </FormSection>
 
+          <EventPageFields
+            value={draft.page}
+            onChange={updatePage}
+            errors={pageErrors}
+            event={initialEvent}
+            schedule={draft}
+          />
+
           <FormSection title="Datos técnicos">
             <dl className="grid gap-x-6 gap-y-4 text-sm sm:grid-cols-2">
               <div>
@@ -354,6 +458,32 @@ export function EventForm({
               </div>
             </dl>
           </FormSection>
+
+          {savedCount > 0 ? (
+            <div
+              ref={savedRef}
+              tabIndex={-1}
+              role="status"
+              className="rounded-lg border border-success/25 bg-success-soft p-3 text-sm font-medium text-success outline-none focus-visible:ring-[3px] focus-visible:ring-brand/40"
+            >
+              Cambios guardados.
+            </div>
+          ) : null}
+
+          {submitAlert ? (
+            <div
+              ref={alertRef}
+              tabIndex={-1}
+              role="alert"
+              aria-labelledby={alertTitleId}
+              className="grid gap-1 rounded-lg border border-danger/25 bg-danger-soft p-3 text-sm text-danger outline-none focus-visible:ring-[3px] focus-visible:ring-brand/40"
+            >
+              <p id={alertTitleId} className="font-semibold">
+                {submitAlert.title}
+              </p>
+              {submitAlert.detail ? <p>{submitAlert.detail}</p> : null}
+            </div>
+          ) : null}
 
           <div className="flex flex-wrap items-center gap-2 border-t border-line pt-6">
             <Button type="submit" disabled={saving}>

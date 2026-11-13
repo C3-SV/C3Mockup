@@ -4,14 +4,16 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { FiArrowLeft } from "react-icons/fi";
 import { Button, Card } from "@c3/ui";
-import type { EventItem } from "@c3/config";
+import type { AdminEventRecord } from "@c3/config";
 import { useAdminData } from "./admin-provider";
 import { AdminMain, AdminTopbar } from "./admin-shell";
 import { EmptyState, ErrorState, LoadingSkeleton } from "./admin-primitives";
 import { EventForm } from "./admin-event-form";
 import type { EventDraft } from "@/lib/admin-types";
+import { REFRESH_PENDING_MESSAGE } from "@/lib/admin-api";
+import { buildEventPayload } from "@/lib/event-draft";
 
-function getEventLabel(event?: EventItem | null, fallback = "Evento") {
+function getEventLabel(event?: AdminEventRecord | null, fallback = "Evento") {
   return event?.title || fallback;
 }
 
@@ -25,7 +27,7 @@ export function AdminEventEditorPage({
   const router = useRouter();
   const { events, getEventById, createEvent, updateEvent, deleteEvent, setFeedback: setGlobalFeedback } = useAdminData();
   const initialResolvedEvent = mode === "edit" ? events.find((item) => item.id === eventId) ?? null : null;
-  const [resolvedEvent, setResolvedEvent] = useState<EventItem | null>(initialResolvedEvent);
+  const [resolvedEvent, setResolvedEvent] = useState<AdminEventRecord | null>(initialResolvedEvent);
   const [loadingEvent, setLoadingEvent] = useState(mode === "edit" && !initialResolvedEvent);
   const [pageError, setPageError] = useState("");
   const [saving, setSaving] = useState(false);
@@ -74,20 +76,31 @@ export function AdminEventEditorPage({
 
     try {
       if (mode === "create") {
-        const created = await createEvent(draft);
-        setGlobalFeedback({ kind: "success", text: "Evento creado correctamente." });
+        const { refreshPending, ...created } = await createEvent(buildEventPayload(draft));
+        setGlobalFeedback(
+          refreshPending
+            ? { kind: "warning", text: REFRESH_PENDING_MESSAGE }
+            : { kind: "success", text: "Evento creado correctamente." },
+        );
         router.replace(`/admin/events/${encodeURIComponent(created.id)}`);
         setResolvedEvent(created);
         return;
       }
 
       const targetId = eventId || resolvedEvent?.id || draft.id;
-      const updated = await updateEvent(targetId, draft);
-      setGlobalFeedback({ kind: "success", text: "Evento actualizado correctamente." });
+      const { refreshPending, ...updated } = await updateEvent(targetId, buildEventPayload(draft));
+      // El guardado ya está confirmado; si el sitio aún no se refrescó, se avisa sin aparentar error ni éxito pleno.
+      setGlobalFeedback(
+        refreshPending
+          ? { kind: "warning", text: REFRESH_PENDING_MESSAGE }
+          : { kind: "success", text: "Evento actualizado correctamente." },
+      );
       setResolvedEvent(updated);
     } catch (error) {
       const message = error instanceof Error ? error.message : "No pudimos guardar el evento.";
       setGlobalFeedback({ kind: "error", text: message });
+      // El formulario muestra el detalle (errores por campo, conflicto de slug) y conserva lo escrito.
+      throw error;
     } finally {
       setSaving(false);
     }
@@ -98,8 +111,12 @@ export function AdminEventEditorPage({
     setGlobalFeedback({ kind: "idle", text: "" });
 
     try {
-      await deleteEvent(eventIdToDelete);
-      setGlobalFeedback({ kind: "success", text: "Evento eliminado correctamente." });
+      const result = await deleteEvent(eventIdToDelete);
+      setGlobalFeedback(
+        result?.refreshPending
+          ? { kind: "warning", text: REFRESH_PENDING_MESSAGE }
+          : { kind: "success", text: "Evento eliminado correctamente." },
+      );
       router.push("/admin/events");
     } catch (error) {
       const message = error instanceof Error ? error.message : "No pudimos eliminar el evento.";
@@ -169,6 +186,7 @@ export function AdminEventEditorPage({
         />
       ) : (
         <EventForm
+          // El formulario no se remonta al guardar: relee el registro guardado por su cuenta y conserva el foco.
           key={resolvedEvent?.id || mode}
           mode={mode}
           initialEvent={resolvedEvent}

@@ -3,10 +3,9 @@ import path from "path";
 
 import { cert, getApps, initializeApp, type ServiceAccount } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
-import { defaultEvents, toFirestoreEventDocument } from "@c3/config";
+import { defaultEvents, toFirestoreEventDocument, type AdminEventRecord } from "@c3/config";
+import { EVENTS_COLLECTION, upsertEventsWithPages } from "../lib/event-page-repository";
 import { triggerSiteRevalidation } from "../lib/revalidate-site";
-
-const EVENTS_COLLECTION = "events";
 
 function loadEnvFile(filePath: string) {
   if (!existsSync(filePath)) {
@@ -86,19 +85,17 @@ async function main() {
 
   const db = getFirestore();
   const now = new Date().toISOString();
-  const batch = db.batch();
 
-  for (const event of defaultEvents) {
-    const record = {
-      ...toFirestoreEventDocument(event),
-      createdAt: now,
-      updatedAt: now,
-    };
+  // Mismas invariantes que el admin (una sola transacción): los eventos incluidos no traen ficha, así que se
+  // conservan la ficha, su reserva de slug y createdAt de los registros que ya existen.
+  const records: AdminEventRecord[] = defaultEvents.map((event) => ({
+    ...toFirestoreEventDocument(event),
+    page: undefined,
+    createdAt: now,
+    updatedAt: now,
+  }));
+  await upsertEventsWithPages(db, records, { now });
 
-    batch.set(db.collection(EVENTS_COLLECTION).doc(record.id), record, { merge: false });
-  }
-
-  await batch.commit();
   const revalidation = await triggerSiteRevalidation({
     reason: "Seeded default events into Firestore",
     source: "admin/scripts/seed-events",

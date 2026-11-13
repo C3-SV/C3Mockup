@@ -1,4 +1,6 @@
+import type { EventItem } from "@c3/config";
 import { faqItems, publicRoutes } from "@/lib/content";
+import { getEventCardLink } from "@/lib/ds/event-card";
 import { siteConfig } from "@/lib/site";
 
 type WebPageType = "WebPage" | "AboutPage" | "CollectionPage" | "FAQPage" | "ContactPage";
@@ -148,7 +150,34 @@ export function getFaqPageJsonLd(path: string, title: string, description: strin
   };
 }
 
-export function getBreadcrumbJsonLd(path: string) {
+/**
+ * Entrada de una lista JSON-LD de eventos. La URL es la misma que la de la tarjeta (getEventCardLink): ficha
+ * publicada → /eventos/{slug}; sin ficha, el enlace original. Los externos van tal cual; los internos, con dominio.
+ */
+export function getEventItemListEntry(event: EventItem) {
+  const { href, external } = getEventCardLink(event);
+  return {
+    name: event.title,
+    description: event.description,
+    url: external ? href : `${siteConfig.domain}${href}`,
+  };
+}
+
+/** WebPage de la ficha de un evento publicado: título, descripción y URL canónica del slug (sin tipo Event, R6). */
+export function getEventWebPageJsonLd(event: EventItem) {
+  return getWebPageJsonLd({
+    path: `/eventos/${event.page?.slug ?? ""}`,
+    title: event.title,
+    description: event.description,
+  });
+}
+
+/** Migas Inicio → Eventos → título real del evento. */
+export function getEventBreadcrumbJsonLd(event: EventItem) {
+  return getBreadcrumbJsonLd(`/eventos/${event.page?.slug ?? ""}`, event.title);
+}
+
+export function getBreadcrumbJsonLd(path: string, lastLabel?: string) {
   const routeLabels: Record<string, string> = {
     "que-es-c3": "Qué es C3",
     compite: "Compite",
@@ -174,10 +203,11 @@ export function getBreadcrumbJsonLd(path: string) {
   ];
 
   routeParts.forEach((segment, index) => {
+    const isLast = index === routeParts.length - 1;
     items.push({
       "@type": "ListItem",
       position: index + 2,
-      name: routeLabels[segment] ?? segment,
+      name: (isLast ? lastLabel : undefined) ?? routeLabels[segment] ?? segment,
       item: `${siteConfig.domain}/${routeParts.slice(0, index + 1).join("/")}`,
     });
   });

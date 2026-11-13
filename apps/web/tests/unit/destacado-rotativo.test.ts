@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest";
 import {
   buildAdminEventRecord,
+  EventPageValidationError,
   normalizeFeaturedOrder,
+  omitUndefinedDeep,
   normalizeFirebasePrivateKey,
   type EventItem,
 } from "@c3/config";
@@ -166,5 +168,151 @@ describe("buildAdminEventRecord (lo que guarda el admin)", () => {
   it("sin título, descripción, enlace, CTA o línea lanza error", () => {
     expect(() => buildAdminEventRecord({ ...base, title: "" }, { now: stamp })).toThrow();
     expect(() => buildAdminEventRecord({ ...base, lines: [] }, { now: stamp })).toThrow();
+  });
+});
+
+describe("buildAdminEventRecord: ficha por edición (page administrativa)", () => {
+  const base = {
+    id: "copa-2026",
+    title: "Copa 2026",
+    description: "Descripción",
+    href: "https://copa.c3.com.sv",
+    cta: "Ir a la Copa",
+    lines: ["compite"],
+    status: "Histórico",
+    eventDate: "2026-08-01",
+    eventDateEnd: "2026-08-02",
+  };
+  const stamp = "2026-11-13T12:00:00.000Z";
+  const page = {
+    slug: "copa-2026",
+    publication: "published",
+    overview: ["  Qué es la Copa.  "],
+    resources: [],
+  };
+
+  it("un payload sin page produce el mismo registro de antes (sin clave page)", () => {
+    const record = buildAdminEventRecord(base, { now: stamp });
+    expect(record).not.toHaveProperty("page");
+    expect(Object.keys(record).sort()).toEqual(
+      [
+        "cta",
+        "createdAt",
+        "description",
+        "eventDate",
+        "eventDateEnd",
+        "external",
+        "featured",
+        "href",
+        "id",
+        "lines",
+        "status",
+        "title",
+        "updatedAt",
+      ].sort(),
+    );
+  });
+
+  it("valida y conserva la page administrativa, normalizada", () => {
+    const record = buildAdminEventRecord({ ...base, page }, { now: stamp });
+    expect(record.page).toEqual({ slug: "copa-2026", publication: "published", overview: ["Qué es la Copa."], resources: [] });
+  });
+
+  it("conserva la memoria y los derechos en el registro administrativo", () => {
+    const record = buildAdminEventRecord(
+      {
+        ...base,
+        page: {
+          ...page,
+          memory: {
+            publication: "published",
+            summary: ["Resumen."],
+            gallery: [{ url: "https://media.c3.com.sv/a.webp", alt: "Equipo", rightsConfirmed: true }],
+          },
+        },
+      },
+      { now: stamp },
+    );
+    expect(record.page?.memory?.gallery[0].rightsConfirmed).toBe(true);
+  });
+
+  it("no deja undefined en ningún nivel (Firestore los rechaza)", () => {
+    const record = buildAdminEventRecord(
+      {
+        ...base,
+        page: {
+          ...page,
+          audience: undefined,
+          memory: {
+            publication: "draft",
+            summary: ["x"],
+            results: [{ label: "a", value: "1", context: "c", evidenceUrl: undefined }],
+          },
+        },
+      },
+      { now: stamp },
+    );
+    const walk = (value: unknown, path: string): void => {
+      expect(value, path).not.toBeUndefined();
+      if (Array.isArray(value)) {
+        value.forEach((item, index) => walk(item, `${path}[${index}]`));
+      } else if (value && typeof value === "object") {
+        for (const [key, item] of Object.entries(value)) walk(item, `${path}.${key}`);
+      }
+    };
+    walk(record, "record");
+  });
+
+  it("memory:null elimina la memoria de forma expresa", () => {
+    const record = buildAdminEventRecord({ ...base, page: { ...page, memory: null } }, { now: stamp });
+    expect(record.page).not.toHaveProperty("memory");
+  });
+
+  it("page:null se rechaza (para despublicar se usa publication:draft)", () => {
+    expect(() => buildAdminEventRecord({ ...base, page: null }, { now: stamp })).toThrow(EventPageValidationError);
+  });
+
+  it("una page inválida lanza EventPageValidationError con los errores por campo", () => {
+    try {
+      buildAdminEventRecord({ ...base, page: { ...page, slug: "Mal Slug", overview: [] } }, { now: stamp });
+      throw new Error("debió lanzar");
+    } catch (error) {
+      expect(error).toBeInstanceOf(EventPageValidationError);
+      const { errors } = error as EventPageValidationError;
+      expect(errors.slug).toBeTruthy();
+      expect(errors.overview).toBeTruthy();
+    }
+  });
+
+  it("valida las reglas de publicación con las fechas del evento y el «now» recibido", () => {
+    const withMemory = { ...page, memory: { publication: "published", summary: ["Resumen."] } };
+    expect(() => buildAdminEventRecord({ ...base, page: withMemory }, { now: stamp })).not.toThrow();
+    // Misma ficha, pero la edición aún no termina y el estado no es Histórico.
+    const future = { ...base, status: "Próximamente", eventDate: "2026-12-10", eventDateEnd: "2026-12-11" };
+    expect(() => buildAdminEventRecord({ ...future, page: withMemory }, { now: stamp })).toThrow(
+      EventPageValidationError,
+    );
+  });
+
+  it("el error de la page no oculta los errores obligatorios del evento", () => {
+    expect(() => buildAdminEventRecord({ ...base, title: "", page }, { now: stamp })).toThrow();
+  });
+});
+
+describe("omitUndefinedDeep", () => {
+  it("quita undefined recursivamente en objetos y arrays, sin tocar el resto", () => {
+    const input = {
+      a: 1,
+      b: undefined,
+      c: { d: undefined, e: [1, undefined, { f: undefined, g: "x" }] },
+      h: null,
+      i: false,
+      j: 0,
+      k: "",
+    };
+    const output = omitUndefinedDeep(input);
+    expect(output).toEqual({ a: 1, c: { e: [1, { g: "x" }] }, h: null, i: false, j: 0, k: "" });
+    expect("b" in output).toBe(false);
+    expect(JSON.stringify(output)).not.toContain("undefined");
   });
 });

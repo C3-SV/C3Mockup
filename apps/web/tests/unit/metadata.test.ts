@@ -10,6 +10,7 @@ import * as jsonLd from "@/lib/structured-data";
 
 // El sitemap lee eventos de Firestore; aquí solo importan las rutas.
 vi.mock("@/lib/events", () => ({ getPublicEvents: async () => [] }));
+vi.mock("@/lib/event-detail", () => ({ getPublishedEventPages: async () => [] }));
 
 const WEB = join(__dirname, "..", "..");
 

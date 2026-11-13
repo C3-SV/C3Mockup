@@ -57,6 +57,7 @@ Talento primero. A las empresas se les invita a conocer talento joven a través 
 3. **Precios:** no publicar precios de paquetes sin confirmación del responsable. No inventar paquetes.
 4. Las portadas de eventos usan imágenes de hosts de C3, con descripción alternativa obligatoria.
 5. Datos de eventos reales vienen del admin (Firestore); nunca se fabrican en el cliente.
+6. *(Capacidad implementada en la rama `eventos-memorias`; pendiente de aprobación del responsable; ADR-0014.)* Ficha permanente por edición en `/eventos/{slug}`, con memoria y resultados solo con fuente y permiso. Contenido sin respaldo queda en borrador. Ver `docs/content/eventos/guia-editorial.md`.
 
 ## Éxito
 

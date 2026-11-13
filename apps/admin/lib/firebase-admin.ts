@@ -4,23 +4,28 @@ import { cert, getApp, getApps, initializeApp, type App, type ServiceAccount } f
 import { getAuth } from "firebase-admin/auth";
 import { getFirestore, type Firestore } from "firebase-admin/firestore";
 import {
-  buildAdminEventRecord,
   compareEventsBySchedule,
   defaultEvents,
   normalizeFirebasePrivateKey,
   type AdminEventRecord,
 } from "@c3/config";
+import {
+  ApiError,
+  createEventFromPayload,
+  deleteEventWithPage,
+  getStoredAdminEvent,
+  listStoredAdminEvents,
+  parseStoredAdminEvent,
+  toErrorBody,
+  updateEventFromPayload,
+  upsertEventsWithPages,
+} from "./event-page-repository";
 
-const EVENTS_COLLECTION = "events";
-
-export class HttpError extends Error {
-  status: number;
-
-  constructor(status: number, message: string) {
-    super(message);
-    this.status = status;
-  }
-}
+/**
+ * HttpError es el mismo ApiError del repositorio: las rutas distinguen 400/401/403/409 con un solo instanceof y el
+ * cuerpo de error (toErrorBody) conserva los errores por campo de la ficha.
+ */
+export { ApiError, ApiError as HttpError, toErrorBody };
 
 function readServiceAccount(): ServiceAccount | null {
   const projectId = process.env.FIREBASE_PROJECT_ID?.trim();
@@ -62,7 +67,7 @@ export function isAllowedAdminEmail(email: string) {
 function getAdminApp(): App {
   const serviceAccount = readServiceAccount();
   if (!serviceAccount) {
-    throw new HttpError(500, "Firebase service account is not configured.");
+    throw new ApiError(500, "Firebase service account is not configured.");
   }
 
   if (getApps().length) {
@@ -91,17 +96,17 @@ export async function verifyAdminRequest(request: Request) {
   const token = header?.startsWith("Bearer ") ? header.slice("Bearer ".length).trim() : "";
 
   if (!token) {
-    throw new HttpError(401, "Missing authorization token.");
+    throw new ApiError(401, "Missing authorization token.");
   }
 
   const decoded = await getAuth(getAdminApp()).verifyIdToken(token);
 
   if (!decoded.email) {
-    throw new HttpError(403, "Google account email is required.");
+    throw new ApiError(403, "Google account email is required.");
   }
 
   if (!isAllowedAdminEmail(decoded.email)) {
-    throw new HttpError(403, "This account is not allowed to access the admin.");
+    throw new ApiError(403, "This account is not allowed to access the admin.");
   }
 
   return decoded;
@@ -110,113 +115,50 @@ export async function verifyAdminRequest(request: Request) {
 export type { AdminEventRecord };
 
 /**
- * Registro que se guarda. Lo arma buildAdminEventRecord (packages/config), que conserva tipo, portada, origen y
- * orden de destacado. Antes este paso descartaba esos campos y cada guardado los borraba de Firestore.
+ * Lectura tolerante de un documento (ver parseStoredAdminEvent): la ficha se lee sin reloj, así un evento nunca
+ * desaparece del admin porque su ficha dejó de validar con la fecha actual. Validar es cosa del guardado.
  */
-function sanitizeEventPayload(input: unknown, fallbackId?: string): AdminEventRecord {
-  try {
-    return buildAdminEventRecord(input, { fallbackId, now: new Date().toISOString() });
-  } catch (error) {
-    throw new HttpError(400, error instanceof Error ? error.message : "Invalid event payload.");
-  }
+export function parseAdminEventDoc(id: string, data: Record<string, unknown>): AdminEventRecord | null {
+  return parseStoredAdminEvent(id, data);
 }
 
-export function parseAdminEventDoc(id: string, data: Record<string, unknown>): AdminEventRecord | null {
-  try {
-    return sanitizeEventPayload(
-      {
-        id,
-        ...data,
-      },
-      id,
-    );
-  } catch {
-    return null;
-  }
+/** Eventos incluidos en el código como registros administrativos. No tienen ficha (page): el admin la crea después. */
+function bundledAdminEvents(now: string): AdminEventRecord[] {
+  return defaultEvents
+    .map((event) => ({ ...event, page: undefined, createdAt: now, updatedAt: now }))
+    .sort(compareEventsBySchedule);
 }
 
 export async function listAdminEvents() {
   try {
-    const db = getAdminFirestore();
-    const snapshot = await db.collection(EVENTS_COLLECTION).get();
-    const now = new Date().toISOString();
-
-    if (snapshot.empty) {
-      return defaultEvents
-        .map((event) => ({
-          ...event,
-          createdAt: now,
-          updatedAt: now,
-        }))
-        .sort(compareEventsBySchedule) satisfies AdminEventRecord[];
-    }
-
-    return snapshot.docs
-      .map((doc) => parseAdminEventDoc(doc.id, doc.data() as Record<string, unknown>))
-      .filter((event): event is AdminEventRecord => event !== null)
-      .sort(compareEventsBySchedule);
+    const { empty, events } = await listStoredAdminEvents(getAdminFirestore());
+    return empty ? bundledAdminEvents(new Date().toISOString()) : events;
   } catch (error) {
     console.warn("Falling back to bundled events data in admin:", error);
-    const now = new Date().toISOString();
-    return defaultEvents
-      .map((event) => ({
-        ...event,
-        createdAt: now,
-        updatedAt: now,
-      }))
-      .sort(compareEventsBySchedule) satisfies AdminEventRecord[];
+    return bundledAdminEvents(new Date().toISOString());
   }
 }
 
+/**
+ * Escrituras: todas pasan por el repositorio (event-page-repository.ts), que guarda evento y reserva de slug en una
+ * transacción. No hay otra ruta de escritura de events/{id}.
+ */
 export async function createAdminEvent(input: unknown) {
-  const record = sanitizeEventPayload(input);
-  const db = getAdminFirestore();
-  await db.collection(EVENTS_COLLECTION).doc(record.id).set(record, { merge: false });
-  return record;
+  return createEventFromPayload(getAdminFirestore(), input);
 }
 
 export async function getAdminEvent(id: string) {
-  const snapshot = await getAdminFirestore().collection(EVENTS_COLLECTION).doc(id).get();
-
-  if (!snapshot.exists) {
-    return null;
-  }
-
-  return parseAdminEventDoc(snapshot.id, snapshot.data() as Record<string, unknown>);
+  return getStoredAdminEvent(getAdminFirestore(), id);
 }
 
 export async function updateAdminEvent(id: string, input: unknown) {
-  const existing = await getAdminFirestore().collection(EVENTS_COLLECTION).doc(id).get();
-  const existingData = existing.exists ? (existing.data() as Record<string, unknown>) : {};
-  const record = sanitizeEventPayload(
-    { ...existingData, ...(input as Record<string, unknown>), id, updatedAt: new Date().toISOString() },
-    id,
-  );
-  await getAdminFirestore().collection(EVENTS_COLLECTION).doc(id).set(record, { merge: false });
-  return record;
+  return updateEventFromPayload(getAdminFirestore(), id, input);
 }
 
 export async function deleteAdminEvent(id: string) {
-  await getAdminFirestore().collection(EVENTS_COLLECTION).doc(id).delete();
+  await deleteEventWithPage(getAdminFirestore(), id);
 }
 
 export async function upsertAdminEvents(events: AdminEventRecord[]) {
-  const db = getAdminFirestore();
-  const batch = db.batch();
-  const now = new Date().toISOString();
-
-  for (const event of events) {
-    const record = sanitizeEventPayload(
-      {
-        ...event,
-        createdAt: event.createdAt ?? now,
-        updatedAt: now,
-      },
-      event.id,
-    );
-
-    batch.set(db.collection(EVENTS_COLLECTION).doc(record.id), record, { merge: false });
-  }
-
-  await batch.commit();
+  return upsertEventsWithPages(getAdminFirestore(), events);
 }

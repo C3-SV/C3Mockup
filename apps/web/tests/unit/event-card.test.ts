@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { defaultEvents, type EventItem } from "@c3/config";
+import { defaultEvents, type EventItem, type PublicEventPage } from "@c3/config";
 import { toCatalogCard } from "@/lib/ds/event-card";
 
 /** Tarjeta de experiencia (Tarea 3.2): conserva el texto del evento; «DEMO» nunca aparece. */
@@ -74,5 +74,55 @@ describe("toCatalogCard", () => {
     const card = toCatalogCard(defaultEvents[0]);
     expect(card).not.toHaveProperty("demo");
     expect(JSON.stringify(card)).not.toMatch(/DEMO/);
+  });
+});
+
+describe("toCatalogCard con ficha publicada (T4)", () => {
+  const publishedPage: PublicEventPage = {
+    slug: "copa-salvadorena-programacion-2026",
+    publication: "published",
+    overview: ["Descripción de la edición."],
+    resources: [],
+  };
+
+  it("con ficha publicada apunta a /eventos/{slug}, es interna y dice «Ver evento»", () => {
+    const card = toCatalogCard({ ...defaultEvents[0], page: publishedPage }, new Date("2026-06-01T12:00:00Z"));
+    expect(card.href).toBe("/eventos/copa-salvadorena-programacion-2026");
+    expect(card.external).toBe(false);
+    expect(card.action).toBe("Ver evento");
+  });
+
+  it("con memoria publicada la acción es «Ver memoria»", () => {
+    const page: PublicEventPage = {
+      ...publishedPage,
+      memory: { publication: "published", summary: ["Lo que pasó."], learnings: [], results: [], outputs: [], gallery: [] },
+    };
+    const card = toCatalogCard({ ...defaultEvents[0], page });
+    expect(card.href).toBe("/eventos/copa-salvadorena-programacion-2026");
+    expect(card.action).toBe("Ver memoria");
+  });
+
+  it("un borrador que llegara por error no cambia cta, href ni external", () => {
+    const draft = { ...publishedPage, publication: "draft" } as unknown as PublicEventPage;
+    const card = toCatalogCard({ ...defaultEvents[0], page: draft });
+    expect(card.href).toBe("https://copa.c3.com.sv");
+    expect(card.external).toBe(true);
+    expect(card.action).toBe("Ir a la Copa");
+  });
+
+  it("sin ficha conserva exactamente cta, href y external de cada evento por defecto", () => {
+    for (const event of defaultEvents) {
+      const card = toCatalogCard(event);
+      expect(card.action).toBe(event.cta);
+      expect(card.href).toBe(event.href);
+      expect(card.external).toBe(Boolean(event.external));
+    }
+  });
+
+  it("una ficha con slug inválido no genera un enlace roto", () => {
+    const bad = { ...publishedPage, slug: "../admin" };
+    const card = toCatalogCard({ ...defaultEvents[0], page: bad });
+    expect(card.href).toBe("https://copa.c3.com.sv");
+    expect(card.action).toBe("Ir a la Copa");
   });
 });

@@ -49,6 +49,9 @@ estilo.md
 .tmp_*/
 tmp_*
 
+# respaldos de la migracion de fichas (documentos completos de Firestore)
+*.event-pages-backup.json
+
 # playwright
 playwright-report/
 test-results/

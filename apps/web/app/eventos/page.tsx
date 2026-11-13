@@ -2,14 +2,15 @@ import type { Metadata } from "next";
 import EventsCatalog from "@/components/EventsCatalog";
 import PageShell from "@/components/PageShell";
 import SeoJsonLd from "@/components/SeoJsonLd";
+import { toCatalogEvent } from "@/lib/ds/event-card";
 import { getPublicEvents } from "@/lib/events";
 import { createPageMetadata } from "@/lib/metadata";
 import {
   getBreadcrumbJsonLd,
   getCollectionPageJsonLd,
+  getEventItemListEntry,
   getItemListJsonLd,
 } from "@/lib/structured-data";
-import { siteConfig } from "@/lib/site";
 
 const seoTitle = "Eventos C3 | Competencias, hackathons y comunidad técnica";
 const seoDescription =
@@ -38,11 +39,7 @@ export default async function EventosPage() {
   const events = await getPublicEvents();
   const itemList = getItemListJsonLd(
     "/eventos",
-    events.map((event) => ({
-      name: event.title,
-      description: event.description,
-      url: event.external ? event.href : `${siteConfig.domain}${event.href}`,
-    })),
+    events.map(getEventItemListEntry),
     "Catálogo de eventos C3",
   );
 
@@ -63,7 +60,7 @@ export default async function EventosPage() {
 
       <section className="c3-featured">
         <div className="c3-frame">
-          <EventsCatalog initialEvents={events} />
+          <EventsCatalog initialEvents={events.map(toCatalogEvent)} />
         </div>
       </section>
     </PageShell>
