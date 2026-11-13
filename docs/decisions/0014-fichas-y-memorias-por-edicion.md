@@ -1,10 +1,10 @@
 # 0014 · Fichas y memorias por edición: ampliación de alcance
 
-- **Fecha:** 2026-11-13 · **Responsable:** pendiente de aprobación del responsable de C3 · **Estado:** Propuesta — pendiente de aprobación del responsable
+- **Fecha:** 2026-11-13 · **Responsable:** aprobada por el responsable de C3 · **Estado:** Aceptada (13-nov-2026)
 - **Spec:** [`docs/superpowers/specs/2026-11-13-eventos-memorias-design.md`](../superpowers/specs/2026-11-13-eventos-memorias-design.md)
 - **Plan:** [`docs/superpowers/plans/2026-11-13-eventos-memorias.md`](../superpowers/plans/2026-11-13-eventos-memorias.md)
 
-> Esta decisión **no está aprobada**. Mientras no lo esté, ninguna ficha se publica y el contenido real queda en borrador. Los límites y el contrato son propuestas del implementador, no respuestas atribuidas al responsable (spec §11).
+> Decisión **aceptada** por el responsable el 13-nov-2026, con las aclaraciones de abajo. El contenido real de cada ficha sigue siendo responsabilidad editorial del responsable.
 
 ## Contexto
 
@@ -15,7 +15,7 @@ Dos decisiones vigentes limitan esto:
 - [ADR-0003](0003-alcance-solo-paginas-existentes.md) acota el rework a las páginas existentes y deja `apps/admin` sin cambios visuales ni funcionales. `/eventos/{slug}` no existe todavía.
 - `AGENTS.md` pide no tocar `apps/admin` visualmente y `PRODUCT.md` fija que el rework es visual y conserva el contenido.
 
-## Decisión (propuesta)
+## Decisión
 
 1. **Amplía el alcance de ADR-0003** con una ruta nueva de detalle, `/eventos/{slug}`, una por edición. Las demás páginas siguen como están. No hay página global de impacto, inscripción, cuentas, blog, newsletter ni biblioteca de medios.
 2. **Cambio funcional acotado del admin.** Se permite añadir al formulario de eventos la edición de la ficha y la memoria (campos estructurados), con su normalización, API, persistencia y validación. **No se rediseña el admin** ni `packages/ui`; el estilo visual del admin no cambia más allá de los campos nuevos.
@@ -42,9 +42,16 @@ Dos decisiones vigentes limitan esto:
 - El número 0012 sigue reservado para la decisión de fotos y medios.
 - Pendiente del responsable: aprobar o ajustar límites, la excepción del baseline y la lista de ediciones a migrar.
 
+## Aclaraciones del responsable (13-nov-2026)
+
+- **Memoria y resultados** se agregan después de la ficha básica, sin eliminar la información básica.
+- **Inscripción** se apaga cuando la edición está cerrada: solo se muestra con inscripciones abiertas y la edición vigente. El código ya lo hace así.
+- **Copa y Hackathon:** la ficha `/eventos/{slug}` es el sitio permanente. Los sitios especiales (`copa.c3.com.sv`, `hackathon.c3.com.sv`) quedan como enlaces externos dentro de la ficha.
+- **Excepción editorial del baseline (punto 7):** sigue sin registro aprobado. El registro `e2e/content-approved-changes.json` está vacío y no se usa para cambiar tarjetas en vivo.
+
 ## Estado de implementación
 
-Estado de la decisión: **Propuesta**, sin aprobar. El código está implementado en la rama `eventos-memorias`, pero no está aprobado para producción.
+Estado de la decisión: **Aceptada** (13-nov-2026). El código está implementado en la rama `eventos-memorias`; la salida a producción sigue el orden de despliegue de la sección de pendientes.
 
 - T0 (documentación): `9d5f57f`, `9c1d689`.
 - T1 (modelo y validación): `24b88e9`, `1c8ac67`.

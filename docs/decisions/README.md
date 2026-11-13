@@ -15,7 +15,7 @@ Una decisión por archivo: `NNNN-titulo.md`. Estado: `propuesta`, `aceptada`, `r
 | [0010](0010-panel-admin-estilo-dashboard.md) | 2026-11-12 | Panel admin con estilo de dashboard | aceptada |
 | [0011](0011-destacado-rotativo-y-tipos-de-evento.md) | 2026-11-12 | Destacado rotativo en el home y tipo de experiencia como respaldo visual | aceptada |
 | [0013](0013-entradilla-de-seccion-mas-ancha.md) | 2026-11-13 | Entradilla bajo el titular de sección: 62 caracteres (el DS dice 34) | aceptada |
-| [0014](0014-fichas-y-memorias-por-edicion.md) | 2026-11-13 | Fichas y memorias por edición (`/eventos/{slug}`): ampliación de alcance de ADR-0003 y cambio funcional acotado del admin | propuesta (pendiente de aprobación; implementado en la rama `eventos-memorias`, ver el ADR) |
+| [0014](0014-fichas-y-memorias-por-edicion.md) | 2026-11-13 | Fichas y memorias por edición (`/eventos/{slug}`): ampliación de alcance de ADR-0003 y cambio funcional acotado del admin | propuesta (aceptada el 13-nov-2026; implementada en la rama `eventos-memorias`, ver el ADR) |
 
 ## Plantilla
 
