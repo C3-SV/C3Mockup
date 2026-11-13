@@ -6,21 +6,20 @@ import { ClosingPanel } from "./ClosingPanel";
 import { DatosSection } from "./DatosSection";
 import { EventosSection } from "./EventosSection";
 import { Hero } from "./Hero";
-import { IniciativasSection } from "./IniciativasSection";
 import { LinesSection } from "./LinesSection";
 
 /**
- * Contenido de la home conservado (Tarea 4.2): mismos titulares, mismo orden y mismos destinos que
- * la home anterior (docs/superpowers/plans, Tarea 4.2; e2e/content-baseline.json).
+ * Contenido de la home conservado (Tarea 4.2): mismos titulares y mismos destinos que la home anterior
+ * (e2e/content-baseline.json). El orden cambió el 13-nov-2026 (ADR-0011): la evidencia viva va después del hero
+ * y se retiró «Próximas iniciativas»; e2e/home-orden.spec.ts vigila el orden real de la página.
  */
 function renderHome() {
   return render(
     <>
       <Hero />
-      <IniciativasSection events={defaultEvents} now={new Date("2026-11-12T12:00:00Z")} />
+      <EventosSection cards={[]} />
       <DatosSection />
       <LinesSection />
-      <EventosSection cards={[]} />
       <AudienceSection />
       <ClosingPanel />
     </>,
@@ -29,13 +28,12 @@ function renderHome() {
 
 const HEADINGS_IN_ORDER = [
   "C3 desarrolla talento técnico joven a través de competencia, creación y conexión.",
-  "Próximas iniciativas",
+  "Evidencia viva del ecosistema C3",
   "Datos que respaldan el avance de C3",
   "Un ecosistema integrado",
   "COMPITE",
   "CREA",
   "CONECTA",
-  "Evidencia viva del ecosistema C3",
   "C3 conecta a quienes quieren construir el ecosistema técnico joven",
   "Personas",
   "Instituciones educativas",

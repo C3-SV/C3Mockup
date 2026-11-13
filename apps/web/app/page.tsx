@@ -4,7 +4,6 @@ import { ClosingPanel } from "@/components/home/ClosingPanel";
 import { DatosSection } from "@/components/home/DatosSection";
 import { EventosSection } from "@/components/home/EventosSection";
 import { Hero } from "@/components/home/Hero";
-import { IniciativasSection } from "@/components/home/IniciativasSection";
 import { LinesSection } from "@/components/home/LinesSection";
 import PageShell from "@/components/PageShell";
 import SeoJsonLd from "@/components/SeoJsonLd";
@@ -46,13 +45,12 @@ export default async function Home() {
       <SeoJsonLd data={getWebPageJsonLd({ path: "/", title: seoTitle, description: seoDescription })} />
       <SeoJsonLd data={itemList} />
       <Hero />
-      <IniciativasSection events={rest} now={now} spotlightCount={rotation.length} />
-      <DatosSection />
-      <LinesSection />
       <EventosSection
         spotlight={rotation.map((event) => toCatalogCard(event, now))}
         cards={rest.map((event) => toCatalogCard(event, now))}
       />
+      <DatosSection />
+      <LinesSection />
       <AudienceSection />
       <ClosingPanel />
     </PageShell>
