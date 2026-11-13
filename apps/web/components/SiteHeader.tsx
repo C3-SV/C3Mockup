@@ -9,7 +9,7 @@ import { ecosystemNavigation, headerNavigation } from "@/lib/content";
 
 /**
  * Cabecera publica (DS §7.1). Mismos enlaces y textos que el sitio actual (lib/content):
- * Inicio, Qué es C3, Ecosistema (Compite, Crea, Conecta), Eventos, FAQ y Contacto.
+ * Qué es C3, Ecosistema (Compite, Crea, Conecta), Eventos, FAQ y Contacto. El logo lleva al inicio.
  * Contacto pasa a ser la accion primaria del DS, no un enlace mas de la lista.
  */
 const CONTACT_HREF = "/contacto";
