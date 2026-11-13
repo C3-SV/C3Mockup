@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import EventsCatalog from "@/components/EventsCatalog";
 import PageShell from "@/components/PageShell";
 import SeoJsonLd from "@/components/SeoJsonLd";
+import { toCatalogEvent } from "@/lib/ds/event-card";
 import { getPublicEvents } from "@/lib/events";
 import { createPageMetadata } from "@/lib/metadata";
 import {
@@ -59,7 +60,7 @@ export default async function EventosPage() {
 
       <section className="c3-featured">
         <div className="c3-frame">
-          <EventsCatalog initialEvents={events} />
+          <EventsCatalog initialEvents={events.map(toCatalogEvent)} />
         </div>
       </section>
     </PageShell>

@@ -34,6 +34,44 @@ export function getEventCardLink(event: EventItem): { href: string; external: bo
   return { href: event.href, external: Boolean(event.external), action: event.cta };
 }
 
+/**
+ * Reduce un evento a lo que necesita la tarjeta del catálogo para pasarlo a un componente cliente (/eventos). De la
+ * ficha solo viajan el slug y la marca de que hay memoria publicada; el contenido (resumen, memoria, resultados,
+ * galería, materiales) se queda en el servidor. toCatalogCard devuelve lo mismo con el evento completo o con este.
+ */
+export function toCatalogEvent(event: EventItem): EventItem {
+  const { id, title, description, lines, status, cta, href, external, featured, featuredOrder, eventDate, eventDateEnd, kind, cover, page } = event;
+  return {
+    id,
+    title,
+    description,
+    lines,
+    status,
+    cta,
+    href,
+    external,
+    featured,
+    featuredOrder,
+    eventDate,
+    eventDateEnd,
+    kind,
+    cover,
+    ...(page
+      ? {
+          page: {
+            slug: page.slug,
+            publication: "published" as const,
+            overview: [],
+            resources: [],
+            ...(page.memory
+              ? { memory: { publication: "published" as const, summary: [], learnings: [], results: [], outputs: [], gallery: [] } }
+              : {}),
+          },
+        }
+      : {}),
+  };
+}
+
 /** La primera línea es la principal; el resto se muestra como texto. Un evento sin líneas no llega aquí (lo descarta el parseo). */
 export function toCatalogCard(event: EventItem, now: Date = new Date()): CatalogCardData {
   const [line, ...otherLines] = event.lines;

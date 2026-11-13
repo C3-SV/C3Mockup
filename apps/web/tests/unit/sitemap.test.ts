@@ -10,12 +10,18 @@ const store = vi.hoisted(() => ({
   reservations: new Map<string, unknown>(),
   events: new Map<string, unknown>(),
   failEvents: false,
+  notConfigured: false,
 }));
 
-vi.mock("@/lib/events", () => ({
-  // Las rutas generales usan getPublicEvents (con su respaldo); las fichas nunca salen de ahí.
-  getPublicEvents: async () => [],
-  getAdminFirestore: () => ({
+vi.mock("@/lib/events", () => {
+  class FirebaseNotConfiguredError extends Error {}
+  return {
+    FirebaseNotConfiguredError,
+    // Las rutas generales usan getPublicEvents (con su respaldo); las fichas nunca salen de ahí.
+    getPublicEvents: async () => [],
+    getAdminFirestore: () => {
+      if (store.notConfigured) throw new FirebaseNotConfiguredError("Firebase service account is not configured.");
+      return {
     collection: (name: string) => ({
       get: async () => {
         if (store.failEvents) throw new Error("Firestore no disponible");
@@ -28,8 +34,10 @@ vi.mock("@/lib/events", () => ({
         },
       }),
     }),
-  }),
-}));
+      };
+    },
+  };
+});
 
 import sitemap from "@/app/sitemap";
 import { getPublishedEventPages } from "@/lib/event-detail";
@@ -63,6 +71,7 @@ beforeEach(() => {
   store.reservations.clear();
   store.events.clear();
   store.failEvents = false;
+  store.notConfigured = false;
 });
 
 describe("getPublishedEventPages", () => {
@@ -140,5 +149,16 @@ describe("sitemap", () => {
     store.failEvents = true;
 
     await expect(sitemap()).rejects.toThrow("Firestore no disponible");
+  });
+
+  it("sin cuenta de servicio configurada (no es un fallo de Firestore): rutas generales, cero fichas y un aviso", async () => {
+    store.notConfigured = true;
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+
+    const entries = await sitemap();
+
+    expect(entries.map((entry) => entry.url)).toEqual(generalRoutes);
+    expect(warn).toHaveBeenCalledTimes(1);
+    warn.mockRestore();
   });
 });

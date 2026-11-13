@@ -235,6 +235,19 @@ describe("EventDetail", () => {
     expect(link).toHaveAttribute("rel", expect.stringContaining("noopener"));
   });
 
+  it("«Sitio del evento» no aparece cuando el href es una ruta interna del catálogo (/eventos)", () => {
+    const bundled = ended({ href: "/eventos", cta: "Explorar eventos", external: false });
+    render(<EventDetail event={bundled} now={NOW} />);
+
+    expect(screen.queryByRole("heading", { level: 2, name: /sitio del evento/i })).toBeNull();
+    expect(screen.queryByRole("link", { name: /Explorar eventos/ })).toBeNull();
+  });
+
+  it("«Sitio del evento» sí aparece con un sitio externo real", () => {
+    render(<EventDetail event={ended()} now={NOW} />);
+    expect(screen.getByRole("heading", { level: 2, name: /sitio del evento/i })).toBeInTheDocument();
+  });
+
   it("muestra información práctica y materiales solo con datos", () => {
     render(
       <EventDetail

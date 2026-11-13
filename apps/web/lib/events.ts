@@ -24,6 +24,14 @@ function readFirebaseServiceAccount(): ServiceAccount | null {
   };
 }
 
+/** La cuenta de servicio de Firebase no está configurada (distinto de un fallo de Firestore en funcionamiento). */
+export class FirebaseNotConfiguredError extends Error {
+  constructor() {
+    super("Firebase service account is not configured.");
+    this.name = "FirebaseNotConfiguredError";
+  }
+}
+
 let firestore: ReturnType<typeof getFirestore> | null = null;
 
 /** Firestore de servidor. Lanza si falta la cuenta de servicio: quien la usa decide si recuperarse (catálogo) o propagar (detalle). */
@@ -35,7 +43,7 @@ export function getAdminFirestore() {
   const serviceAccount = readFirebaseServiceAccount();
 
   if (!serviceAccount) {
-    throw new Error("Firebase service account is not configured.");
+    throw new FirebaseNotConfiguredError();
   }
 
   if (!getApps().length) {

@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { publicRoutes } from "@/lib/content";
 import { getPublishedEventPages } from "@/lib/event-detail";
-import { getPublicEvents } from "@/lib/events";
+import { FirebaseNotConfiguredError, getPublicEvents } from "@/lib/events";
 import { siteConfig } from "@/lib/site";
 import { getLatestEventLastModified, type EventItem } from "@c3/config";
 
@@ -37,11 +37,22 @@ function documentLastModified(event: Pick<EventItem, "updatedAt" | "createdAt">)
 }
 
 /**
- * Fichas publicadas (documentos reales con reserva activa). Si Firestore falla, el error se propaga: la petición
- * del sitemap falla y se reintenta, en vez de publicar un sitemap sin fichas ni sustituirlas por defaultEvents.
+ * Fichas publicadas (documentos reales con reserva activa). Un fallo real de Firestore se propaga: la petición del
+ * sitemap falla y se reintenta, en vez de publicar un sitemap sin fichas ni sustituirlas por defaultEvents. Solo
+ * cuando la cuenta de servicio no está configurada (entorno sin Firebase) se devuelven cero fichas, con un aviso.
  */
 async function readEventPageEntries(): Promise<MetadataRoute.Sitemap> {
-  const pages = await getPublishedEventPages();
+  let pages: EventItem[];
+  try {
+    pages = await getPublishedEventPages();
+  } catch (error) {
+    if (error instanceof FirebaseNotConfiguredError) {
+      console.warn("Sitemap sin fichas de evento: Firebase no está configurado.");
+      return [];
+    }
+    throw error;
+  }
+
   return pages.map((event) => {
     const entry: MetadataRoute.Sitemap[number] = {
       url: `${siteConfig.domain}/eventos/${event.page?.slug}`,

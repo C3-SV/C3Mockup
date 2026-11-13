@@ -194,7 +194,10 @@ export function EventDetail({ event, now }: { event: EventItem; now: Date }) {
   const siteLinkTarget = event.external
     ? { target: "_blank", rel: "noopener noreferrer" }
     : { target: undefined, rel: undefined };
-  const showSiteLink = Boolean(event.href) && event.href !== ownHref;
+  // «Sitio del evento» solo si hay un sitio especial real: externo, o un destino que no sea una ruta interna del
+  // catálogo (/eventos…). Los eventos incluidos con href "/eventos" no tienen micrositio.
+  const isCatalogRoute = /^\/eventos(?:[/?#]|$)/.test(event.href);
+  const showSiteLink = Boolean(event.href) && event.href !== ownHref && (Boolean(event.external) || !isCatalogRoute);
 
   return (
     <div className="c3-event">

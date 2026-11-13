@@ -10,7 +10,7 @@
     "  eventId: id del evento en Firestore (events/{id}) cuya tarjeta cambia.",
     "  slug: slug nuevo e inmutable de la ficha; el destino interno esperado es /eventos/{slug}.",
     "  adr: referencia del ADR aprobado que autoriza la excepcion (p. ej. \"ADR-0013\").",
-    "Las pruebas de conservacion solo admiten entradas EXACTAS de este registro: verifican el enlace interno nuevo y que el CTA original siga dentro de la ficha. Cualquier otra diferencia contra el baseline sigue fallando.",
+    "Estado: el consumidor de este registro aun no esta implementado. Solo existe la validacion de su forma (content-approved-changes.spec.ts); ninguna prueba de conservacion lo lee todavia, y el registro esta vacio y pendiente de aprobacion del responsable. Cuando se implemente ese consumidor, solo debera admitir entradas EXACTAS de este registro (enlace interno nuevo y CTA original dentro de la ficha); cualquier otra diferencia contra el baseline seguiria fallando.",
     "Si la excepcion no se aprueba, no se agrega nada y se conservan los enlaces secundarios originales en las paginas afectadas."
   ],
   "entries": []
