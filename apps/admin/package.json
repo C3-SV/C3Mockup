@@ -9,7 +9,8 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "seed:events": "tsx scripts/seed-events.ts"
+    "seed:events": "tsx scripts/seed-events.ts",
+    "migrate:event-pages": "tsx scripts/migrate-event-pages.ts"
   },
   "dependencies": {
     "@c3/config": "workspace:*",
