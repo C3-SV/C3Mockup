@@ -6,7 +6,7 @@ export function LinesSection() {
   return (
     <section className="c3-featured" aria-labelledby="ecosistema-integrado">
       <div className="c3-frame">
-        <div className="c3-section-head c3-section-head--ancho">
+        <div className="c3-section-head">
           <h2 id="ecosistema-integrado">Un ecosistema integrado</h2>
           <p className="c3-lead">
             C3 no solo organiza eventos. Construimos un sistema donde el talento técnico joven puede crecer de forma

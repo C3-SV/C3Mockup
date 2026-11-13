@@ -28,6 +28,7 @@ Los 16 asuntos abiertos de `source/ACTUALIZACION-DS-C3.md` §12.1, más las desv
 - Texto de 10 y 11 px: solo en etiquetas (número de paso, eyebrow, títulos de pie); nunca en texto corrido.
 - Burbuja de la órbita oculta bajo 900 px: **decisión pendiente ⚠**. Propuesta: mostrar la información en línea bajo la órbita en tableta y móvil, para que el control no quede mudo.
 - Lectura en proyector: sin verificar; fuera de alcance.
+- Entradilla bajo titular de sección (`.c3-section-head .c3-lead`): hasta **62 caracteres**, no 34 como dice el paquete. El hero conserva 34. Decidido el 13-nov-2026 por el responsable ([ADR-0013](../decisions/0013-entradilla-de-seccion-mas-ancha.md)).
 
 ## Preguntas abiertas para el responsable ⚠
 
