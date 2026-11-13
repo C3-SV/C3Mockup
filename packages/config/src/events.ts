@@ -1,3 +1,5 @@
+import type { PublicEventPage } from "./event-page";
+
 export const lineKeys = ["compite", "crea", "conecta"] as const;
 
 export type LineKey = (typeof lineKeys)[number];
@@ -54,6 +56,8 @@ export type EventItem = {
   eventDateEnd?: string;
   kind?: ExperienceKind;
   cover?: EventCover;
+  /** Ficha permanente de la edición. Solo contenido publicado (sin borradores ni derechos); ver event-page.ts. */
+  page?: PublicEventPage;
   source?: string;
   createdAt?: string;
   updatedAt?: string;
@@ -216,7 +220,7 @@ function parseEventTimestamp(value?: string) {
   return Number.isNaN(parsed.getTime()) ? null : parsed;
 }
 
-export function getEventSortDate(event: EventItem) {
+export function getEventSortDate(event: Pick<EventItem, "eventDate">) {
   return parseEventDate(event.eventDate);
 }
 
@@ -255,7 +259,8 @@ function isUpcoming(eventDate: Date | null, now: Date) {
   return eventDate.getTime() >= now.getTime();
 }
 
-export function compareEventsBySchedule(a: EventItem, b: EventItem) {
+/** Orden del catálogo. Solo necesita fecha, destacado y título, así que sirve igual para EventItem y AdminEventRecord. */
+export function compareEventsBySchedule<T extends Pick<EventItem, "eventDate" | "featured" | "title">>(a: T, b: T) {
   const now = new Date();
   const aDate = getEventSortDate(a);
   const bDate = getEventSortDate(b);

@@ -135,6 +135,13 @@ export function parseAdminEventDoc(id: string, data: Record<string, unknown>): A
   }
 }
 
+/** Eventos incluidos en el código como registros administrativos. No tienen ficha (page): el admin la crea después. */
+function bundledAdminEvents(now: string): AdminEventRecord[] {
+  return defaultEvents
+    .map((event) => ({ ...event, page: undefined, createdAt: now, updatedAt: now }))
+    .sort(compareEventsBySchedule);
+}
+
 export async function listAdminEvents() {
   try {
     const db = getAdminFirestore();
@@ -142,13 +149,7 @@ export async function listAdminEvents() {
     const now = new Date().toISOString();
 
     if (snapshot.empty) {
-      return defaultEvents
-        .map((event) => ({
-          ...event,
-          createdAt: now,
-          updatedAt: now,
-        }))
-        .sort(compareEventsBySchedule) satisfies AdminEventRecord[];
+      return bundledAdminEvents(now);
     }
 
     return snapshot.docs
@@ -157,14 +158,7 @@ export async function listAdminEvents() {
       .sort(compareEventsBySchedule);
   } catch (error) {
     console.warn("Falling back to bundled events data in admin:", error);
-    const now = new Date().toISOString();
-    return defaultEvents
-      .map((event) => ({
-        ...event,
-        createdAt: now,
-        updatedAt: now,
-      }))
-      .sort(compareEventsBySchedule) satisfies AdminEventRecord[];
+    return bundledAdminEvents(new Date().toISOString());
   }
 }
 

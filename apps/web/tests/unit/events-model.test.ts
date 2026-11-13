@@ -113,3 +113,102 @@ describe("normalizadores de la configuración compartida", () => {
     }
   });
 });
+
+describe("parseEventDocument: ficha por edición (page)", () => {
+  const publishedPage = {
+    slug: "copa-2026",
+    publication: "published",
+    overview: ["Qué es la Copa."],
+    resources: [{ title: "Bases", url: "/bases" }],
+  };
+  const gallery = [{ url: "https://media.c3.com.sv/a.webp", alt: "Equipo", rightsConfirmed: true }];
+
+  it("sin page, la salida conserva exactamente las claves de antes (sin clave page)", () => {
+    const event = parseEventDocument("doc-p0", base);
+    expect(event).not.toBeNull();
+    expect(Object.keys(event ?? {}).sort()).toEqual(
+      [
+        "cover",
+        "createdAt",
+        "cta",
+        "description",
+        "eventDate",
+        "eventDateEnd",
+        "external",
+        "featured",
+        "featuredOrder",
+        "href",
+        "id",
+        "kind",
+        "lines",
+        "source",
+        "status",
+        "title",
+        "updatedAt",
+      ].sort(),
+    );
+  });
+
+  it("los eventos por defecto no tienen ficha", () => {
+    for (const event of defaultEvents) {
+      expect(event.page).toBeUndefined();
+    }
+  });
+
+  it("una ficha en borrador se omite y el evento base sigue", () => {
+    const event = parseEventDocument("doc-p1", { ...base, page: { ...publishedPage, publication: "draft" } });
+    expect(event).not.toBeNull();
+    expect(event).not.toHaveProperty("page");
+    expect(JSON.stringify(event)).not.toContain("Qué es la Copa");
+  });
+
+  it("una ficha publicada se proyecta como contenido público", () => {
+    const event = parseEventDocument("doc-p2", { ...base, page: publishedPage });
+    expect(event?.page).toEqual({
+      slug: "copa-2026",
+      publication: "published",
+      overview: ["Qué es la Copa."],
+      resources: [{ title: "Bases", url: "/bases" }],
+    });
+  });
+
+  it("una ficha inválida (slug, tipos, no objeto) se omite sin perder el evento", () => {
+    for (const page of [{ ...publishedPage, slug: "MAL SLUG" }, "texto", 12, [], { publication: "published" }]) {
+      const event = parseEventDocument("doc-p3", { ...base, page });
+      expect(event?.title).toBe("Taller de prueba");
+      expect(event).not.toHaveProperty("page");
+    }
+  });
+
+  it("la memoria en borrador no llega al público; la publicada sí y sin rightsConfirmed", () => {
+    const draftMemory = { publication: "draft", summary: ["Texto interno"], gallery };
+    const withDraft = parseEventDocument("doc-p4", { ...base, page: { ...publishedPage, memory: draftMemory } });
+    expect(withDraft?.page).toBeDefined();
+    expect(withDraft?.page).not.toHaveProperty("memory");
+    expect(JSON.stringify(withDraft)).not.toContain("Texto interno");
+
+    const withPublished = parseEventDocument("doc-p5", {
+      ...base,
+      page: { ...publishedPage, memory: { publication: "published", summary: ["Resumen público"], gallery } },
+    });
+    expect(withPublished?.page?.memory?.summary).toEqual(["Resumen público"]);
+    expect(withPublished?.page?.memory?.gallery).toEqual([{ url: "https://media.c3.com.sv/a.webp", alt: "Equipo" }]);
+    expect(JSON.stringify(withPublished)).not.toContain("rightsConfirmed");
+  });
+
+  it("una memoria inválida se omite y la ficha publicada se conserva", () => {
+    const event = parseEventDocument("doc-p6", {
+      ...base,
+      page: {
+        ...publishedPage,
+        memory: {
+          publication: "published",
+          summary: ["x"],
+          gallery: [{ url: "https://evil.example/x.png", alt: "a", rightsConfirmed: true }],
+        },
+      },
+    });
+    expect(event?.page?.slug).toBe("copa-2026");
+    expect(event?.page).not.toHaveProperty("memory");
+  });
+});
