@@ -439,10 +439,54 @@ describe("saveEventWithPage: reserva de slug e identidad estable", () => {
     expect(storedEvent(db, "edicion-a")).toEqual(before);
   });
 
-  it("un id de ruta que no coincide con un id válido es un 400 y no escribe en otro documento", async () => {
+  it("I5: el id de la ruta es el id de Firestore tal cual (no tiene que ser slug): se edita y borra en su sitio", async () => {
     const db = new FakeFirestore();
-    await expectApiError(updateEventFromPayload(db, "Edición A", payload(), at), 400);
-    expect(db.ids(EVENTS_COLLECTION)).toEqual([]);
+    // Ids heredados sin forma de slug: mayúsculas y guion bajo, y un id automático de la consola de Firebase.
+    const legacyIds = ["Copa-SV_2024", "x7Kp2QaZ9mB4cD1eF0gH"];
+    for (const id of legacyIds) {
+      db.put(EVENTS_COLLECTION, id, { ...(buildAdminEventRecord(payload(), at) as unknown as Data), id });
+    }
+
+    for (const id of legacyIds) {
+      const saved = await updateEventFromPayload(db, id, payload({ id, title: `Editado ${id}` }), later);
+      expect(saved.id).toBe(id);
+      expect(storedEvent(db, id)?.title).toBe(`Editado ${id}`);
+      expect(storedEvent(db, id)?.id).toBe(id);
+    }
+    // Nunca se escribe en el id convertido a slug: sería otro documento (renombrar viola la spec §4).
+    expect(db.ids(EVENTS_COLLECTION).sort()).toEqual([...legacyIds].sort());
+
+    // Con ficha: la reserva apunta al id heredado y borrar la retira. Solo el slug de la ficha sigue el patrón.
+    await updateEventFromPayload(db, legacyIds[0], payload({ id: legacyIds[0], page: page() }), later);
+    expect(reservation(db, SLUG)).toEqual({ eventId: legacyIds[0], retired: false });
+    await deleteEventWithPage(db, legacyIds[0]);
+    expect(storedEvent(db, legacyIds[0])).toBeUndefined();
+    expect(reservation(db, SLUG)).toEqual({ eventId: legacyIds[0], retired: true });
+  });
+
+  it("I5: los ids de defaultEvents se editan en su sitio", async () => {
+    const db = new FakeFirestore();
+    await upsertEventsWithPages(
+      db,
+      defaultEvents.map((event) => ({ ...event, page: undefined, createdAt: NOW, updatedAt: NOW })),
+      at,
+    );
+
+    for (const event of defaultEvents) {
+      const saved = await updateEventFromPayload(db, event.id, { title: `Editado ${event.id}` }, later);
+      expect(saved.id).toBe(event.id);
+      expect(storedEvent(db, event.id)?.title).toBe(`Editado ${event.id}`);
+    }
+    expect(db.ids(EVENTS_COLLECTION).sort()).toEqual(defaultEvents.map((event) => event.id).sort());
+  });
+
+  it("un id que Firestore no puede direccionar es un 400 y no escribe", async () => {
+    const db = new FakeFirestore();
+    for (const id of ["", "a/b", ".", ".."]) {
+      await expectApiError(updateEventFromPayload(db, id, payload(), at), 400);
+      await expectApiError(deleteEventWithPage(db, id), 400);
+    }
+    expect(db.commits).toHaveLength(0);
   });
 
   it("borrar retira la reserva y elimina el evento en la misma transacción", async () => {
@@ -665,20 +709,54 @@ describe("lecturas del admin", () => {
     expect(one).toEqual(events[0]);
   });
 
-  it("ese mismo evento no se puede volver a guardar sin corregirlo: 400 por campo y nada escrito", async () => {
+  it("R11: un cliente antiguo (sin page) guarda ese evento: la ficha se conserva tal cual, sin validarla con el reloj", async () => {
+    const db = new FakeFirestore();
+    const stored = storedWithPublishedMemoryInFuture();
+    // Texto sin normalizar: se escribe lo guardado, no una versión re-normalizada.
+    stored.page = { ...(stored.page as Data), overview: ["  Párrafo guardado a mano, con espacios.  "] };
+    db.put(EVENTS_COLLECTION, "edicion-a", stored);
+    const legacy: Data = { ...stored, title: "Título desde un cliente antiguo" };
+    delete legacy.page;
+
+    const saved = await updateEventFromPayload(db, "edicion-a", legacy, later);
+
+    expect(saved.title).toBe("Título desde un cliente antiguo");
+    expect(saved.page?.memory?.publication).toBe("published");
+    expect(storedEvent(db, "edicion-a")?.page).toStrictEqual(stored.page);
+    expect(JSON.stringify(storedEvent(db, "edicion-a")?.page)).toBe(JSON.stringify(stored.page));
+    // La ficha conservada queda con su reserva (se crea si faltaba).
+    expect(reservation(db, SLUG)).toEqual({ eventId: "edicion-a", retired: false });
+  });
+
+  it("R11: la carga masiva y el seed tampoco fallan por una ficha que ya no valida por fecha", async () => {
     const db = new FakeFirestore();
     const stored = storedWithPublishedMemoryInFuture();
     db.put(EVENTS_COLLECTION, "edicion-a", stored);
-    const legacy = { ...stored };
-    delete legacy.page;
 
-    const error = await expectApiError(updateEventFromPayload(db, "edicion-a", legacy, later), 400);
-    expect(error.errors?.["memory.publication"]).toBeTruthy();
-    expect(storedEvent(db, "edicion-a")).toEqual(stored);
-    expect(db.commits).toHaveLength(0);
+    // Evento incluido con memoria publicada: con sus datos del seed (sin fecha final) ya no se podría publicar.
+    const [first] = defaultEvents;
+    const publishedPage = buildAdminEventRecord(payload({ page: page({ slug: OTHER_SLUG }) }), at).page;
+    const firstStored: Data = { ...(buildAdminEventRecord(first, at) as unknown as Data), page: publishedPage };
+    db.put(EVENTS_COLLECTION, first.id, firstStored);
+
+    const upserted: Data = { ...stored, title: "Título masivo" };
+    delete upserted.page;
+    await upsertEventsWithPages(db, [upserted as unknown as AdminEventRecord], later);
+    expect(storedEvent(db, "edicion-a")?.title).toBe("Título masivo");
+    expect(storedEvent(db, "edicion-a")?.page).toStrictEqual(stored.page);
+
+    const seed: AdminEventRecord[] = defaultEvents.map((event) => ({
+      ...event,
+      page: undefined,
+      createdAt: LATER,
+      updatedAt: LATER,
+    }));
+    await upsertEventsWithPages(db, seed, later);
+    expect(storedEvent(db, first.id)?.page).toStrictEqual(firstStored.page);
+    expect(storedEvent(db, first.id)?.createdAt).toBe(firstStored.createdAt);
   });
 
-  it("una ficha guardada con estructura inválida no tumba el evento: se lista sin ficha y no se borra al guardar", async () => {
+  it("una ficha guardada con estructura inválida no tumba el evento: se lista sin ficha y un guardado sin page la conserva", async () => {
     const db = new FakeFirestore();
     const base = buildAdminEventRecord(payload(), at) as unknown as Data;
     db.put(EVENTS_COLLECTION, "edicion-a", { ...base, page: { slug: "No Válido", publication: "published" } });
@@ -687,8 +765,12 @@ describe("lecturas del admin", () => {
     expect(event?.id).toBe("edicion-a");
     expect(event?.page).toBeUndefined();
 
-    await expectApiError(updateEventFromPayload(db, "edicion-a", payload(), later), 400);
-    expect(storedEvent(db, "edicion-a")?.page).toEqual({ slug: "No Válido", publication: "published" });
+    const saved = await updateEventFromPayload(db, "edicion-a", payload({ title: "Otro título" }), later);
+    expect(saved.title).toBe("Otro título");
+    expect(saved.page).toBeUndefined();
+    expect(storedEvent(db, "edicion-a")?.page).toStrictEqual({ slug: "No Válido", publication: "published" });
+    // Un slug inválido nunca se usa como id de reserva.
+    expect(db.ids(EVENT_PAGE_SLUGS_COLLECTION)).toEqual([]);
   });
 
   it("distingue una colección vacía y un documento inexistente", async () => {

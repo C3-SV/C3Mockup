@@ -5,7 +5,6 @@ import {
   EventPageValidationError,
   omitUndefinedDeep,
   parseEventPage,
-  slugifyEventId,
   validateEventPage,
   type AdminEventRecord,
   type EventPage,
@@ -20,11 +19,14 @@ import {
  * - El primer slug guardado es inmutable. Despublicar conserva la reserva activa. Borrar retira la reserva
  *   (retired: true) y elimina el evento en la misma transacción; un slug retirado no se reutiliza nunca, ni
  *   siquiera recreando el mismo id.
- * - El registro guardado manda sobre el payload en id y createdAt; updatedAt lo pone el servidor.
- * - Sin `page` se conserva la ficha guardada (clientes antiguos, carga masiva y seed). `page: null` es un 400.
- *   `memory: null` elimina la memoria de forma expresa; omitir `memory` dentro de `page` la conserva.
+ * - El registro guardado manda sobre el payload en id y createdAt; updatedAt lo pone el servidor. El id del evento
+ *   es el id del documento de Firestore tal cual: estable y sin obligación de ser un slug (spec §4). Solo el slug de
+ *   la ficha sigue el patrón de slug.
+ * - Sin `page` se conserva la ficha guardada tal cual, sin validarla con el reloj (clientes antiguos, carga masiva y
+ *   seed; ruling R11). `page: null` es un 400. `memory: null` elimina la memoria de forma expresa; omitir `memory`
+ *   dentro de `page` la conserva.
  * - Las lecturas del admin son tolerantes (parseEventPage): nunca descartan ni alteran un evento según el reloj.
- *   La validación completa (validateEventPage con `now`) corre solo al guardar.
+ *   La validación completa (validateEventPage con `now`) corre solo cuando el guardado trae `page`.
  *
  * Este módulo no importa "server-only" ni el SDK de Firebase: recibe un adaptador con la forma mínima de Firestore
  * (EventStore), así lo usan las rutas del admin, el seed (tsx) y las pruebas con un Firestore simulado.
@@ -134,6 +136,35 @@ function resolveNow(options?: RepositoryOptions) {
   return options?.now ?? new Date().toISOString();
 }
 
+/**
+ * Id de documento que Firestore puede direccionar. El id del evento no tiene que ser un slug (ids heredados con
+ * mayúsculas, guiones bajos o ids automáticos de la consola siguen siendo válidos y no se renombran).
+ */
+function isFirestoreDocId(id: unknown): id is string {
+  return (
+    typeof id === "string" &&
+    id.length > 0 &&
+    !id.includes("/") &&
+    id !== "." &&
+    id !== ".." &&
+    !/^__.*__$/.test(id) &&
+    new TextEncoder().encode(id).length <= 1500
+  );
+}
+
+function assertDocId(id: unknown): asserts id is string {
+  if (!isFirestoreDocId(id)) {
+    throw new ApiError(400, `«${String(id)}» no es un id de evento válido.`);
+  }
+}
+
+/** Copia de un documento guardado sin su ficha. */
+function withoutPage(stored: StoredEvent | undefined): StoredEvent {
+  const copy = { ...(stored ?? {}) };
+  delete copy.page;
+  return copy;
+}
+
 function requirePayload(payload: unknown): Record<string, unknown> {
   if (!isRecord(payload)) {
     throw new ApiError(400, "El evento debe enviarse como un objeto JSON.");
@@ -204,10 +235,13 @@ async function planSave(
   const storedPage = stored?.page;
   const storedSlug = storedPageSlug(stored);
 
-  // 1. Ficha final: la enviada (completa) o, si no se envió, la guardada. Omitir memory no la borra.
-  let pageInput: unknown;
+  const writes: PlannedWrite[] = [];
+  let page: EventPage | undefined;
+  let keptPage: unknown;
+
   if (record.page !== undefined) {
-    pageInput = record.page;
+    // 1a. El guardado trae ficha: es completa y se valida entera (con el reloj). Omitir memory no la borra.
+    let pageInput: unknown = record.page;
     if (
       record.page.memory === undefined &&
       !intent.removeMemory &&
@@ -217,32 +251,21 @@ async function planSave(
     ) {
       pageInput = { ...record.page, memory: storedPage.memory };
     }
-  } else if (storedPage !== undefined && storedPage !== null) {
-    pageInput = storedPage;
-  }
-
-  let page: EventPage | undefined;
-  if (pageInput !== undefined) {
     const result = validateEventPage(pageInput, { event: record, now: context.now });
     if (!result.ok) {
       const invalid = new EventPageValidationError(result.errors);
       throw new ApiError(400, invalid.message, invalid.errors);
     }
     page = result.value;
-  }
 
-  // 2. Slug estable y reservado para este evento.
-  const writes: PlannedWrite[] = [];
-  if (page) {
+    // 2a. Slug estable y reservado para este evento.
     if (storedSlug !== undefined && page.slug !== storedSlug) {
       throw slugConflict(`El slug de la ficha no se puede cambiar después del primer guardado: es «${storedSlug}».`);
     }
-
     const claimedBy = context.claims.get(page.slug);
     if (claimedBy !== undefined && claimedBy !== id) {
       throw slugConflict(`El slug «${page.slug}» ya está reservado por otro evento.`);
     }
-
     const reservationRef = db.collection(EVENT_PAGE_SLUGS_COLLECTION).doc(page.slug);
     const reservation = readReservation(await tx.get(reservationRef));
     if (reservation === undefined) {
@@ -255,15 +278,40 @@ async function planSave(
       throw slugConflict(`El slug «${page.slug}» perteneció a una ficha borrada y no se reutiliza. Elige otro.`);
     }
     context.claims.set(page.slug, id);
+  } else if (storedPage !== undefined && storedPage !== null) {
+    // 1b. Sin ficha en el guardado (cliente antiguo, carga masiva, seed): la guardada se conserva tal cual, sin
+    // validarla con el reloj (ruling R11). Un cambio de fecha nunca hace fallar un guardado que no toca la ficha.
+    keptPage = storedPage;
+
+    // 2b. Reserva de la ficha conservada, sin bloquear el guardado: si falta, se crea; si ya existe (propia,
+    // retirada o ajena por datos inconsistentes) no se toca. Un slug inválido nunca se usa como id de reserva.
+    if (storedSlug !== undefined && isReservableSlug(storedSlug) && !context.claims.has(storedSlug)) {
+      const reservationRef = db.collection(EVENT_PAGE_SLUGS_COLLECTION).doc(storedSlug);
+      const reservation = readReservation(await tx.get(reservationRef));
+      if (reservation === undefined) {
+        writes.push({ kind: "set", ref: reservationRef, data: { eventId: id, retired: false } });
+      }
+      if (reservation === undefined || reservation?.eventId === id) {
+        context.claims.set(storedSlug, id);
+      }
+    }
   }
 
   // 3. Identidad: el registro guardado manda en createdAt; updatedAt es el instante de este guardado.
   const createdAt =
     typeof stored?.createdAt === "string" && stored.createdAt.trim() ? stored.createdAt : record.createdAt;
-  const saved = omitUndefinedDeep({ ...record, id, page, createdAt, updatedAt: context.now }) as AdminEventRecord;
-  writes.push({ kind: "set", ref: db.collection(EVENTS_COLLECTION).doc(id), data: saved });
+  const written = omitUndefinedDeep({
+    ...record,
+    id,
+    page: page ?? keptPage,
+    createdAt,
+    updatedAt: context.now,
+  }) as Record<string, unknown>;
+  writes.push({ kind: "set", ref: db.collection(EVENTS_COLLECTION).doc(id), data: written });
 
-  return { writes, saved };
+  // Lo que se devuelve es lo mismo que leería el admin después (la ficha conservada, leída de forma tolerante).
+  const saved = (keptPage === undefined ? written : { ...written, page: parseEventPage(keptPage) }) as AdminEventRecord;
+  return { writes, saved: omitUndefinedDeep(saved) };
 }
 
 function applyWrites(tx: EventStoreTransaction, writes: PlannedWrite[]) {
@@ -308,10 +356,15 @@ export async function upsertEventsWithPages(
   options?: RepositoryOptions,
 ): Promise<AdminEventRecord[]> {
   const now = resolveNow(options);
-  const intents: SaveIntent[] = records.map((record) => ({
-    record: buildRecord(record, now, typeof record?.id === "string" ? record.id : undefined),
-    removeMemory: false,
-  }));
+  const intents: SaveIntent[] = records.map((record) => {
+    // El id dado es el id del documento y se respeta tal cual (I5); sin id, el constructor lo deriva del título.
+    const givenId = typeof record?.id === "string" && record.id !== "" ? record.id : undefined;
+    if (givenId !== undefined) {
+      assertDocId(givenId);
+    }
+    const built = buildRecord(record, now, givenId);
+    return { record: givenId === undefined ? built : { ...built, id: givenId }, removeMemory: false };
+  });
 
   const ids = new Set<string>();
   for (const { record } of intents) {
@@ -372,15 +425,15 @@ export async function updateEventFromPayload(
   options?: RepositoryOptions,
 ): Promise<AdminEventRecord> {
   const input = requirePayload(payload);
-  if (!id || slugifyEventId(id) !== id) {
-    throw new ApiError(400, `«${id}» no es un id de evento válido.`);
-  }
+  assertDocId(id);
   const now = resolveNow(options);
   const removeMemory = requestsMemoryRemoval(input);
 
   return db.runTransaction(async (tx) => {
     const stored = await readStoredEvent(tx, db, id);
-    const record = buildRecord({ ...(stored ?? {}), ...input, id }, now, id);
+    // La ficha guardada no entra en la construcción: solo se valida una ficha que venga en el payload. Si no viene,
+    // planSave la conserva tal cual (R11). El id es el del documento, aunque no tenga forma de slug (I5).
+    const record = { ...buildRecord({ ...withoutPage(stored), ...input, id }, now, id), id };
     const plan = await planSave(tx, db, { record, removeMemory }, stored, { now, claims: new Map() });
     applyWrites(tx, plan.writes);
     return plan.saved;
@@ -392,9 +445,7 @@ export async function updateEventFromPayload(
  * no se reutiliza. Borrar un evento inexistente no escribe nada.
  */
 export async function deleteEventWithPage(db: EventStore, id: string): Promise<void> {
-  if (!id || id.includes("/")) {
-    throw new ApiError(400, `«${id}» no es un id de evento válido.`);
-  }
+  assertDocId(id);
 
   await db.runTransaction(async (tx) => {
     const eventRef = db.collection(EVENTS_COLLECTION).doc(id);
