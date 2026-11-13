@@ -50,8 +50,8 @@ export const ecosystemNavigation = [
   },
 ] as const;
 
+/** Cabecera: sin «Inicio», que lo hace el logo (enlace a la portada, con su nombre accesible). */
 export const headerNavigation = [
-  { href: "/", label: "Inicio" },
   { href: "/que-es-c3", label: "Qué es C3" },
   { label: "Ecosistema", items: ecosystemNavigation },
   { href: "/eventos", label: "Eventos" },

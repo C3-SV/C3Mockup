@@ -10,12 +10,18 @@ describe("SiteHeader (cabecera blanca del DS, §7.1)", () => {
     pathname = "/";
   });
 
-  it("muestra el logo al inicio, los enlaces del sitio y Contacto como accion primaria", () => {
+  it("el logo lleva al inicio; la cabecera no tiene un enlace de texto Inicio", () => {
     render(<SiteHeader />);
     expect(screen.getByRole("link", { name: "Ir al inicio" })).toHaveAttribute("href", "/");
     const nav = screen.getByRole("navigation", { name: "Principal" });
+    expect(within(nav).queryByRole("link", { name: "Inicio" })).toBeNull();
+    expect(screen.queryByRole("link", { name: "Inicio" })).toBeNull();
+  });
+
+  it("muestra los enlaces del sitio y Contacto como accion primaria", () => {
+    render(<SiteHeader />);
+    const nav = screen.getByRole("navigation", { name: "Principal" });
     for (const [name, href] of [
-      ["Inicio", "/"],
       ["Qué es C3", "/que-es-c3"],
       ["Eventos", "/eventos"],
       ["FAQ", "/faq"],
@@ -59,7 +65,7 @@ describe("SiteHeader (cabecera blanca del DS, §7.1)", () => {
     render(<SiteHeader />);
     const nav = screen.getByRole("navigation", { name: "Principal" });
     expect(within(nav).getByRole("link", { name: "Eventos" })).toHaveAttribute("aria-current", "page");
-    expect(within(nav).getByRole("link", { name: "Inicio" })).not.toHaveAttribute("aria-current");
+    expect(within(nav).getByRole("link", { name: "Qué es C3" })).not.toHaveAttribute("aria-current");
   });
 
   it("Menu abre el panel movil con los mismos enlaces y Contacto", () => {

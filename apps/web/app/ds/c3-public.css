@@ -648,6 +648,12 @@ textarea.c3-campo {
   color: var(--c3-texto-suave);
 }
 
+/* Entradilla bajo el titular de sección (ADR-0013): hasta 62 caracteres. Con 34, el texto quedaba angosto
+   frente al titular. El hero conserva su entradilla de 34 caracteres. */
+.c3-section-head .c3-lead {
+  max-width: 62ch;
+}
+
 .c3-actions {
   display: flex;
   flex-wrap: wrap;

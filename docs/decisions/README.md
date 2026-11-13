@@ -14,6 +14,7 @@ Una decisión por archivo: `NNNN-titulo.md`. Estado: `propuesta`, `aceptada`, `r
 | [0008](0008-tokens-info-sombra-gradientes.md) | 2026-11-11 | Excepciones de tokens: info = Compite, sombra de tarjeta, 4 gradientes, modo oscuro no activo, puente de fuentes | aceptada |
 | [0010](0010-panel-admin-estilo-dashboard.md) | 2026-11-12 | Panel admin con estilo de dashboard | aceptada |
 | [0011](0011-destacado-rotativo-y-tipos-de-evento.md) | 2026-11-12 | Destacado rotativo en el home y tipo de experiencia como respaldo visual | aceptada |
+| [0013](0013-entradilla-de-seccion-mas-ancha.md) | 2026-11-13 | Entradilla bajo el titular de sección: 62 caracteres (el DS dice 34) | aceptada |
 
 ## Plantilla
 
