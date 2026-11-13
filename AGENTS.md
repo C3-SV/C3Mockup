@@ -13,7 +13,7 @@ Monorepo de **c3.com.sv** (Competitive Coding Club · El Salvador). Este archivo
 | Ruta | Qué es | Estado frente al DS nuevo |
 | --- | --- | --- |
 | `apps/web` | Sitio público (Next.js 16, React 19, Tailwind v4) | **En rework** al DS de nov-2026 |
-| `apps/admin` | Panel interno de eventos (Firebase) | **Fuera de alcance visual.** Solo CI y pruebas. Cambio funcional acotado propuesto para fichas por edición (ADR-0014, pendiente de aprobación) |
+| `apps/admin` | Panel interno de eventos (Firebase) | **Fuera de alcance visual.** Solo CI y pruebas. Cambio funcional acotado para fichas por edición (ADR-0014): implementado en la rama `eventos-memorias`; pendiente de aprobación del responsable |
 | `packages/ui` | Componentes compartidos | Se reevalúa en el plan (ver `docs/superpowers/plans/`) |
 | `packages/config` | Tipos y datos compartidos | Sin cambios de diseño |
 | `docs/` | Toda la documentación viva | Ver §2 |

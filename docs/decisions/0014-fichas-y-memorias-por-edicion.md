@@ -41,3 +41,17 @@ Dos decisiones vigentes limitan esto:
 - Hay dependencias de aprobación antes de publicar: spec, este ADR, el inventario de ediciones y el contenido real con permisos. Ver [`docs/content/eventos/inventario-ediciones.md`](../content/eventos/inventario-ediciones.md) y [`docs/content/eventos/guia-editorial.md`](../content/eventos/guia-editorial.md).
 - El número 0012 sigue reservado para la decisión de fotos y medios.
 - Pendiente del responsable: aprobar o ajustar límites, la excepción del baseline y la lista de ediciones a migrar.
+
+## Estado de implementación
+
+Estado de la decisión: **Propuesta**, sin aprobar. El código está implementado en la rama `eventos-memorias`, pero no está aprobado para producción.
+
+- T0 (documentación): `9d5f57f`, `9c1d689`.
+- T1 (modelo y validación): `24b88e9`, `1c8ac67`.
+- T2 (persistencia transaccional): `8c85579`, `c6ec35c`, `bc64ed6`, `4d58a1e`.
+- T3 (formulario del admin): `716558b`, `b9649d8`, `e07742f`.
+- T4 (detalle público): `81b5868`, `992e0fd`.
+- T5 (SEO y revalidación): `e248c40`, `78b5c0b`.
+- T6 (e2e y migración): `89647ed`, `5252e60`.
+
+Pendiente: aprobación de este ADR, inventario real, contenido editorial, gate en un proyecto Firestore de pruebas autorizado, revisión de acceso del admin, revisiones manuales y decisiones de publicación. Detalle en [`pendientes.md`](../design-system/pendientes.md).
