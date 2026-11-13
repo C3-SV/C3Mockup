@@ -195,7 +195,8 @@ function readRows(
       errors[rowPath] = "Debe ser un objeto.";
       return;
     }
-    if (Object.values(row).every(isBlank)) {
+    // `false` cuenta como vacío: una fila de galería sin nada más y con rightsConfirmed:false es una fila vacía.
+    if (Object.values(row).every((entry) => isBlank(entry) || entry === false)) {
       return;
     }
     kept += 1;
@@ -498,8 +499,11 @@ function localDay(now: Date): string | undefined {
 
 /**
  * En qué punto está la edición. Estado «Histórico» → ended. Si no, se compara el día local de El Salvador con
- * eventDate y eventDateEnd (el día final cuenta como en curso). Fechas ausentes, inválidas o incoherentes no
- * permiten inferir nada: unknown.
+ * eventDate y eventDateEnd (el día final cuenta como en curso).
+ *
+ * «ended» exige una fecha final confirmada (eventDateEnd) ya pasada: un eventDate suelto nunca se toma como día
+ * final (spec §5 y §6; ruling R9). Sin eventDateEnd solo se sabe que la edición no ha terminado antes y durante su
+ * día de inicio; después es unknown. Fechas ausentes, inválidas o incoherentes tampoco permiten inferir nada.
  */
 export function getEventPagePhase(
   event: Pick<EventItem, "status" | "eventDate" | "eventDateEnd">,
@@ -516,7 +520,15 @@ export function getEventPagePhase(
   }
 
   const rawEnd = typeof event.eventDateEnd === "string" ? event.eventDateEnd.trim() : "";
-  const end = rawEnd ? readDay(rawEnd) : start;
+  if (!rawEnd) {
+    // Sin fecha final confirmada no se puede afirmar que terminó.
+    if (today < start) {
+      return "upcoming";
+    }
+    return today === start ? "ongoing" : "unknown";
+  }
+
+  const end = readDay(rawEnd);
   if (!end || end < start) {
     return "unknown";
   }

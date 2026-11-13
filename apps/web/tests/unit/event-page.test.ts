@@ -257,6 +257,79 @@ describe("validateEventPage: límites exactos de la spec §5", () => {
     const result = errors(heavy);
     expect(result.page).toMatch(/500 KiB/);
   });
+
+  it("límite de tamaño exacto: 512.000 bytes - 1 y 512.000 pasan; 512.001 falla", () => {
+    const LIMIT = 500 * 1024;
+    const bytes = (value: unknown) => new TextEncoder().encode(JSON.stringify(value)).length;
+    const bigUrl = `https://c3.com.sv/${text(1000, "😀")}`;
+
+    // Núcleo con la forma completa de una ficha normalizada (así el tamaño del input es el del documento guardado).
+    const build = (learnings: string[]) =>
+      page({
+        publication: "published",
+        overview: Array.from({ length: 12 }, () => text(2000, "😀")),
+        resources: Array.from({ length: 20 }, () => ({ title: text(160, "😀"), url: bigUrl })),
+        memory: memory({
+          publication: "published",
+          summary: Array.from({ length: 12 }, () => text(2000, "😀")),
+          learnings,
+          results: Array.from({ length: 11 }, () => ({
+            label: text(160, "😀"),
+            value: text(80, "😀"),
+            context: text(1000, "😀"),
+            evidenceUrl: bigUrl,
+          })),
+          outputs: Array.from({ length: 11 }, () => ({
+            title: text(160, "😀"),
+            description: text(1000, "😀"),
+            url: bigUrl,
+          })),
+        }),
+      });
+
+    // Rellena «learnings» (hasta 20 textos de 500 caracteres) hasta alcanzar exactamente `target` bytes.
+    const fillTo = (target: number) => {
+      const learnings: string[] = [];
+      for (let guard = 0; guard < 20; guard += 1) {
+        const missing = target - bytes(build(learnings));
+        if (missing === 0) {
+          return build(learnings);
+        }
+        expect(missing, "el núcleo ya supera el objetivo o no se puede ajustar").toBeGreaterThan(0);
+        const overhead = learnings.length ? 3 : 2; // comillas (y coma) del nuevo elemento
+        const room = missing - overhead;
+        if (room >= 2000) {
+          learnings.push(text(500, "😀"));
+        } else if (room <= 500) {
+          learnings.push(text(room, "a"));
+        } else {
+          // Deja un resto de 4 a 7 bytes para cerrar con un texto ASCII corto.
+          let emoji = Math.floor(room / 4);
+          if (room - emoji * 4 !== 0) emoji -= 1;
+          learnings.push(text(emoji, "😀"));
+        }
+      }
+      throw new Error("no se pudo ajustar el tamaño");
+    };
+
+    for (const [target, valid] of [
+      [LIMIT - 1, true],
+      [LIMIT, true],
+      [LIMIT + 1, false],
+    ] as const) {
+      const input = fillTo(target);
+      expect(bytes(input)).toBe(target);
+      const result = validateEventPage(input, ctx(ended));
+      if (valid) {
+        expect(result.ok, `${target} bytes debe pasar`).toBe(true);
+        // El documento normalizado pesa lo mismo que el input: la prueba mide el límite real.
+        expect(result.ok && bytes(result.value)).toBe(target);
+      } else {
+        expect(result.ok).toBe(false);
+        expect(!result.ok && result.errors.page).toMatch(/500 KiB/);
+      }
+    }
+  });
 });
 
 describe("validateEventPage: URL", () => {
@@ -340,6 +413,16 @@ describe("validateEventPage: galería (derechos, alt y host de C3)", () => {
     }
   });
 
+  it("una fila de galería vacía con rightsConfirmed:false se descarta, no es error", () => {
+    const blank = { url: "", alt: "  ", caption: "", rightsConfirmed: false };
+    const value = ok(page({ memory: memory({ gallery: [blank, good] }) }));
+    expect(value.memory?.gallery).toEqual([good]);
+    expect(ok(page({ memory: memory({ gallery: [blank] }) })).memory?.gallery).toEqual([]);
+    // Con cualquier otro campo lleno deja de ser una fila vacía y se exige confirmar derechos.
+    expect(errors(gallery({ ...blank, alt: "Equipo" }))["memory.gallery.0.rightsConfirmed"]).toBeTruthy();
+    expect(errors(gallery({ ...blank, url: good.url }))["memory.gallery.0.rightsConfirmed"]).toBeTruthy();
+  });
+
   it("rechaza host ajeno, http y credenciales (sin hosts nuevos)", () => {
     expect(errors(gallery({ ...good, url: "https://evil.example/x.png" }))["memory.gallery.0.url"]).toBeTruthy();
     expect(errors(gallery({ ...good, url: "http://c3.com.sv/x.png" }))["memory.gallery.0.url"]).toBeTruthy();
@@ -409,6 +492,17 @@ describe("validateEventPage: reglas de publicación", () => {
     expect(value.memory?.publication).toBe("published");
   });
 
+  it("R9: un eventDate pasado sin eventDateEnd no basta para publicar la memoria", () => {
+    const lone = { status: "Inscripciones abiertas", eventDate: "2026-11-01" } as Ctx["event"];
+    const result = errors(page({ publication: "published", memory: memory({ publication: "published" }) }), ctx(lone));
+    expect(result["memory.publication"]).toBeTruthy();
+    // Con la fecha final confirmada sí se publica.
+    expect(
+      ok(page({ publication: "published", memory: memory({ publication: "published" }) }), ctx({ ...lone, eventDateEnd: "2026-11-01" }))
+        .memory?.publication,
+    ).toBe("published");
+  });
+
   it("fecha final pasada basta aunque el estado no sea Histórico", () => {
     const past = { status: "Inscripciones abiertas", eventDate: "2026-11-01", eventDateEnd: "2026-11-02" } as Ctx["event"];
     expect(ok(page({ publication: "published", memory: memory({ publication: "published" }) }), ctx(past)).memory?.publication).toBe("published");
@@ -449,10 +543,21 @@ describe("getEventPagePhase (día local de El Salvador, UTC-6)", () => {
     expect(getEventPagePhase(event, at("2026-11-15T06:00:00.000Z"))).toBe("ended");
   });
 
-  it("un evento de un solo día termina al cambiar de día local", () => {
-    const single = { status: "Próximamente", eventDate: "2026-11-13" } as const;
+  it("un evento de un solo día con eventDateEnd igual al inicio termina al cambiar de día local", () => {
+    const single = { status: "Próximamente", eventDate: "2026-11-13", eventDateEnd: "2026-11-13" } as const;
     expect(getEventPagePhase(single, at("2026-11-14T05:59:59.000Z"))).toBe("ongoing");
     expect(getEventPagePhase(single, at("2026-11-14T06:00:00.000Z"))).toBe("ended");
+  });
+
+  it("R9: un eventDate suelto (sin eventDateEnd) nunca se toma como día final: pasado es unknown, no ended", () => {
+    const lone = { status: "Próximamente", eventDate: "2026-11-13" } as const;
+    expect(getEventPagePhase(lone, at("2026-11-12T12:00:00.000Z"))).toBe("upcoming");
+    // El día de inicio la edición no ha terminado en ninguna lectura posible.
+    expect(getEventPagePhase(lone, at("2026-11-13T12:00:00.000Z"))).toBe("ongoing");
+    // Desde el día siguiente no se puede confirmar si terminó: ni ended ni ongoing.
+    expect(getEventPagePhase(lone, at("2026-11-14T06:00:00.000Z"))).toBe("unknown");
+    expect(getEventPagePhase(lone, at("2027-06-01T12:00:00.000Z"))).toBe("unknown");
+    expect(getEventPagePhase({ ...lone, eventDateEnd: "" }, at("2027-06-01T12:00:00.000Z"))).toBe("unknown");
   });
 
   it("usa el día local y no el UTC: 02:00 UTC del 14 sigue siendo el 13 en El Salvador", () => {
@@ -488,8 +593,12 @@ describe("getEventPagePhase (día local de El Salvador, UTC-6)", () => {
     expect(getEventPagePhase({ status: "Histórico", eventDate: "2027-01-01" }, now)).toBe("ended");
   });
 
-  it("un evento con inscripciones abiertas pero fecha pasada es ended", () => {
-    expect(getEventPagePhase({ status: "Inscripciones abiertas", eventDate: "2026-08-01" }, at("2026-11-20T12:00:00.000Z"))).toBe("ended");
+  it("un evento con inscripciones abiertas y fecha final pasada es ended; sin fecha final es unknown", () => {
+    const now = at("2026-11-20T12:00:00.000Z");
+    expect(
+      getEventPagePhase({ status: "Inscripciones abiertas", eventDate: "2026-08-01", eventDateEnd: "2026-08-02" }, now),
+    ).toBe("ended");
+    expect(getEventPagePhase({ status: "Inscripciones abiertas", eventDate: "2026-08-01" }, now)).toBe("unknown");
   });
 });
 
