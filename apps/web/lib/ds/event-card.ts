@@ -1,4 +1,4 @@
-import { formatEventSchedule, type EventCover, type EventItem, type EventStatus, type ExperienceKind, type LineKey } from "@c3/config";
+import { formatEventSchedule, getEventPageHref, type EventCover, type EventItem, type EventStatus, type ExperienceKind, type LineKey } from "@c3/config";
 import { pillStatusFor, toPillState, type PillState } from "@/lib/ds/event-state";
 
 /** Datos de una tarjeta de experiencia (DS §7.9). Solo texto y enlaces del evento; sin DEMO. */
@@ -28,6 +28,10 @@ export function toCatalogCard(event: EventItem, now: Date = new Date()): Catalog
     throw new Error(`El evento ${event.id} no tiene líneas`);
   }
 
+  // Con ficha publicada la tarjeta lleva a /eventos/{slug}; el enlace original vive dentro de la ficha. Sin ficha,
+  // cta/href/external quedan como estaban. El borrador nunca llega aquí, pero se exige «published» por si acaso.
+  const pageHref = event.page?.publication === "published" ? getEventPageHref(event) : undefined;
+
   return {
     id: event.id,
     line,
@@ -37,9 +41,9 @@ export function toCatalogCard(event: EventItem, now: Date = new Date()): Catalog
     summary: event.description,
     detail: formatEventSchedule(event) || undefined,
     state: toPillState(pillStatusFor(event, now)),
-    action: event.cta,
-    href: event.href,
-    external: Boolean(event.external),
+    action: pageHref ? (event.page?.memory ? "Ver memoria" : "Ver evento") : event.cta,
+    href: pageHref ?? event.href,
+    external: pageHref ? false : Boolean(event.external),
     cover: event.cover,
     status: event.status,
     eventDate: event.eventDate,

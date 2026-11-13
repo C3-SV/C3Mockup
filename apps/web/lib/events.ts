@@ -26,7 +26,8 @@ function readFirebaseServiceAccount(): ServiceAccount | null {
 
 let firestore: ReturnType<typeof getFirestore> | null = null;
 
-function getAdminFirestore() {
+/** Firestore de servidor. Lanza si falta la cuenta de servicio: quien la usa decide si recuperarse (catálogo) o propagar (detalle). */
+export function getAdminFirestore() {
   if (firestore) {
     return firestore;
   }
