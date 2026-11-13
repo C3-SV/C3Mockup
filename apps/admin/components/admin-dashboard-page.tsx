@@ -4,7 +4,7 @@ import Link from "next/link";
 import type { ComponentType, ReactNode } from "react";
 import { FiArrowRight, FiCalendar, FiCheckCircle, FiClock, FiPlus, FiRefreshCw, FiStar } from "react-icons/fi";
 import { Badge, Button, Card, Table, Td, Th, Tr, cn } from "@c3/ui";
-import { compareEventsBySchedule, lineKeys, type EventItem, type EventStatus } from "@c3/config";
+import { compareEventsBySchedule, lineKeys, type AdminEventRecord, type EventStatus } from "@c3/config";
 import {
   getDashboardStats,
   getEventScheduleLabel,
@@ -70,7 +70,7 @@ function Panel({
   );
 }
 
-function EventsTable({ events }: { events: EventItem[] }) {
+function EventsTable({ events }: { events: AdminEventRecord[] }) {
   return (
     <Table>
       <thead>

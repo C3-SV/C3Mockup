@@ -4,14 +4,15 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { FiArrowLeft } from "react-icons/fi";
 import { Button, Card } from "@c3/ui";
-import type { EventItem } from "@c3/config";
+import type { AdminEventRecord } from "@c3/config";
 import { useAdminData } from "./admin-provider";
 import { AdminMain, AdminTopbar } from "./admin-shell";
 import { EmptyState, ErrorState, LoadingSkeleton } from "./admin-primitives";
 import { EventForm } from "./admin-event-form";
 import type { EventDraft } from "@/lib/admin-types";
+import { buildEventPayload } from "@/lib/event-draft";
 
-function getEventLabel(event?: EventItem | null, fallback = "Evento") {
+function getEventLabel(event?: AdminEventRecord | null, fallback = "Evento") {
   return event?.title || fallback;
 }
 
@@ -25,7 +26,7 @@ export function AdminEventEditorPage({
   const router = useRouter();
   const { events, getEventById, createEvent, updateEvent, deleteEvent, setFeedback: setGlobalFeedback } = useAdminData();
   const initialResolvedEvent = mode === "edit" ? events.find((item) => item.id === eventId) ?? null : null;
-  const [resolvedEvent, setResolvedEvent] = useState<EventItem | null>(initialResolvedEvent);
+  const [resolvedEvent, setResolvedEvent] = useState<AdminEventRecord | null>(initialResolvedEvent);
   const [loadingEvent, setLoadingEvent] = useState(mode === "edit" && !initialResolvedEvent);
   const [pageError, setPageError] = useState("");
   const [saving, setSaving] = useState(false);
@@ -74,7 +75,7 @@ export function AdminEventEditorPage({
 
     try {
       if (mode === "create") {
-        const created = await createEvent(draft);
+        const created = await createEvent(buildEventPayload(draft));
         setGlobalFeedback({ kind: "success", text: "Evento creado correctamente." });
         router.replace(`/admin/events/${encodeURIComponent(created.id)}`);
         setResolvedEvent(created);
@@ -82,12 +83,14 @@ export function AdminEventEditorPage({
       }
 
       const targetId = eventId || resolvedEvent?.id || draft.id;
-      const updated = await updateEvent(targetId, draft);
+      const updated = await updateEvent(targetId, buildEventPayload(draft));
       setGlobalFeedback({ kind: "success", text: "Evento actualizado correctamente." });
       setResolvedEvent(updated);
     } catch (error) {
       const message = error instanceof Error ? error.message : "No pudimos guardar el evento.";
       setGlobalFeedback({ kind: "error", text: message });
+      // El formulario muestra el detalle (errores por campo, conflicto de slug) y conserva lo escrito.
+      throw error;
     } finally {
       setSaving(false);
     }
@@ -169,7 +172,8 @@ export function AdminEventEditorPage({
         />
       ) : (
         <EventForm
-          key={resolvedEvent?.id || mode}
+          // Tras guardar, el borrador se vuelve a leer del registro guardado (slug ya bloqueado, memoria quitada…).
+          key={`${resolvedEvent?.id || mode}:${resolvedEvent?.updatedAt ?? ""}`}
           mode={mode}
           initialEvent={resolvedEvent}
           saving={saving}

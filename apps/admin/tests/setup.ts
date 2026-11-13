@@ -24,3 +24,13 @@ const emulatorHost = process.env.FIRESTORE_EMULATOR_HOST;
 if (emulatorHost && !/^(localhost|127\.0\.0\.1|\[::1\]):\d+$/.test(emulatorHost)) {
   throw new Error(`FIRESTORE_EMULATOR_HOST debe apuntar a un emulador local, no a «${emulatorHost}».`);
 }
+
+// Pruebas de componentes (entorno jsdom por archivo, con `// @vitest-environment jsdom`): matchers de jest-dom y
+// limpieza del DOM entre pruebas. En el entorno node de las pruebas de servidor no hacen nada.
+import "@testing-library/jest-dom/vitest";
+import { cleanup } from "@testing-library/react";
+import { afterEach } from "vitest";
+
+afterEach(() => {
+  cleanup();
+});

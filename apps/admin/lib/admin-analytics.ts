@@ -3,12 +3,15 @@ import {
   eventStatuses,
   formatEventSchedule,
   lineKeys,
-  type EventItem,
+  type EventItem as BaseEventItem,
   type EventStatus,
   type LineKey,
 } from "@c3/config";
 import type { BadgeTone } from "@c3/ui";
 import type { AdminStats } from "./admin-types";
+
+/** Evento sin su ficha: las estadísticas y los listados del panel solo usan los campos del evento. */
+type EventItem = Omit<BaseEventItem, "page">;
 
 export const lineLabels: Record<LineKey, string> = {
   compite: "Compite",
@@ -56,7 +59,7 @@ function isUpcoming(event: EventItem, now: Date) {
   return reference.getTime() >= now.getTime();
 }
 
-export function getSortedUpcomingEvents(events: ReadonlyArray<EventItem>) {
+export function getSortedUpcomingEvents<T extends EventItem>(events: ReadonlyArray<T>): T[] {
   const now = new Date();
 
   return [...events].filter((event) => isUpcoming(event, now)).sort(compareEventsBySchedule);

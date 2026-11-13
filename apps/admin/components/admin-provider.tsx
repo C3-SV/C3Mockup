@@ -7,7 +7,7 @@ import {
   type User,
 } from "firebase/auth";
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-import type { EventItem } from "@c3/config";
+import type { AdminEventRecord } from "@c3/config";
 import { fetchAdminEvent, fetchAdminEvents, fetchAdminSession, fetchAdminApi } from "@/lib/admin-api";
 import { getFirebaseClient, isFirebaseConfigured } from "@/lib/firebase-client";
 import type { AdminFeedback, AdminSession } from "@/lib/admin-types";
@@ -18,16 +18,16 @@ type AdminContextValue = {
   firebaseReady: boolean;
   authState: AdminAuthState;
   session: AdminSession | null;
-  events: EventItem[];
+  events: AdminEventRecord[];
   eventsLoading: boolean;
   feedback: AdminFeedback;
   setFeedback: (feedback: AdminFeedback) => void;
   signIn: () => Promise<void>;
   signOut: () => Promise<void>;
   reloadEvents: () => Promise<void>;
-  getEventById: (eventId: string) => Promise<EventItem>;
-  createEvent: (payload: unknown) => Promise<EventItem>;
-  updateEvent: (eventId: string, payload: unknown) => Promise<EventItem>;
+  getEventById: (eventId: string) => Promise<AdminEventRecord>;
+  createEvent: (payload: unknown) => Promise<AdminEventRecord>;
+  updateEvent: (eventId: string, payload: unknown) => Promise<AdminEventRecord>;
   deleteEvent: (eventId: string) => Promise<void>;
 };
 
@@ -53,7 +53,7 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   const firebaseReady = isFirebaseConfigured();
   const [authState, setAuthState] = useState<AdminAuthState>(firebaseReady ? "loading" : "config-missing");
   const [session, setSession] = useState<AdminSession | null>(null);
-  const [events, setEvents] = useState<EventItem[]>([]);
+  const [events, setEvents] = useState<AdminEventRecord[]>([]);
   const [eventsLoading, setEventsLoading] = useState(false);
   const [feedback, setFeedback] = useState<AdminFeedback>({ kind: "idle", text: "" });
 
@@ -133,7 +133,7 @@ export function AdminProvider({ children }: { children: ReactNode }) {
   }
 
   async function createEvent(payload: unknown) {
-    const response = await withAuthenticatedToken((token) => fetchAdminApi<{ ok: true; event: EventItem }>(
+    const response = await withAuthenticatedToken((token) => fetchAdminApi<{ ok: true; event: AdminEventRecord }>(
       "/api/events",
       token,
       {
@@ -148,7 +148,7 @@ export function AdminProvider({ children }: { children: ReactNode }) {
 
   async function updateEvent(eventId: string, payload: unknown) {
     const response = await withAuthenticatedToken((token) =>
-      fetchAdminApi<{ ok: true; event: EventItem }>(
+      fetchAdminApi<{ ok: true; event: AdminEventRecord }>(
         `/api/events/${encodeURIComponent(eventId)}`,
         token,
         {
