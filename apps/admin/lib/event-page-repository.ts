@@ -324,9 +324,19 @@ function applyWrites(tx: EventStoreTransaction, writes: PlannedWrite[]) {
   }
 }
 
-function requestsMemoryRemoval(payload: Record<string, unknown>) {
-  return isRecord(payload.page) && payload.page.memory === null;
+/**
+ * El registro o payload crudo pidió `page.memory: null`. Se mira antes de construir el registro, porque el
+ * constructor normaliza null y ausente igual; así todas las escrituras distinguen «borrar» de «no tocar» (spec §5).
+ */
+function requestsMemoryRemoval(raw: unknown) {
+  return isRecord(raw) && isRecord(raw.page) && raw.page.memory === null;
 }
+
+/**
+ * Máximo de registros por carga masiva (ruling R14). Cada registro escribe como mucho dos documentos (evento y
+ * reserva) y Firestore admite 500 escrituras por transacción: 200 deja margen.
+ */
+export const UPSERT_BATCH_LIMIT = 200;
 
 // ---------------------------------------------------------------------------------------------------------
 // Escrituras (transaccionales)
@@ -334,7 +344,8 @@ function requestsMemoryRemoval(payload: Record<string, unknown>) {
 
 /**
  * Guarda (crea o reemplaza) un registro con su ficha y la reserva de slug en una transacción. Si el registro no
- * trae `page`, conserva la ficha guardada; createdAt guardado manda.
+ * trae `page`, conserva la ficha guardada; createdAt guardado manda. `page.memory: null` borra la memoria y
+ * omitir `memory` la conserva, como en la API.
  */
 export async function saveEventWithPage(
   db: EventStore,
@@ -355,6 +366,13 @@ export async function upsertEventsWithPages(
   records: readonly AdminEventRecord[],
   options?: RepositoryOptions,
 ): Promise<AdminEventRecord[]> {
+  if (records.length > UPSERT_BATCH_LIMIT) {
+    throw new ApiError(
+      400,
+      `La carga masiva admite hasta ${UPSERT_BATCH_LIMIT} eventos por lote; llegaron ${records.length}. Divídela.`,
+    );
+  }
+
   const now = resolveNow(options);
   const intents: SaveIntent[] = records.map((record) => {
     // El id dado es el id del documento y se respeta tal cual (I5); sin id, el constructor lo deriva del título.
@@ -363,7 +381,10 @@ export async function upsertEventsWithPages(
       assertDocId(givenId);
     }
     const built = buildRecord(record, now, givenId);
-    return { record: givenId === undefined ? built : { ...built, id: givenId }, removeMemory: false };
+    return {
+      record: givenId === undefined ? built : { ...built, id: givenId },
+      removeMemory: requestsMemoryRemoval(record),
+    };
   });
 
   const ids = new Set<string>();

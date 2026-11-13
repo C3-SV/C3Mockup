@@ -200,8 +200,13 @@ class FakeFirestore implements EventStore {
   }
 }
 
+type HeldRace = {
+  /** Envuelve una operación de la carrera; si falla antes de llegar a la barrera, no deja colgadas a las demás. */
+  track<T>(operation: Promise<T>): Promise<T>;
+};
+
 /** Retiene a `parties` transacciones justo antes de confirmar (primer intento) para forzar el choque. */
-function holdFirstAttempts(db: FakeFirestore, parties: number) {
+function holdFirstAttempts(db: FakeFirestore, parties: number): HeldRace {
   let arrived = 0;
   let release!: () => void;
   const opened = new Promise<void>((resolve) => {
@@ -217,7 +222,45 @@ function holdFirstAttempts(db: FakeFirestore, parties: number) {
     }
     await opened;
   };
+  return {
+    // Una operación que falla antes de llegar a la barrera (dentro de la transacción o antes de abrirla) ya no
+    // llegará nunca: se abre la barrera para que las demás sigan y la prueba falle por aserción, con su error, y
+    // no por tiempo. Si falla después de pasarla (p. ej. el 409 del reintento), abrirla de nuevo no cambia nada.
+    track: (operation) =>
+      operation.catch((error: unknown) => {
+        release();
+        throw error;
+      }),
+  };
 }
+
+/** Convierte un cuelgue en un fallo inmediato con mensaje, en vez de esperar el timeout de 5 s de vitest. */
+async function withDeadline<T>(promise: Promise<T>, ms: number, message: string): Promise<T> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const deadline = new Promise<never>((_, reject) => {
+    timer = setTimeout(() => reject(new Error(message)), ms);
+  });
+  try {
+    return await Promise.race([promise, deadline]);
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+/** Si alguna operación falló por algo distinto de los estados HTTP esperados, la prueba lanza ese mismo error. */
+function rethrowUnexpected(results: ReadonlyArray<PromiseSettledResult<unknown>>, allowed: number[] = []) {
+  for (const result of results) {
+    if (
+      result.status === "rejected" &&
+      !(result.reason instanceof ApiError && allowed.includes(result.reason.status))
+    ) {
+      throw result.reason;
+    }
+  }
+}
+
+const RACE_DEADLINE_MS = 2000;
+const RACE_HUNG = "La carrera se colgó en la barrera: una transacción no llegó a confirmar.";
 
 // ---------------------------------------------------------------------------------------------------------
 // Datos de prueba (no son contenido del sitio)
@@ -596,6 +639,60 @@ describe("compatibilidad con clientes antiguos y cargas masivas", () => {
     expect(saved.page?.memory).toEqual(created.page?.memory);
   });
 
+  it("memory: null también elimina la memoria con saveEventWithPage y con la carga masiva; omitirla la conserva", async () => {
+    const db = new FakeFirestore();
+    const a = await createEventFromPayload(db, payload({ page: page() }), at);
+    const b = await createEventFromPayload(
+      db,
+      payload({ id: "edicion-b", title: "Edición B", page: page({ slug: OTHER_SLUG }) }),
+      at,
+    );
+
+    // Registros como los enviaría un llamador sin tipos (JSON): page completa, sin memory o con memory: null.
+    const withPageMemory = (record: AdminEventRecord, memoryValue: "omit" | null): AdminEventRecord => {
+      const rawPage: Data = { ...(record.page as unknown as Data) };
+      if (memoryValue === "omit") {
+        delete rawPage.memory;
+      } else {
+        rawPage.memory = null;
+      }
+      return { ...record, page: rawPage } as unknown as AdminEventRecord;
+    };
+
+    // I1 sin cambios: omitir memory la conserva en los dos caminos.
+    await saveEventWithPage(db, withPageMemory(a, "omit"), later);
+    await upsertEventsWithPages(db, [withPageMemory(b, "omit")], later);
+    expect((storedEvent(db, "edicion-a")?.page as Data).memory).toEqual(a.page?.memory);
+    expect((storedEvent(db, "edicion-b")?.page as Data).memory).toEqual(b.page?.memory);
+
+    // memory: null la elimina de forma explícita en los dos caminos (spec §5), y el resto de la ficha queda.
+    const savedA = await saveEventWithPage(db, withPageMemory(a, null), later);
+    const [savedB] = await upsertEventsWithPages(db, [withPageMemory(b, null)], later);
+    expect(savedA.page?.memory).toBeUndefined();
+    expect(savedB.page?.memory).toBeUndefined();
+    expect(storedEvent(db, "edicion-a")?.page).not.toHaveProperty("memory");
+    expect(storedEvent(db, "edicion-b")?.page).not.toHaveProperty("memory");
+    expect(savedA.page?.overview).toEqual(a.page?.overview);
+    expect(reservation(db, SLUG)).toEqual({ eventId: "edicion-a", retired: false });
+  });
+
+  it("R14: la carga masiva admite hasta 200 registros; 201 es un 400 sin escrituras", async () => {
+    const db = new FakeFirestore();
+    const batch = (count: number) =>
+      Array.from({ length: count }, (_, index) =>
+        buildAdminEventRecord(payload({ id: `lote-${index}`, title: `Lote ${index}` }), at),
+      );
+
+    const error = await expectApiError(upsertEventsWithPages(db, batch(201), at), 400);
+    expect(error.message).toContain("200");
+    expect(db.commits).toHaveLength(0);
+
+    const saved = await upsertEventsWithPages(db, batch(200), at);
+    expect(saved).toHaveLength(200);
+    expect(db.ids(EVENTS_COLLECTION)).toHaveLength(200);
+    expect(db.commits).toHaveLength(1);
+  });
+
   it("guardado legado sin ficha: no crea reservas y no pierde kind, cover, source ni featuredOrder", async () => {
     const db = new FakeFirestore();
     const created = await createEventFromPayload(db, payload(), at);
@@ -827,12 +924,17 @@ describe("errores para la API", () => {
 describe("transacciones concurrentes (adaptador simulado)", () => {
   it("dos administradores reservan el mismo slug a la vez: uno gana y el otro recibe 409 sin escritura parcial", async () => {
     const db = new FakeFirestore();
-    holdFirstAttempts(db, 2);
+    const race = holdFirstAttempts(db, 2);
 
-    const results = await Promise.allSettled([
-      createEventFromPayload(db, payload({ id: "edicion-a", page: page() }), at),
-      createEventFromPayload(db, payload({ id: "edicion-b", title: "Edición B", page: page() }), at),
-    ]);
+    const results = await withDeadline(
+      Promise.allSettled([
+        race.track(createEventFromPayload(db, payload({ id: "edicion-a", page: page() }), at)),
+        race.track(createEventFromPayload(db, payload({ id: "edicion-b", title: "Edición B", page: page() }), at)),
+      ]),
+      RACE_DEADLINE_MS,
+      RACE_HUNG,
+    );
+    rethrowUnexpected(results, [409]);
 
     const won = results.filter((result) => result.status === "fulfilled");
     const lost = results.filter((result): result is PromiseRejectedResult => result.status === "rejected");
@@ -855,12 +957,17 @@ describe("transacciones concurrentes (adaptador simulado)", () => {
     const db = new FakeFirestore();
     await createEventFromPayload(db, payload({ page: page() }), at);
     const commits = db.commits.length;
-    holdFirstAttempts(db, 2);
+    const race = holdFirstAttempts(db, 2);
 
-    const results = await Promise.allSettled([
-      updateEventFromPayload(db, "edicion-a", payload({ title: "Primero", page: page() }), later),
-      updateEventFromPayload(db, "edicion-a", payload({ title: "Segundo", page: page() }), later),
-    ]);
+    const results = await withDeadline(
+      Promise.allSettled([
+        race.track(updateEventFromPayload(db, "edicion-a", payload({ title: "Primero", page: page() }), later)),
+        race.track(updateEventFromPayload(db, "edicion-a", payload({ title: "Segundo", page: page() }), later)),
+      ]),
+      RACE_DEADLINE_MS,
+      RACE_HUNG,
+    );
+    rethrowUnexpected(results);
 
     expect(results.every((result) => result.status === "fulfilled")).toBe(true);
     expect(db.aborts).toBe(1);
@@ -872,12 +979,17 @@ describe("transacciones concurrentes (adaptador simulado)", () => {
   it("borrar mientras otro guarda: la reserva queda retirada y el guardado no la reactiva", async () => {
     const db = new FakeFirestore();
     await createEventFromPayload(db, payload({ page: page() }), at);
-    holdFirstAttempts(db, 2);
+    const race = holdFirstAttempts(db, 2);
 
-    const [deleted, updated] = await Promise.allSettled([
-      deleteEventWithPage(db, "edicion-a"),
-      updateEventFromPayload(db, "edicion-a", payload({ title: "Editado", page: page() }), later),
-    ]);
+    const [deleted, updated] = await withDeadline(
+      Promise.allSettled([
+        race.track(deleteEventWithPage(db, "edicion-a")),
+        race.track(updateEventFromPayload(db, "edicion-a", payload({ title: "Editado", page: page() }), later)),
+      ]),
+      RACE_DEADLINE_MS,
+      RACE_HUNG,
+    );
+    rethrowUnexpected([deleted, updated], [409]);
 
     expect(deleted.status).toBe("fulfilled");
     expect(db.aborts).toBe(1);
@@ -887,6 +999,29 @@ describe("transacciones concurrentes (adaptador simulado)", () => {
       expect((updated.reason as ApiError).status).toBe(409);
     }
     expect(storedEvent(db, "edicion-a")).toBeUndefined();
+  });
+
+  it("el arnés no se cuelga: una operación que falla antes de confirmar abre la barrera y su error se ve", async () => {
+    const db = new FakeFirestore();
+    await createEventFromPayload(db, payload({ id: "edicion-b", title: "Edición B" }), at);
+    const race = holdFirstAttempts(db, 3);
+
+    const results = await withDeadline(
+      Promise.allSettled([
+        race.track(createEventFromPayload(db, payload({ page: page() }), at)),
+        // Falla dentro de la transacción (id existente), antes de llegar a confirmar.
+        race.track(createEventFromPayload(db, payload({ id: "edicion-b", title: "Duplicado" }), at)),
+        // Falla antes incluso de abrir la transacción (payload inválido).
+        race.track(createEventFromPayload(db, payload({ id: "edicion-c", title: "" }), at)),
+      ]),
+      1000,
+      "El arnés se colgó esperando en la barrera a transacciones que ya habían fallado.",
+    );
+
+    expect(results.map((result) => result.status)).toEqual(["fulfilled", "rejected", "rejected"]);
+    expect(((results[1] as PromiseRejectedResult).reason as ApiError).status).toBe(409);
+    expect(((results[2] as PromiseRejectedResult).reason as ApiError).status).toBe(400);
+    expect(storedEvent(db, "edicion-a")?.page).toMatchObject({ slug: SLUG });
   });
 });
 
