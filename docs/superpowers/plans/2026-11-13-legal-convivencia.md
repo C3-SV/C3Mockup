@@ -58,11 +58,14 @@ T0 → T1 es un gate editorial. La infraestructura T2 se puede preparar en rama 
 
 **Interfaces:** documentos con id (privacidad/terminos/codigo-de-conducta), versión, fecha de revisión, secciones identificadas, aprobador y fecha de aprobación. Versiones anteriores conservadas en Git.
 
-- [ ] Redactar privacidad con los datos confirmados de T0; términos limitados al sitio informativo; convivencia con procedimiento real de reporte. No extender condiciones a inscripciones no existentes.
-- [ ] Revisar afirmaciones una a una contra inventario; marcar borrador mientras existan datos pendientes. Responsable, retención, finalidad y canales no pueden quedar implícitos.
+- [x] Preparar borradores base explicativos para privacidad, términos y convivencia; los datos y procedimientos sin confirmar quedan señalados como pendientes internos.
+- [ ] Completar privacidad con canales y conservación confirmados, y convivencia con un procedimiento real de reportes; mantener términos limitados al sitio informativo.
+- [x] Revisar afirmaciones una a una contra inventario; marcar borrador mientras existan datos pendientes. Responsable, retención, finalidad y canales no pueden quedar implícitos.
 - [ ] Obtener aprobación de responsable identificado; incorporar revisión jurídica que corresponda y registrar decisiones. No contactar asesores ni enviar documentos fuera sin autorización.
 - [ ] Lista de publicación: cero placeholders; aprobador identificado; fechas reales; canal de solicitudes y de reportes confirmados. Si falla, mantener tarea abierta y continuar solo infraestructura de rama.
-- [ ] Commit docs: preparar textos legales revisados (el mensaje no debe decir aprobados si aún no lo están).
+- [x] Commit docs: preparar textos legales base para revisión (el mensaje no debe decir aprobados si aún no lo están).
+
+> **Gate T1 abierto:** los textos 0.1 son borradores internos; siguen pendientes identidad, configuración real, canales y aprobación. No se integran en datos estáticos ni se enlazan públicamente.
 
 ### T2: Renderer de documentos legible y accesible
 

@@ -38,3 +38,9 @@ No pasar borradores a apps/web/lib/legal-content.ts, páginas públicas, pie, av
 - Sin campos pendientes, garantías, plazos o datos inventados.
 
 La rama actual prepara documentación e infraestructura. No declara que la operación cumpla una ley ni que los textos estén aprobados.
+## Textos base preparados
+
+- [Privacidad, versión 0.1](privacidad.md): formulario, envío por Brevo, analítica Vercel y datos operativos aún pendientes.
+- [Términos, versión 0.1](terminos.md): uso del sitio institucional y reglas separadas por evento.
+- [Convivencia, versión 0.1](codigo-de-conducta.md): expectativas básicas; canal, alcance y procedimiento sin confirmar.
+- Los tres documentos son explicativos e internos. No están aprobados y no se han integrado en código ni en rutas públicas.
