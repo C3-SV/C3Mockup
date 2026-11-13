@@ -69,6 +69,7 @@ Descripción institucional aprobada, contacto, logos originales autorizados, fot
 | U10 | Presentación editorial variada | Alternar relato, fotografía, cifras y piezas destacadas según el contenido. Mantener tokens, tipografía y reglas del DS; evitar uniformar todo en tarjetas. |
 | U11 | Recorridos interactivos | Explorador de intereses o exposiciones de proyectos solo si una guía y enlaces sencillos resultan insuficientes. Validar utilidad antes de construir. |
 | U12 | Mapa o exploración del ecosistema | Posible visualización de relaciones o alcance geográfico, condicionada a datos fiables y suficiente contenido. Es exploratoria y de baja prioridad. |
+| U13 | Indicador de progreso de lectura en la navegación | Una línea horizontal en la barra de navegación avanza según el recorrido por la página. El responsable recuerda esta señal visual con agrado y quiere evaluarla. Antes de recuperarla, decidir ubicación en cabecera, cálculo cuando no haya scroll, comportamiento móvil y compatibilidad con zoom, teclado y movimiento reducido. Mantenerla discreta y puramente informativa; no es una barra de carga ni una regla visual aprobada. |
 
 ## 4. Deuda vigente y dependencias, no ideas nuevas
 
