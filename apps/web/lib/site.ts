@@ -33,7 +33,7 @@
     "eventos de tecnología El Salvador",
     "Copa de Programación",
     "Copa Salvadoreña de Programación",
-    "Hackathon de Turismo Creativo I",
+    "Hackathon de Turismo Creativo Vol. 1",
     "ICPC Centroamérica",
     "Hack@Latam",
     "Duelo de Programación C3",

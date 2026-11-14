@@ -302,7 +302,7 @@ export const faqItems = [
   {
     question: "¿Cuál es la relación entre C3, la Copa y el Hackathon?",
     answer:
-      "La Copa Salvadoreña de Programación es una iniciativa principal de C3 dentro de la línea Compite. El Hackathon de Turismo Creativo I es una iniciativa de C3 dentro de la línea Crea, enfocada en colaboración, prototipos y solución de retos reales.",
+      "La Copa Salvadoreña de Programación es una iniciativa principal de C3 dentro de la línea Compite. El Hackathon de Turismo Creativo Vol. 1 es una iniciativa de C3 dentro de la línea Crea, enfocada en colaboración, prototipos y solución de retos reales.",
   },
   {
     question: "¿Cómo puede colaborar una institución, empresa u organización?",

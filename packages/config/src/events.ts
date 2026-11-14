@@ -81,7 +81,7 @@ export const defaultEvents: EventItem[] = [
   {
     id: "hackathon-turismo-creativo-i",
     kind: "hackathon",
-    title: "Hackathon de Turismo Creativo I",
+    title: "Hackathon de Turismo Creativo Vol. 1",
     description:
       "Una iniciativa enfocada en creación, colaboración, prototipos y solución de retos reales desde tecnología, turismo y cultura.",
     lines: ["crea"],

@@ -14,7 +14,7 @@ const ROUTES = ["/", "/compite", "/crea", "/conecta", "/eventos", "/contacto", "
  */
 const EVENT_TITLES = new Set([
   "Copa Salvadoreña de Programación",
-  "Hackathon de Turismo Creativo I",
+  "Hackathon de Turismo Creativo Vol. 1",
   "ICPC Centroamérica · sede El Salvador",
   "Hack@Latam · Fiesta El Salvador",
   "Duelo de Programación C3 · Software Week ESEN 2025",

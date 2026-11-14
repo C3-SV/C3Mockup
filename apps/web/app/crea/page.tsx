@@ -19,7 +19,7 @@ const baseMetadata = createPageMetadata({
   path: "/crea",
   keywords: [
     "hackathon El Salvador",
-    "Hackathon de Turismo Creativo I",
+    "Hackathon de Turismo Creativo Vol. 1",
     "proyectos tecnológicos",
     "builders",
     "prototipos",
