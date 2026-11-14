@@ -78,6 +78,7 @@ Que parezca SaaS genérico, página gamer, estética hacker, un sitio saturado d
 | Eventos | Reales (los de `defaultEvents` y los del admin). Sin DEMO |
 | Paquetes comerciales y precios | **No publicados.** Pendiente de confirmación del responsable |
 | Manual de marca oficial | No disponible en el repo. Pedir al responsable si se duda de logo o color |
+| Punto de entrada «Empieza en C3» | Copy en `docs/content/empieza-en-c3.md`; pendiente de revisión del responsable (14-nov-2026) |
 
 ## Responsable de decisiones
 
