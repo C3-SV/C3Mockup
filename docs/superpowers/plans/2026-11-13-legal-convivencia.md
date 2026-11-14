@@ -10,7 +10,7 @@
 
 **Spec:** [2026-11-13-legal-convivencia-design.md](../specs/2026-11-13-legal-convivencia-design.md).
 
-**Estado:** implementación de la base explicativa 0.1 en curso (rama fase-5-legal). Autorización de publicación pública recibida el 2026-11-14; no equivale a aprobación jurídica ni cierra pendientes operativos.
+**Estado:** implementación de la base explicativa 0.1 lista para revisión del PR en `fase-5-legal`. Autorización de publicación pública recibida el 2026-11-14; no equivale a aprobación jurídica ni cierra pendientes operativos. Zoom manual al 200 %, revisión jurídica y checklist DS §15.5 siguen abiertos.
 
 ## Global Constraints
 
@@ -102,16 +102,25 @@ T0 → T1 sigue siendo el gate para cerrar versiones definitivas. El responsable
 
 **Files:** crear apps/web/e2e/legal.spec.ts; ampliar e2e/a11y.spec.ts; actualizar PRODUCT.md, docs/design-system/pendientes.md P5 y ADR de alcance (nuevo número libre; 0012 reservado).
 
-- [ ] E2E: abrir cada ruta desde pie y privacidad desde contacto, comprobar h1, versión/fecha, anclas y contacto; 390/1280 px y axe sin serious/critical.
-- [ ] Ejecutar prueba roja antes de integrar rutas en build de trabajo, implementar cualquier falta y obtener verde. No usar registros productivos ni ejecutar envíos reales.
+- [x] E2E: abrir cada ruta desde pie y privacidad desde contacto, comprobar h1, versión/fecha, anclas y contacto; 390/1280 px y axe sin serious/critical.
+- [x] Ejecutar prueba roja antes de integrar rutas en build de trabajo, implementar cualquier falta y obtener verde. No usar registros productivos ni ejecutar envíos reales.
 - [ ] Revisión manual: teclado, zoom 200%, anclas visibles bajo cabecera y correos largos; lectura del texto completo con responsable.
-- [ ] Repetir inventario contra código final; si hay nuevos proveedores/medios respecto a T0, revisar documento antes de publicar.
-- [ ] Verificar que las rutas públicas identifiquen la versión 0.1 y sus pendientes; no describirla como documento definitivo ni como aprobación jurídica.
-- [ ] Commit test(web): verificar documentos y enlaces legales.
+- [x] Repetir inventario contra código final; si hay nuevos proveedores/medios respecto a T0, revisar documento antes de publicar. Se añadió la salida a WhatsApp anunciada por P10 y se mantuvieron sus límites como servicio externo.
+- [x] Verificar que las rutas públicas identifiquen la versión 0.1 y sus pendientes; no describirla como documento definitivo ni como aprobación jurídica.
+- [x] Commit `test(web): verificar documentos y enlaces legales`.
+
+### Verificación ejecutada el 2026-11-14
+
+- `dev` se integró en `fase-5-legal` mediante el commit de merge `9a17a55`; la navegación y metadatos de `/empieza-en-c3` conviven con las tres rutas legales.
+- `pnpm lint`: correcto; permanece una advertencia previa por `defaultEvents` sin uso en `apps/web/components/home/home-content.test.tsx`.
+- `pnpm typecheck`: correcto.
+- `pnpm test`: correcto; web 471 aprobadas y 1 fallo esperado, admin 165 aprobadas y 1 omitida.
+- `pnpm build`: correcto; páginas legales y `/empieza-en-c3` prerenderizadas.
+- `pnpm test:e2e`: correcto; 264 aprobadas y 48 omitidas de 312, incluidos legal, accesibilidad y navegación a 390/1280 px.
 
 ## Cierre y entrega de la iniciativa
 
-- [ ] Ejecutar los comandos de Global Constraints y adjuntar salidas reales; no registrar como hecho lo que solo se describe en el plan.
+- [x] Ejecutar los comandos de Global Constraints y adjuntar salidas reales; no registrar como hecho lo que solo se describe en el plan.
 - [ ] Capturas 390/1280 px; revisar foco, zoom 200%, objetivos táctiles y movimiento reducido; resolver hallazgos del alcance.
 - [ ] Registrar checklist DS §15.5, revisión de código y validación editorial del responsable.
 - [x] Actualizar PRODUCT.md, docs/design-system/pendientes.md y documentación de alcance con estado real. No cerrar tareas ajenas.

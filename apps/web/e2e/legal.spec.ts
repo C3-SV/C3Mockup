@@ -23,7 +23,11 @@ test.describe("documentos legales base 0.1", () => {
       await expect(page).toHaveURL(new RegExp(`${document.path.replaceAll("/", "\\/")}$`));
       await expect(page.getByRole("heading", { level: 1, name: document.title })).toBeVisible();
       await expect(page.locator(".c3-legal__metadata").getByText("Versión 0.1", { exact: true })).toBeVisible();
+      await expect(page.locator(".c3-legal__metadata time")).toHaveAttribute("datetime", "2026-11-14");
       await expect(page.locator(".c3-legal__introduction")).toBeVisible();
+      await expect(
+        page.locator(".c3-legal").getByRole("link", { name: "competitivecodingclub.sv@gmail.com" }),
+      ).toHaveAttribute("href", "mailto:competitivecodingclub.sv@gmail.com");
 
       const sectionIds = await page.locator(".c3-legal__section").evaluateAll((sections) =>
         sections.map((section) => section.id),
