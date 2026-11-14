@@ -55,6 +55,11 @@
   contact: {
     email: "competitivecodingclub.sv@gmail.com",
   },
+  /** Comunidad de WhatsApp (invitación facilitada por el responsable). Único punto de configuración. */
+  community: {
+    label: "WhatsApp",
+    inviteUrl: "https://chat.whatsapp.com/FZ7iUuuFHJX22e7zb3ejSA",
+  } as { label: string; inviteUrl: string },
   sites: {
     main: "https://c3.com.sv",
     copa: "https://copa.c3.com.sv",
