@@ -185,6 +185,7 @@ export function getBreadcrumbJsonLd(path: string, lastLabel?: string) {
     conecta: "Conecta",
     eventos: "Eventos",
     faq: "FAQ",
+    "empieza-en-c3": "Empieza en C3",
     contacto: "Contacto",
   };
   const routeParts = path.split("/").filter(Boolean);
@@ -228,6 +229,7 @@ export function getSiteNavigationJsonLd() {
     "/conecta": "Conecta",
     "/eventos": "Eventos",
     "/faq": "FAQ",
+    "/empieza-en-c3": "Empieza en C3",
     "/contacto": "Contacto",
   };
 

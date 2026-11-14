@@ -24,10 +24,11 @@ describe("SiteHeader (cabecera blanca del DS, §7.1)", () => {
     for (const [name, href] of [
       ["Qué es C3", "/que-es-c3"],
       ["Eventos", "/eventos"],
-      ["FAQ", "/faq"],
+      ["Empieza en C3", "/empieza-en-c3"],
     ] as const) {
       expect(within(nav).getByRole("link", { name })).toHaveAttribute("href", href);
     }
+    expect(within(nav).queryByRole("link", { name: "FAQ" })).toBeNull();
     expect(screen.getByRole("link", { name: "Contacto" })).toHaveAttribute("href", "/contacto");
   });
 
@@ -78,6 +79,15 @@ describe("SiteHeader (cabecera blanca del DS, §7.1)", () => {
     expect(panel).not.toBeNull();
     expect(within(panel as HTMLElement).getByRole("link", { name: "Contacto" })).toHaveAttribute("href", "/contacto");
     expect(within(panel as HTMLElement).getByRole("link", { name: "Compite" })).toHaveAttribute("href", "/compite");
+  });
+
+  it("el panel móvil enlaza la guía y no FAQ", () => {
+    render(<SiteHeader />);
+    const menu = screen.getByRole("button", { name: "Menú" });
+    fireEvent.click(menu);
+    const panel = document.getElementById(menu.getAttribute("aria-controls") ?? "") as HTMLElement;
+    expect(within(panel).getByRole("link", { name: "Empieza en C3" })).toHaveAttribute("href", "/empieza-en-c3");
+    expect(within(panel).queryByRole("link", { name: "FAQ" })).toBeNull();
   });
 
   it("no muestra acceso de cuentas ni la palabra challenge", () => {

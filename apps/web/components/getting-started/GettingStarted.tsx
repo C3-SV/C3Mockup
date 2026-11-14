@@ -141,7 +141,7 @@ export default function GettingStarted({ content, communityAction, faqs }: Getti
         <h2 id="contacto-alternativo">{external ? "¿No usas WhatsApp?" : "Escríbenos"}</h2>
         <p>
           Escríbenos por correo a{" "}
-          <a className="c3-enlace-linea" href={`mailto:${siteConfig.contact.email}`}>
+          <a className="c3-enlace-linea [overflow-wrap:anywhere]" href={`mailto:${siteConfig.contact.email}`}>
             {siteConfig.contact.email}
           </a>{" "}
           o desde el formulario de contacto.

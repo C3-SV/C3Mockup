@@ -19,6 +19,7 @@ export const publicRoutes = [
   "/conecta",
   "/eventos",
   "/faq",
+  "/empieza-en-c3",
   "/contacto",
 ] as const;
 
@@ -27,6 +28,7 @@ export const mainNavigation = [
   { href: "/que-es-c3", label: "Qué es C3" },
   { href: "/eventos", label: "Eventos" },
   { href: "/faq", label: "FAQ" },
+  { href: "/empieza-en-c3", label: "Empieza en C3" },
   { href: "/contacto", label: "Contacto" },
 ] as const;
 
@@ -55,7 +57,7 @@ export const headerNavigation = [
   { href: "/que-es-c3", label: "Qué es C3" },
   { label: "Ecosistema", items: ecosystemNavigation },
   { href: "/eventos", label: "Eventos" },
-  { href: "/faq", label: "FAQ" },
+  { href: "/empieza-en-c3", label: "Empieza en C3" },
   { href: "/contacto", label: "Contacto" },
 ] as const;
 
