@@ -56,11 +56,13 @@ test("/contacto: los campos se recorren con Tab, el honeypot queda fuera y el fo
   await page.keyboard.press("Tab");
   await expect(page.getByLabel("Mensaje", { exact: true })).toBeFocused();
   await page.keyboard.press("Tab");
+  await expect(page.getByRole("link", { name: "aviso de privacidad, versión 0.1" })).toBeFocused();
+  await page.keyboard.press("Tab");
   await expect(page.getByRole("button", { name: "Enviar mensaje" })).toBeFocused();
 
   await expect(page.locator('input[name="honeypot"]')).toBeHidden();
 
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 6; i++) {
     await page.keyboard.press("Shift+Tab");
   }
   await expect(page.getByLabel("Nombre completo")).toBeFocused();

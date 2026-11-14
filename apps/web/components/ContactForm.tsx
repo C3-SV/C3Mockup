@@ -1,6 +1,7 @@
 "use client";
 
 import { type ChangeEvent, type FormEvent, type ReactNode, useState } from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import {
   CONTACT_FORM_GENERIC_ERROR_MESSAGE,
@@ -181,6 +182,11 @@ export default function ContactForm() {
           autoComplete="off"
         />
       </div>
+
+      <p className="c3-form__privacy">
+        Al enviar el formulario, usaremos tus datos para responder tu consulta y los enviaremos mediante Brevo. Consulta
+        el <Link href="/privacidad">aviso de privacidad, versión 0.1</Link>.
+      </p>
 
       <div className="c3-form__footer">
         <Button type="submit" variant="primario" disabled={isLoading}>

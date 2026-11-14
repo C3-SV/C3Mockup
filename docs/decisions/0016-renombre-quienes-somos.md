@@ -1,4 +1,4 @@
-# 0015 · Renombre de «Qué es C3» a «Quiénes somos»
+# 0016 · Renombre de «Qué es C3» a «Quiénes somos»
 
 - **Fecha:** 2026-11-14 · **Responsable:** aprobado por el responsable de C3 (QA visual) · **Estado:** Aceptada
 

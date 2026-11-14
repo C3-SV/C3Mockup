@@ -187,6 +187,9 @@ export function getBreadcrumbJsonLd(path: string, lastLabel?: string) {
     faq: "FAQ",
     "empieza-en-c3": "Empieza en C3",
     contacto: "Contacto",
+    privacidad: "Privacidad",
+    terminos: "Términos",
+    "codigo-de-conducta": "Convivencia",
   };
   const routeParts = path.split("/").filter(Boolean);
   const items: Array<{
@@ -231,6 +234,9 @@ export function getSiteNavigationJsonLd() {
     "/faq": "FAQ",
     "/empieza-en-c3": "Empieza en C3",
     "/contacto": "Contacto",
+    "/privacidad": "Privacidad",
+    "/terminos": "Términos",
+    "/codigo-de-conducta": "Convivencia",
   };
 
   return {

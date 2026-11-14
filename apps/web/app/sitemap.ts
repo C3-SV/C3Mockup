@@ -17,6 +17,9 @@ const routePriority: Record<(typeof publicRoutes)[number], number> = {
   "/faq": 0.6,
   "/empieza-en-c3": 0.7,
   "/contacto": 0.6,
+  "/privacidad": 0.4,
+  "/terminos": 0.4,
+  "/codigo-de-conducta": 0.4,
 };
 
 const eventAwareRoutes = new Set<(typeof publicRoutes)[number]>([
