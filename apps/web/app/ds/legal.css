@@ -95,6 +95,12 @@
 }
 
 .c3-legal__email {
+  display: inline-block;
+  vertical-align: middle;
+  min-block-size: 44px;
+  color: var(--c3-accion);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
   overflow-wrap: anywhere;
 }
 
