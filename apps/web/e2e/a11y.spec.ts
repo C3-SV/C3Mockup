@@ -13,6 +13,7 @@ const RUTAS = [
   "/conecta",
   "/eventos",
   "/faq",
+  "/empieza-en-c3",
   "/contacto",
   "/ruta-inexistente",
 ] as const;
