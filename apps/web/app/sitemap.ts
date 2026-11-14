@@ -15,6 +15,7 @@ const routePriority: Record<(typeof publicRoutes)[number], number> = {
   "/conecta": 0.8,
   "/eventos": 0.9,
   "/faq": 0.6,
+  "/empieza-en-c3": 0.7,
   "/contacto": 0.6,
   "/privacidad": 0.4,
   "/terminos": 0.4,

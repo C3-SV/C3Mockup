@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { FaBuilding, FaGraduationCap, FaUserAstronaut } from "react-icons/fa";
 import { Button } from "@/components/ui/Button";
 
@@ -82,6 +83,12 @@ export function AudienceSection() {
             );
           })}
         </div>
+        <p className="c3-lead">
+          ¿Primera vez en C3?{" "}
+          <Link href="/empieza-en-c3" className="c3-enlace-linea">
+            Empieza en C3
+          </Link>
+        </p>
       </div>
     </section>
   );

@@ -15,3 +15,10 @@ test("el pie lleva a las paginas principales", async ({ page }) => {
   await expect(footer.getByRole("link", { name: "Contacto" })).toHaveAttribute("href", "/contacto");
   await expect(footer.getByRole("link", { name: "Conecta" })).toHaveAttribute("href", "/conecta");
 });
+
+test("el pie conserva FAQ y enlaza la guía Empieza en C3", async ({ page }) => {
+  await page.goto("/");
+  const footer = page.locator(".c3-footer");
+  await expect(footer.getByRole("link", { name: "FAQ" })).toHaveAttribute("href", "/faq");
+  await expect(footer.getByRole("link", { name: "Empieza en C3" })).toHaveAttribute("href", "/empieza-en-c3");
+});

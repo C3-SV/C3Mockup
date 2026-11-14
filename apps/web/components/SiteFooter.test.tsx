@@ -47,6 +47,7 @@ describe("SiteFooter (pie navy de cuatro columnas, DS §7.3)", () => {
       ["Qué es C3", "/que-es-c3"],
       ["Eventos", "/eventos"],
       ["FAQ", "/faq"],
+      ["Empieza en C3", "/empieza-en-c3"],
       ["Contacto", "/contacto"],
       ["Compite", "/compite"],
       ["Crea", "/crea"],
