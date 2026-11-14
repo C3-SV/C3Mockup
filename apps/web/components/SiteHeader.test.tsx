@@ -22,7 +22,7 @@ describe("SiteHeader (cabecera blanca del DS, §7.1)", () => {
     render(<SiteHeader />);
     const nav = screen.getByRole("navigation", { name: "Principal" });
     for (const [name, href] of [
-      ["Qué es C3", "/que-es-c3"],
+      ["Quiénes somos", "/que-es-c3"],
       ["Eventos", "/eventos"],
       ["Empieza en C3", "/empieza-en-c3"],
     ] as const) {
@@ -66,7 +66,7 @@ describe("SiteHeader (cabecera blanca del DS, §7.1)", () => {
     render(<SiteHeader />);
     const nav = screen.getByRole("navigation", { name: "Principal" });
     expect(within(nav).getByRole("link", { name: "Eventos" })).toHaveAttribute("aria-current", "page");
-    expect(within(nav).getByRole("link", { name: "Qué es C3" })).not.toHaveAttribute("aria-current");
+    expect(within(nav).getByRole("link", { name: "Quiénes somos" })).not.toHaveAttribute("aria-current");
   });
 
   it("Menu abre el panel movil con los mismos enlaces y Contacto", () => {

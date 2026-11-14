@@ -18,7 +18,7 @@ Core lines:
 
 Public indexable routes:
 - Home: https://c3.com.sv/
-- Qué es C3: https://c3.com.sv/que-es-c3
+- Quiénes somos: https://c3.com.sv/que-es-c3
 - Compite: https://c3.com.sv/compite
 - Crea: https://c3.com.sv/crea
 - Conecta: https://c3.com.sv/conecta

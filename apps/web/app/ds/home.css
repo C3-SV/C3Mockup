@@ -29,6 +29,17 @@
   background: var(--c3-superficie);
 }
 
+/* El botón va al pie de la tarjeta: los tres quedan a la misma altura aunque las etiquetas ocupen filas distintas. */
+.c3-home-card__cta {
+  margin-top: auto;
+}
+
+/* Mismo ancho en las tres tarjetas, sin importar el largo de la etiqueta. */
+.c3-home-card__cta .c3-btn {
+  width: 100%;
+  justify-content: center;
+}
+
 .c3-home-card p {
   margin: 0;
   font-size: 15px;

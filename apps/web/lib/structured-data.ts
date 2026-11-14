@@ -179,7 +179,7 @@ export function getEventBreadcrumbJsonLd(event: EventItem) {
 
 export function getBreadcrumbJsonLd(path: string, lastLabel?: string) {
   const routeLabels: Record<string, string> = {
-    "que-es-c3": "Qué es C3",
+    "que-es-c3": "Quiénes somos",
     compite: "Compite",
     crea: "Crea",
     conecta: "Conecta",
@@ -226,7 +226,7 @@ export function getBreadcrumbJsonLd(path: string, lastLabel?: string) {
 export function getSiteNavigationJsonLd() {
   const routeLabels: Record<(typeof publicRoutes)[number], string> = {
     "/": "Inicio",
-    "/que-es-c3": "Qué es C3",
+    "/que-es-c3": "Quiénes somos",
     "/compite": "Compite",
     "/crea": "Crea",
     "/conecta": "Conecta",

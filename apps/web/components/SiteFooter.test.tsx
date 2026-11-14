@@ -44,7 +44,7 @@ describe("SiteFooter (pie navy de cuatro columnas, DS §7.3)", () => {
     const footer = within(container as HTMLElement);
     for (const [name, href] of [
       ["Inicio", "/"],
-      ["Qué es C3", "/que-es-c3"],
+      ["Quiénes somos", "/que-es-c3"],
       ["Eventos", "/eventos"],
       ["FAQ", "/faq"],
       ["Empieza en C3", "/empieza-en-c3"],

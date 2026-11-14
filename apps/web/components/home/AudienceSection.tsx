@@ -74,7 +74,7 @@ export function AudienceSection() {
                     <li key={benefit}>{benefit}</li>
                   ))}
                 </ul>
-                <div>
+                <div className="c3-home-card__cta">
                   <Button href={audience.href} variant={audience.primary ? "primario" : "contorno"}>
                     {audience.cta}
                   </Button>
