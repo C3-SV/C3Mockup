@@ -31,6 +31,11 @@
   font-size: 0.875rem;
 }
 
+.c3-legal__introduction {
+  margin-block: 1.25rem 0;
+  color: var(--c3-texto-suave);
+}
+
 .c3-legal__index {
   margin-block: 2rem;
   padding: 1rem 1.25rem;
@@ -90,6 +95,27 @@
 }
 
 .c3-legal__email {
+  overflow-wrap: anywhere;
+}
+
+.c3-legal__references {
+  margin-block-start: 3rem;
+  padding-block-start: 1.5rem;
+  border-top: 1px solid var(--c3-borde);
+}
+
+.c3-legal__references ul {
+  margin: 0;
+  padding-inline-start: 1.25rem;
+}
+
+.c3-legal__reference {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+  color: var(--c3-accion);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
   overflow-wrap: anywhere;
 }
 

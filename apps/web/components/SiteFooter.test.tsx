@@ -16,11 +16,29 @@ describe("SiteFooter (pie navy de cuatro columnas, DS §7.3)", () => {
     }
   });
 
-  it("la marca dice cuándo se fundó C3 (fecha del Documento Maestro)", () => {
+  it("ya no muestra la fecha de fundación", () => {
     render(<SiteFooter />);
-    expect(screen.getByText("Fundado el 24 de octubre de 2024.")).toBeInTheDocument();
+    expect(screen.queryByText(/Fundado/i)).not.toBeInTheDocument();
   });
 
+  it("muestra el copyright y el origen en la franja inferior", () => {
+    const { container } = render(<SiteFooter />);
+    const base = within(container.querySelector(".c3-footer__base") as HTMLElement);
+    expect(base.getByText("© 2026 C3 · Competitive Coding Club")).toBeInTheDocument();
+    expect(base.getByText("Hecho en El Salvador")).toBeInTheDocument();
+  });
+
+  it("enlaza los documentos legales desde la franja inferior", () => {
+    render(<SiteFooter />);
+    const legalNav = within(screen.getByRole("navigation", { name: "Enlaces legales" }));
+    for (const [name, href] of [
+      ["Privacidad", "/privacidad"],
+      ["Términos", "/terminos"],
+      ["Convivencia", "/codigo-de-conducta"],
+    ] as const) {
+      expect(legalNav.getByRole("link", { name })).toHaveAttribute("href", href);
+    }
+  });
   it("conserva los enlaces del sitio actual con sus destinos", () => {
     const { container } = render(<SiteFooter />);
     const footer = within(container as HTMLElement);
@@ -64,6 +82,6 @@ describe("SiteFooter (pie navy de cuatro columnas, DS §7.3)", () => {
   it("usa el logo blanco monocromatico y no muestra cuentas ni textos nuevos del DS", () => {
     const { container } = render(<SiteFooter />);
     expect(container.querySelector("img")?.getAttribute("src")).toContain("logo-c3-blanco-monocromatico");
-    expect(container.textContent ?? "").not.toMatch(/Tu cuenta|Iniciar sesión|Crear cuenta|Hecho en El Salvador|challenge/i);
+    expect(container.textContent ?? "").not.toMatch(/Tu cuenta|Iniciar sesión|Crear cuenta|challenge/i);
   });
 });

@@ -20,6 +20,16 @@ export const publicRoutes = [
   "/eventos",
   "/faq",
   "/contacto",
+  "/privacidad",
+  "/terminos",
+  "/codigo-de-conducta",
+] as const;
+
+/** Enlaces legales del pie; no forman parte de la navegación principal. */
+export const legalNavigation = [
+  { href: "/privacidad", label: "Privacidad" },
+  { href: "/terminos", label: "Términos" },
+  { href: "/codigo-de-conducta", label: "Convivencia" },
 ] as const;
 
 export const mainNavigation = [

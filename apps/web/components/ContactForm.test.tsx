@@ -58,6 +58,16 @@ describe("ContactForm (Tarea 7.2)", () => {
     }
   });
 
+  it("explica el uso de datos y enlaza el aviso de privacidad junto al envío", () => {
+    render(<ContactForm />);
+    const link = screen.getByRole("link", { name: "aviso de privacidad, versión 0.1" });
+
+    expect(link).toHaveAttribute("href", "/privacidad");
+    expect(link.parentElement).toHaveTextContent(
+      "Al enviar el formulario, usaremos tus datos para responder tu consulta y los enviaremos mediante Brevo.",
+    );
+    expect(screen.queryByRole("checkbox")).not.toBeInTheDocument();
+  });
   it("el botón de envío es el primario del DS", () => {
     render(<ContactForm />);
     const boton = screen.getByRole("button", { name: "Enviar mensaje" });

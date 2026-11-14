@@ -89,6 +89,9 @@ export default function LegalDocument({ document }: LegalDocumentProps) {
           <span aria-hidden="true">·</span>
           <time dateTime={document.reviewedAt}>{formatReviewedAt(document.reviewedAt)}</time>
         </p>
+        {document.introduction ? (
+          <p className="c3-legal__introduction">{document.introduction}</p>
+        ) : null}
       </header>
 
       {sections.length > 1 ? (
@@ -128,6 +131,28 @@ export default function LegalDocument({ document }: LegalDocumentProps) {
           </section>
         ))}
       </div>
+
+      {document.references?.length ? (
+        <section aria-labelledby="c3-legal-references-title" className="c3-legal__references">
+          <h2 className="c3-legal__section-title" id="c3-legal-references-title">
+            Fuentes relacionadas
+          </h2>
+          <ul>
+            {document.references.map((reference) => (
+              <li key={reference.href}>
+                <a
+                  className="c3-legal__reference"
+                  href={reference.href}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {reference.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
     </article>
   );
 }

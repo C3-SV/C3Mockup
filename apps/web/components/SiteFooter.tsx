@@ -2,14 +2,11 @@ import Link from "next/link";
 import { FaInstagram, FaLinkedinIn } from "react-icons/fa";
 import { FaTiktok } from "react-icons/fa6";
 import { BrandMark } from "@/components/brand/BrandMark";
-import { ecosystemNavigation, mainNavigation } from "@/lib/content";
+import { ecosystemNavigation, legalNavigation, mainNavigation } from "@/lib/content";
 import { siteConfig } from "@/lib/site";
 
 /**
- * Pie navy de cuatro columnas (DS §7.3). Mismo contenido que el pie actual del sitio: correo,
- * redes, navegacion principal, las tres lineas y los dos sitios hermanos. El DS trae titulos de
- * columna y lineas de marca («Fundado en octubre de 2024», «Hecho en El Salvador») que el sitio
- * no tiene; no se agregan sin decision del responsable.
+ * Pie navy de cuatro columnas (DS §7.3), con sus enlaces legales en la franja inferior.
  */
 const socialLinks = [
   { href: siteConfig.social.linkedin, label: "LinkedIn de C3", icon: FaLinkedinIn },
@@ -30,7 +27,6 @@ export default function SiteFooter() {
           <div className="c3-footer__brand">
             <BrandMark variant="footer" alt="" />
             <p>{siteConfig.displayName}</p>
-            <p>Fundado el 24 de octubre de 2024.</p>
             <a href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a>
             <div className="c3-footer__redes">
               {socialLinks.map(({ href, label, icon: Icon }) => (
@@ -86,6 +82,18 @@ export default function SiteFooter() {
 
         <div className="c3-footer__base">
           <span>© 2026 C3 · Competitive Coding Club</span>
+          <div className="c3-footer__base-meta">
+            <nav aria-label="Enlaces legales" className="c3-footer__legal">
+              <ul>
+                {legalNavigation.map((item) => (
+                  <li key={item.href}>
+                    <Link href={item.href}>{item.label}</Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+            <span>Hecho en El Salvador</span>
+          </div>
         </div>
       </div>
     </footer>

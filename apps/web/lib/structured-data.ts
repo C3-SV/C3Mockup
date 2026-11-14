@@ -186,6 +186,9 @@ export function getBreadcrumbJsonLd(path: string, lastLabel?: string) {
     eventos: "Eventos",
     faq: "FAQ",
     contacto: "Contacto",
+    privacidad: "Privacidad",
+    terminos: "Términos",
+    "codigo-de-conducta": "Convivencia",
   };
   const routeParts = path.split("/").filter(Boolean);
   const items: Array<{
@@ -229,6 +232,9 @@ export function getSiteNavigationJsonLd() {
     "/eventos": "Eventos",
     "/faq": "FAQ",
     "/contacto": "Contacto",
+    "/privacidad": "Privacidad",
+    "/terminos": "Términos",
+    "/codigo-de-conducta": "Convivencia",
   };
 
   return {
