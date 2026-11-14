@@ -59,7 +59,7 @@ const eventHelpCards = [
     href: siteConfig.sites.copa,
   },
   {
-    title: "Hackathon de Turismo Creativo I",
+    title: "Hackathon de Turismo Creativo Vol. 1",
     text: "Para información sobre el hackathon, retos, inscripción y detalles del evento.",
     cta: "Ver hackathon",
     href: siteConfig.sites.hackathon,

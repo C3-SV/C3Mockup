@@ -69,7 +69,7 @@ describe("SiteFooter (pie navy de cuatro columnas, DS §7.3)", () => {
     render(<SiteFooter />);
     for (const name of [
       "Copa Salvadoreña de Programación",
-      "Hackathon de Turismo Creativo I",
+      "Hackathon de Turismo Creativo Vol. 1",
       "LinkedIn de C3",
       "Instagram de C3",
       "TikTok de C3",

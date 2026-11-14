@@ -16,7 +16,7 @@ const socialLinks = [
 
 const satelliteLinks = [
   { href: siteConfig.sites.copa, label: "Copa Salvadoreña de Programación" },
-  { href: siteConfig.sites.hackathon, label: "Hackathon de Turismo Creativo I" },
+  { href: siteConfig.sites.hackathon, label: "Hackathon de Turismo Creativo Vol. 1" },
 ];
 
 export default function SiteFooter() {
