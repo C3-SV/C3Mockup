@@ -626,7 +626,6 @@ textarea.c3-campo {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  max-width: 640px;
 }
 
 .c3-section-head h2 {
@@ -648,10 +647,12 @@ textarea.c3-campo {
   color: var(--c3-texto-suave);
 }
 
-/* Entradilla bajo el titular de sección (ADR-0013): hasta 62 caracteres. Con 34, el texto quedaba angosto
-   frente al titular. El hero conserva su entradilla de 34 caracteres. */
-.c3-section-head .c3-lead {
-  max-width: 62ch;
+/* Entradilla bajo el titular de sección (ADR-0013): el texto tiene hasta 62 caracteres. Con 34ch, la entradilla
+   quedaba angosta frente al titular; aquí usa todo el ancho del marco (QA nov-2026). El hero conserva su
+   entradilla de 34 caracteres. */
+.c3-section-head .c3-lead,
+.c3-section-head p {
+  max-width: none;
 }
 
 .c3-actions {
@@ -1459,16 +1460,21 @@ textarea.c3-campo {
 .c3-rings span:nth-child(2) { inset: 16%; }
 .c3-rings span:nth-child(3) { inset: 32%; }
 
-.c3-rings i {
+/* Cada punto vive dentro de su anillo y se ubica con left/top = 50% + 50% del seno y coseno de su ángulo,
+   así queda exactamente sobre la circunferencia de ese anillo (como los satélites de la órbita del hero).
+   Ángulos (0° = derecha, sentido horario): Compite 200°, Crea 125°, Conecta 100°; ninguno cae detrás de los botones. */
+.c3-rings__dot {
   position: absolute;
-  width: 12px;
-  height: 12px;
+  width: 13px;
+  height: 13px;
+  margin: -6.5px 0 0 -6.5px;
   border-radius: 50%;
+  border: 2px solid var(--c3-navy);
 }
 
-.c3-rings i:nth-of-type(1) { background: var(--c3-compite); left: 14%; top: 21%; }
-.c3-rings i:nth-of-type(2) { background: var(--c3-crea); left: 29%; top: 76%; }
-.c3-rings i:nth-of-type(3) { background: var(--c3-conecta); left: 7%; top: 52%; }
+.c3-rings__dot--compite { background: var(--c3-compite); left: 3.0%; top: 32.9%; }
+.c3-rings__dot--crea { background: var(--c3-crea); left: 21.3%; top: 91.0%; }
+.c3-rings__dot--conecta { background: var(--c3-conecta); left: 41.3%; top: 99.2%; }
 
 /* Inner page heading (catalog, proposal, sign in). */
 .c3-page-head {
@@ -1479,7 +1485,6 @@ textarea.c3-campo {
   display: flex;
   flex-direction: column;
   gap: 14px;
-  max-width: 760px;
   min-width: 0;
 }
 
@@ -1495,7 +1500,6 @@ textarea.c3-campo {
 }
 
 .c3-page-head p {
-  max-width: 62ch;
   font-size: 17px;
   line-height: 1.6;
   color: var(--c3-texto-suave);

@@ -10,7 +10,7 @@ import { siteConfig } from "@/lib/site";
 import { FaLinkedinIn } from "react-icons/fa";
 import { FiLink } from "react-icons/fi";
 
-const seoTitle = "Qué es C3 / Competitive Coding Club | Talento técnico joven";
+const seoTitle = "Quiénes somos | C3 / Competitive Coding Club | Talento técnico joven";
 const seoDescription =
   "Conoce la historia, misión, visión, equipo y enfoque de C3, una plataforma institucional de talento técnico joven nacida en El Salvador.";
 
@@ -47,7 +47,7 @@ export default function QueEsC3Page() {
       <section className="c3-frame c3-seccion">
         <article className="c3-card c3-texto-largo">
           <div className="c3-texto-largo__bloque">
-            <h2>Qué es C3</h2>
+            <h2>Quiénes somos</h2>
             <p>
               C3 / Competitive Coding Club es una plataforma institucional de talento técnico
               joven que conecta competencia, creación y oportunidades reales para estudiantes,

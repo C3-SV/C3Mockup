@@ -9,12 +9,15 @@ export function ClosingPanel() {
       <div className="c3-frame">
         <div className="c3-cta__panel">
           <div className="c3-rings" aria-hidden="true">
-            <span />
-            <span />
-            <span />
-            <i />
-            <i />
-            <i />
+            <span>
+              <i className="c3-rings__dot c3-rings__dot--compite" />
+            </span>
+            <span>
+              <i className="c3-rings__dot c3-rings__dot--crea" />
+            </span>
+            <span>
+              <i className="c3-rings__dot c3-rings__dot--conecta" />
+            </span>
           </div>
           <div className="c3-cta__text">
             <BrandMark variant="footer" alt="Logo C3 en llamado final" imageClassName="h-14 w-auto" />
