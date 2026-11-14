@@ -117,6 +117,8 @@ T0 → T1 sigue siendo el gate para cerrar versiones definitivas. El responsable
 - `pnpm test`: correcto; web 471 aprobadas y 1 fallo esperado, admin 165 aprobadas y 1 omitida.
 - `pnpm build`: correcto; páginas legales y `/empieza-en-c3` prerenderizadas.
 - `pnpm test:e2e`: correcto; 264 aprobadas y 48 omitidas de 312, incluidos legal, accesibilidad y navegación a 390/1280 px.
+- Revisión final: el correo de contacto legal ahora tiene objetivo de 44 px, color de acción y subrayado; la aserción E2E reprodujo primero 23 px y luego pasó en móvil y escritorio.
+- Revisión menor diferida: `tests/unit/legal-routes.test.ts` asume que las tres rutas legales quedan al final de `publicRoutes`; no afecta el estado actual, pero una ruta nueva al final podría causar un fallo falso.
 
 ## Cierre y entrega de la iniciativa
 
