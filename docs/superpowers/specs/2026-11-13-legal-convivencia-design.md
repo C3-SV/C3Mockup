@@ -1,12 +1,12 @@
 # Documentos legales y de convivencia del sitio institucional
 
 - Fecha: 2026-11-13.
-- Estado: propuesta para revisión; planificación, sin textos legales aprobados.
+- Estado: base explicativa 0.1 autorizada para publicación el 2026-11-14; no implica aprobación jurídica ni cierre de confirmaciones operativas.
 - Plan: [legal-convivencia](../plans/2026-11-13-legal-convivencia.md).
 
 ## 1. Intención y confirmaciones
 
-Dar al sitio informativo documentos coherentes con su operación y un aviso comprensible en contacto. El responsable quiere privacidad, términos y documentos básicos. Confirmó que C3 aún no es una entidad legal y que la identificación de la persona o personas responsables queda pendiente. No atribuir personalidad jurídica ni inventar razón social, domicilio, plazos, obligaciones o mecanismos de reporte.
+Dar al sitio informativo documentos coherentes con su operación y un aviso comprensible en contacto. El responsable quiere privacidad, términos y documentos básicos. Confirmó que C3 aún no es una entidad legal y que la identificación de la persona o personas responsables queda pendiente. El 2026-11-14 autorizó publicar las bases explicativas 0.1 con esos puntos por confirmar indicados claramente. No atribuir personalidad jurídica ni inventar razón social, domicilio, plazos, obligaciones o mecanismos de reporte.
 
 ## 2. Enfoques y elección propuesta
 
@@ -14,7 +14,7 @@ Dar al sitio informativo documentos coherentes con su operación y un aviso comp
 2. Editor legal en admin: aplazado; añade complejidad sin resolver la validación.
 3. Copiar términos genéricos de otro servicio: descartado; no describe esta operación.
 
-El implementador puede resolver organización de componentes y pruebas sobre el DS. La aprobación factual/legal del texto corresponde al responsable identificado, con revisión jurídica cuando corresponda. La planificación no declara cumplimiento jurídico.
+El implementador puede resolver organización de componentes y pruebas sobre el DS. La publicación 0.1 es una decisión editorial explícita del responsable para mostrar información preliminar; la validación factual y revisión jurídica que corresponda siguen pendientes. La publicación no declara cumplimiento jurídico.
 
 ## 3. Hechos observados y cuestiones por confirmar
 
@@ -40,21 +40,21 @@ Una política de cookies separada y controles de consentimiento son una decisió
 
 Fuera: newsletter, consentimiento comercial, términos de una plataforma futura, pagos, inscripción, asesoría legal automatizada, panel de gestión de consentimientos sin necesidad demostrada.
 
-## 5. Dossier y aprobación previa a publicación
+## 5. Dossier y validación de versiones definitivas
 
 Crear docs/content/legal/inventario-tratamientos.md y decisiones-editoriales.md. Registrar para cada dato: fuente, propietario de la respuesta, estado confirmado/pendiente, fecha y decisión; no incluir secretos ni datos personales innecesarios. Identificación de responsable pendiente bloquea aprobación de textos finales, no la preparación técnica del plan.
 
 El trabajo de ejecución empieza por inventario y revisión de fuentes oficiales vigentes aplicables a El Salvador y a los tratamientos efectivos. Guardar títulos, URLs, autoridad, jurisdicción y fecha de consulta; distinguir obligación verificada de propuesta. No asignar una base jurídica o plazo usando plantillas.
 
-Registro por documento: versión, última revisión sustantiva, responsable de aprobación y alcance. El responsable identificado valida datos y textos; correcciones jurídicas se incorporan antes del merge de publicación. No enviar mensajes a terceros ni contratar servicios sin autorización específica.
+Registro por documento: versión, última revisión sustantiva, responsable de aprobación y alcance. El responsable identificado validará datos y textos definitivos; correcciones jurídicas se incorporan antes de sustituir la base 0.1 por una versión final. No enviar mensajes a terceros ni contratar servicios sin autorización específica.
 
 ## 6. Presentación e integración
 
 Páginas de lectura en PageShell ds, h1, introducción, fecha y secciones; índice con anclas cuando sea útil, párrafos legibles y contacto visible. Guardar el texto aprobado como datos estructurados estáticos en apps/web/lib/legal-content.ts; renderer LegalDocument compartido. No HTML libre.
 
-Enlaces en una zona legal del pie que conserve las cuatro columnas y enlaces actuales. Aviso breve junto al formulario enlaza privacidad y explica el tratamiento confirmado. No añadir aceptación obligatoria de términos o marketing a la consulta por defecto; cualquier consentimiento adicional depende del inventario y de una decisión explícita.
+Enlaces en una zona legal del pie que conserve las cuatro columnas y enlaces actuales. Aviso breve junto al formulario enlaza privacidad y explica que la consulta se envía mediante Brevo. No añadir aceptación obligatoria de términos o marketing a la consulta por defecto; cualquier consentimiento adicional depende del inventario y de una decisión explícita.
 
-Datos de versión editoriales no dependen de new Date() en cada render. Metadata/canonical propios, sitemap y etiquetas de navegación acordes con rutas reales. Robots por defecto del sitio: no usar noindex como sustituto de aprobación. En despliegue público solo entran textos aprobados: el trabajo puede prepararse en rama/preview restringido; no publicar páginas con marcadores pendientes.
+Datos de versión editoriales no dependen de new Date() en cada render. Metadata/canonical propios, sitemap y etiquetas de navegación acordes con rutas reales. Robots por defecto del sitio: no usar noindex como sustituto de aprobación. La base explicativa 0.1 puede publicarse con los pendientes descritos en texto; las páginas mostrarán versión y fecha, sin marcadores internos y sin presentarla como aprobación final.
 
 ## 7. Accesibilidad y reglas del producto
 
@@ -63,12 +63,12 @@ Voz tú, sin promesas ni datos inventados; no llamar entidad constituida a C3. D
 ## 8. Criterios de aceptación
 
 - Inventario tiene fuente y validación para cada afirmación de los textos publicados.
-- Responsable y canal de solicitudes identificados; canal de reporte y capacidad confirmados para convivencia.
-- No quedan placeholders, razón social ficticia ni plazos no aprobados.
+- En la base 0.1, los responsables, canales formales, configuración y plazos pendientes están declarados como pendientes, sin placeholders.
+- Las versiones definitivas requerirán responsable y canal de solicitudes identificados, y canal/proceso de reportes confirmado para convivencia.
 - Enlaces de pie y aviso de contacto funcionan; envío de contacto conserva validación y tratamiento comprobado.
 - Documentos congruentes con navegación, metadata y sitemap.
 - Pruebas de componentes y E2E en 390/1280 px; no scroll horizontal, axe serio/crítico limpio, foco/zoom revisados. Cierre con AGENTS.md §5.
 
 ## 9. Dependencias y estado
 
-Independiente de eventos y Empieza en C3 para preparar infraestructura; publicación legal condicionada a completar identificación y validación. El código de conducta no debe enlazarse como definitivo desde Empieza en C3 si sigue en borrador. P5 de pendientes pasa de aplazado a planificado, sin marcarlo terminado. Ampliación de rutas y contenido documentada por ADR de alcance de esta ronda; número se elige al ejecutar, sin ocupar 0012 reservado para medios.
+Independiente de eventos y Empieza en C3. Las tres rutas públicas y los enlaces del pie forman parte de la base explicativa 0.1 autorizada; el código de conducta se identifica con esa versión, no como aprobación jurídica definitiva. P5 sigue abierto hasta completar validación factual/legal y operación. Ampliación de rutas y contenido documentada por ADR-0015, sin ocupar 0012 reservado para medios.

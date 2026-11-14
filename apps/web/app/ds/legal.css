@@ -1,0 +1,132 @@
+.c3-legal {
+  box-sizing: border-box;
+  inline-size: min(calc(100% - 2rem), 65ch);
+  margin-inline: auto;
+  padding-block: clamp(2rem, 5vw, 4rem);
+  color: var(--c3-texto);
+  font-family: var(--font-body), sans-serif;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.c3-legal__header {
+  margin-block-end: 2rem;
+}
+
+.c3-legal__title {
+  margin: 0;
+  font-family: var(--font-heading), sans-serif;
+  font-size: clamp(2rem, 6vw, 3rem);
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.c3-legal__metadata {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-block: 1rem 0;
+  color: var(--c3-texto-suave);
+  font-size: 0.875rem;
+}
+
+.c3-legal__introduction {
+  margin-block: 1.25rem 0;
+  color: var(--c3-texto-suave);
+}
+
+.c3-legal__index {
+  margin-block: 2rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--c3-borde);
+  border-radius: var(--c3-radius-card);
+  background: var(--c3-superficie-sutil);
+}
+
+.c3-legal__index-title {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  letter-spacing: normal;
+}
+
+.c3-legal__index ol {
+  margin: 0;
+  padding-inline-start: 1.25rem;
+}
+
+.c3-legal__index li {
+  padding-inline-start: 0.25rem;
+}
+
+.c3-legal__index a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+  color: var(--c3-accion);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  overflow-wrap: anywhere;
+}
+
+.c3-legal__section {
+  margin-block-start: 2.5rem;
+  scroll-margin-top: 6rem;
+}
+
+.c3-legal__section-title {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.25rem, 3vw, 1.5rem);
+  line-height: 1.3;
+}
+
+.c3-legal__section p,
+.c3-legal__section li {
+  overflow-wrap: anywhere;
+}
+
+.c3-legal__section p {
+  margin-block: 0 1rem;
+}
+
+.c3-legal__section ul {
+  margin-block: 0 1rem;
+  padding-inline-start: 1.5rem;
+}
+
+.c3-legal__email {
+  display: inline-block;
+  vertical-align: middle;
+  min-block-size: 44px;
+  color: var(--c3-accion);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  overflow-wrap: anywhere;
+}
+
+.c3-legal__references {
+  margin-block-start: 3rem;
+  padding-block-start: 1.5rem;
+  border-top: 1px solid var(--c3-borde);
+}
+
+.c3-legal__references ul {
+  margin: 0;
+  padding-inline-start: 1.25rem;
+}
+
+.c3-legal__reference {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+  color: var(--c3-accion);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  overflow-wrap: anywhere;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root.scroll-smooth {
+    scroll-behavior: auto;
+  }
+}

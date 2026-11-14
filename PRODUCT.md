@@ -58,6 +58,7 @@ Talento primero. A las empresas se les invita a conocer talento joven a través 
 4. Las portadas de eventos usan imágenes de hosts de C3, con descripción alternativa obligatoria.
 5. Datos de eventos reales vienen del admin (Firestore); nunca se fabrican en el cliente.
 6. *(Capacidad implementada en la rama `eventos-memorias`; pendiente de aprobación del responsable; ADR-0014.)* Ficha permanente por edición en `/eventos/{slug}`, con memoria y resultados solo con fuente y permiso. Contenido sin respaldo queda en borrador. Ver `docs/content/eventos/guia-editorial.md`.
+7. **Documentos legales 0.1:** privacidad, términos y convivencia están publicados como bases explicativas, con responsable, configuración operativa, conservación, canales y revisión jurídica todavía pendientes. No representan aprobación legal ni declaración de cumplimiento; P5 sigue abierto. Ver `docs/content/legal/decisiones-editoriales.md` y ADR-0015.
 
 ## Éxito
 
@@ -77,6 +78,7 @@ Que parezca SaaS genérico, página gamer, estética hacker, un sitio saturado d
 | Logo | Cabecera: `c3-sim-azul.png`, el logo completo oscuro del paquete (decisión del 2026-11-11, tras revisar el navbar). Pie: `logo-c3-blanco-monocromatico.png` sobre navy. `logo-c3-claro-con-color.png` se retiró en la Fase 8 (sin usos en el sitio) |
 | Eventos | Reales (los de `defaultEvents` y los del admin). Sin DEMO |
 | Paquetes comerciales y precios | **No publicados.** Pendiente de confirmación del responsable |
+| Textos legales | Bases explicativas 0.1 públicas; datos operativos y revisión jurídica pendientes. No declarar aprobación ni cumplimiento |
 | Manual de marca oficial | No disponible en el repo. Pedir al responsable si se duda de logo o color |
 | Punto de entrada «Empieza en C3» | Copy en `docs/content/empieza-en-c3.md`; pendiente de revisión del responsable (14-nov-2026) |
 

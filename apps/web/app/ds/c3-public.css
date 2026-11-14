@@ -581,6 +581,34 @@ textarea.c3-campo {
   color: var(--c3-enlace-sobre-navy);
 }
 
+.c3-footer__base-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px 16px;
+}
+
+.c3-footer__legal ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 8px;
+}
+
+.c3-footer__legal a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding-inline: 4px;
+  color: var(--c3-enlace-sobre-navy);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.c3-footer__legal a:hover {
+  color: var(--c3-texto-inverso);
+}
+
 /* Correo y redes del pie: el DS no los describe; mismos tonos que los enlaces del pie. */
 .c3-footer__brand a {
   font-size: 13px;
@@ -1795,6 +1823,21 @@ textarea.c3-campo {
   font-size: var(--c3-cuerpo-sm-size);
   line-height: 1.6;
   color: var(--c3-texto-suave);
+}
+
+.c3-form__privacy {
+  font-size: var(--c3-cuerpo-sm-size);
+  line-height: 1.6;
+  color: var(--c3-texto-suave);
+}
+
+.c3-form__privacy a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--c3-accion);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
 }
 
 .c3-form__footer {
