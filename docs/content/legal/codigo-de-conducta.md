@@ -1,12 +1,12 @@
 # Convivencia en actividades y espacios de C3 · propuesta base
 
 - Versión: 0.1.
-- Fecha de revisión de esta propuesta: 2026-11-13.
+- Fecha de revisión de esta versión: 2026-11-14.
 - Aprobador: pendiente de identificar.
-- Estado: propuesta interna; no publicar ni enlazar.
+- Estado: base explicativa 0.1 publicada con autorización del responsable el 2026-11-14; procedimiento operativo y revisión jurídica pendientes.
 - Inventario relacionado: [inventario-tratamientos.md](inventario-tratamientos.md).
 
-> Nota interna: el alcance, los responsables y el canal de reportes no están confirmados. Esta propuesta no describe un procedimiento que hoy esté implementado.
+> Estas pautas expresan expectativas básicas de respeto. El alcance, el equipo responsable y el procedimiento para atender reportes todavía están en definición.
 
 ## Trato respetuoso
 
@@ -18,13 +18,13 @@ No compartas datos personales, credenciales ni conversaciones privadas de otra p
 
 ## Reportes
 
-C3 debe designar quién recibirá los reportes, qué canal seguro se usará y cómo se revisarán. No publiques información sensible en redes ni en canales abiertos para reportar una situación. El correo general no se ha confirmado como canal suficiente.
+C3 está definiendo quién atenderá reportes, qué canal se usará y cómo se revisarán. Puedes iniciar una consulta por el correo general de C3: competitivecodingclub.sv@gmail.com. Comparte solo la información necesaria y no publiques detalles sensibles en redes ni en espacios abiertos.
 
-Antes de publicar, C3 debe definir cómo registrar y evaluar reportes, proteger a las personas involucradas y comunicar una respuesta. No se promete anonimato, atención permanente, un plazo de respuesta ni un resultado específico mientras no se confirme que el equipo puede cumplirlo.
+Esta versión no garantiza anonimato, atención permanente, un plazo de respuesta ni un resultado específico mientras el proceso siga en definición.
 
 ## Alcance y revisión
 
-Está pendiente decidir si esta guía aplica al sitio, eventos propios, competencias, grupos de mensajería y actividades organizadas junto con terceros. Cada organizador puede tener reglas adicionales que deben comunicarse en la convocatoria.
+Estas pautas son una base general para actividades y espacios vinculados a C3. El alcance para actividades con terceros está pendiente de confirmación; una convocatoria puede incluir reglas adicionales de su organización responsable. Versión 0.1, revisada el 14 de noviembre de 2026.
 
 ## Referencias internas
 

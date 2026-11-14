@@ -16,6 +16,7 @@ Una decisión por archivo: `NNNN-titulo.md`. Estado: `propuesta`, `aceptada`, `r
 | [0011](0011-destacado-rotativo-y-tipos-de-evento.md) | 2026-11-12 | Destacado rotativo en el home y tipo de experiencia como respaldo visual | aceptada |
 | [0013](0013-entradilla-de-seccion-mas-ancha.md) | 2026-11-13 | Entradilla bajo el titular de sección: 62 caracteres (el DS dice 34) | aceptada |
 | [0014](0014-fichas-y-memorias-por-edicion.md) | 2026-11-13 | Fichas y memorias por edición (`/eventos/{slug}`): ampliación de alcance de ADR-0003 y cambio funcional acotado del admin | propuesta (aceptada el 13-nov-2026; implementada en la rama `eventos-memorias`, ver el ADR) |
+| [0015](0015-publicar-documentos-legales-base-01.md) | 2026-11-14 | Publicar la base explicativa legal 0.1 con pendientes visibles | aceptada |
 
 ## Plantilla
 

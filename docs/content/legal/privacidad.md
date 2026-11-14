@@ -1,12 +1,12 @@
 # Privacidad · borrador base
 
 - Versión: 0.1.
-- Fecha de revisión de este borrador: 2026-11-13.
+- Fecha de revisión de esta versión: 2026-11-14.
 - Aprobador: pendiente de identificar.
-- Estado: explicación inicial para revisión interna; no publicar ni enlazar.
+- Estado: base explicativa 0.1 publicada con autorización del responsable el 2026-11-14; validación operativa y revisión jurídica pendientes.
 - Inventario relacionado: [inventario-tratamientos.md](inventario-tratamientos.md).
 
-> Nota interna: este texto parte de lo que el repositorio muestra. Antes de publicarlo, C3 debe confirmar responsables, configuración de proveedores, conservación, canal de solicitudes y revisión jurídica que corresponda.
+> Esta página es una explicación inicial del uso de información en el sitio. Los responsables, los ajustes de proveedores, los plazos de conservación y el procedimiento de solicitudes siguen en revisión. No es asesoría legal ni una declaración de cumplimiento.
 
 ## Qué datos recibimos
 
@@ -20,35 +20,37 @@ La función observada del formulario es recibir tu consulta y permitir que C3 te
 
 La implementación actual remite el mensaje mediante el servicio de correo transaccional Brevo al buzón general de C3. El correo que escribes también se usa como dirección de respuesta. El sitio no guarda el envío en una base de datos propia observada en el repositorio.
 
-Pendiente de confirmar antes de publicar: quién tiene acceso al buzón, cómo se administran las copias y respaldos, qué registros conserva Brevo en la cuenta de C3 y por cuánto tiempo. El DPA de Brevo indica que el cliente debe gestionar los plazos de retención de los datos que sube al servicio; no se ha verificado una regla concreta para C3.
+Pendiente de confirmar: quién tiene acceso al buzón, cómo se administran las copias y respaldos, qué registros conserva Brevo en la cuenta de C3 y por cuánto tiempo. El DPA de Brevo indica que el cliente debe gestionar los plazos de retención de los datos que sube al servicio; no se ha verificado una regla concreta para C3.
 
 ## Analítica del sitio
 
 El sitio incorpora Vercel Web Analytics para conocer qué páginas se visitan y orientar mejoras. Según la documentación del proveedor, sus mediciones pueden incluir fecha y hora, página y ruta, referidor, parámetros de URL filtrados, ubicación aproximada, sistema operativo, navegador y tipo de dispositivo. Vercel describe el uso de un hash derivado de la solicitud para distinguir visitas, mediciones agregadas y ausencia de cookies.
 
-La configuración del proyecto de C3 no se ha verificado. El código revisado no define una regla beforeSend para redactar direcciones o parámetros de URL. No compartas datos personales en la dirección de una página. Antes de publicar, confirmar si hay otras cookies o herramientas y si se necesita un aviso o control adicional.
+La configuración del proyecto de C3 no se ha verificado. El código revisado no define una regla beforeSend para redactar direcciones o parámetros de URL. No compartas datos personales en la dirección de una página. Sigue pendiente confirmar si hay otras cookies o herramientas y si se necesita un aviso o control adicional.
 
 ## Servicios y enlaces de terceros
 
 El formulario se entrega a Brevo; Vercel sirve el sitio y la analítica; el catálogo público de eventos puede consultarse en Firebase desde el servidor; y algunas imágenes se sirven desde Cloudinary. La documentación de cada proveedor describe sus propias prácticas, pero no confirma la cuenta, ubicación, permisos o ajustes que usa C3.
 
-El sitio también enlaza redes sociales y sitios de eventos. Si abres uno de esos enlaces, ese servicio recibe los datos técnicos propios de tu visita y aplica sus condiciones.
+El sitio también enlaza redes sociales, sitios de eventos y una comunidad de WhatsApp. Si abres uno de esos enlaces, el servicio correspondiente recibe la información técnica habitual de tu visita y aplica sus propias políticas de privacidad.
 
 ## Conservación y solicitudes
 
-El plazo durante el que C3 conserva mensajes, registros y copias todavía no está confirmado. Tampoco se ha designado a una persona ni un canal específico para solicitudes sobre datos. El correo general publicado en el pie no se ha confirmado para atender este tipo de solicitudes.
+El plazo durante el que C3 conserva mensajes, registros y copias todavía no está confirmado. Tampoco se ha designado a una persona ni un canal específico para solicitudes sobre datos. Para una consulta general puedes escribir a competitivecodingclub.sv@gmail.com; el procedimiento de privacidad y su responsable siguen en definición. No se establece un plazo de respuesta ni una promesa de eliminación.
 
-Antes de publicar, C3 debe decidir quién recibe y responde solicitudes, cómo verificará la identidad cuando sea necesario y qué procedimiento se aplicará. No se incluye un plazo de respuesta ni una promesa de eliminación mientras no se hayan revisado las reglas y la operación.
+Queda pendiente decidir quién recibe y responde solicitudes, cómo verificará la identidad cuando sea necesario y qué procedimiento se aplicará. Mientras tanto, evita enviar información sensible al correo general.
 
 ## Menores y cambios
 
-El sitio se dirige a talento joven, pero el repositorio no confirma edades, verificación de edad ni un procedimiento de atención a personas menores. Esta sección requiere una decisión responsable antes de publicarse.
+El sitio se dirige a talento joven, pero el repositorio no confirma edades, verificación de edad ni un procedimiento de atención a personas menores. Esta versión indica que la orientación para esos casos sigue en revisión.
 
-La fecha de revisión que aparezca en una página pública deberá corresponder a una aprobación real. Este borrador no afirma cumplimiento legal ni sustituye la revisión factual y jurídica correspondiente.
+Esta versión 0.1 fue revisada el 14 de noviembre de 2026. No afirma cumplimiento legal ni sustituye la revisión factual y jurídica correspondiente.
 
 ## Referencias internas
 
 - [Inventario de tratamientos](inventario-tratamientos.md).
 - [Decreto 144, Ley para la Protección de Datos Personales (Asamblea Legislativa)](https://www.asamblea.gob.sv/sites/default/files/documents/decretos/7A4FBD85-7E1B-46BE-9408-6FC549E53E00.pdf).
+- [Decreto 659, reformas a la Ley para la Protección de Datos Personales (Asamblea Legislativa, 2026)](https://www.asamblea.gob.sv/leyes-y-decretos/view/7022).
 - [Privacidad de Vercel Web Analytics](https://vercel.com/docs/analytics/privacy-policy).
 - [Términos y DPA de Brevo](https://www.brevo.com/legal/termsofuse/).
+- [Política de privacidad de WhatsApp](https://www.whatsapp.com/legal/privacy-policy).

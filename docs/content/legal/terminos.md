@@ -1,12 +1,12 @@
 # Términos de uso del sitio · borrador base
 
 - Versión: 0.1.
-- Fecha de revisión de este borrador: 2026-11-13.
+- Fecha de revisión de esta versión: 2026-11-14.
 - Aprobador: pendiente de identificar.
-- Estado: explicación inicial para revisión interna; no publicar ni enlazar.
+- Estado: base explicativa 0.1 publicada con autorización del responsable el 2026-11-14; validación operativa y revisión jurídica pendientes.
 - Inventario relacionado: [inventario-tratamientos.md](inventario-tratamientos.md).
 
-> Nota interna: esta propuesta se limita al sitio institucional informativo. No se redactan limitaciones de responsabilidad, garantías, ley aplicable ni jurisdicción sin confirmación y revisión jurídica.
+> Esta versión resume pautas básicas para usar el sitio institucional de C3. No es asesoría legal; los detalles adicionales y la revisión jurídica que corresponda siguen pendientes.
 
 ## Alcance del sitio
 
@@ -22,11 +22,11 @@ El contenido del sitio ayuda a conocer C3 y sus actividades. Las fechas, requisi
 
 ## Contenido y permisos
 
-El sitio muestra textos, marcas, fotografías y otros materiales que pueden pertenecer a C3 o a terceros. No copies, modifiques o redistribuyas esos materiales sin autorización del titular. C3 debe confirmar titularidad, permisos y canal para solicitar uso antes de publicar esta sección.
+El sitio muestra textos, marcas, fotografías y otros materiales de C3 o de terceros. Antes de copiar, modificar o redistribuir un material, confirma quién tiene sus derechos y solicita autorización cuando corresponda. La titularidad, los permisos y el canal para solicitar uso siguen pendientes de confirmación.
 
 ## Alcance pendiente
 
-Estos términos no cubren una plataforma de inscripción futura, pagos, competencias organizadas por terceros ni condiciones particulares de cada evento. Cualquier límite de responsabilidad o regla sobre ley aplicable debe revisarse antes de adoptar un texto definitivo.
+Esta versión 0.1 se limita al sitio institucional. No establece reglas para una plataforma futura, pagos, inscripciones ni eventos organizados por terceros. Los detalles legales adicionales siguen en revisión. Revisada el 14 de noviembre de 2026.
 
 ## Referencias internas
 

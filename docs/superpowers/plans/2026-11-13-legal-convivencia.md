@@ -2,15 +2,15 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Preparar y publicar documentos coherentes con la operación real, con identificación y aprobación verificadas.
+**Goal:** Publicar una base explicativa 0.1 de privacidad, términos y convivencia, con los asuntos sin confirmar claramente indicados.
 
-**Architecture:** Inventariar tratamientos y responsables antes de redactar. Mantener texto aprobado versionado en repositorio, renderer de lectura compartido y enlaces legales en pie/contacto; publicación condicionada a la validación factual y jurídica correspondiente.
+**Architecture:** Inventariar tratamientos y responsables; mantener documentos versionados como datos estáticos, renderer compartido y enlaces legales en pie/contacto. El responsable autorizó publicar la versión explicativa 0.1 el 2026-11-14; las versiones definitivas siguen condicionadas a validación factual y jurídica.
 
 **Tech Stack:** Next.js 16.2.5, React 19.2.4, TypeScript, Tailwind v4, tokens/clases C3, Vitest/Testing Library, Playwright y axe; pnpm 11.
 
 **Spec:** [2026-11-13-legal-convivencia-design.md](../specs/2026-11-13-legal-convivencia-design.md).
 
-**Estado:** preparación técnica en curso (rama fase-5-legal, 13-nov-2026). La aprobación factual/legal y la identificación del responsable siguen siendo gates de publicación.
+**Estado:** implementación de la base explicativa 0.1 en curso (rama fase-5-legal). Autorización de publicación pública recibida el 2026-11-14; no equivale a aprobación jurídica ni cierra pendientes operativos.
 
 ## Global Constraints
 
@@ -25,7 +25,7 @@
 
 ## Review Focus
 
-1. Responsable no identificado o texto con placeholders: no publicar ni enlazar documentos provisionales como definitivos (T0/T1/T4).
+1. Responsable y detalles operativos siguen pendientes: identificar cada página como versión explicativa 0.1 y dejar visibles los puntos por confirmar; no presentarlas como revisión jurídica final.
 2. Brevo, Analytics y servicios externos pueden tratar datos aunque no exista una cookie visible: contrastar código con configuración real (T0).
 3. La consulta no debe convertirse en suscripción ni aceptar condiciones de eventos futuros al enviar contacto (T3).
 4. Documentos largos, correo sin espacios y anclas bajo header: lectura y navegación a 390/1280 px y zoom 200% (T2/T4).
@@ -35,7 +35,7 @@
 
 ## Dependencia principal
 
-T0 → T1 es un gate editorial. La infraestructura T2 se puede preparar en rama con fixtures; T3 y publicación pública esperan textos aprobados. La identidad pendiente no se sustituye por "C3, entidad legal". Cookies y controles extra solo se incorporan si el inventario determina su necesidad y se aprueba el alcance.
+T0 → T1 sigue siendo el gate para cerrar versiones definitivas. El responsable autorizó que T3 publique la base explicativa 0.1 antes de completar ese gate, siempre que exponga los pendientes sin inventar responsables, plazos ni garantías. Cookies y controles extra solo se incorporan si el inventario determina su necesidad y se aprueba el alcance.
 
 ### T0: Inventario operativo y responsables
 
@@ -65,7 +65,7 @@ T0 → T1 es un gate editorial. La infraestructura T2 se puede preparar en rama 
 - [ ] Lista de publicación: cero placeholders; aprobador identificado; fechas reales; canal de solicitudes y de reportes confirmados. Si falla, mantener tarea abierta y continuar solo infraestructura de rama.
 - [x] Commit docs: preparar textos legales base para revisión (el mensaje no debe decir aprobados si aún no lo están).
 
-> **Gate T1 abierto:** los textos 0.1 son borradores internos; siguen pendientes identidad, configuración real, canales y aprobación. No se integran en datos estáticos ni se enlazan públicamente.
+> **T1 parcialmente abierto:** el responsable autorizó publicar estos textos 0.1 como explicación preliminar el 2026-11-14. Identidad, configuración real, canales, conservación y aprobación jurídica siguen pendientes; la publicación no los declara aprobados.
 
 ### T2: Renderer de documentos legible y accesible
 
@@ -74,16 +74,16 @@ T0 → T1 es un gate editorial. La infraestructura T2 se puede preparar en rama 
 **Interfaces:**
 - LegalDocumentId = "privacidad" | "terminos" | "codigo-de-conducta".
 - LegalDocumentData = { id: LegalDocumentId; title: string; version: string; reviewedAt: string; sections: Array<{id:string;title:string;paragraphs:string[];items?:string[]}> }.
-- legalDocuments: Partial<Record<LegalDocumentId, LegalDocumentData>>; permanece vacío hasta contar con textos aprobados.
+- legalDocuments: Record<LegalDocumentId, LegalDocumentData>; incluye la base explicativa 0.1 autorizada, con introducción que señala pendientes y sin presentarla como aprobación jurídica.
 - LegalDocument({document}: {document:LegalDocumentData}): sección semántica de lectura dentro de PageShell del consumidor.
 
 - [x] Prueba con fixture interno: un h1, versión/fecha visible, índice enlaza ids únicos, email largo no se trunca y texto con etiquetas no se ejecuta. Assert: enlace "#responsable" tiene sección id="responsable".
 - [x] Ejecutar pnpm --filter @c3/web exec vitest run components/legal/LegalDocument.test.tsx → rojo.
 - [x] Implementar renderer, índice cuando hay varias secciones, mailto de correos incluidos en contenido aprobado y CSS mínimo con scroll-margin-top. Sin HTML libre ni banners.
-- [ ] Integrar texto T1 en datos estáticos solo tras aprobación; fixtures de prueba quedan dentro de tests y nunca en rutas públicas.
+- [x] Integrar la base explicativa 0.1 autorizada en datos estáticos; fixtures de prueba quedan dentro de tests y nunca en rutas públicas.
 - [x] Verde, typecheck y commit feat(web): presentar documentos legales accesibles.
 
-> Gate T1 abierto: el registry sigue vacío; no se crean páginas ni enlaces públicos con borradores internos.
+> La base explicativa 0.1 está autorizada para publicación pública; el contenido y los pendientes se mantienen revisables en `apps/web/lib/legal-content.ts`.
 
 ### T3: Rutas, pie y aviso de contacto
 
@@ -91,12 +91,12 @@ T0 → T1 es un gate editorial. La infraestructura T2 se puede preparar en rama 
 
 **Interfaces:** tres páginas estáticas sobre PageShell ds y LegalDocument; metadata mediante createPageMetadata. Enlaces legales separados de mainNavigation para no saturar header. Revisar tipos Record que dependen de publicRoutes; última revisión legal procede de datos editoriales.
 
-- [ ] Pruebas: cada ruta tiene canonical/título y label JSON-LD; sitemap contiene URLs sin duplicados; footer conserva enlaces/redes anteriores y añade legales.
-- [ ] Prueba ContactForm: aviso enlaza /privacidad; enviar conserva campos/validación y no añade newsletter/aceptación obligatoria por defecto. Stub fetch solo en test; no enviar correos reales.
-- [ ] Ejecutar Vitest dirigido → rojo.
-- [ ] Crear rutas y enlaces con texto T1 aprobado. Incorporar aviso breve aprobado próximo a Enviar mensaje, sin alterar el payload o honeypot.
+- [x] Pruebas: cada ruta tiene canonical/título y label JSON-LD; sitemap contiene URLs sin duplicados; footer conserva enlaces/redes anteriores y añade legales.
+- [x] Prueba ContactForm: aviso enlaza /privacidad; enviar conserva campos/validación y no añade newsletter/aceptación obligatoria por defecto. Stub fetch solo en test; no enviar correos reales.
+- [x] Ejecutar Vitest dirigido → rojo antes de integrar; suite dirigida verde después.
+- [x] Crear rutas y enlaces para la base explicativa 0.1 autorizada. Incorporar aviso breve junto a Enviar mensaje, sin alterar el payload o honeypot.
 - [ ] Si T0 exige consentimiento u otros controles, implementar tarea ampliada aprobada antes de habilitar tratamiento afectado; no resolverlo con un checkbox sin justificación.
-- [ ] Verde, typecheck y commit feat(web): integrar privacidad términos y convivencia.
+- [x] Verde con typecheck y commit `feat(web): publicar documentos legales base 0.1`.
 
 ### T4: Publicación y evidencia
 
@@ -106,7 +106,7 @@ T0 → T1 es un gate editorial. La infraestructura T2 se puede preparar en rama 
 - [ ] Ejecutar prueba roja antes de integrar rutas en build de trabajo, implementar cualquier falta y obtener verde. No usar registros productivos ni ejecutar envíos reales.
 - [ ] Revisión manual: teclado, zoom 200%, anclas visibles bajo cabecera y correos largos; lectura del texto completo con responsable.
 - [ ] Repetir inventario contra código final; si hay nuevos proveedores/medios respecto a T0, revisar documento antes de publicar.
-- [ ] Verificar que el preview público/producción no exponga borradores; publicar solo tras gate T1. Sin aprobación, registrar pendiente real y no dar tarea por terminada.
+- [ ] Verificar que las rutas públicas identifiquen la versión 0.1 y sus pendientes; no describirla como documento definitivo ni como aprobación jurídica.
 - [ ] Commit test(web): verificar documentos y enlaces legales.
 
 ## Cierre y entrega de la iniciativa
@@ -114,5 +114,5 @@ T0 → T1 es un gate editorial. La infraestructura T2 se puede preparar en rama 
 - [ ] Ejecutar los comandos de Global Constraints y adjuntar salidas reales; no registrar como hecho lo que solo se describe en el plan.
 - [ ] Capturas 390/1280 px; revisar foco, zoom 200%, objetivos táctiles y movimiento reducido; resolver hallazgos del alcance.
 - [ ] Registrar checklist DS §15.5, revisión de código y validación editorial del responsable.
-- [ ] Actualizar PRODUCT.md, docs/design-system/pendientes.md y documentación de alcance con estado real. No cerrar tareas ajenas.
-- [ ] Integrar según ADR-0007 solo tras revisión y autorización vigente; no desplegar por ejecutar la planificación.
+- [x] Actualizar PRODUCT.md, docs/design-system/pendientes.md y documentación de alcance con estado real. No cerrar tareas ajenas.
+- [ ] Mantener la rama de fase y el PR dirigido a `dev` según ADR-0007; no fusionar ni desplegar a producción por ejecutar la planificación.

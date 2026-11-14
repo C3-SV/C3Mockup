@@ -14,6 +14,9 @@ const RUTAS = [
   "/eventos",
   "/faq",
   "/contacto",
+  "/privacidad",
+  "/terminos",
+  "/codigo-de-conducta",
   "/ruta-inexistente",
 ] as const;
 
