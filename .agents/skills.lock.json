@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "installedAt": "2026-11-14",
+  "destination": ".agents/skills",
+  "installer": "Codex skill-installer/install-skill-from-github.py (direct download, --dest .agents/skills)",
+  "sources": [
+    {
+      "repository": "https://github.com/greensock/gsap-skills",
+      "commit": "aed9cfd3277740755f6bfc1155c7aa645403b760",
+      "license": "MIT",
+      "sourceDirectory": "skills",
+      "skills": ["gsap-core", "gsap-timeline", "gsap-scrolltrigger", "gsap-react", "gsap-plugins", "gsap-performance"]
+    },
+    {
+      "repository": "https://github.com/emilkowalski/skills",
+      "commit": "0f2e23b32bb1265e84cff8d3e75785fec953fb1b",
+      "license": "MIT",
+      "sourceDirectory": "skills",
+      "skills": ["animate", "animation-vocabulary", "choreograph", "find-animation-opportunities", "review-animations", "improve-animations", "animation-performance"]
+    },
+    {
+      "repository": "https://github.com/vercel-labs/agent-skills",
+      "commit": "1a2c79d4e6c4a2283dc2c614b6538cbe1ed5ca62",
+      "license": "MIT",
+      "sourceDirectory": "skills",
+      "skills": ["react-best-practices", "web-design-guidelines"]
+    }
+  ]
+}

@@ -62,6 +62,16 @@ Usa las skills; no las sustituyas por intuición. Detalle y tabla completa en [`
 | Textos de interfaz | `design:ux-copy` (voz «tú») |
 | Antes de tocar código desconocido | `graphify` si existe `graphify-out/` |
 
+### Motion y rendimiento del sitio público
+
+Las skills de proyecto viven en [`.agents/skills/`](.agents/skills/) y sus versiones están fijadas en [`.agents/skills.lock.json`](.agents/skills.lock.json). Antes de proponer o implementar motion, leé [`docs/motion/C3_MOTION_DESIGN.md`](docs/motion/C3_MOTION_DESIGN.md), el DS y las skills pertinentes; las propuestas del documento de motion **no están aprobadas para implementación**.
+
+- **GSAP** (`gsap-core`, `gsap-timeline`, `gsap-scrolltrigger`, `gsap-react`, `gsap-plugins`, `gsap-performance`): consultá la skill específica al evaluar una implementación GSAP, su ciclo de vida en React o su costo. Su presencia no autoriza instalar `gsap` ni `@gsap/react` ni sustituir CSS existente.
+- **Emil Kowalski** (`find-animation-opportunities`, `animation-vocabulary`, `choreograph`, `animate`, `review-animations`, `improve-animations`, `animation-performance`): usá las primeras para explorar y describir oportunidades; las de revisión y rendimiento para auditar decisiones y resultados. Aplicá sus criterios bajo el DS, el contenido y la accesibilidad de C3.
+- **Vercel** (`react-best-practices`, `web-design-guidelines`): consultalas al planificar carga de JS, componentes cliente, rendimiento, accesibilidad e interacción. Antes de escribir código Next.js, leé la guía pertinente de `node_modules/next/dist/docs/` como exige el encabezado de este archivo.
+
+Las skills son documentación para agentes, no dependencias de ejecución. Si un agente no las descubre automáticamente, abrí el `SKILL.md` de la ruta indicada. No sobreescribás estas instrucciones al actualizar skills.
+
 ## 5. Definición de «hecho» (obligatoria)
 
 Una tarea no está hecha hasta que, con salida real pegada o enlazada en el PR:
