@@ -1,0 +1,238 @@
+/*
+ * Guía «Empieza en C3». Solo tokens del DS (--c3-*): sin hexadecimales literales (tests/tokens/empieza-en-c3-css.test.ts).
+ * Sitio informativo: texto con aire y varios momentos fuertes (encabezado con órbita, áreas por línea, comunidad,
+ * pasos, dudas, contacto). La acción principal, unirse a la comunidad, va grande, pero no es el único bloque fuerte.
+ */
+
+/* Ritmo de bloques: cada sección separa por una regla fina, no por cajas. */
+.c3-guia-bloque {
+  gap: 28px;
+  border-top: 1px solid var(--c3-borde);
+}
+
+.c3-guia__titulo {
+  font-family: var(--c3-font-titulo);
+  font-size: clamp(30px, 3.8vw, 44px);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  color: var(--c3-navy);
+  max-width: 24ch;
+}
+
+/* Encabezado: titular grande y órbita de las tres líneas alrededor de la marca. */
+.c3-guia-hero {
+  display: grid;
+  gap: 40px;
+  align-items: center;
+  padding-block: clamp(48px, 7vw, 88px);
+}
+
+@media (min-width: 900px) {
+  .c3-guia-hero {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  }
+}
+
+.c3-guia .c3-page-head h1 {
+  font-size: clamp(44px, 6.6vw, 72px);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+}
+
+.c3-guia-hero .c3-page-head p {
+  max-width: 56ch;
+}
+
+.c3-guia-orbita {
+  position: relative;
+  width: 100%;
+  max-width: 340px;
+  justify-self: center;
+}
+
+@media (min-width: 900px) {
+  .c3-guia-orbita {
+    max-width: 400px;
+    justify-self: end;
+  }
+}
+
+/* Satélites de las tres líneas sobre fondo claro: cada uno con el color de su línea. */
+.c3-guia-orbita .c3-orbit__satellite--conecta {
+  background: var(--c3-conecta);
+}
+
+/* Áreas: el borde superior clasifica por línea; sin cajas ni sombras. */
+.c3-guia-areas {
+  display: grid;
+  gap: 32px;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (min-width: 900px) {
+  .c3-guia-areas {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 40px;
+  }
+}
+
+.c3-guia-area {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 20px;
+  border-top: 6px solid var(--c3-compite);
+  overflow-wrap: anywhere;
+}
+
+.c3-guia-area--compite { border-top-color: var(--c3-compite); }
+.c3-guia-area--crea { border-top-color: var(--c3-crea); }
+.c3-guia-area--conecta { border-top-color: var(--c3-conecta); }
+
+.c3-guia-area h3 {
+  font-family: var(--c3-font-titulo);
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.c3-guia-area p {
+  font-size: var(--c3-cuerpo-lg-size);
+  line-height: 1.6;
+  color: var(--c3-texto);
+}
+
+/* Comunidad: el titular y la acción son el momento más grande, sobre fondo claro. */
+.c3-guia-comunidad__titulo {
+  font-size: clamp(40px, 6vw, 64px);
+  line-height: 1.04;
+}
+
+.c3-guia-lead {
+  font-size: clamp(18px, 2vw, 20px);
+  line-height: 1.6;
+  max-width: 58ch;
+  color: var(--c3-texto);
+}
+
+.c3-guia-comunidad .c3-actions .c3-btn {
+  min-height: 56px;
+  padding-inline: 32px;
+  font-size: 18px;
+}
+
+/* Pasos: secuencia real, por eso lleva números. */
+.c3-guia-pasos {
+  display: grid;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: paso;
+}
+
+@media (min-width: 900px) {
+  .c3-guia-pasos {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 32px;
+  }
+}
+
+.c3-guia-pasos li {
+  counter-increment: paso;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 20px;
+  border-top: 2px solid var(--c3-borde);
+}
+
+.c3-guia-pasos li::before {
+  content: counter(paso);
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--c3-accion);
+  color: var(--c3-texto-inverso);
+  font-family: var(--c3-font-titulo);
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.c3-guia-pasos p {
+  margin: 0;
+  font-size: var(--c3-cuerpo-lg-size);
+  line-height: 1.5;
+  color: var(--c3-texto);
+}
+
+/* Nota de «sin próxima experiencia»: una cita lateral, tono quieto. */
+.c3-guia-nota {
+  max-width: 64ch;
+  padding-left: 24px;
+  border-left: 4px solid var(--c3-borde-fuerte);
+}
+
+.c3-guia-nota p {
+  margin: 0;
+  font-size: var(--c3-cuerpo-lg-size);
+  line-height: 1.6;
+  color: var(--c3-texto);
+}
+
+/* Dudas: cuadrícula 2 × 2 en escritorio. */
+.c3-guia-dudas {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (min-width: 900px) {
+  .c3-guia-dudas {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.c3-guia-duda {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 28px;
+  overflow-wrap: anywhere;
+}
+
+.c3-guia-duda h3 {
+  font-family: var(--c3-font-titulo);
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--c3-navy);
+}
+
+.c3-guia-duda p {
+  margin: 0;
+  font-size: var(--c3-cuerpo-size);
+  line-height: 1.6;
+  color: var(--c3-texto);
+}
+
+/* Cierre: contacto con la misma voz, sin panel. */
+.c3-guia-cierre {
+  padding-bottom: clamp(64px, 9vw, 112px);
+}
+
+.c3-guia-cierre .c3-guia-lead {
+  font-size: var(--c3-cuerpo-lg-size);
+  overflow-wrap: anywhere;
+}
+
+/* Movimiento: la órbita del encabezado se detiene si el usuario lo pide. */
+@media (prefers-reduced-motion: reduce) {
+  .c3-guia-orbita .c3-orbit__spin {
+    animation: none;
+  }
+}
