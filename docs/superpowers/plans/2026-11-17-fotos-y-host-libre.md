@@ -2,13 +2,13 @@
 
 - **Fecha:** 2026-11-17 · **Estado:** T1–T6 implementadas en `codex/preparacion-motion` (sin commit); e2e de Playwright pendiente (requiere emulador de Firestore) · **Alcance:** `packages/config`, `apps/admin`, `apps/web` (solo render de la ficha), documentación.
 - **Decisiones que cambian:** ADR-0017 (nuevo), que amplía ADR-0014 (ficha por edición) y reemplaza la regla de host de imágenes de ADR-0005 para la galería y las portadas.
-- **Relación con la spec de ImageKit** (`docs/superpowers/specs/2026-11-17-imagekit-media-design.md`, pendiente de aprobación): este plan deja el modelo y el admin listos para fotos; la subida de archivos a ImageKit (firma, registro, reemplazo) **no** entra aquí.
+- **Alcance:** este plan deja el modelo y el admin listos para fotos por enlace. La subida de archivos (firma, registro, reemplazo) **no** entra aquí.
 
 ## 1. Qué cambia y por qué
 
 1. **Host libre para imágenes.** La regla «solo hosts de C3» bloquea enlaces válidos de servicios externos. Se acepta cualquier URL `https://` absoluta sin credenciales ni caracteres de control, de hasta 2048 caracteres. Se mantiene todo lo demás: sin `http:`, sin credenciales, sin rutas relativas para imágenes, sin `javascript:` ni `data:`.
 2. **Fotos fuera de la memoria.** Hoy `memory.gallery` obliga a tener memoria para subir fotos. Una foto o arte puede existir antes del evento, así que la galería pasa a `page.gallery`, al nivel de la ficha. La memoria conserva solo texto de cierre (resumen, aprendizajes, resultados, proyectos).
-3. **Límite de galería: 20 por edición**, según la decisión del responsable registrada en la spec de ImageKit (2026-11-17). Sustituye el 12 de la guía editorial (§4).
+3. **Límite de galería: 20 por edición**, según la decisión del responsable (17-nov-2026). Sustituye el 12 de la guía editorial (§4).
 4. **Publicación.** La galería sigue a la ficha: se ve cuando la ficha está publicada, sin necesidad de memoria ni de que la edición haya terminado. Sin `rightsConfirmed` no se publica ninguna foto (guía §3).
 
 ## 2. Modelo de datos
@@ -59,7 +59,7 @@ PublicEventPage.gallery?: { url, alt, caption? }[]   // sin rightsConfirmed
 
 ## 4. Fuera de alcance (no se toca)
 
-- Subida de archivos, firma de ImageKit, registro de medios y reconciliación (spec 2026-11-17, fases F1–F3 de esa spec).
+- Subida de archivos, firma de un proveedor de imágenes, registro de medios y reconciliación.
 - Foto del equipo en Cloudinary (`apps/web/lib/content.ts:147`).
 - Diseño visual del admin más allá de los campos de fotos.
 

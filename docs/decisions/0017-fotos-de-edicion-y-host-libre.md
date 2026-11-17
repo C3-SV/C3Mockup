@@ -13,7 +13,7 @@
 
 1. **Imágenes de cualquier host por https.** Portadas y fotos aceptan cualquier enlace `https://` absoluto sin credenciales ni caracteres de control, de hasta 2.048 caracteres. Siguen rechazados: `http:`, credenciales, rutas relativas para imágenes, `javascript:`, `data:` y cualquier otro esquema.
 2. **Fotos al nivel de la ficha.** La galería pasa de `memory.gallery` a `page.gallery`. Se publica con la ficha, sin necesitar memoria ni que la edición haya terminado. La memoria conserva solo el texto de cierre (resumen, aprendizajes, resultados y proyectos).
-3. **Límite: 20 fotos por edición.** Sustituye el 12 de la guía editorial. Es el límite que el responsable fijó para la galería en la spec de ImageKit (17-nov-2026).
+3. **Límite: 20 fotos por edición.** Sustituye el 12 de la guía editorial. Es el límite que fijó el responsable el 17-nov-2026.
 4. **Derechos por foto.** Cada foto exige texto alternativo y `rightsConfirmed`. Sin confirmación no se publica.
 5. **Compatibilidad.** Un documento guardado con `memory.gallery` se lee como `page.gallery`. Ninguna foto ya guardada se pierde, y el siguiente guardado la escribe en el nivel nuevo.
 
@@ -26,4 +26,4 @@
 
 - Cambia el contrato de contenido: `PublicEventPage` expone `gallery` y `PublicEventMemory` ya no tiene `gallery`. El admin muestra «Fotos» al nivel de la ficha.
 - Un enlace de imagen de un servicio externo puede dejar de cargar. El editor es responsable de que la imagen exista y tenga permiso de uso.
-- La subida de archivos (ImageKit) sigue pendiente de su spec: [`2026-11-17-imagekit-media-design.md`](../superpowers/specs/2026-11-17-imagekit-media-design.md).
+- La subida de archivos no está incluida en esta decisión; queda para una decisión posterior.
