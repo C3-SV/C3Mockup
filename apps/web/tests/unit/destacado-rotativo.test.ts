@@ -224,16 +224,16 @@ describe("buildAdminEventRecord: ficha por edición (page administrativa)", () =
         ...base,
         page: {
           ...page,
+          gallery: [{ url: "https://media.c3.com.sv/a.webp", alt: "Equipo", rightsConfirmed: true }],
           memory: {
             publication: "published",
             summary: ["Resumen."],
-            gallery: [{ url: "https://media.c3.com.sv/a.webp", alt: "Equipo", rightsConfirmed: true }],
           },
         },
       },
       { now: stamp },
     );
-    expect(record.page?.memory?.gallery[0].rightsConfirmed).toBe(true);
+    expect(record.page?.gallery?.[0].rightsConfirmed).toBe(true);
   });
 
   it("no deja undefined en ningún nivel (Firestore los rechaza)", () => {

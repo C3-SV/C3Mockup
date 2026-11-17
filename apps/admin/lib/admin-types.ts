@@ -36,7 +36,7 @@ export type AdminNavigationItem = {
  */
 export type EventMemoryResultDraft = { label: string; value: string; context: string; evidenceUrl: string };
 export type EventMemoryOutputDraft = { title: string; description: string; url: string };
-export type EventMemoryImageDraft = { url: string; alt: string; caption: string; rightsConfirmed: boolean };
+export type EventPageImageDraft = { url: string; alt: string; caption: string; rightsConfirmed: boolean };
 
 export type EventMemoryDraft = {
   publication: EventPagePublication;
@@ -44,7 +44,6 @@ export type EventMemoryDraft = {
   learnings: string[];
   results: EventMemoryResultDraft[];
   outputs: EventMemoryOutputDraft[];
-  gallery: EventMemoryImageDraft[];
 };
 
 export type EventPageDraft = {
@@ -57,6 +56,8 @@ export type EventPageDraft = {
   location: string;
   participation: { label: string; url: string };
   resources: { title: string; url: string }[];
+  /** Fotos de la ficha (ADR-0017): no dependen de la memoria ni de que la edición haya terminado. */
+  gallery: EventPageImageDraft[];
   /**
    * undefined: sin memoria (no se envía); objeto: se envía completa; null: el editor la quitó y el payload lleva
    * `memory: null`, la única forma de borrarla (omitirla la conserva).

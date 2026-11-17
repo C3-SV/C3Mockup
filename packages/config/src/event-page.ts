@@ -1,4 +1,4 @@
-import { normalizeEventCover, type EventItem } from "./events";
+import type { EventItem } from "./events";
 
 /**
  * Ficha permanente por edición (spec 2026-11-13, §4–§6): contrato administrativo (EventPage, con borradores y
@@ -17,7 +17,8 @@ export type EventPageLink = { title: string; url: string };
 export type EventPageParticipation = { label: string; url: string };
 export type EventMemoryResult = { label: string; value: string; context: string; evidenceUrl?: string };
 export type EventMemoryOutput = { title: string; description: string; url?: string };
-export type EventMemoryImage = { url: string; alt: string; caption?: string; rightsConfirmed: true };
+/** Foto de la ficha (ADR-0017): puede publicarse antes de la edición, sin memoria. */
+export type EventPageImage = { url: string; alt: string; caption?: string; rightsConfirmed: true };
 
 export type EventMemory = {
   publication: EventPagePublication;
@@ -25,7 +26,6 @@ export type EventMemory = {
   learnings: string[];
   results: EventMemoryResult[];
   outputs: EventMemoryOutput[];
-  gallery: EventMemoryImage[];
 };
 
 export type EventPage = {
@@ -38,20 +38,19 @@ export type EventPage = {
   location?: string;
   participation?: EventPageParticipation;
   resources: EventPageLink[];
+  gallery?: EventPageImage[];
   memory?: EventMemory;
 };
 
-/** Imagen publicada: nunca lleva la confirmación de derechos (dato interno). */
-export type PublicEventMemoryImage = Omit<EventMemoryImage, "rightsConfirmed">;
+/** Foto publicada: nunca lleva la confirmación de derechos (dato interno). */
+export type PublicEventPageImage = Omit<EventPageImage, "rightsConfirmed">;
 
-export type PublicEventMemory = Omit<EventMemory, "publication" | "gallery"> & {
-  publication: "published";
-  gallery: PublicEventMemoryImage[];
-};
+export type PublicEventMemory = EventMemory & { publication: "published" };
 
 /** Lo que recibe el navegador: solo contenido publicado. */
-export type PublicEventPage = Omit<EventPage, "publication" | "memory"> & {
+export type PublicEventPage = Omit<EventPage, "publication" | "memory" | "gallery"> & {
   publication: "published";
+  gallery?: PublicEventPageImage[];
   memory?: PublicEventMemory;
 };
 
@@ -65,7 +64,7 @@ export const EVENT_PAGE_LIMITS = {
   listItems: 20,
   listItemLength: 500,
   entries: 20,
-  galleryItems: 12,
+  galleryItems: 20,
   label: 160,
   url: 2048,
   context: 1000,
@@ -267,7 +266,10 @@ function readUrl(value: unknown, path: string, errors: EventPageErrors, required
   return url;
 }
 
-/** Imagen de la galería: mismo criterio que las portadas (https y host de C3, ADR-0005); sin hosts nuevos. */
+/**
+ * Imagen de la ficha: enlace https absoluto de cualquier host, sin credenciales (ADR-0017). Las rutas locales y los
+ * esquemas distintos de https se rechazan; el host ya no se restringe (los servicios externos no siempre llevan c3).
+ */
 function readImageUrl(value: unknown, path: string, errors: EventPageErrors): string | undefined {
   if (isBlank(value)) {
     errors[path] = "Es obligatorio.";
@@ -280,15 +282,31 @@ function readImageUrl(value: unknown, path: string, errors: EventPageErrors): st
   const url = value.trim();
   const problem = checkLinkUrl(url);
   if (problem || url.startsWith("/")) {
-    errors[path] = problem ?? "La imagen debe estar en un host de C3 por https.";
+    errors[path] = problem ?? "La imagen debe ser un enlace https completo.";
     return undefined;
   }
-  const cover = normalizeEventCover({ url, alt: "x" });
-  if (!cover) {
-    errors[path] = "La imagen debe estar en un host de C3 por https.";
-    return undefined;
-  }
-  return cover.url;
+  return url;
+}
+
+/** Fotos de la ficha. Una fila sin nada escrito se descarta; cada foto exige texto alternativo y derechos. */
+function readGallery(value: unknown, errors: EventPageErrors): EventPageImage[] {
+  const gallery: EventPageImage[] = [];
+  readRows(value, "gallery", EVENT_PAGE_LIMITS.galleryItems, errors, (row, path) => {
+    const url = readImageUrl(row.url, `${path}.url`, errors);
+    const alt = readRequiredText(row.alt, `${path}.alt`, EVENT_PAGE_LIMITS.label, errors);
+    const caption = readText(row.caption, `${path}.caption`, EVENT_PAGE_LIMITS.context, errors);
+    if (row.rightsConfirmed !== true) {
+      errors[`${path}.rightsConfirmed`] = "Confirma que tienes los derechos de uso de la imagen.";
+    }
+    if (url) {
+      const image: EventPageImage = { url, alt, rightsConfirmed: true };
+      if (caption) {
+        image.caption = caption;
+      }
+      gallery.push(image);
+    }
+  });
+  return gallery;
 }
 
 // ---------------------------------------------------------------------------------------------------------
@@ -322,7 +340,6 @@ function normalizeMemory(input: unknown, errors: EventPageErrors): EventMemory |
     ),
     results: [],
     outputs: [],
-    gallery: [],
   };
 
   readRows(input.results, "memory.results", EVENT_PAGE_LIMITS.entries, errors, (row, path) => {
@@ -348,22 +365,6 @@ function normalizeMemory(input: unknown, errors: EventPageErrors): EventMemory |
       output.url = url;
     }
     memory.outputs.push(output);
-  });
-
-  readRows(input.gallery, "memory.gallery", EVENT_PAGE_LIMITS.galleryItems, errors, (row, path) => {
-    const url = readImageUrl(row.url, `${path}.url`, errors);
-    const alt = readRequiredText(row.alt, `${path}.alt`, EVENT_PAGE_LIMITS.label, errors);
-    const caption = readText(row.caption, `${path}.caption`, EVENT_PAGE_LIMITS.context, errors);
-    if (row.rightsConfirmed !== true) {
-      errors[`${path}.rightsConfirmed`] = "Confirma que tienes los derechos de uso de la imagen.";
-    }
-    if (url) {
-      const image: EventMemoryImage = { url, alt, rightsConfirmed: true };
-      if (caption) {
-        image.caption = caption;
-      }
-      memory.gallery.push(image);
-    }
   });
 
   if (memory.publication === "published" && !memory.summary.length && !errors["memory.summary"]) {
@@ -453,6 +454,13 @@ function normalizePage(input: unknown, errors: EventPageErrors): EventPage | und
       page.resources.push({ title, url });
     }
   });
+
+  // Fotos de la ficha. Un documento anterior guardó las fotos dentro de memory: se leen de ahí si no hay `gallery`.
+  const legacyGallery = isRecord(input.memory) ? input.memory.gallery : undefined;
+  const gallery = readGallery(input.gallery ?? legacyGallery, errors);
+  if (gallery.length) {
+    page.gallery = gallery;
+  }
 
   if (page.publication === "published" && !page.overview.length && !errors.overview) {
     errors.overview = "Para publicar la ficha escribe al menos un párrafo de resumen.";
@@ -614,15 +622,18 @@ function projectMemory(memory: EventMemory): PublicEventMemory {
       }
       return item;
     }),
-    gallery: memory.gallery.map((image) => {
-      const item: PublicEventMemoryImage = { url: image.url, alt: image.alt };
-      if (image.caption) {
-        item.caption = image.caption;
-      }
-      return item;
-    }),
   };
   return projected;
+}
+
+function projectGallery(gallery: EventPageImage[]): PublicEventPageImage[] {
+  return gallery.map((image) => {
+    const item: PublicEventPageImage = { url: image.url, alt: image.alt };
+    if (image.caption) {
+      item.caption = image.caption;
+    }
+    return item;
+  });
 }
 
 /**
@@ -656,6 +667,9 @@ export function projectPublicEventPage(page: EventPage | undefined): PublicEvent
   }
   if (page.participation) {
     projected.participation = { label: page.participation.label, url: page.participation.url };
+  }
+  if (page.gallery?.length) {
+    projected.gallery = projectGallery(page.gallery);
   }
   if (page.memory?.publication === "published") {
     projected.memory = projectMemory(page.memory);

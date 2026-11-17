@@ -8,6 +8,7 @@ import {
   type EventModality,
   type PublicEventMemory,
   type PublicEventPage,
+  type PublicEventPageImage,
 } from "@c3/config";
 import { Button } from "@/components/ui/Button";
 import { StatePill } from "@/components/ui/StatePill";
@@ -52,8 +53,28 @@ function Paragraphs({ items }: { items: string[] }) {
   );
 }
 
+function PageGallery({ gallery }: { gallery: PublicEventPageImage[] }) {
+  return (
+    <section className="c3-event__section" aria-labelledby="evento-fotos">
+      <h2 id="evento-fotos">Fotos</h2>
+      <ul className="c3-event__gallery">
+        {gallery.map((image, index) => (
+          <li key={`${index}-${image.url}`}>
+            <figure>
+              <div className="c3-event__media c3-event__media--gallery">
+                <Image src={image.url} alt={image.alt} fill sizes="(min-width: 900px) 33vw, 100vw" unoptimized />
+              </div>
+              {image.caption ? <figcaption>{image.caption}</figcaption> : null}
+            </figure>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
 function Memory({ memory }: { memory: PublicEventMemory }) {
-  const { summary, learnings, results, outputs, gallery } = memory;
+  const { summary, learnings, results, outputs } = memory;
 
   return (
     <section className="c3-event__section" aria-labelledby="evento-memoria">
@@ -107,23 +128,6 @@ function Memory({ memory }: { memory: PublicEventMemory }) {
         </div>
       ) : null}
 
-      {gallery.length ? (
-        <div className="c3-event__block">
-          <h3>Galería</h3>
-          <ul className="c3-event__gallery">
-            {gallery.map((image, index) => (
-              <li key={`${index}-${image.url}`}>
-                <figure>
-                  <div className="c3-event__media c3-event__media--gallery">
-                    <Image src={image.url} alt={image.alt} fill sizes="(min-width: 900px) 33vw, 100vw" unoptimized />
-                  </div>
-                  {image.caption ? <figcaption>{image.caption}</figcaption> : null}
-                </figure>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : null}
     </section>
   );
 }
@@ -263,6 +267,8 @@ export function EventDetail({ event, now }: { event: EventItem; now: Date }) {
         </section>
 
         <PracticalInfo page={page} />
+
+        {page.gallery?.length ? <PageGallery gallery={page.gallery} /> : null}
 
         {canParticipate && page.participation ? (
           <section className="c3-event__section" aria-labelledby="evento-participa">

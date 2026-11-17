@@ -23,6 +23,7 @@ Prepara la ficha cuando la edición esté confirmada en el inventario.
 3. **Información práctica, solo si la tienes confirmada:** audiencia, requisitos, modalidad (presencial, virtual o híbrida) y ubicación. Si no se conoce, déjalo vacío: no se muestra la sección.
 4. **Participación.** Un enlace de acción externa (etiqueta y URL) solo mientras las inscripciones estén abiertas y la edición no haya terminado. Si no se conoce la fecha, no se muestra.
 5. **Recursos.** Materiales con título y enlace, solo los que C3 puede compartir.
+6. **Fotos.** Opcionales, hasta 20. Pueden ser artes o fotos anteriores al evento: no dependen de la memoria ni de que la edición haya terminado (ADR-0017).
 6. **Micrositio.** El sitio especial (Copa, Hackathon u otro) se conserva como enlace informativo dentro de la ficha.
 7. **Publicar.** Requisitos: slug reservado, resumen no vacío y los datos obligatorios del evento válidos. Mientras falte algo, déjala en `draft`.
 
@@ -35,7 +36,6 @@ La memoria documenta lo que pasó. Se puede preparar en borrador antes, pero **s
 - **Aprendizajes (`learnings`).** Lo que la comunidad o el equipo se lleva, uno por línea.
 - **Resultados (`results`).** Cada uno con etiqueta, valor, contexto y, si existe, enlace a la evidencia. **No se exigen cifras:** una memoria sin cifras es válida. No publiques puntajes, posiciones o cantidades de participantes sin fuente.
 - **Salidas (`outputs`).** Proyectos u otros resultados con título, descripción y enlace opcional.
-- **Galería.** Opcional. Una memoria sin fotos también es válida.
 - **No se publica sola.** Ni por fecha ni de forma automática: alguien debe publicarla de forma explícita.
 - Para eliminar una memoria ya cargada hay que indicarlo de forma expresa; omitir la ficha completa no la elimina.
 
@@ -47,7 +47,7 @@ Antes de cargar cualquier cifra, nombre, imagen o enlace, confirma los puntos si
 | --- | --- |
 | Cifras y resultados | Fuente verificable y contexto (qué se midió, cuándo, quién lo midió). Si no hay fuente, no se publica. |
 | Nombres de personas o equipos | Autorización de la persona o del equipo. Si es menor de edad, autorización de su responsable legal. Sin autorización, no se nombra. |
-| Fotos | Permiso de uso de quien aparece y de quien la tomó; texto alternativo que describa la imagen; confirmación de derechos (`rightsConfirmed`). La imagen debe estar en un host de C3 por https. Sin permiso, la foto no se carga. |
+| Fotos | Permiso de uso de quien aparece y de quien la tomó; texto alternativo que describa la imagen; confirmación de derechos (`rightsConfirmed`). La imagen debe ser un enlace https completo (de cualquier host). Sin permiso, la foto no se carga. |
 | Enlaces de evidencia, recursos y salidas | https absoluto o ruta local que empiece con `/`, sin credenciales. Comprueba que abra y que C3 pueda enlazar esa fuente. |
 | Marcas, logos y aliados | Solo los que participaron y autorizaron su uso. No se inventan aliados. |
 | Testimonios | Solo con cita textual autorizada y atribuida. Si no los tienes, no se escriben. |
@@ -62,7 +62,7 @@ Cada ficha piloto debe tener **fuente y autorización** documentadas. Lo que no 
 | Audiencia y ubicación | hasta 300 caracteres |
 | Requisitos y aprendizajes | hasta 20 textos de 500 caracteres |
 | Recursos, resultados y salidas | hasta 20 de cada uno |
-| Galería | hasta 12 imágenes |
+| Fotos de la ficha | hasta 20 imágenes |
 | Títulos y etiquetas | hasta 160 caracteres |
 | URL | hasta 2.048 caracteres |
 | Contexto y descripción | hasta 1.000 caracteres |
