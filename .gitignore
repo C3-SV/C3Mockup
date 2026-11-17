@@ -43,3 +43,15 @@ next-env.d.ts
 .turbo
 
 estilo.md
+
+# archivos temporales y store local de pnpm
+.pnpm-store/
+.tmp_*/
+tmp_*
+
+# respaldos de la migracion de fichas (documentos completos de Firestore)
+*.event-pages-backup.json
+
+# playwright
+playwright-report/
+test-results/

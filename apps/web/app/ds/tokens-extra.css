@@ -1,0 +1,50 @@
+/*
+ * Tokens de la guia §15.4 (ACTUALIZACION-DS §15.4, origen estilos/globals.css lineas 9-30) y puente
+ * de fuentes. Sin bloque oscuro (modo oscuro no activo).
+ */
+:root {
+  --c3-ancho-pagina: 1440px;
+  --c3-info-fondo: #e3ecf8;
+  --c3-exito-fondo: #e0f2ea;
+  --c3-advertencia-fondo: #fbefdd;
+  --c3-error-fondo: #fae6e3;
+  --c3-advertencia-tinte: #fbf6ec;
+  --c3-texto-cabecera: #a9b8d0;
+  --c3-navy-claro: #2c3f63;
+  --c3-text-mid: #36435a;
+  --c3-action-tint: #efeafc;
+  --c3-action-line: #e4ddfb;
+  --c3-action-soft: #a996ec;
+  --c3-compite-tint: #e9eff9;
+  --c3-crea-tint: #e4f6f3;
+  --c3-conecta-tint: #eceefa;
+  --c3-radius-card: 18px;
+  --c3-radius-block: 22px;
+  --c3-shadow-soft: 0 6px 22px rgba(15, 32, 62, 0.07);
+  --c3-shadow-action: 0 8px 20px rgba(101, 72, 199, 0.25);
+
+  /* next/font renombra las familias: las variables del DS apuntan a las de next/font (§4). */
+  --c3-font-titulo: var(--font-heading), "Montserrat", system-ui, sans-serif;
+  --c3-font-texto: var(--font-body), "Poppins", system-ui, sans-serif;
+  /* Colores de la extraccion de c3-public.css (DS §12.2: se tokenizan, no se copian hexadecimales). */
+  --c3-acento-sobre-navy: #b9a8f0;
+  --c3-texto-sobre-navy: #c3cde0;
+  --c3-enlace-sobre-navy: #b8c4d9;
+  --c3-borde-hover: #c5cee0;
+  --c3-borde-suave: #e2e7f0;
+  --c3-superficie-suave: #f7f9fd;
+  --c3-superficie-gris: #eef2f7;
+  --c3-info-borde: #c6d5ee;
+  --c3-exito-borde: #bfe3d1;
+  --c3-advertencia-borde: #f0d9b5;
+  --c3-error-borde: #f2c9c4;
+  /* Variables que la plantilla de linea fija por pagina (Compite por defecto). */
+  --c3-line-accent: var(--c3-compite);
+  --c3-line-text: var(--c3-compite);
+  --c3-line-tint: var(--c3-pagina-compite);
+
+  /* Fondo suave de cada pagina de linea (DS §3.1: #f3f6fc, #f1faf8, #f4f5fb). */
+  --c3-pagina-compite: #f3f6fc;
+  --c3-pagina-crea: #f1faf8;
+  --c3-pagina-conecta: #f4f5fb;
+}

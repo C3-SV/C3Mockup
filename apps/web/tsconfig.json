@@ -2,12 +2,25 @@
   "extends": "../../packages/config/tsconfig/base.json",
   "compilerOptions": {
     "baseUrl": ".",
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
     "paths": {
-      "@/*": ["./*"],
-      "@c3/ui": ["../../packages/ui/src/index.ts"],
-      "@c3/ui/*": ["../../packages/ui/src/*"],
-      "@c3/config": ["../../packages/config/src/index.ts"],
-      "@c3/config/*": ["../../packages/config/src/*"]
+      "@/*": [
+        "./*"
+      ],
+      "@c3/ui": [
+        "../../packages/ui/src/index.ts"
+      ],
+      "@c3/ui/*": [
+        "../../packages/ui/src/*"
+      ],
+      "@c3/config": [
+        "../../packages/config/src/index.ts"
+      ],
+      "@c3/config/*": [
+        "../../packages/config/src/*"
+      ]
     },
     "plugins": [
       {
@@ -23,5 +36,13 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "tests",
+    "e2e",
+    "playwright.config.ts",
+    "vitest.config.mts",
+    "node_modules",
+    "**/*.test.ts",
+    "**/*.test.tsx"
+  ]
 }

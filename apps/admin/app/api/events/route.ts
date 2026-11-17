@@ -3,6 +3,7 @@ import {
   HttpError,
   createAdminEvent,
   listAdminEvents,
+  toErrorBody,
   verifyAdminRequest,
 } from "@/lib/firebase-admin";
 import { triggerSiteRevalidation } from "@/lib/revalidate-site";
@@ -14,7 +15,7 @@ export async function GET(request: Request) {
     return NextResponse.json({ ok: true, events });
   } catch (error) {
     if (error instanceof HttpError) {
-      return NextResponse.json({ ok: false, message: error.message }, { status: error.status });
+      return NextResponse.json(toErrorBody(error), { status: error.status });
     }
 
     console.error("Unable to list events:", error);
@@ -38,8 +39,9 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ ok: true, event, revalidation }, { status: 201 });
   } catch (error) {
+    // 400 (datos inválidos, con `errors` por campo), 409 (id o slug ocupado, slug cambiado), 401/403 (auth).
     if (error instanceof HttpError) {
-      return NextResponse.json({ ok: false, message: error.message }, { status: error.status });
+      return NextResponse.json(toErrorBody(error), { status: error.status });
     }
 
     console.error("Unable to create event:", error);

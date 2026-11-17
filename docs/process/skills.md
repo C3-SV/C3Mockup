@@ -29,7 +29,20 @@ Las skills de `superpowers` son el método de trabajo de este repo, no una suger
 | `design:design-handoff` | Documentar un componente nuevo (variantes, estados, a11y) |
 | **Impeccable** (opcional) | `impeccable context` una vez por sesión y `impeccable detect <rutas>` sobre lo cambiado. Docs: `https://impeccable.style/docs/`. **No ejecutar `npx impeccable install` dentro del repo sin revisar lo que escribe.** `PRODUCT.md` ya existe |
 | **Playwright** | E2E a 390 y 1280 px (ver `testing.md`) |
-| `web-design-guidelines`, `vercel-react-best-practices` (`vercel-labs/agent-skills`) | Lista de revisión web y rendimiento de Next/React. Instalar solo tras revisar licencia, origen y hash |
+| `web-design-guidelines`, `react-best-practices` (`vercel-labs/agent-skills`) | Lista de revisión web y rendimiento de Next/React; fuente, licencia y commit revisados en `.agents/skills.lock.json` |
+
+## Skills de motion instaladas en el proyecto (2026-11-14)
+
+Las copias versionables están en `.agents/skills/`; el inventario, fuentes y commits están en `.agents/skills.lock.json`, y el uso concreto por sección en `docs/motion/C3_MOTION_DESIGN.md`. En el repositorio oficial actual de Vercel, el nombre de la skill de rendimiento es `react-best-practices`.
+
+| Familia | Cuándo consultarla |
+| --- | --- |
+| `gsap-*` | Diseño técnico de timelines, ScrollTrigger, integración React, plugins y perfilado de animaciones GSAP. No implica instalar la librería. |
+| `animate`, `animation-vocabulary`, `choreograph`, `find-animation-opportunities` | Explorar oportunidades justificadas, describir efectos y coordinar secuencias. |
+| `review-animations`, `improve-animations`, `animation-performance` | Auditar motion existente o propuesto, priorizar mejoras y buscar problemas de rendimiento. |
+| `react-best-practices`, `web-design-guidelines` | Revisar costo de JS, límites servidor/cliente, accesibilidad e interacción web. |
+
+Las skills de terceros complementan el método `superpowers` y están subordinadas a `AGENTS.md`, `PRODUCT.md` y al DS. Para reinstalar o actualizar, seguí `docs/motion/C3_MOTION_DESIGN.md` §Skills, revisá los cambios de origen y mantené el lock al día.
 
 ## Orientación en el código
 

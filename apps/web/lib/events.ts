@@ -3,13 +3,8 @@ import "server-only";
 import { cache } from "react";
 import { cert, getApps, initializeApp, type ServiceAccount } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
-import {
-  defaultEvents,
-  compareEventsBySchedule,
-  normalizeEventLines,
-  normalizeEventStatus,
-  type EventItem,
-} from "@c3/config";
+import { defaultEvents, compareEventsBySchedule, normalizeFirebasePrivateKey, type EventItem } from "@c3/config";
+import { parseEventDocument } from "@/lib/events-parse";
 
 const EVENTS_COLLECTION = "events";
 
@@ -25,13 +20,22 @@ function readFirebaseServiceAccount(): ServiceAccount | null {
   return {
     projectId,
     clientEmail,
-    privateKey: privateKey.replace(/\\n/g, "\n"),
+    privateKey: normalizeFirebasePrivateKey(privateKey),
   };
+}
+
+/** La cuenta de servicio de Firebase no está configurada (distinto de un fallo de Firestore en funcionamiento). */
+export class FirebaseNotConfiguredError extends Error {
+  constructor() {
+    super("Firebase service account is not configured.");
+    this.name = "FirebaseNotConfiguredError";
+  }
 }
 
 let firestore: ReturnType<typeof getFirestore> | null = null;
 
-function getAdminFirestore() {
+/** Firestore de servidor. Lanza si falta la cuenta de servicio: quien la usa decide si recuperarse (catálogo) o propagar (detalle). */
+export function getAdminFirestore() {
   if (firestore) {
     return firestore;
   }
@@ -39,7 +43,7 @@ function getAdminFirestore() {
   const serviceAccount = readFirebaseServiceAccount();
 
   if (!serviceAccount) {
-    throw new Error("Firebase service account is not configured.");
+    throw new FirebaseNotConfiguredError();
   }
 
   if (!getApps().length) {
@@ -53,44 +57,6 @@ function getAdminFirestore() {
   return firestore;
 }
 
-function parseEventDoc(docId: string, data: Record<string, unknown>): EventItem | null {
-  const title = typeof data.title === "string" ? data.title.trim() : "";
-  const description = typeof data.description === "string" ? data.description.trim() : "";
-  const href = typeof data.href === "string" ? data.href.trim() : "";
-  const cta = typeof data.cta === "string" ? data.cta.trim() : "";
-
-  if (!title || !description || !href || !cta) {
-    return null;
-  }
-
-  const lines = normalizeEventLines(data.lines);
-  if (!lines.length) {
-    return null;
-  }
-
-  return {
-    id: typeof data.id === "string" && data.id.trim() ? data.id.trim() : docId,
-    title,
-    description,
-    lines,
-    status: normalizeEventStatus(data.status),
-    cta,
-    href,
-    external: Boolean(data.external),
-    featured: Boolean(data.featured),
-    createdAt:
-      typeof data.createdAt === "string" && data.createdAt.trim() ? data.createdAt.trim() : undefined,
-    updatedAt:
-      typeof data.updatedAt === "string" && data.updatedAt.trim() ? data.updatedAt.trim() : undefined,
-    eventDate:
-      typeof data.eventDate === "string" && data.eventDate.trim() ? data.eventDate.trim() : undefined,
-    eventDateEnd:
-      typeof data.eventDateEnd === "string" && data.eventDateEnd.trim()
-        ? data.eventDateEnd.trim()
-        : undefined,
-  };
-}
-
 export const getPublicEvents = cache(async (): Promise<EventItem[]> => {
   try {
     const db = getAdminFirestore();
@@ -101,7 +67,7 @@ export const getPublicEvents = cache(async (): Promise<EventItem[]> => {
     }
 
     const events = snapshot.docs
-      .map((doc) => parseEventDoc(doc.id, doc.data() as Record<string, unknown>))
+      .map((doc) => parseEventDocument(doc.id, doc.data() as Record<string, unknown>))
       .filter((event): event is EventItem => event !== null)
       .sort(compareEventsBySchedule);
 

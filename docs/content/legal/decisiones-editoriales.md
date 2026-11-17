@@ -1,0 +1,54 @@
+# Decisiones editoriales · documentos legales y convivencia
+
+- Corte: 2026-11-14.
+- Estado: autorización para publicar bases explicativas 0.1; no es aprobación jurídica ni declaración de cumplimiento.
+- Inventario relacionado: [inventario-tratamientos.md](inventario-tratamientos.md).
+
+## Criterios aplicados
+
+| Tema | Evidencia y fuente | Estado | Responsable de confirmar | Decisión de esta preparación |
+| --- | --- | --- | --- | --- |
+| Naturaleza de C3 | Confirmación registrada en la spec legal del 13-nov-2026 | Confirmado en la spec | Responsable de C3 | No atribuir personalidad jurídica ni razón social. La persona responsable del tratamiento aún debe identificarse. |
+| Formulario | ContactForm.tsx, lib/contact-form.ts, api/contact/route.ts y lib/brevo.ts | Implementación observada; finalidad formal, acceso y conservación pendientes | Responsable de C3 y administrador de las cuentas | El borrador puede explicar que se reciben y remiten consultas. No afirmar un plazo de eliminación ni un fundamento jurídico. |
+| Analítica | app/layout.tsx instala Vercel Analytics. [Documentación de Vercel](https://vercel.com/docs/analytics/privacy-policy), consultada 2026-11-13 | Proveedor describe sus datos y medidas; configuración de C3 no confirmada | Administrador de Vercel / Responsable de C3 | Explicar el uso de analítica con atribución al proveedor. Mantener pendiente si se necesita documento de cookies o controles. No prometer que no se trata ningún dato personal. |
+| Brevo | lib/brevo.ts y [DPA de Brevo](https://www.brevo.com/legal/termsofuse/), consultado 2026-11-13 | Envío por API observado; cuenta, región, acuerdo y retención pendientes | Administrador de Brevo / Responsable de C3 | Describir la transmisión del mensaje. No atribuir al proveedor un plazo configurado en la cuenta C3. |
+| Firebase | apps/web/lib/events.ts y apps/admin/lib/firebase-client.ts; [documentación Firebase](https://firebase.google.com/support/privacy), consultada 2026-11-13 | Separación de aplicaciones observada; configuración de proyectos pendiente | Administrador de Firebase / Responsable de C3 | No describir autenticación de admin como registro de visitantes públicos. |
+| Imágenes y enlaces externos | apps/web/next.config.ts, componentes de eventos y navegación | Hosts visibles; derechos/configuración pendientes | Responsable de C3 | Indicar salidas a terceros solo después de revisar todos los enlaces efectivos y aprobar el texto correspondiente. |
+| Invitación a WhatsApp | `apps/web/lib/getting-started-content.ts` y configuración pública del enlace | Ruta del sitio observada en `origin/dev`; grupo, administración y política del proveedor pendientes | Responsable de C3 | La página de privacidad 0.1 menciona el enlace como salida a un servicio externo; no afirma cómo opera o conserva datos el grupo. |
+| Canal de solicitudes de privacidad | El correo general aparece en el sitio; su uso como canal formal no está confirmado | Pendiente | Responsable de C3 | No presentarlo como canal formal ni prometer gestión o plazo. La página indica que se puede usar para consultas generales y que el procedimiento de privacidad sigue en definición. |
+| Canal y proceso de convivencia | No se confirmó un canal, equipo o capacidad de respuesta | Pendiente | Responsable de C3 | No prometer anonimato, cobertura permanente, plazo ni resultado. |
+| Personas menores de edad | C3 se dirige a talento joven, pero no se verificó edad de participantes ni proceso de atención | Pendiente | Responsable de C3 | No inventar edad mínima, consentimiento parental o medidas de verificación. |
+| Términos | El sitio principal es institucional; la inscripción/plataforma futura está fuera de alcance de esta iniciativa | Confirmado en la spec | Responsable de C3 | Limitar el borrador al sitio informativo. Reglas de cada evento deben mostrarse en su convocatoria y no convertirse en términos globales. |
+
+## Registro de borradores
+
+## Autorización de publicación de la versión 0.1
+
+El 2026-11-14, el responsable pidió publicar los textos base aunque no sean una revisión legal final, con contenido explicativo básico sobre el uso de datos, la analítica y la convivencia. Las páginas públicas exponen los límites de esta versión y mantienen como pendientes el responsable, la configuración real de proveedores, los canales formales, la conservación y la revisión jurídica. La decisión está registrada en [ADR-0015](../../decisions/0015-publicar-documentos-legales-base-01.md).
+
+| Documento | Versión | Revisión | Aprobador | Estado |
+| --- | --- | --- | --- | --- |
+| Privacidad | 0.1 | 2026-11-14 | Pendiente de identificar | Base explicativa pública; revisión factual/jurídica pendiente |
+| Términos | 0.1 | 2026-11-14 | Pendiente de identificar | Base explicativa pública; revisión factual/jurídica pendiente |
+| Código de convivencia | 0.1 | 2026-11-14 | Pendiente de identificar | Base explicativa pública; proceso de reportes y revisión factual/jurídica pendientes |
+
+## Pendientes para versiones definitivas
+
+Las comprobaciones siguientes mantienen T0/T1 abiertos para preparar versiones definitivas; la publicación de la base 0.1 no los cierra:
+
+- Responsable identificado y canal de solicitudes y reportes confirmado.
+- Acceso, finalidades y plazos reales revisados contra las cuentas de Brevo, Vercel, Firebase y Cloudinary.
+- Afirmaciones revisadas contra el inventario y las fuentes oficiales vigentes.
+- Texto aprobado por el responsable; revisión jurídica incorporada cuando corresponda.
+- Sin campos pendientes, garantías, plazos o datos inventados.
+
+La publicación de la base 0.1 no declara que la operación cumpla una ley ni que los textos tengan aprobación jurídica.
+## Textos base preparados
+
+- [Privacidad, versión 0.1](privacidad.md): formulario, envío por Brevo, analítica Vercel y datos operativos aún pendientes.
+- [Términos, versión 0.1](terminos.md): uso del sitio institucional y reglas separadas por evento.
+- [Convivencia, versión 0.1](codigo-de-conducta.md): expectativas básicas; canal, alcance y procedimiento sin confirmar.
+- Los tres documentos son explicativos y públicos en versión 0.1. No tienen aprobación jurídica final; sus textos están integrados en `apps/web/lib/legal-content.ts` y enlazados desde el pie.
+## Infraestructura T2 preparada
+
+El renderer compartido `apps/web/components/legal/LegalDocument.tsx` acepta únicamente datos estructurados, no inserta HTML y genera anclas únicas. Las páginas `/privacidad`, `/terminos` y `/codigo-de-conducta` muestran la versión 0.1 y sus pendientes; el pie las enlaza y el formulario avisa sobre privacidad.

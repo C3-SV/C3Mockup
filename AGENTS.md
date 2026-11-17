@@ -13,7 +13,7 @@ Monorepo de **c3.com.sv** (Competitive Coding Club · El Salvador). Este archivo
 | Ruta | Qué es | Estado frente al DS nuevo |
 | --- | --- | --- |
 | `apps/web` | Sitio público (Next.js 16, React 19, Tailwind v4) | **En rework** al DS de nov-2026 |
-| `apps/admin` | Panel interno de eventos (Firebase) | **Fuera de alcance visual.** Solo CI y pruebas |
+| `apps/admin` | Panel interno de eventos (Firebase) | **Fuera de alcance visual.** Solo CI y pruebas. Cambio funcional acotado para fichas por edición (ADR-0014): implementado en la rama `eventos-memorias`; pendiente de aprobación del responsable |
 | `packages/ui` | Componentes compartidos | Se reevalúa en el plan (ver `docs/superpowers/plans/`) |
 | `packages/config` | Tipos y datos compartidos | Sin cambios de diseño |
 | `docs/` | Toda la documentación viva | Ver §2 |
@@ -62,6 +62,16 @@ Usa las skills; no las sustituyas por intuición. Detalle y tabla completa en [`
 | Textos de interfaz | `design:ux-copy` (voz «tú») |
 | Antes de tocar código desconocido | `graphify` si existe `graphify-out/` |
 
+### Motion y rendimiento del sitio público
+
+Las skills de proyecto viven en [`.agents/skills/`](.agents/skills/) y sus versiones están fijadas en [`.agents/skills.lock.json`](.agents/skills.lock.json). Antes de proponer o implementar motion, leé [`docs/motion/C3_MOTION_DESIGN.md`](docs/motion/C3_MOTION_DESIGN.md), el DS y las skills pertinentes; las propuestas del documento de motion **no están aprobadas para implementación**.
+
+- **GSAP** (`gsap-core`, `gsap-timeline`, `gsap-scrolltrigger`, `gsap-react`, `gsap-plugins`, `gsap-performance`): consultá la skill específica al evaluar una implementación GSAP, su ciclo de vida en React o su costo. Su presencia no autoriza instalar `gsap` ni `@gsap/react` ni sustituir CSS existente.
+- **Emil Kowalski** (`find-animation-opportunities`, `animation-vocabulary`, `choreograph`, `animate`, `review-animations`, `improve-animations`, `animation-performance`): usá las primeras para explorar y describir oportunidades; las de revisión y rendimiento para auditar decisiones y resultados. Aplicá sus criterios bajo el DS, el contenido y la accesibilidad de C3.
+- **Vercel** (`react-best-practices`, `web-design-guidelines`): consultalas al planificar carga de JS, componentes cliente, rendimiento, accesibilidad e interacción. Antes de escribir código Next.js, leé la guía pertinente de `node_modules/next/dist/docs/` como exige el encabezado de este archivo.
+
+Las skills son documentación para agentes, no dependencias de ejecución. Si un agente no las descubre automáticamente, abrí el `SKILL.md` de la ruta indicada. No sobreescribás estas instrucciones al actualizar skills.
+
 ## 5. Definición de «hecho» (obligatoria)
 
 Una tarea no está hecha hasta que, con salida real pegada o enlazada en el PR:
@@ -84,12 +94,12 @@ pnpm test                 # unitarias y de componentes (Vitest)
 pnpm test:e2e             # Playwright, 390 y 1280 px + axe
 ```
 
-`test` y `test:e2e` los crea la Fase 0 del plan; hasta entonces no existen. Si aún no están, dilo en el PR; no los simules.
+`test` y `test:e2e` ya existen. `test:e2e` corre contra `next start`: ejecuta `pnpm build:web` antes.
 
 ## 7. Git, PR y despliegue
 
-- Rama por tarea: `feat/…`, `fix/…`, `docs/…`, `chore/…`. Commits convencionales (`feat(web): …`). Nunca commitear a `main` sin PR.
-- Cada PR enlaza la tarea del plan que cierra y adjunta capturas a 390 y 1280 px si toca UI.
+- **Una rama por fase** del plan: `fase-N-<nombre>` desde `dev` (p. ej. `fase-4-home`). Al cerrar la fase se fusiona a `dev` con `--no-ff` y se sube `dev`; la rama de la fase también se sube para trazabilidad (ADR-0007, actualización 2026-11-11). Commits convencionales (`feat(web): …`, `chore: …`). Un solo PR `dev → main` al terminar todas las fases. Nunca commitear a `main` directamente.
+- El PR `dev → main` enlaza el plan completo, lista las tareas cerradas y adjunta capturas a 390 y 1280 px.
 - CI (GitHub Actions) corre en cada PR; CD es Vercel (preview por PR, producción al fusionar en `main`). Ver [`docs/process/ci-cd.md`](docs/process/ci-cd.md).
 - Nunca versionar `.env*`, claves de Firebase ni `node_modules`. No ejecutar `npx impeccable install` ni instalar terceros sin revisar licencia y origen.
 

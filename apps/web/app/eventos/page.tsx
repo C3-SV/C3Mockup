@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
 import EventsCatalog from "@/components/EventsCatalog";
 import PageShell from "@/components/PageShell";
-import C3BackgroundLayer from "@/components/backgrounds/C3BackgroundLayer";
 import SeoJsonLd from "@/components/SeoJsonLd";
+import { toCatalogEvent } from "@/lib/ds/event-card";
 import { getPublicEvents } from "@/lib/events";
 import { createPageMetadata } from "@/lib/metadata";
 import {
   getBreadcrumbJsonLd,
   getCollectionPageJsonLd,
+  getEventItemListEntry,
   getItemListJsonLd,
 } from "@/lib/structured-data";
-import { siteConfig } from "@/lib/site";
 
 const seoTitle = "Eventos C3 | Competencias, hackathons y comunidad técnica";
 const seoDescription =
@@ -39,33 +39,30 @@ export default async function EventosPage() {
   const events = await getPublicEvents();
   const itemList = getItemListJsonLd(
     "/eventos",
-    events.map((event) => ({
-      name: event.title,
-      description: event.description,
-      url: event.external ? event.href : `${siteConfig.domain}${event.href}`,
-    })),
+    events.map(getEventItemListEntry),
     "Catálogo de eventos C3",
   );
 
   return (
-    <PageShell backgroundClassName="bg-[#0F203E]">
+    <PageShell ds>
       <SeoJsonLd data={getCollectionPageJsonLd("/eventos", seoTitle, seoDescription)} />
       <SeoJsonLd data={itemList} />
       <SeoJsonLd data={getBreadcrumbJsonLd("/eventos")} />
 
-      <section className="relative overflow-hidden bg-[#0F203E] py-16 text-white md:py-20">
-        <C3BackgroundLayer variant="dots" line="brand" intensity="low" className="opacity-70" />
-        <div className="container-shell relative z-10 space-y-5">
-          <h1 className="max-w-4xl text-4xl font-bold leading-tight md:text-5xl">
-            Iniciativas que activan el ecosistema técnico joven
-          </h1>
-          <p className="max-w-3xl text-base leading-8 text-white/82 md:text-lg">
-            Participa en competencias, hackathons y colaboraciones institucionales.
-          </p>
+      <div className="c3-frame">
+        <div className="c3-page-head">
+          <div className="c3-page-head__text">
+            <h1>Iniciativas que activan el ecosistema técnico joven</h1>
+            <p>Participa en competencias, hackathons y colaboraciones institucionales.</p>
+          </div>
+        </div>
+      </div>
+
+      <section className="c3-featured">
+        <div className="c3-frame">
+          <EventsCatalog initialEvents={events.map(toCatalogEvent)} />
         </div>
       </section>
-
-      <EventsCatalog initialEvents={events} />
     </PageShell>
   );
 }

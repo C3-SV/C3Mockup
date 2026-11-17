@@ -3,6 +3,7 @@ import {
   deleteAdminEvent,
   getAdminEvent,
   HttpError,
+  toErrorBody,
   updateAdminEvent,
   verifyAdminRequest,
 } from "@/lib/firebase-admin";
@@ -31,8 +32,9 @@ export async function PATCH(request: Request, context: RouteContext) {
 
     return NextResponse.json({ ok: true, event, revalidation });
   } catch (error) {
+    // 400 (datos inválidos, con `errors` por campo), 409 (slug ocupado, retirado o cambiado), 401/403 (auth).
     if (error instanceof HttpError) {
-      return NextResponse.json({ ok: false, message: error.message }, { status: error.status });
+      return NextResponse.json(toErrorBody(error), { status: error.status });
     }
 
     console.error("Unable to update event:", error);
@@ -53,7 +55,7 @@ export async function GET(request: Request, context: RouteContext) {
     return NextResponse.json({ ok: true, event });
   } catch (error) {
     if (error instanceof HttpError) {
-      return NextResponse.json({ ok: false, message: error.message }, { status: error.status });
+      return NextResponse.json(toErrorBody(error), { status: error.status });
     }
 
     console.error("Unable to load event:", error);
@@ -78,7 +80,7 @@ export async function DELETE(request: Request, context: RouteContext) {
     return NextResponse.json({ ok: true, revalidation });
   } catch (error) {
     if (error instanceof HttpError) {
-      return NextResponse.json({ ok: false, message: error.message }, { status: error.status });
+      return NextResponse.json(toErrorBody(error), { status: error.status });
     }
 
     console.error("Unable to delete event:", error);

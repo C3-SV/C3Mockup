@@ -19,7 +19,7 @@ const baseMetadata = createPageMetadata({
   path: "/crea",
   keywords: [
     "hackathon El Salvador",
-    "Hackathon de Turismo Creativo I",
+    "Hackathon de Turismo Creativo Vol. 1",
     "proyectos tecnológicos",
     "builders",
     "prototipos",
@@ -47,7 +47,7 @@ export default async function CreaPage() {
   const events = await getPublicEvents();
 
   return (
-    <PageShell backgroundClassName="bg-[#0F203E]">
+    <PageShell ds>
       <SeoJsonLd
         data={getWebPageJsonLd({
           path: "/crea",

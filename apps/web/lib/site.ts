@@ -33,7 +33,7 @@
     "eventos de tecnología El Salvador",
     "Copa de Programación",
     "Copa Salvadoreña de Programación",
-    "Hackathon de Turismo Creativo I",
+    "Hackathon de Turismo Creativo Vol. 1",
     "ICPC Centroamérica",
     "Hack@Latam",
     "Duelo de Programación C3",
@@ -55,6 +55,11 @@
   contact: {
     email: "competitivecodingclub.sv@gmail.com",
   },
+  /** Comunidad de WhatsApp (invitación facilitada por el responsable). Único punto de configuración. */
+  community: {
+    label: "WhatsApp",
+    inviteUrl: "https://chat.whatsapp.com/FZ7iUuuFHJX22e7zb3ejSA",
+  } as { label: string; inviteUrl: string },
   sites: {
     main: "https://c3.com.sv",
     copa: "https://copa.c3.com.sv",
@@ -78,4 +83,6 @@
     },
   },
   defaultOgImage: "/og-image.png",
+  /** Dimensiones reales de public/og-image.png (verificadas por tests/unit/metadata.test.ts). */
+  defaultOgImageSize: { width: 1200, height: 630 },
 } as const;

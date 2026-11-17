@@ -28,9 +28,52 @@ Los 16 asuntos abiertos de `source/ACTUALIZACION-DS-C3.md` §12.1, más las desv
 - Texto de 10 y 11 px: solo en etiquetas (número de paso, eyebrow, títulos de pie); nunca en texto corrido.
 - Burbuja de la órbita oculta bajo 900 px: **decisión pendiente ⚠**. Propuesta: mostrar la información en línea bajo la órbita en tableta y móvil, para que el control no quede mudo.
 - Lectura en proyector: sin verificar; fuera de alcance.
+- Entradilla bajo titular de sección (`.c3-section-head .c3-lead`): hasta **62 caracteres**, no 34 como dice el paquete. El hero conserva 34. Decidido el 13-nov-2026 por el responsable ([ADR-0013](../decisions/0013-entradilla-de-seccion-mas-ancha.md)).
 
 ## Preguntas abiertas para el responsable ⚠
 
 1. ¿Se puede conseguir el manual de marca y capturas de referencia del sistema aplicado?
 2. ¿Confirma la propuesta para la burbuja de la órbita en móvil?
 3. ¿Se publicarán paquetes o precios en el sitio? (Hoy: no.)
+
+## Pendientes de producto y contenido (fuera del DS)
+
+| # | Asunto | Postura | Cierra en |
+| --- | --- | --- | --- |
+| P1 | Página por edición con slug (`/eventos/{slug}`), memoria, resultados, metadatos y Open Graph | **Implementación completa (T1 a T6) en la rama `eventos-memorias`; no aprobada para producción.** Commits: T1 `24b88e9`, `1c8ac67`; T2 `8c85579`, `c6ec35c`, `bc64ed6`, `4d58a1e`; T3 `716558b`, `b9649d8`, `e07742f`; T4 `81b5868`, `992e0fd`; T5 `e248c40`, `78b5c0b`; T6 `89647ed`, `5252e60`. Documentación de T0 en `9d5f57f` y `9c1d689`. Pendiente: aprobación del [ADR-0014](../decisions/0014-fichas-y-memorias-por-edicion.md) (sigue como Propuesta) y de la spec; inventario real y contenido editorial (`docs/content/eventos/`); gate de integración en un proyecto Firestore de pruebas autorizado (BLOQUEADO; solo se probó con adaptador simulado y emulador local); revisión de acceso del admin con una cuenta autorizada; revisión manual a 390 y 1280 px, teclado, zoom y movimiento reducido; migración sin ejecutar contra datos reales; decisiones de publicación del responsable. Ver «Cierre de P1» más abajo | Plan eventos-memorias: código listo, cierre pendiente de aprobación |
+| P2 | Sistema de fotos y biblioteca de assets en el admin: subida, recorte 16:9, texto alternativo, derechos, almacenamiento | Planeado en el mismo spec §8. Requiere ADR-0012, que reemplaza la fila de ADR-0005 sobre subida de archivos | Fase 2 |
+| P3 | Aprobación de textos nuevos: controles del carrusel, «Tipo de experiencia», texto del checkbox «Destacado» | Pendiente de responsable ⚠ | Fase 1 |
+| P4 | Eventos vigentes para el destacado rotativo | Confirmado por el responsable (12-nov-2026): las fechas guardadas son reales y el Hackathon de Turismo Creativo I puede destacarse. Sin destacados vigentes, rotan la Copa y la Hackathon como históricos (decisión del 12-nov-2026). Cuando haya un destacado vigente, rota solo ese | Responsable (carga de datos) |
+| P5 | Privacidad, términos y convivencia | Base explicativa 0.1 autorizada el 14-nov-2026 y publicada en esta rama como `/privacidad`, `/terminos` y `/codigo-de-conducta`, con enlaces en el pie y aviso desde contacto. Siguen pendientes responsable, configuración operativa, canales, conservación y revisión jurídica; la publicación no equivale a aprobación final. Ver enlaces al final | Implementación en `fase-5-legal`; validación factual/legal abierta |
+| P6 | Órbita del símbolo del hero: los anillos giran sin botón de pausa (WCAG 2.2.2). Ya existía antes del destacado rotativo | Pendiente de decisión: pausa visible o límite de vueltas. Documentar en `docs/decisions` | Antes del cierre a `main` o después, según el responsable |
+| P8 | El orden de la rejilla (`compareEventsBySchedule`) considera próximo solo si la fecha de inicio es futura, mientras `isUpcomingEvent` cuenta también los eventos en curso. Un evento en curso no destacado puede quedar después de los futuros, en la página 2 de la rejilla | Pendiente de decisión: unificar las dos definiciones de «vigente». Afecta el orden de /eventos también | Posterior |
+| P9 | El JSON-LD ItemList de la home se llama «Eventos destacados C3» pero lista todo el catálogo (`apps/web/app/page.tsx`) | Pendiente: renombrar el ItemList o listar solo los destacados. Cambia el SEO, así que lo aprueba el responsable | Posterior |
+| P7 | Dependabot: quitar `.github/dependabot.yml` y cerrar los PR `dependabot/*` abiertos | **Cerrado (16-nov-2026):** se quitó `.github/dependabot.yml` y se cerraron los PR de Dependabot abiertos, sin fusionarlos. Si se quiere actualizar dependencias, se hace a mano | Cerrado |
+| P11 | Indicador de progreso de lectura en la barra de navegación: línea horizontal que avanza conforme se recorre la página | Propuesta visual del responsable (13-nov-2026). Evaluar ubicación, comportamiento en móvil, páginas cortas/largas, accesibilidad y movimiento reducido antes de implementarlo; no es una regla del DS aprobada | Iteración visual futura |
+
+## Planificación de contenido institucional (13-nov-2026)
+
+Estos registros actualizan la postura de P1 y P5 sin declarar implementación terminada:
+
+- **P1, eventos:** [spec](../superpowers/specs/2026-11-13-eventos-memorias-design.md) y [plan](../superpowers/plans/2026-11-13-eventos-memorias.md). Código implementado en la rama `eventos-memorias` (T1 a T6); no aprobado para producción. Ficha por edición, admin estructurado, memoria/resultados dentro de la ficha y micrositios conservados. Puede iniciar sin biblioteca de fotos; P2 sigue independiente. Requiere aprobar spec, ADR de ampliación y contenido real antes de publicar.
+- **P5, legal:** base explicativa 0.1 autorizada por el responsable el 14-nov-2026, con páginas públicas y enlaces de pie/contacto implementados en `fase-5-legal`. El [inventario](../content/legal/inventario-tratamientos.md) y los [textos base de privacidad](../content/legal/privacidad.md), [términos](../content/legal/terminos.md) y [convivencia](../content/legal/codigo-de-conducta.md) conservan el detalle. C3 aún no es entidad legal; responsable, configuración operativa, canales, conservación y revisión jurídica siguen pendientes. P5 permanece abierto y la publicación no declara aprobación legal ni cumplimiento.
+- **P10, Empieza en C3:** [spec](../superpowers/specs/2026-11-13-empieza-en-c3-design.md) y [plan](../superpowers/plans/2026-11-13-empieza-en-c3.md). Implementada en la rama `empieza-en-c3` (guía, navegación, SEO y pruebas); pendiente de revisión del responsable para el copy y el enlace de WhatsApp vigente. FAQ conserva su ruta y función de apoyo.
+- Las demás propuestas quedan en [ideas futuras](../product/ideas-futuras-sitio-institucional.md); no son tareas aprobadas ni cambios pendientes de este rework.
+
+## Cierre de P1: eventos y memorias (13-nov-2026)
+
+Estado real tras T6. Lo siguiente queda registrado para el responsable y para el PR; nada de esto está aprobado.
+
+- **Pendientes de aprobación y verificación:** spec (ADR-0014 aceptada el 13-nov-2026); inventario real de ediciones y contenido editorial; gate de Firestore en un proyecto de pruebas autorizado (bloqueado); revisión de acceso del admin con una cuenta autorizada; revisión manual a 390 y 1280 px, teclado, zoom 200 % y movimiento reducido; guía editorial con la regla de ediciones de un solo día (necesitan fecha final o estado Histórico para publicar la memoria).
+- **R30, `updatedAt` en la migración:** la migración no actualiza `updatedAt`, así que las fichas migradas conservan el `lastmod` anterior en el sitemap. Decisión pendiente del responsable: mantener idéntico lo que queda fuera de `page` (spec §9) o actualizar `lastmod` de forma deliberada.
+- **Orden de despliegue:** desplegar `apps/web` antes que `apps/admin`. Un web antiguo descarta en silencio las rutas nuevas de revalidación mientras el admin informa que todo salió bien. Seguimiento: comparar las rutas revalidadas con las enviadas.
+- **Decisión (13-nov-2026), tipos en el typecheck:** `apps/web/tsconfig.json` fija ahora `typeRoots` en `./node_modules/@types`, de modo que web comprueba tipos contra los `@types/node` y `@types/react` reales. `apps/admin` conserva los shims de la carpeta versionada `types/`. T6 añadió al shim dos líneas (`process.argv`, `fs.writeFileSync`) para el script de migración.
+- **Seguimientos (no bloquean):**
+  - El respaldo de la migración debería rechazar prototipos que no sean objetos planos (riesgo latente).
+  - `planEventPageMigration` debería exigir `now` en vez de usar el reloj por defecto.
+  - El dry-run imprime de qué proyecto lee (`.env.local`): indicarlo en la cabecera del script.
+  - Paridad entre ItemList y tarjetas: hecha (T5).
+  - La ficha no tiene índice de anclas dentro de la página.
+  - Aviso de pestaña nueva en enlaces externos.
+  - El CSS de `event-detail.css` no tiene prueba de tokens.
+  - Texto de respaldo de metadata cuando la descripción está vacía.
