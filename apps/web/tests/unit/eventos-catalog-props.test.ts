@@ -16,7 +16,6 @@ const memory: PublicEventMemory = {
   learnings: ["APRENDIZAJE-PRIVADO"],
   results: [{ label: "Equipos", value: "120", context: "CONTEXTO-RESULTADO" }],
   outputs: [{ title: "SALIDA-PRIVADA", description: "descripción" }],
-  gallery: [{ url: "https://cdn.c3.com.sv/foto.jpg", alt: "GALERIA-ALT" }],
 };
 
 function page(withMemory: boolean): PublicEventPage {
@@ -28,6 +27,7 @@ function page(withMemory: boolean): PublicEventPage {
     requirements: ["REQUISITO-PRIVADO"],
     participation: { label: "PARTICIPACION-PRIVADA", url: "https://copa.c3.com.sv/inscripcion" },
     resources: [{ title: "MATERIAL-PRIVADO", url: "https://c3.com.sv/m.pdf" }],
+    gallery: [{ url: "https://cdn.c3.com.sv/foto.jpg", alt: "GALERIA-ALT" }],
     ...(withMemory ? { memory } : {}),
   };
 }

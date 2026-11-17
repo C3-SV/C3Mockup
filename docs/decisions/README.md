@@ -19,6 +19,7 @@ Una decisión por archivo: `NNNN-titulo.md`. Estado: `propuesta`, `aceptada`, `r
 | [0015](0015-publicar-documentos-legales-base-01.md) | 2026-11-14 | Publicar la base explicativa legal 0.1 con pendientes visibles | aceptada |
 | [0016](0016-renombre-quienes-somos.md) | 2026-11-14 | Renombre de «Qué es C3» a «Quiénes somos» (la ruta `/que-es-c3` no cambia) | aceptada |
 | [0017](0017-titulos-sin-punto-final.md) | 2026-11-17 | Los títulos no llevan punto final | aceptada |
+| [0018](0018-fotos-de-edicion-y-host-libre.md) | 2026-11-17 | Fotos de la edición fuera de la memoria (`page.gallery`, máx. 20) y host libre por https para imágenes | aceptada |
 
 ## Plantilla
 

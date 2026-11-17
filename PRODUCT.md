@@ -55,7 +55,7 @@ Talento primero. A las empresas se les invita a conocer talento joven a través 
 1. **Sin etiqueta DEMO, nunca.** Los eventos del sitio (`defaultEvents` y los del admin) son reales. Nada se inventa ni se marca como demostración. El badge DEMO del DS no se usa.
 2. **No inventar:** testimonios, logos de clientes, puntajes «reales», fotos de jóvenes, marcas que no participan.
 3. **Precios:** no publicar precios de paquetes sin confirmación del responsable. No inventar paquetes.
-4. Las portadas de eventos usan imágenes de hosts de C3, con descripción alternativa obligatoria.
+4. Las portadas y fotos de eventos son enlaces https de cualquier host, con descripción alternativa obligatoria (ADR-0018). Las fotos pueden publicarse con la ficha, sin memoria.
 5. Datos de eventos reales vienen del admin (Firestore); nunca se fabrican en el cliente.
 6. *(Capacidad implementada en la rama `eventos-memorias`; pendiente de aprobación del responsable; ADR-0014.)* Ficha permanente por edición en `/eventos/{slug}`, con memoria y resultados solo con fuente y permiso. Contenido sin respaldo queda en borrador. Ver `docs/content/eventos/guia-editorial.md`.
 7. **Documentos legales 0.1:** privacidad, términos y convivencia están publicados como bases explicativas, con responsable, configuración operativa, conservación, canales y revisión jurídica todavía pendientes. No representan aprobación legal ni declaración de cumplimiento; P5 sigue abierto. Ver `docs/content/legal/decisiones-editoriales.md` y ADR-0015.

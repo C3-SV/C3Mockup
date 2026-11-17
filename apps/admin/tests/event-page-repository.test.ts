@@ -278,7 +278,6 @@ function memory(over: Data = {}): Data {
     learnings: ["Aprendizaje de prueba."],
     results: [{ label: "Etiqueta de prueba", value: "1", context: "Contexto de prueba." }],
     outputs: [{ title: "Proyecto de prueba", description: "Descripción de prueba.", url: "/proyectos/prueba" }],
-    gallery: [{ url: "https://media.c3.com.sv/prueba/foto.webp", alt: "Foto de prueba", rightsConfirmed: true }],
     ...over,
   };
 }
@@ -288,6 +287,7 @@ function page(over: Data = {}): Data {
     slug: SLUG,
     publication: "published",
     overview: ["Párrafo de prueba de la ficha."],
+    gallery: [{ url: "https://media.c3.com.sv/prueba/foto.webp", alt: "Foto de prueba", rightsConfirmed: true }],
     audience: "Público de prueba.",
     resources: [{ title: "Recurso de prueba", url: "/recursos/prueba.pdf" }],
     memory: memory(),
@@ -599,7 +599,7 @@ describe("compatibilidad con clientes antiguos y cargas masivas", () => {
 
     expect(saved.title).toBe("Título desde un cliente antiguo");
     expect(saved.page).toEqual(created.page);
-    expect(saved.page?.memory?.gallery).toHaveLength(1);
+    expect(saved.page?.gallery).toHaveLength(1);
     expect(saved.createdAt).toBe(NOW);
     expect(storedEvent(db, "edicion-a")).toEqual(saved);
     expect(reservation(db, SLUG)).toEqual({ eventId: "edicion-a", retired: false });

@@ -8,7 +8,7 @@ import { EventDetail } from "./EventDetail";
 const NOW = new Date("2026-07-20T18:00:00Z"); // 20-jul-2026 mediodía en El Salvador
 
 function memory(over: Partial<PublicEventMemory> = {}): PublicEventMemory {
-  return { publication: "published", summary: ["Resumen de lo que ocurrió."], learnings: [], results: [], outputs: [], gallery: [], ...over };
+  return { publication: "published", summary: ["Resumen de lo que ocurrió."], learnings: [], results: [], outputs: [], ...over };
 }
 
 function page(over: Partial<PublicEventPage> = {}): PublicEventPage {
@@ -167,11 +167,11 @@ describe("EventDetail", () => {
       <EventDetail
         event={ended({
           page: page({
+            gallery: [{ url: "https://copa.c3.com.sv/foto.jpg", alt: "Equipos resolviendo problemas", caption: "Final" }],
             memory: memory({
               learnings: ["Aprendimos a coordinar jueces."],
               results: [{ label: "Equipos", value: "58", context: "Equipos de 12 universidades.", evidenceUrl: "https://copa.c3.com.sv/resultados" }],
               outputs: [{ title: "Plataforma de juez", description: "Proyecto abierto.", url: "https://github.com/c3/juez" }],
-              gallery: [{ url: "https://copa.c3.com.sv/foto.jpg", alt: "Equipos resolviendo problemas", caption: "Final" }],
             }),
           }),
         })}
@@ -188,6 +188,31 @@ describe("EventDetail", () => {
     expect(screen.getByRole("link", { name: /Plataforma de juez/ })).toHaveAttribute("href", "https://github.com/c3/juez");
     expect(screen.getByRole("img", { name: "Equipos resolviendo problemas" })).toBeInTheDocument();
     expect(screen.getByText("Final")).toBeInTheDocument();
+  });
+
+  it("las fotos se muestran con la ficha aunque no haya memoria ni la edición haya terminado", () => {
+    render(
+      <EventDetail
+        event={event({ status: "Próximamente", eventDate: "2026-09-01", eventDateEnd: "2026-09-02" })}
+        now={NOW}
+      />,
+    );
+    expect(screen.queryByRole("heading", { name: "Fotos" })).toBeNull();
+
+    render(
+      <EventDetail
+        event={event({
+          status: "Próximamente",
+          eventDate: "2026-09-01",
+          eventDateEnd: "2026-09-02",
+          page: page({ gallery: [{ url: "https://ik.imagekit.io/c3content/arte.jpg", alt: "Arte oficial", caption: "Afiche" }] }),
+        })}
+        now={NOW}
+      />,
+    );
+    expect(screen.getByRole("heading", { name: "Fotos" })).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "Arte oficial" })).toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: /memoria/i })).toBeNull();
   });
 
   it("evento pasado: oculta la inscripción aunque el estado diga «Inscripciones abiertas»", () => {

@@ -95,7 +95,7 @@ describe("toCatalogCard con ficha publicada (T4)", () => {
   it("con memoria publicada la acción es «Ver memoria»", () => {
     const page: PublicEventPage = {
       ...publishedPage,
-      memory: { publication: "published", summary: ["Lo que pasó."], learnings: [], results: [], outputs: [], gallery: [] },
+      memory: { publication: "published", summary: ["Lo que pasó."], learnings: [], results: [], outputs: [] },
     };
     const card = toCatalogCard({ ...defaultEvents[0], page });
     expect(card.href).toBe("/eventos/copa-salvadorena-programacion-2026");
