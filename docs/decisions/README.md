@@ -18,6 +18,7 @@ Una decisión por archivo: `NNNN-titulo.md`. Estado: `propuesta`, `aceptada`, `r
 | [0014](0014-fichas-y-memorias-por-edicion.md) | 2026-11-13 | Fichas y memorias por edición (`/eventos/{slug}`): ampliación de alcance de ADR-0003 y cambio funcional acotado del admin | propuesta (aceptada el 13-nov-2026; implementada en la rama `eventos-memorias`, ver el ADR) |
 | [0015](0015-publicar-documentos-legales-base-01.md) | 2026-11-14 | Publicar la base explicativa legal 0.1 con pendientes visibles | aceptada |
 | [0016](0016-renombre-quienes-somos.md) | 2026-11-14 | Renombre de «Qué es C3» a «Quiénes somos» (la ruta `/que-es-c3` no cambia) | aceptada |
+| [0017](0017-titulos-sin-punto-final.md) | 2026-11-17 | Los títulos no llevan punto final | aceptada |
 
 ## Plantilla
 

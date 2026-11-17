@@ -14,8 +14,18 @@ describe("AudienceSection", () => {
     expect(screen.getByRole("link", { name: "Ser aliado" })).toHaveAttribute("href", "/contacto");
   });
 
-  it("añade un enlace contextual a la guía Empieza en C3", () => {
-    render(<AudienceSection />);
-    expect(screen.getByRole("link", { name: /Empieza en C3/ })).toHaveAttribute("href", "/empieza-en-c3");
+  it("destaca «Primera vez en C3» con un encabezado, la guía y tres rutas a las líneas", () => {
+    const { container } = render(<AudienceSection />);
+    expect(screen.getByRole("heading", { level: 3, name: "¿Primera vez en C3?" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Empieza en C3" })).toHaveAttribute("href", "/empieza-en-c3");
+    const routes = Array.from(container.querySelectorAll(".c3-primera__ruta")).map((link) => link.getAttribute("href"));
+    expect(routes).toEqual(["/compite", "/crea", "/conecta"]);
+  });
+
+  it("ningún encabezado de la sección termina en punto", () => {
+    const { container } = render(<AudienceSection />);
+    const headings = Array.from(container.querySelectorAll("h1, h2, h3")).map((h) => h.textContent?.trim() ?? "");
+    expect(headings.length).toBeGreaterThan(0);
+    for (const text of headings) expect(text.endsWith("."), text).toBe(false);
   });
 });

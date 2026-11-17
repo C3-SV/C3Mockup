@@ -37,6 +37,7 @@ Monorepo de **c3.com.sv** (Competitive Coding Club · El Salvador). Este archivo
 - Fuentes: Montserrat (títulos, etiquetas) y Poppins (texto, botones en frase normal).
 - Objetivo táctil ≥ 44 px, foco visible `3px` con `--c3-foco`, `prefers-reduced-motion` respetado, sin emojis, íconos solo de trazo SVG.
 - **Este es el sitio real y en producción de C3. El rework es visual: el contenido existente se conserva** (textos, titulares, eventos, SEO, rutas) y solo se mejora lo mínimo (voz «tú»). **Nunca etiqueta DEMO** ni datos, eventos, logos o textos inventados.
+- **Títulos sin punto final** (ADR-0017): `h1`, `h2`, `h3` y titulares de tarjeta no terminan en punto. Entradillas y párrafos sí conservan su puntuación.
 - Voz **«tú»** (ajuste mínimo de voseo; sin reescribir el sentido).
 - **El DS viene del demo de C3 Challenges (no lanzado); este es el sitio principal.** Vocabulario: **eventos y experiencias, por áreas**. No uses «challenge», «Proponer un challenge», «Iniciar sesión» ni «Crear cuenta» (ADR-0006; tabla en `PRODUCT.md`). Los textos del DS son referencia de estructura, no copy.
 - Logos: usar los archivos oficiales tal cual; no recrearlos ni deformarlos.

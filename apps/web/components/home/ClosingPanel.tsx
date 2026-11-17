@@ -22,7 +22,7 @@ export function ClosingPanel() {
           <div className="c3-cta__text">
             <BrandMark variant="footer" alt="Logo C3 en llamado final" imageClassName="h-14 w-auto" />
             <span className="c3-etiqueta">Plataforma C3 · El Salvador</span>
-            <h2 id="cierre">Construyamos la próxima generación técnica de la región.</h2>
+            <h2 id="cierre">Construyamos la próxima generación técnica de la región</h2>
             <p>C3 une competencia, creación y conexión para abrir más oportunidades al talento joven.</p>
           </div>
           <div className="c3-cta__action c3-actions">
