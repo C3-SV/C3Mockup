@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import type { CommunityAction, GettingStartedContent } from "@/lib/getting-started-content";
@@ -9,10 +10,10 @@ type GettingStartedProps = {
   faqs: ReadonlyArray<{ question: string; answer: string }>;
 };
 
-const lineLinks: Record<string, { href: string; className: string }> = {
-  Compite: { href: "/compite", className: "c3-enlace-linea--compite" },
-  Crea: { href: "/crea", className: "c3-enlace-linea--crea" },
-  Conecta: { href: "/conecta", className: "c3-enlace-linea--conecta" },
+const lineLinks: Record<string, { href: string; className: string; area: string }> = {
+  Compite: { href: "/compite", className: "c3-enlace-linea--compite", area: "compite" },
+  Crea: { href: "/crea", className: "c3-enlace-linea--crea", area: "crea" },
+  Conecta: { href: "/conecta", className: "c3-enlace-linea--conecta", area: "conecta" },
 };
 
 const NOTICE_ID = "aviso-comunidad-externa";
@@ -24,7 +25,11 @@ function splitLine(text: string): { name: string; rest: string } | null {
   return lineLinks[name] ? { name, rest: text.slice(index + 2) } : null;
 }
 
-/** Guía lineal «Empieza en C3». Componente de servidor: no requiere JavaScript para navegar ni unirse. */
+/**
+ * Guía lineal «Empieza en C3», leída como un sitio informativo: cada bloque responde una pregunta de quien
+ * nos conoce. Componente de servidor: no requiere JavaScript. La órbita del encabezado es decorativa (aria-hidden)
+ * y se detiene con prefers-reduced-motion (app/ds/empieza-en-c3.css).
+ */
 export default function GettingStarted({ content, communityAction, faqs }: GettingStartedProps) {
   const external = communityAction.external;
   const stepById = (id: string) => content.steps.find((s) => s.id === id);
@@ -34,26 +39,44 @@ export default function GettingStarted({ content, communityAction, faqs }: Getti
   const noEvent = stepById("sin-experiencia");
 
   return (
-    <>
-      <div className="c3-frame">
+    <div className="c3-guia">
+      <header className="c3-frame c3-guia-hero">
         <div className="c3-page-head">
           <div className="c3-page-head__text">
             <h1>{content.title}</h1>
             <p>{content.intro}</p>
           </div>
         </div>
-      </div>
+        <div className="c3-guia-orbita" aria-hidden="true">
+          <div className="c3-orbit">
+            <span className="c3-orbit__ring c3-orbit__ring--outer" />
+            <span className="c3-orbit__ring c3-orbit__ring--inner" />
+            <span className="c3-orbit__spin c3-orbit__spin--outer">
+              <span className="c3-orbit__satellite c3-orbit__satellite--compite" />
+              <span className="c3-orbit__satellite c3-orbit__satellite--crea c3-orbit__satellite--bottom" />
+            </span>
+            <span className="c3-orbit__spin c3-orbit__spin--inner">
+              <span className="c3-orbit__satellite c3-orbit__satellite--conecta" />
+            </span>
+            <span className="c3-orbit__mark">
+              <Image src="/brand/c3/c3-symbol.png" alt="" width={200} height={200} />
+            </span>
+          </div>
+        </div>
+      </header>
 
       {areas ? (
-        <section className="c3-frame c3-seccion" aria-labelledby={areas.id}>
-          <h2 id={areas.id}>{areas.title}</h2>
-          <div className="c3-tarjetas">
+        <section className="c3-frame c3-seccion c3-guia-bloque" aria-labelledby={areas.id}>
+          <h2 id={areas.id} className="c3-guia__titulo">
+            {areas.title}
+          </h2>
+          <div className="c3-guia-areas">
             {areas.paragraphs.map((text) => {
               const line = splitLine(text);
               if (!line) return <p key={text}>{text}</p>;
               const target = lineLinks[line.name];
               return (
-                <article key={line.name} className="c3-card c3-faq-item">
+                <article key={line.name} className={`c3-guia-area c3-guia-area--${target.area}`}>
                   <h3>
                     <Link href={target.href} className={`c3-enlace-linea ${target.className}`}>
                       {line.name}
@@ -68,12 +91,16 @@ export default function GettingStarted({ content, communityAction, faqs }: Getti
       ) : null}
 
       {firstStep ? (
-        <section className="c3-frame c3-seccion" aria-labelledby={firstStep.id}>
-          <h2 id={firstStep.id}>{firstStep.title}</h2>
+        <section className="c3-frame c3-seccion c3-guia-bloque c3-guia-comunidad" aria-labelledby={firstStep.id}>
+          <h2 id={firstStep.id} className="c3-guia__titulo c3-guia-comunidad__titulo">
+            {firstStep.title}
+          </h2>
           {external ? (
             <>
               {firstStep.paragraphs.map((text) => (
-                <p key={text}>{text}</p>
+                <p key={text} className="c3-guia-lead">
+                  {text}
+                </p>
               ))}
               <div className="c3-actions">
                 <Button href={communityAction.href} arrow aria-describedby={NOTICE_ID}>
@@ -86,7 +113,7 @@ export default function GettingStarted({ content, communityAction, faqs }: Getti
             </>
           ) : (
             <>
-              <p>Por ahora puedes escribirnos desde el formulario de contacto.</p>
+              <p className="c3-guia-lead">Por ahora puedes escribirnos desde el formulario de contacto.</p>
               <div className="c3-actions">
                 <Button href={communityAction.href}>{communityAction.label}</Button>
               </div>
@@ -96,11 +123,15 @@ export default function GettingStarted({ content, communityAction, faqs }: Getti
       ) : null}
 
       {participate ? (
-        <section className="c3-frame c3-seccion" aria-labelledby={participate.id}>
-          <h2 id={participate.id}>{participate.title}</h2>
-          <ol className="c3-texto-largo">
+        <section className="c3-frame c3-seccion c3-guia-bloque" aria-labelledby={participate.id}>
+          <h2 id={participate.id} className="c3-guia__titulo">
+            {participate.title}
+          </h2>
+          <ol className="c3-guia-pasos">
             {participate.paragraphs.map((text) => (
-              <li key={text}>{text}</li>
+              <li key={text}>
+                <p>{text}</p>
+              </li>
             ))}
           </ol>
           <div className="c3-actions">
@@ -112,19 +143,25 @@ export default function GettingStarted({ content, communityAction, faqs }: Getti
       ) : null}
 
       {noEvent ? (
-        <section className="c3-frame c3-seccion" aria-labelledby={noEvent.id}>
-          <h2 id={noEvent.id}>{noEvent.title}</h2>
-          {noEvent.paragraphs.map((text) => (
-            <p key={text}>{text}</p>
-          ))}
+        <section className="c3-frame c3-seccion c3-guia-bloque" aria-labelledby={noEvent.id}>
+          <h2 id={noEvent.id} className="c3-guia__titulo">
+            {noEvent.title}
+          </h2>
+          <div className="c3-guia-nota">
+            {noEvent.paragraphs.map((text) => (
+              <p key={text}>{text}</p>
+            ))}
+          </div>
         </section>
       ) : null}
 
-      <section className="c3-frame c3-seccion" aria-labelledby="dudas-para-empezar">
-        <h2 id="dudas-para-empezar">Dudas para empezar</h2>
-        <div className="c3-faq-lista">
+      <section className="c3-frame c3-seccion c3-guia-bloque" aria-labelledby="dudas-para-empezar">
+        <h2 id="dudas-para-empezar" className="c3-guia__titulo">
+          Dudas para empezar
+        </h2>
+        <div className="c3-guia-dudas">
           {faqs.map((item) => (
-            <article key={item.question} className="c3-card c3-faq-item">
+            <article key={item.question} className="c3-card c3-guia-duda">
               <h3>{item.question}</h3>
               <p>{item.answer}</p>
             </article>
@@ -137,9 +174,11 @@ export default function GettingStarted({ content, communityAction, faqs }: Getti
         </div>
       </section>
 
-      <section className="c3-frame c3-seccion" aria-labelledby="contacto-alternativo">
-        <h2 id="contacto-alternativo">{external ? "¿No usas WhatsApp?" : "Escríbenos"}</h2>
-        <p>
+      <section className="c3-frame c3-seccion c3-guia-bloque c3-guia-cierre" aria-labelledby="contacto-alternativo">
+        <h2 id="contacto-alternativo" className="c3-guia__titulo">
+          {external ? "¿No usas WhatsApp?" : "Escríbenos"}
+        </h2>
+        <p className="c3-guia-lead">
           Escríbenos por correo a{" "}
           <a className="c3-enlace-linea [overflow-wrap:anywhere]" href={`mailto:${siteConfig.contact.email}`}>
             {siteConfig.contact.email}
@@ -154,6 +193,6 @@ export default function GettingStarted({ content, communityAction, faqs }: Getti
           </div>
         ) : null}
       </section>
-    </>
+    </div>
   );
 }

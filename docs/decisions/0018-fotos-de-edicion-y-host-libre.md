@@ -1,4 +1,4 @@
-# 0017 · Fotos de la edición fuera de la memoria y host libre para imágenes
+# 0018 · Fotos de la edición fuera de la memoria y host libre para imágenes
 
 - **Fecha:** 2026-11-17 · **Responsable:** pedido del responsable de C3 · **Estado:** Aceptada (17-nov-2026)
 - **Plan:** [`docs/superpowers/plans/2026-11-17-fotos-y-host-libre.md`](../superpowers/plans/2026-11-17-fotos-y-host-libre.md)

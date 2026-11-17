@@ -9,7 +9,7 @@ test("la evidencia viva va justo después del hero y no hay próximas iniciativa
 
   const titulares = await page.$$eval("h1, h2", (els) => els.map((el) => el.textContent?.trim() ?? ""));
 
-  expect(titulares[0]).toBe("C3 desarrolla talento técnico joven a través de competencia, creación y conexión.");
+  expect(titulares[0]).toBe("C3 desarrolla talento técnico joven a través de competencia, creación y conexión");
   expect(titulares[1]).toBe("Evidencia viva del ecosistema C3");
   expect(titulares).not.toContain("Próximas iniciativas");
   expect(titulares.indexOf("Datos que respaldan el avance de C3")).toBeGreaterThan(1);

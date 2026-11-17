@@ -23,7 +23,7 @@ Prepara la ficha cuando la edición esté confirmada en el inventario.
 3. **Información práctica, solo si la tienes confirmada:** audiencia, requisitos, modalidad (presencial, virtual o híbrida) y ubicación. Si no se conoce, déjalo vacío: no se muestra la sección.
 4. **Participación.** Un enlace de acción externa (etiqueta y URL) solo mientras las inscripciones estén abiertas y la edición no haya terminado. Si no se conoce la fecha, no se muestra.
 5. **Recursos.** Materiales con título y enlace, solo los que C3 puede compartir.
-6. **Fotos.** Opcionales, hasta 20. Pueden ser artes o fotos anteriores al evento: no dependen de la memoria ni de que la edición haya terminado (ADR-0017).
+6. **Fotos.** Opcionales, hasta 20. Pueden ser artes o fotos anteriores al evento: no dependen de la memoria ni de que la edición haya terminado (ADR-0018).
 6. **Micrositio.** El sitio especial (Copa, Hackathon u otro) se conserva como enlace informativo dentro de la ficha.
 7. **Publicar.** Requisitos: slug reservado, resumen no vacío y los datos obligatorios del evento válidos. Mientras falte algo, déjala en `draft`.
 

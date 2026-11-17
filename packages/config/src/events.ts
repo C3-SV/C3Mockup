@@ -168,7 +168,7 @@ export function normalizeFirebasePrivateKey(value: string): string {
   return value.replace(/\\n/g, "\n");
 }
 
-// Portadas e imágenes: https absoluto de cualquier host, sin credenciales, con texto alternativo (ADR-0017;
+// Portadas e imágenes: https absoluto de cualquier host, sin credenciales, con texto alternativo (ADR-0018;
 // antes solo hosts de C3, ADR-0005).
 export function normalizeEventCover(input: unknown): EventCover | undefined {
   if (!input || typeof input !== "object") {
