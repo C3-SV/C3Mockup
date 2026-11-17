@@ -1,7 +1,7 @@
 # Plan: fotos fuera de la memoria y host libre para imágenes (admin)
 
 - **Fecha:** 2026-11-17 · **Estado:** T1–T6 implementadas en `codex/preparacion-motion` (sin commit); e2e de Playwright pendiente (requiere emulador de Firestore) · **Alcance:** `packages/config`, `apps/admin`, `apps/web` (solo render de la ficha), documentación.
-- **Decisiones que cambian:** ADR-0017 (nuevo), que amplía ADR-0014 (ficha por edición) y reemplaza la regla de host de imágenes de ADR-0005 para la galería y las portadas.
+- **Decisiones que cambian:** ADR-0018 (nuevo), que amplía ADR-0014 (ficha por edición) y reemplaza la regla de host de imágenes de ADR-0005 para la galería y las portadas.
 - **Alcance:** este plan deja el modelo y el admin listos para fotos por enlace. La subida de archivos (firma, registro, reemplazo) **no** entra aquí.
 
 ## 1. Qué cambia y por qué
@@ -48,7 +48,7 @@ PublicEventPage.gallery?: { url, alt, caption? }[]   // sin rightsConfirmed
 - Texto de ayuda: «Imágenes en cualquier host por https. Desde aquí no se suben archivos: pega el enlace de la imagen.»
 
 **T5. Documentación.**
-- ADR-0017 (nuevo): fotos fuera de la memoria, host libre, límite 20. Enlaza con ADR-0014 y ADR-0005.
+- ADR-0018 (nuevo): fotos fuera de la memoria, host libre, límite 20. Enlaza con ADR-0014 y ADR-0005.
 - `PRODUCT.md` regla 4: portadas e imágenes de cualquier host por https con texto alternativo.
 - `docs/content/eventos/guia-editorial.md`: §2 (la galería sale de la memoria), §3 (fila «Fotos»), §4 (galería: 20).
 - `docs/decisions/README.md`: índice.

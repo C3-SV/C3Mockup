@@ -17,7 +17,7 @@ export type EventPageLink = { title: string; url: string };
 export type EventPageParticipation = { label: string; url: string };
 export type EventMemoryResult = { label: string; value: string; context: string; evidenceUrl?: string };
 export type EventMemoryOutput = { title: string; description: string; url?: string };
-/** Foto de la ficha (ADR-0017): puede publicarse antes de la edición, sin memoria. */
+/** Foto de la ficha (ADR-0018): puede publicarse antes de la edición, sin memoria. */
 export type EventPageImage = { url: string; alt: string; caption?: string; rightsConfirmed: true };
 
 export type EventMemory = {
@@ -267,7 +267,7 @@ function readUrl(value: unknown, path: string, errors: EventPageErrors, required
 }
 
 /**
- * Imagen de la ficha: enlace https absoluto de cualquier host, sin credenciales (ADR-0017). Las rutas locales y los
+ * Imagen de la ficha: enlace https absoluto de cualquier host, sin credenciales (ADR-0018). Las rutas locales y los
  * esquemas distintos de https se rechazan; el host ya no se restringe (los servicios externos no siempre llevan c3).
  */
 function readImageUrl(value: unknown, path: string, errors: EventPageErrors): string | undefined {

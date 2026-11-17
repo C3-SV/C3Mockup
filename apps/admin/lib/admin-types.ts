@@ -56,7 +56,7 @@ export type EventPageDraft = {
   location: string;
   participation: { label: string; url: string };
   resources: { title: string; url: string }[];
-  /** Fotos de la ficha (ADR-0017): no dependen de la memoria ni de que la edición haya terminado. */
+  /** Fotos de la ficha (ADR-0018): no dependen de la memoria ni de que la edición haya terminado. */
   gallery: EventPageImageDraft[];
   /**
    * undefined: sin memoria (no se envía); objeto: se envía completa; null: el editor la quitó y el payload lleva

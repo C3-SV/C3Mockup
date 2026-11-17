@@ -63,6 +63,33 @@ describe("GettingStarted con comunidad disponible", () => {
     );
   });
 
+  it("la órbita de comunidad es decorativa y oculta para lectores de pantalla", () => {
+    const { container } = renderGuia();
+    const orbita = container.querySelector(".c3-guia-orbita");
+    expect(orbita).not.toBeNull();
+    expect(orbita?.getAttribute("aria-hidden")).toBe("true");
+  });
+
+  it("cada área lleva su clase de línea (color que clasifica)", () => {
+    const { container } = renderGuia();
+    for (const linea of ["compite", "crea", "conecta"]) {
+      expect(container.querySelector(`.c3-guia-area--${linea}`)).not.toBeNull();
+    }
+  });
+
+  it("los pasos de participación son una lista ordenada de tres pasos", () => {
+    const { container } = renderGuia();
+    const pasos = container.querySelectorAll("ol.c3-guia-pasos > li");
+    expect(pasos).toHaveLength(3);
+  });
+
+  it("las dudas van en una cuadrícula con una tarjeta por pregunta", () => {
+    const { container } = renderGuia();
+    const grid = container.querySelector(".c3-guia-dudas");
+    expect(grid).not.toBeNull();
+    expect(grid?.querySelectorAll(":scope > article")).toHaveLength(faqs.length);
+  });
+
   it("los requisitos se leen por evento, no como regla global", () => {
     renderGuia();
     expect(screen.getByText("Lee los requisitos de cada evento.")).toBeInTheDocument();

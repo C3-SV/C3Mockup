@@ -171,3 +171,109 @@
 }
 
 
+
+/* «Primera vez en C3»: bloque destacado tras las audiencias. Texto y rutas actuales; el violeta marca la acción. */
+.c3-primera {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 48px);
+  align-items: center;
+  margin-top: clamp(40px, 5vw, 64px);
+  padding: clamp(24px, 3.4vw, 44px);
+  border: 1px solid var(--c3-borde);
+  border-top: 6px solid var(--c3-accion);
+  border-radius: var(--c3-radius-card);
+  background: var(--c3-superficie-sutil);
+  box-shadow: var(--c3-sombra-md);
+}
+
+.c3-primera__intro h3 {
+  margin: 0 0 12px;
+  font-size: clamp(26px, 3vw, 34px);
+  line-height: 1.2;
+}
+
+.c3-primera__intro p {
+  margin: 0 0 24px;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--c3-texto-suave);
+}
+
+.c3-primera__intro .c3-btn {
+  min-height: 44px;
+}
+
+.c3-primera__label {
+  margin: 0 0 12px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--c3-texto-suave);
+}
+
+.c3-primera__rutas ul {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.c3-primera__ruta {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 12px;
+  align-items: center;
+  min-height: 44px;
+  padding: 16px 20px;
+  border: 1px solid var(--c3-borde);
+  border-radius: var(--c3-radius-card);
+  background: var(--c3-superficie);
+  color: var(--c3-texto);
+  text-decoration: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.c3-primera__ruta .c3-dot {
+  grid-row: span 2;
+}
+
+.c3-primera__ruta strong {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.c3-primera__detalle {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--c3-texto-suave);
+}
+
+.c3-primera__ruta:hover {
+  border-color: var(--c3-accion);
+  box-shadow: var(--c3-sombra-sm);
+  transform: translateY(-2px);
+}
+
+.c3-primera__ruta:focus-visible {
+  outline: 3px solid var(--c3-foco);
+  outline-offset: 3px;
+}
+
+@media (max-width: 760px) {
+  .c3-primera {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .c3-primera__ruta {
+    transition: none;
+  }
+
+  .c3-primera__ruta:hover {
+    transform: none;
+  }
+}
