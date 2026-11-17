@@ -13,7 +13,7 @@ import {
 } from "@c3/config";
 import type {
   EventDraft,
-  EventMemoryImageDraft,
+  EventPageImageDraft,
   EventMemoryOutputDraft,
   EventMemoryResultDraft,
   EventPageDraft,
@@ -625,6 +625,34 @@ export function EventPageFields({ value, onChange, errors = {}, event = null, sc
           />
         </Group>
 
+        <Group legend="Fotos">
+          <RowList<EventPageImageDraft>
+            bare
+            groupRows
+            path="gallery"
+            legend="Fotos"
+            noun="foto"
+            items={value.gallery}
+            max={EVENT_PAGE_LIMITS.galleryItems}
+            create={() => ({ url: "", alt: "", caption: "", rightsConfirmed: false })}
+            onChange={(gallery) => update({ gallery })}
+            hint="Puedes publicar fotos o artes antes del evento; no dependen de la memoria. Pega el enlace https de cada imagen (de cualquier servicio). Desde aquí no se suben archivos. Cada foto necesita texto alternativo y la confirmación de derechos."
+            renderRow={(item, index, set) => (
+              <>
+                <TextField label="Dirección de la imagen" path={`gallery.${index}.url`} linkedPaths={["gallery"]} value={item.url} onChange={(url) => set({ ...item, url })} />
+                <TextField label="Texto alternativo" path={`gallery.${index}.alt`} linkedPaths={["gallery"]} hint="Describe lo que se ve en la imagen." value={item.alt} onChange={(alt) => set({ ...item, alt })} />
+                <TextField label="Pie de foto" path={`gallery.${index}.caption`} linkedPaths={["gallery"]} hint="Opcional." value={item.caption} onChange={(caption) => set({ ...item, caption })} />
+                <CheckField
+                  title="Confirmo que tengo los derechos para publicar esta imagen"
+                  path={`gallery.${index}.rightsConfirmed`}
+                  checked={item.rightsConfirmed}
+                  onChange={(rightsConfirmed) => set({ ...item, rightsConfirmed })}
+                />
+              </>
+            )}
+          />
+        </Group>
+
         <Group legend="Memoria y resultados">
           {!memory ? (
             <div className="grid gap-3">
@@ -742,7 +770,7 @@ export function EventPageFields({ value, onChange, errors = {}, event = null, sc
                 {confirmingRemoval ? (
                   <div role="group" aria-label="Confirmar que se quita la memoria" className="grid gap-3 rounded-lg border border-danger/25 bg-danger-soft p-3">
                     <p className="text-sm text-ink">
-                      ¿Quitar la memoria? Se elimina al guardar, con sus resultados y fotos
+                      ¿Quitar la memoria? Se elimina al guardar, con sus resultados y proyectos
                       {savedMemoryPublished ? " y deja de ser pública" : ""}.
                     </p>
                     <div className="flex flex-wrap gap-2">
@@ -783,38 +811,6 @@ export function EventPageFields({ value, onChange, errors = {}, event = null, sc
                 )}
               </div>
             </>
-          )}
-        </Group>
-
-        <Group legend="Fotos">
-          {memory ? (
-            <RowList<EventMemoryImageDraft>
-              bare
-              groupRows
-              path="memory.gallery"
-              legend="Fotos"
-              noun="foto"
-              items={memory.gallery}
-              max={EVENT_PAGE_LIMITS.galleryItems}
-              create={() => ({ url: "", alt: "", caption: "", rightsConfirmed: false })}
-              onChange={(gallery) => update({ memory: { ...memory, gallery } })}
-              hint="Imágenes ya alojadas en un host de C3 (https). Desde aquí no se suben archivos. Cada foto necesita texto alternativo y la confirmación de derechos."
-              renderRow={(item, index, set) => (
-                <>
-                  <TextField label="Dirección de la imagen" path={`memory.gallery.${index}.url`} linkedPaths={["memory.gallery"]} value={item.url} onChange={(url) => set({ ...item, url })} />
-                  <TextField label="Texto alternativo" path={`memory.gallery.${index}.alt`} linkedPaths={["memory.gallery"]} hint="Describe lo que se ve en la imagen." value={item.alt} onChange={(alt) => set({ ...item, alt })} />
-                  <TextField label="Pie de foto" path={`memory.gallery.${index}.caption`} linkedPaths={["memory.gallery"]} hint="Opcional." value={item.caption} onChange={(caption) => set({ ...item, caption })} />
-                  <CheckField
-                    title="Confirmo que tengo los derechos para publicar esta imagen"
-                    path={`memory.gallery.${index}.rightsConfirmed`}
-                    checked={item.rightsConfirmed}
-                    onChange={(rightsConfirmed) => set({ ...item, rightsConfirmed })}
-                  />
-                </>
-              )}
-            />
-          ) : (
-            <p className="text-sm text-muted">Las fotos forman parte de la memoria: añade primero la memoria.</p>
           )}
         </Group>
 

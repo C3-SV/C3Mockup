@@ -89,13 +89,19 @@ describe("normalizeDraft / buildEventPayload (una sola normalización)", () => {
 
   it("la confirmación de derechos viaja como booleano y la galería sin confirmar no se oculta", () => {
     const base = normalizeDraft(makeAdminEvent()).page!;
-    const memory = { ...base.memory!, gallery: [{ url: "https://c3.com.sv/a.jpg", alt: "A", caption: "", rightsConfirmed: false }] };
+    const gallery = [{ url: "https://c3.com.sv/a.jpg", alt: "A", caption: "", rightsConfirmed: false }];
 
-    const payload = buildPagePayload({ ...base, memory });
+    const payload = buildPagePayload({ ...base, gallery });
 
-    expect((payload.memory as { gallery: unknown[] }).gallery).toEqual([
-      { url: "https://c3.com.sv/a.jpg", alt: "A", rightsConfirmed: false },
-    ]);
+    expect(payload.gallery).toEqual([{ url: "https://c3.com.sv/a.jpg", alt: "A", rightsConfirmed: false }]);
+  });
+
+  it("las fotos viajan en la ficha, no en la memoria, y se pueden enviar sin memoria", () => {
+    const base = normalizeDraft(makeAdminEvent()).page!;
+    const payload = buildPagePayload({ ...base, memory: undefined, gallery: [{ url: "https://ik.imagekit.io/c3content/arte.jpg", alt: "Arte", caption: "", rightsConfirmed: true }] });
+
+    expect(payload).not.toHaveProperty("memory");
+    expect(payload.gallery).toEqual([{ url: "https://ik.imagekit.io/c3content/arte.jpg", alt: "Arte", rightsConfirmed: true }]);
   });
 });
 
@@ -148,10 +154,10 @@ describe("validatePageDraft (validador compartido, mismas claves que el servidor
 
 describe("isPageErrorPath", () => {
   it("reconoce las claves que tienen control en la ficha y deja fuera las demás", () => {
-    for (const path of ["slug", "overview", "overview.2", "memory.results.0.value", "memory.gallery.1.rightsConfirmed", "participation.url", "page"]) {
+    for (const path of ["slug", "overview", "overview.2", "memory.results.0.value", "gallery.1.rightsConfirmed", "participation.url", "page"]) {
       expect(isPageErrorPath(path)).toBe(true);
     }
-    for (const path of ["id", "title", "memory.nope", "resources.x"]) {
+    for (const path of ["id", "title", "memory.nope", "memory.gallery.1.url", "resources.x"]) {
       expect(isPageErrorPath(path)).toBe(false);
     }
   });

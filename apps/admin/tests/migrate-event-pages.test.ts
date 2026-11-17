@@ -220,7 +220,7 @@ describe("planEventPageMigration", () => {
     const vigente = bare({ id: "copa-prueba", status: "Inscripciones abiertas", eventDate: "2027-01-10", eventDateEnd: "2027-01-11" });
     const page = draftPage("copa-prueba-2027", {
       publication: "published",
-      memory: { publication: "published", summary: ["Texto."], learnings: [], results: [], outputs: [], gallery: [] },
+      memory: { publication: "published", summary: ["Texto."], learnings: [], results: [], outputs: [] },
     });
     const plan = planEventPageMigration([vigente], [{ eventId: "copa-prueba", page }], { now: NOW });
     expect(plan.changes).toEqual([]);

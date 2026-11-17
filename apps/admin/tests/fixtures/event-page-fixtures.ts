@@ -15,6 +15,14 @@ export function makePublishedPage(): EventPage {
       { title: "Guía de prueba", url: "https://c3.com.sv/guia" },
       { title: "Bases locales", url: "/bases" },
     ],
+    gallery: [
+      {
+        url: "https://c3.com.sv/img/foto-prueba.jpg",
+        alt: "Texto alternativo de prueba",
+        caption: "Pie de prueba",
+        rightsConfirmed: true,
+      },
+    ],
     memory: {
       publication: "published",
       summary: ["Resumen de prueba."],
@@ -24,14 +32,6 @@ export function makePublishedPage(): EventPage {
         { label: "Proyectos", value: "5", context: "Otro contexto" },
       ],
       outputs: [{ title: "Proyecto de prueba", description: "Descripción de prueba", url: "https://c3.com.sv/proyecto" }],
-      gallery: [
-        {
-          url: "https://c3.com.sv/img/foto-prueba.jpg",
-          alt: "Texto alternativo de prueba",
-          caption: "Pie de prueba",
-          rightsConfirmed: true,
-        },
-      ],
     },
   };
 }
