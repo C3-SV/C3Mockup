@@ -8,7 +8,7 @@ export function Hero() {
     <section className="c3-hero">
       <div className="c3-frame c3-hero__grid">
         <div className="c3-hero__text">
-          <h1>C3 desarrolla talento técnico joven a través de competencia, creación y conexión.</h1>
+          <h1>C3 desarrolla talento técnico joven a través de competencia, creación y conexión</h1>
           <p className="c3-lead">
             Competitive Coding Club conecta programación competitiva, hackathons, comunidad e industria para abrir
             oportunidades reales a la próxima generación técnica de El Salvador y la región.

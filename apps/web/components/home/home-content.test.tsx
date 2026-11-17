@@ -27,7 +27,7 @@ function renderHome() {
 }
 
 const HEADINGS_IN_ORDER = [
-  "C3 desarrolla talento técnico joven a través de competencia, creación y conexión.",
+  "C3 desarrolla talento técnico joven a través de competencia, creación y conexión",
   "Evidencia viva del ecosistema C3",
   "Datos que respaldan el avance de C3",
   "Un ecosistema integrado",
@@ -38,7 +38,8 @@ const HEADINGS_IN_ORDER = [
   "Personas",
   "Instituciones educativas",
   "Empresas y organizaciones",
-  "Construyamos la próxima generación técnica de la región.",
+  "¿Primera vez en C3?",
+  "Construyamos la próxima generación técnica de la región",
 ];
 
 const LINKS: Array<[string, string]> = [
@@ -52,6 +53,7 @@ const LINKS: Array<[string, string]> = [
   ["Participar en C3", "/eventos"],
   ["Crear una alianza educativa", "/contacto"],
   ["Contactar", "/contacto"],
+  ["Empieza en C3", "/empieza-en-c3"],
 ];
 
 describe("home: contenido conservado", () => {

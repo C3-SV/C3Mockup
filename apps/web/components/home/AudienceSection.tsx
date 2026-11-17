@@ -42,6 +42,13 @@ const AUDIENCES = [
   },
 ] as const;
 
+/** Rutas de «Primera vez en C3»: cada línea con lo que se encuentra en ella (docs/content/empieza-en-c3.md). */
+const PRIMERA_VEZ_ROUTES = [
+  { href: "/compite", line: "compite", name: "Compite", detail: "Programación competitiva y entrenamientos" },
+  { href: "/crea", line: "crea", name: "Crea", detail: "Hackathons, prototipos y proyectos reales" },
+  { href: "/conecta", line: "conecta", name: "Conecta", detail: "Comunidad, industria, mentoría y alianzas" },
+] as const;
+
 export function AudienceSection() {
   return (
     <section className="c3-featured" aria-labelledby="audiencias">
@@ -83,12 +90,29 @@ export function AudienceSection() {
             );
           })}
         </div>
-        <p className="c3-lead">
-          ¿Primera vez en C3?{" "}
-          <Link href="/empieza-en-c3" className="c3-enlace-linea">
-            Empieza en C3
-          </Link>
-        </p>
+        <section className="c3-primera" aria-labelledby="primera-vez">
+          <div className="c3-primera__intro">
+            <h3 id="primera-vez">¿Primera vez en C3?</h3>
+            <p>Esta guía te muestra qué puedes encontrar y cómo dar tu primer paso.</p>
+            <Button href="/empieza-en-c3" variant="primario" arrow>
+              Empieza en C3
+            </Button>
+          </div>
+          <div className="c3-primera__rutas">
+            <p className="c3-primera__label">Por dónde empezar</p>
+            <ul>
+              {PRIMERA_VEZ_ROUTES.map((route) => (
+                <li key={route.href}>
+                  <Link href={route.href} className="c3-primera__ruta">
+                    <span className={`c3-dot c3-dot--${route.line}`} aria-hidden="true" />
+                    <strong>{route.name}</strong>
+                    <span className="c3-primera__detalle">{route.detail}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
       </div>
     </section>
   );
