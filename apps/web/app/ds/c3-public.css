@@ -2185,3 +2185,38 @@ textarea.c3-campo {
   letter-spacing: 0.18em;
   text-transform: uppercase;
 }
+
+/* Foto grande del equipo en Quiénes somos: marco en la misma familia que las tarjetas (DS). */
+.c3-foto-equipo {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+}
+
+.c3-foto-equipo__marco {
+  position: relative;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  border: 1px solid var(--c3-borde);
+  border-radius: var(--c3-radius-md);
+  background: var(--c3-superficie-sutil);
+  box-shadow: var(--c3-shadow-soft);
+}
+
+.c3-foto-equipo__marco img {
+  object-fit: cover;
+  object-position: center 40%;
+}
+
+.c3-foto-equipo figcaption {
+  color: var(--c3-texto-suave);
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+@media (max-width: 767px) {
+  .c3-foto-equipo__marco {
+    aspect-ratio: 4 / 5;
+  }
+}
