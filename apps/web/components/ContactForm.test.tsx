@@ -60,7 +60,7 @@ describe("ContactForm (Tarea 7.2)", () => {
 
   it("explica el uso de datos y enlaza el aviso de privacidad junto al envío", () => {
     render(<ContactForm />);
-    const link = screen.getByRole("link", { name: "aviso de privacidad, versión 0.1" });
+    const link = screen.getByRole("link", { name: "aviso de privacidad, versión 0.2" });
 
     expect(link).toHaveAttribute("href", "/privacidad");
     expect(link.parentElement).toHaveTextContent(

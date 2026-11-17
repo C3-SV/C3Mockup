@@ -43,7 +43,7 @@ describe("rutas legales", () => {
 
     const { unmount } = render(createElement(Page));
     expect(screen.getByRole("heading", { level: 1, name: title })).toBeInTheDocument();
-    expect(screen.getByText("Versión 0.1")).toBeInTheDocument();
+    expect(screen.getByText("Versión 0.2")).toBeInTheDocument();
     unmount();
   });
 

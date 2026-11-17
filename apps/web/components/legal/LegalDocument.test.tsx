@@ -6,7 +6,7 @@ import type { LegalDocumentData } from "@/lib/legal-content";
 const fixture: LegalDocumentData = {
   id: "privacidad",
   title: "Política de privacidad",
-  version: "0.1",
+  version: "0.2",
   reviewedAt: "2026-11-13",
   introduction: "Versión informativa preliminar; algunos detalles siguen en revisión.",
   references: [
@@ -38,7 +38,7 @@ describe("LegalDocument", () => {
 
     expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
     expect(screen.getByRole("heading", { level: 1, name: "Política de privacidad" })).toBeInTheDocument();
-    expect(screen.getByText("Versión 0.1")).toBeInTheDocument();
+    expect(screen.getByText("Versión 0.2")).toBeInTheDocument();
     expect(screen.getByText("13/11/2026")).toHaveAttribute("dateTime", "2026-11-13");
   });
 

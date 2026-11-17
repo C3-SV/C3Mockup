@@ -11,7 +11,7 @@ const documents = [
   },
 ] as const;
 
-test.describe("documentos legales base 0.1", () => {
+test.describe("documentos legales base 0.2", () => {
   for (const document of documents) {
     test(`${document.path} abre desde el pie con versión y secciones enlazadas`, async ({ page }) => {
       await page.goto("/");
@@ -22,7 +22,7 @@ test.describe("documentos legales base 0.1", () => {
 
       await expect(page).toHaveURL(new RegExp(`${document.path.replaceAll("/", "\\/")}$`));
       await expect(page.getByRole("heading", { level: 1, name: document.title })).toBeVisible();
-      await expect(page.locator(".c3-legal__metadata").getByText("Versión 0.1", { exact: true })).toBeVisible();
+      await expect(page.locator(".c3-legal__metadata").getByText("Versión 0.2", { exact: true })).toBeVisible();
       await expect(page.locator(".c3-legal__metadata time")).toHaveAttribute("datetime", "2026-11-14");
       await expect(page.locator(".c3-legal__introduction")).toBeVisible();
       const contactLink = page
@@ -48,11 +48,11 @@ test.describe("documentos legales base 0.1", () => {
 
   test("el aviso de privacidad del formulario lleva al documento base", async ({ page }) => {
     await page.goto("/contacto");
-    await page.getByRole("link", { name: "aviso de privacidad, versión 0.1" }).click();
+    await page.getByRole("link", { name: "aviso de privacidad, versión 0.2" }).click();
 
     await expect(page).toHaveURL(/\/privacidad$/);
     await expect(page.getByRole("heading", { level: 1, name: "Privacidad" })).toBeVisible();
-    await expect(page.locator(".c3-legal__metadata").getByText("Versión 0.1", { exact: true })).toBeVisible();
+    await expect(page.locator(".c3-legal__metadata").getByText("Versión 0.2", { exact: true })).toBeVisible();
     await expectNoHorizontalScroll(page);
     await expectNoSeriousA11y(page);
   });
