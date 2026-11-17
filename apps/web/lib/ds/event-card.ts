@@ -64,7 +64,7 @@ export function toCatalogEvent(event: EventItem): EventItem {
             overview: [],
             resources: [],
             ...(page.memory
-              ? { memory: { publication: "published" as const, summary: [], learnings: [], results: [], outputs: [], gallery: [] } }
+              ? { memory: { publication: "published" as const, summary: [], learnings: [], results: [], outputs: [] } }
               : {}),
           },
         }

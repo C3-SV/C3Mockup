@@ -49,12 +49,12 @@ describe("parseEventDocument", () => {
     expect(event?.cover).toEqual({ url: "https://copa.c3.com.sv/portada.png", alt: "Portada de la Copa" });
   });
 
-  it("descarta una portada de un host ajeno", () => {
+  it("acepta una portada de cualquier host https (servicios externos de imágenes)", () => {
     const event = parseEventDocument("doc-3", {
       ...base,
-      cover: { url: "https://evil.example/x.png", alt: "Algo" },
+      cover: { url: "https://ik.imagekit.io/c3content/portada.jpg", alt: "Algo" },
     });
-    expect(event?.cover).toBeUndefined();
+    expect(event?.cover).toEqual({ url: "https://ik.imagekit.io/c3content/portada.jpg", alt: "Algo" });
   });
 
   it("descarta una portada sin texto alternativo", () => {
@@ -98,12 +98,17 @@ describe("normalizadores de la configuración compartida", () => {
     expect(normalizeExperienceKind(42)).toBeUndefined();
   });
 
-  it("normalizeEventCover exige https, host de C3 y alt no vacío", () => {
+  it("normalizeEventCover exige https y alt no vacío; el host es libre", () => {
     expect(normalizeEventCover({ url: "https://c3.com.sv/a.png", alt: "A" })).toEqual({
       url: "https://c3.com.sv/a.png",
       alt: "A",
     });
-    expect(normalizeEventCover({ url: "https://c3.com.sv.evil.example/a.png", alt: "A" })).toBeUndefined();
+    expect(normalizeEventCover({ url: "https://res.cloudinary.com/demo/a.png", alt: "A" })).toEqual({
+      url: "https://res.cloudinary.com/demo/a.png",
+      alt: "A",
+    });
+    expect(normalizeEventCover({ url: "http://c3.com.sv/a.png", alt: "A" })).toBeUndefined();
+    expect(normalizeEventCover({ url: "https://c3.com.sv/a.png", alt: "  " })).toBeUndefined();
     expect(normalizeEventCover(null)).toBeUndefined();
   });
 
@@ -122,6 +127,7 @@ describe("parseEventDocument: ficha por edición (page)", () => {
     resources: [{ title: "Bases", url: "/bases" }],
   };
   const gallery = [{ url: "https://media.c3.com.sv/a.webp", alt: "Equipo", rightsConfirmed: true }];
+  // Las fotos viven en la ficha, no en la memoria: se publican con la ficha, aunque no haya memoria.
 
   it("sin page, la salida conserva exactamente las claves de antes (sin clave page)", () => {
     const event = parseEventDocument("doc-p0", base);
@@ -181,7 +187,7 @@ describe("parseEventDocument: ficha por edición (page)", () => {
   });
 
   it("la memoria en borrador no llega al público; la publicada sí y sin rightsConfirmed", () => {
-    const draftMemory = { publication: "draft", summary: ["Texto interno"], gallery };
+    const draftMemory = { publication: "draft", summary: ["Texto interno"] };
     const withDraft = parseEventDocument("doc-p4", { ...base, page: { ...publishedPage, memory: draftMemory } });
     expect(withDraft?.page).toBeDefined();
     expect(withDraft?.page).not.toHaveProperty("memory");
@@ -189,10 +195,10 @@ describe("parseEventDocument: ficha por edición (page)", () => {
 
     const withPublished = parseEventDocument("doc-p5", {
       ...base,
-      page: { ...publishedPage, memory: { publication: "published", summary: ["Resumen público"], gallery } },
+      page: { ...publishedPage, gallery, memory: { publication: "published", summary: ["Resumen público"] } },
     });
     expect(withPublished?.page?.memory?.summary).toEqual(["Resumen público"]);
-    expect(withPublished?.page?.memory?.gallery).toEqual([{ url: "https://media.c3.com.sv/a.webp", alt: "Equipo" }]);
+    expect(withPublished?.page?.gallery).toEqual([{ url: "https://media.c3.com.sv/a.webp", alt: "Equipo" }]);
     expect(JSON.stringify(withPublished)).not.toContain("rightsConfirmed");
   });
 
@@ -204,7 +210,7 @@ describe("parseEventDocument: ficha por edición (page)", () => {
         memory: {
           publication: "published",
           summary: ["x"],
-          gallery: [{ url: "https://evil.example/x.png", alt: "a", rightsConfirmed: true }],
+          results: [{ label: "A", value: "x".repeat(81), context: "c" }],
         },
       },
     });

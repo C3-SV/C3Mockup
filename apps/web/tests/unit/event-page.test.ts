@@ -28,7 +28,6 @@ function memory(over: Record<string, unknown> = {}) {
     learnings: [],
     results: [],
     outputs: [],
-    gallery: [],
     ...over,
   };
 }
@@ -217,16 +216,16 @@ describe("validateEventPage: límites exactos de la spec §5", () => {
     expect(ok(page({ memory: memory({ outputs: [output({ description: text(1000) })] }) })).memory?.outputs[0].description).toHaveLength(1000);
   });
 
-  it("galería: 12 sí, 13 no", () => {
+  it("galería de la ficha: 20 sí, 21 no", () => {
     const image = (i = 0) => ({ url: `https://media.c3.com.sv/foto-${i}.webp`, alt: `Foto ${i}`, rightsConfirmed: true });
-    expect(ok(page({ memory: memory({ gallery: Array.from({ length: 12 }, (_, i) => image(i)) }) })).memory?.gallery).toHaveLength(12);
-    expect(errors(page({ memory: memory({ gallery: Array.from({ length: 13 }, (_, i) => image(i)) }) }))["memory.gallery"]).toBeTruthy();
+    expect(ok(page({ gallery: Array.from({ length: 20 }, (_, i) => image(i)) })).gallery).toHaveLength(20);
+    expect(errors(page({ gallery: Array.from({ length: 21 }, (_, i) => image(i)) }))["gallery"]).toBeTruthy();
   });
 
   it("los arrays vacíos son válidos en todos los bloques", () => {
-    const value = ok(page({ overview: [], resources: [], memory: memory({ summary: [], learnings: [], results: [], outputs: [], gallery: [] }) }));
+    const value = ok(page({ overview: [], resources: [], memory: memory({ summary: [], learnings: [], results: [], outputs: [] }) }));
     expect(value.overview).toEqual([]);
-    expect(value.memory?.gallery).toEqual([]);
+    expect(value.memory?.results).toEqual([]);
   });
 
   it("cuenta caracteres Unicode (no unidades UTF-16): 2.000 emojis caben en un párrafo", () => {
@@ -393,48 +392,70 @@ describe("validateEventPage: URL", () => {
   });
 });
 
-describe("validateEventPage: galería (derechos, alt y host de C3)", () => {
-  const gallery = (image: Record<string, unknown>) => page({ memory: memory({ gallery: [image] }) });
+describe("validateEventPage: galería de la ficha (derechos, alt y host libre)", () => {
+  const gallery = (image: Record<string, unknown>) => page({ gallery: [image] });
   const good = { url: "https://media.c3.com.sv/foto.webp", alt: "Equipo en la final", rightsConfirmed: true };
 
-  it("acepta una imagen de host C3 con alt y derechos", () => {
+  it("acepta una imagen con alt y derechos", () => {
     const value = ok(gallery({ ...good, caption: "Final" }));
-    expect(value.memory?.gallery[0]).toEqual({ ...good, caption: "Final" });
+    expect(value.gallery?.[0]).toEqual({ ...good, caption: "Final" });
+  });
+
+  it("acepta imágenes de cualquier host https (servicios externos, no solo C3)", () => {
+    for (const url of [
+      "https://ik.imagekit.io/c3content/foto.jpg",
+      "https://res.cloudinary.com/demo/foto.jpg",
+      "https://evil.example/x.png",
+      "https://c3.com.sv.evil.example/x.png",
+    ]) {
+      expect(ok(gallery({ ...good, url })).gallery?.[0].url).toBe(url);
+    }
   });
 
   it("rechaza imagen sin alt o con alt en blanco", () => {
-    expect(errors(gallery({ ...good, alt: "   " }))["memory.gallery.0.alt"]).toBeTruthy();
-    expect(errors(gallery({ ...good, alt: undefined }))["memory.gallery.0.alt"]).toBeTruthy();
+    expect(errors(gallery({ ...good, alt: "   " }))["gallery.0.alt"]).toBeTruthy();
+    expect(errors(gallery({ ...good, alt: undefined }))["gallery.0.alt"]).toBeTruthy();
   });
 
   it("rechaza imagen sin confirmación de derechos (ausente, false o texto)", () => {
     for (const value of [undefined, false, "true", 1, null]) {
-      expect(errors(gallery({ ...good, rightsConfirmed: value }))["memory.gallery.0.rightsConfirmed"]).toBeTruthy();
+      expect(errors(gallery({ ...good, rightsConfirmed: value }))["gallery.0.rightsConfirmed"]).toBeTruthy();
     }
   });
 
   it("una fila de galería vacía con rightsConfirmed:false se descarta, no es error", () => {
     const blank = { url: "", alt: "  ", caption: "", rightsConfirmed: false };
-    const value = ok(page({ memory: memory({ gallery: [blank, good] }) }));
-    expect(value.memory?.gallery).toEqual([good]);
-    expect(ok(page({ memory: memory({ gallery: [blank] }) })).memory?.gallery).toEqual([]);
+    const value = ok(page({ gallery: [blank, good] }));
+    expect(value.gallery).toEqual([good]);
+    expect(ok(page({ gallery: [blank] })).gallery).toBeUndefined();
     // Con cualquier otro campo lleno deja de ser una fila vacía y se exige confirmar derechos.
-    expect(errors(gallery({ ...blank, alt: "Equipo" }))["memory.gallery.0.rightsConfirmed"]).toBeTruthy();
-    expect(errors(gallery({ ...blank, url: good.url }))["memory.gallery.0.rightsConfirmed"]).toBeTruthy();
+    expect(errors(gallery({ ...blank, alt: "Equipo" }))["gallery.0.rightsConfirmed"]).toBeTruthy();
+    expect(errors(gallery({ ...blank, url: good.url }))["gallery.0.rightsConfirmed"]).toBeTruthy();
   });
 
-  it("rechaza host ajeno, http y credenciales (sin hosts nuevos)", () => {
-    expect(errors(gallery({ ...good, url: "https://evil.example/x.png" }))["memory.gallery.0.url"]).toBeTruthy();
-    expect(errors(gallery({ ...good, url: "http://c3.com.sv/x.png" }))["memory.gallery.0.url"]).toBeTruthy();
-    expect(errors(gallery({ ...good, url: "https://u:p@c3.com.sv/x.png" }))["memory.gallery.0.url"]).toBeTruthy();
-    expect(errors(gallery({ ...good, url: "/imagenes/x.png" }))["memory.gallery.0.url"]).toBeTruthy();
-    expect(errors(gallery({ ...good, url: "https://c3.com.sv.evil.example/x.png" }))["memory.gallery.0.url"]).toBeTruthy();
+  it("rechaza http, credenciales, rutas relativas y esquemas que no son https", () => {
+    for (const url of [
+      "http://c3.com.sv/x.png",
+      "https://u:p@evil.example/x.png",
+      "/imagenes/x.png",
+      "javascript:alert(1)",
+      "data:image/png;base64,AAAA",
+      "ftp://evil.example/x.png",
+    ]) {
+      expect(errors(gallery({ ...good, url }))["gallery.0.url"]).toBeTruthy();
+    }
   });
 
   it("alt: 160 sí, 161 no; leyenda: 1.000 sí, 1.001 no", () => {
-    expect(ok(gallery({ ...good, alt: text(160) })).memory?.gallery[0].alt).toHaveLength(160);
-    expect(errors(gallery({ ...good, alt: text(161) }))["memory.gallery.0.alt"]).toBeTruthy();
-    expect(errors(gallery({ ...good, caption: text(1001) }))["memory.gallery.0.caption"]).toBeTruthy();
+    expect(ok(gallery({ ...good, alt: text(160) })).gallery?.[0].alt).toHaveLength(160);
+    expect(errors(gallery({ ...good, alt: text(161) }))["gallery.0.alt"]).toBeTruthy();
+    expect(errors(gallery({ ...good, caption: text(1001) }))["gallery.0.caption"]).toBeTruthy();
+  });
+
+  it("la galería ya no vive en la memoria: una memoria con gallery la pasa a la ficha", () => {
+    const value = ok(page({ memory: memory({ gallery: [good] }) }));
+    expect(value.memory).not.toHaveProperty("gallery");
+    expect(value.gallery).toEqual([good]);
   });
 });
 
@@ -466,7 +487,7 @@ describe("validateEventPage: reglas de publicación", () => {
     const value = ok(page({ publication: "published", memory: memory({ publication: "published" }) }), ctx(ended));
     expect(value.memory?.publication).toBe("published");
     expect(value.memory?.results).toEqual([]);
-    expect(value.memory?.gallery).toEqual([]);
+    expect(value.memory).not.toHaveProperty("gallery");
   });
 
   it("publicar la memoria de una edición futura se rechaza", () => {
@@ -622,21 +643,22 @@ describe("projectPublicEventPage", () => {
     expect(JSON.stringify(projected)).not.toContain("Resumen de lo que ocurrió");
   });
 
-  it("la memoria publicada se proyecta y la galería no contiene rightsConfirmed", () => {
+  it("la galería se proyecta sin rightsConfirmed, aunque la edición no haya terminado ni haya memoria", () => {
     const value = ok(
-      page({
-        publication: "published",
-        memory: memory({
-          publication: "published",
-          gallery: [{ url: "https://media.c3.com.sv/foto.webp", alt: "Equipo", caption: "Final", rightsConfirmed: true }],
-        }),
-      }),
-      ctx(ended),
+      page({ publication: "published", gallery: [{ url: "https://ik.imagekit.io/c3content/arte.jpg", alt: "Arte", caption: "Portada", rightsConfirmed: true }] }),
+      ctx(upcoming),
     );
     const projected = projectPublicEventPage(value);
-    expect(projected?.memory?.publication).toBe("published");
-    expect(projected?.memory?.gallery).toEqual([{ url: "https://media.c3.com.sv/foto.webp", alt: "Equipo", caption: "Final" }]);
+    expect(projected).not.toHaveProperty("memory");
+    expect(projected?.gallery).toEqual([{ url: "https://ik.imagekit.io/c3content/arte.jpg", alt: "Arte", caption: "Portada" }]);
     expect(JSON.stringify(projected)).not.toContain("rightsConfirmed");
+  });
+
+  it("la memoria publicada se proyecta sin galería ni rightsConfirmed", () => {
+    const value = ok(page({ publication: "published", memory: memory({ publication: "published" }) }), ctx(ended));
+    const projected = projectPublicEventPage(value);
+    expect(projected?.memory?.publication).toBe("published");
+    expect(projected?.memory).not.toHaveProperty("gallery");
   });
 
   it("la proyección publicada marca publication:\"published\" y no filtra claves desconocidas", () => {
@@ -693,10 +715,20 @@ describe("parseEventPage (lectura tolerante de Firestore)", () => {
 
   it("una memoria inválida se omite pero la ficha sigue", () => {
     const parsed = parseEventPage(
-      page({ publication: "published", memory: memory({ publication: "published", gallery: [{ url: "https://evil.example/x.png", alt: "a", rightsConfirmed: true }] }) }),
+      page({
+        publication: "published",
+        memory: memory({ publication: "published", results: [{ label: "A", value: text(81), context: "c" }] }),
+      }),
     );
     expect(parsed).toBeDefined();
     expect(parsed?.memory).toBeUndefined();
+  });
+
+  it("lee las fotos guardadas dentro de memory (documentos anteriores) y las pasa a la ficha", () => {
+    const good = { url: "https://media.c3.com.sv/foto.webp", alt: "Equipo", rightsConfirmed: true };
+    const parsed = parseEventPage(page({ publication: "published", memory: memory({ publication: "published", gallery: [good] }) }));
+    expect(parsed?.gallery).toEqual([good]);
+    expect(parsed?.memory).not.toHaveProperty("gallery");
   });
 
   it("una memoria publicada con ficha en borrador es inválida y se omite", () => {

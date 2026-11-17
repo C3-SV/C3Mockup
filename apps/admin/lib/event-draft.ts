@@ -17,7 +17,7 @@ import type { EventDraft, EventMemoryDraft, EventPageDraft } from "./admin-types
  */
 
 export function createEmptyMemoryDraft(): EventMemoryDraft {
-  return { publication: "draft", summary: [""], learnings: [], results: [], outputs: [], gallery: [] };
+  return { publication: "draft", summary: [""], learnings: [], results: [], outputs: [] };
 }
 
 export function createEmptyPageDraft(): EventPageDraft {
@@ -31,6 +31,7 @@ export function createEmptyPageDraft(): EventPageDraft {
     location: "",
     participation: { label: "", url: "" },
     resources: [],
+    gallery: [],
   };
 }
 
@@ -50,12 +51,6 @@ function normalizeMemoryDraft(memory: EventMemory): EventMemoryDraft {
       description: output.description,
       url: output.url ?? "",
     })),
-    gallery: memory.gallery.map((image) => ({
-      url: image.url,
-      alt: image.alt,
-      caption: image.caption ?? "",
-      rightsConfirmed: image.rightsConfirmed === true,
-    })),
   };
 }
 
@@ -74,6 +69,12 @@ export function normalizePageDraft(page: EventPage | undefined | null): EventPag
     location: page.location ?? "",
     participation: { label: page.participation?.label ?? "", url: page.participation?.url ?? "" },
     resources: page.resources.map((resource) => ({ title: resource.title, url: resource.url })),
+    gallery: (page.gallery ?? []).map((image) => ({
+      url: image.url,
+      alt: image.alt,
+      caption: image.caption ?? "",
+      rightsConfirmed: image.rightsConfirmed === true,
+    })),
   };
   if (page.memory) {
     draft.memory = normalizeMemoryDraft(page.memory);
@@ -138,12 +139,6 @@ function buildMemoryPayload(memory: EventMemoryDraft): Record<string, unknown> {
       putText(row, "url", output.url);
       return row;
     }),
-    gallery: memory.gallery.map((image) => {
-      const row: Record<string, unknown> = { url: image.url, alt: image.alt };
-      putText(row, "caption", image.caption);
-      row.rightsConfirmed = image.rightsConfirmed;
-      return row;
-    }),
   };
 }
 
@@ -159,6 +154,16 @@ export function buildPagePayload(page: EventPageDraft): Record<string, unknown> 
     overview: [...page.overview],
     resources: page.resources.map((resource) => ({ title: resource.title, url: resource.url })),
   };
+
+  // Sin fotos no hay clave: una ficha sin galería guardada vuelve igual (como requirements y modality).
+  if (page.gallery.length) {
+    payload.gallery = page.gallery.map((image) => {
+      const row: Record<string, unknown> = { url: image.url, alt: image.alt };
+      putText(row, "caption", image.caption);
+      row.rightsConfirmed = image.rightsConfirmed;
+      return row;
+    });
+  }
 
   putText(payload, "audience", page.audience);
   if (page.requirements.length) {
@@ -212,7 +217,7 @@ export function validatePageDraft(draft: EventDraft, now: string = new Date().to
 }
 
 const PAGE_ERROR_PATH =
-  /^(slug|publication|overview(\.\d+)?|audience|requirements(\.\d+)?|modality|location|page|participation(\.(label|url))?|resources(\.\d+(\.(title|url))?)?|memory(\.(publication|summary(\.\d+)?|learnings(\.\d+)?|results(\.\d+(\.(label|value|context|evidenceUrl))?)?|outputs(\.\d+(\.(title|description|url))?)?|gallery(\.\d+(\.(url|alt|caption|rightsConfirmed))?)?))?)$/;
+  /^(slug|publication|overview(\.\d+)?|audience|requirements(\.\d+)?|modality|location|page|participation(\.(label|url))?|resources(\.\d+(\.(title|url))?)?|gallery(\.\d+(\.(url|alt|caption|rightsConfirmed))?)?|memory(\.(publication|summary(\.\d+)?|learnings(\.\d+)?|results(\.\d+(\.(label|value|context|evidenceUrl))?)?|outputs(\.\d+(\.(title|description|url))?)?))?)$/;
 
 /** ¿Hay un control de la ficha para este error? Los que no (p. ej. «id») van al resumen del formulario. */
 export function isPageErrorPath(path: string) {

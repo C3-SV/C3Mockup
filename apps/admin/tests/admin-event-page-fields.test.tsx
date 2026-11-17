@@ -237,7 +237,23 @@ describe("EventPageFields: memoria, resultados y fotos", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Añadir memoria" }));
 
-    expect(lastValue(spy)!.memory).toMatchObject({ publication: "draft", summary: [""], results: [], gallery: [] });
+    expect(lastValue(spy)!.memory).toMatchObject({ publication: "draft", summary: [""], results: [] });
+    expect(lastValue(spy)!.memory).not.toHaveProperty("gallery");
+  });
+
+  it("añadir fotos no exige memoria: la galería vive en la ficha", () => {
+    const page = createEmptyPageDraft();
+    page.slug = "mi-edicion";
+    const spy = vi.fn();
+    render(<Harness initial={page} onChangeSpy={spy} />);
+
+    expect(screen.queryByRole("button", { name: "Añadir memoria" })).toBeInTheDocument();
+    expect(screen.queryByText(/añade primero la memoria/i)).toBeNull();
+
+    fireEvent.click(screen.getByRole("button", { name: "Añadir foto a Fotos" }));
+
+    expect(lastValue(spy)!.memory).toBeUndefined();
+    expect(lastValue(spy)!.gallery).toEqual([{ url: "", alt: "", caption: "", rightsConfirmed: false }]);
   });
 
   it("quitar la memoria guardada pide confirmación y deja memory: null (borrado explícito)", () => {
@@ -282,7 +298,7 @@ describe("EventPageFields: memoria, resultados y fotos", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Añadir foto a Fotos" }));
 
-    const gallery = lastValue(spy)!.memory!.gallery;
+    const gallery = lastValue(spy)!.gallery;
     expect(gallery).toHaveLength(2);
     expect(gallery[1]).toEqual({ url: "", alt: "", caption: "", rightsConfirmed: false });
 
@@ -291,7 +307,7 @@ describe("EventPageFields: memoria, resultados y fotos", () => {
     expect(rights).not.toBeChecked();
 
     fireEvent.click(rights);
-    expect(lastValue(spy)!.memory!.gallery[1].rightsConfirmed).toBe(true);
+    expect(lastValue(spy)!.gallery[1].rightsConfirmed).toBe(true);
   });
 
   it("la galería no ofrece subida de archivos ni editor de HTML", () => {

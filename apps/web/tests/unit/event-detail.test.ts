@@ -140,7 +140,7 @@ describe("getPublicEventBySlug", () => {
           publication: "published",
           overview: ["Texto."],
           resources: [],
-          memory: { publication: "draft", summary: ["Borrador secreto."], learnings: [], results: [], outputs: [], gallery: [] },
+          memory: { publication: "draft", summary: ["Borrador secreto."], learnings: [], results: [], outputs: [] },
         },
       }),
     );
@@ -162,7 +162,7 @@ describe("getPublicEventBySlug", () => {
           publication: "published",
           overview: ["Texto."],
           resources: [],
-          memory: { publication: "published", summary: ["Lo que pasó."], learnings: [], results: [], outputs: [], gallery: [] },
+          memory: { publication: "published", summary: ["Lo que pasó."], learnings: [], results: [], outputs: [] },
         },
       }),
     );

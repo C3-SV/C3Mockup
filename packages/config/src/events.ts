@@ -168,9 +168,8 @@ export function normalizeFirebasePrivateKey(value: string): string {
   return value.replace(/\\n/g, "\n");
 }
 
-// Portadas solo desde hosts de C3, por https, con texto alternativo (ADR-0005 y DS §10).
-const C3_HOST = /(^|\.)c3\.com\.sv$/;
-
+// Portadas e imágenes: https absoluto de cualquier host, sin credenciales, con texto alternativo (ADR-0017;
+// antes solo hosts de C3, ADR-0005).
 export function normalizeEventCover(input: unknown): EventCover | undefined {
   if (!input || typeof input !== "object") {
     return undefined;
@@ -188,7 +187,7 @@ export function normalizeEventCover(input: unknown): EventCover | undefined {
     return undefined;
   }
 
-  if (parsed.protocol !== "https:" || !C3_HOST.test(parsed.hostname)) {
+  if (parsed.protocol !== "https:" || !parsed.hostname || parsed.username || parsed.password) {
     return undefined;
   }
 

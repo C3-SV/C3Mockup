@@ -112,6 +112,7 @@ function publishedPage(slug: string, memory: Doc | undefined): Doc {
     modality: "presencial",
     location: "Sede de prueba",
     resources: [{ title: "Bases de prueba", url: "/bases" }],
+    gallery: publishedGallery,
     ...(memory ? { memory } : {}),
   };
 }
@@ -124,10 +125,11 @@ const publishedMemory: Doc = {
     { label: "Equipos", value: "12", context: "Contexto de prueba del resultado.", evidenceUrl: "https://c3.com.sv/evidencia" },
   ],
   outputs: [{ title: "Proyecto de prueba", description: "Descripción de prueba del proyecto.", url: "https://c3.com.sv/proyecto" }],
-  gallery: [
-    { url: "https://c3.com.sv/img/e2e.png", alt: "Imagen de prueba de la galería", caption: "Pie de prueba", rightsConfirmed: true },
-  ],
 };
+
+const publishedGallery: Doc[] = [
+  { url: "https://c3.com.sv/img/e2e.png", alt: "Imagen de prueba de la galería", caption: "Pie de prueba", rightsConfirmed: true },
+];
 
 /** Siembra el emulador. Idempotente: los dos proyectos de Playwright la ejecutan y escriben lo mismo. */
 async function seedEmulator() {
