@@ -60,7 +60,7 @@ export default async function EventosPage() {
 
       <section className="c3-featured">
         <div className="c3-frame">
-          <EventsCatalog initialEvents={events.map(toCatalogEvent)} />
+          <EventsCatalog initialEvents={events.map(toCatalogEvent)} now={new Date().toISOString()} />
         </div>
       </section>
     </PageShell>

@@ -1,9 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { lineVisuals } from "@/lib/content";
-import type { CatalogCardData } from "@/lib/ds/event-card";
+import { coverOrBrand, isBrandCover, type CatalogCardData } from "@/lib/ds/event-card";
 import { StatePill } from "@/components/ui/StatePill";
-import { KindIcon } from "@/components/ds/KindIcon";
 
 /**
  * Tarjeta de experiencia (DS §7.9). Muestra solo el contenido del evento: línea, estado, título,
@@ -19,18 +18,19 @@ export function CatalogCard({ card }: { card: CatalogCardData }) {
   return (
     <article className={`c3-exp c3-exp--${card.line}`}>
       <div className="c3-exp__media">
-        {card.cover ? (
-          <Image
-            src={card.cover.url}
-            alt={card.cover.alt}
-            fill
-            sizes="(min-width: 900px) 33vw, 100vw"
-            unoptimized
-            className="c3-exp__cover"
-          />
-        ) : (
-          <KindIcon kind={card.kind} className="c3-exp__icon" />
-        )}
+        {(() => {
+          const cover = coverOrBrand(card.cover);
+          return (
+            <Image
+              src={cover.url}
+              alt={cover.alt}
+              fill
+              sizes="(min-width: 900px) 33vw, 100vw"
+              unoptimized
+              className={isBrandCover(cover) ? "c3-exp__cover c3-exp__cover--brand" : "c3-exp__cover"}
+            />
+          );
+        })()}
       </div>
 
       <div className="c3-exp__body">

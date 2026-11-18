@@ -4,8 +4,8 @@ import { cert, getApp, getApps, initializeApp, type App, type ServiceAccount } f
 import { getAuth } from "firebase-admin/auth";
 import { getFirestore, type Firestore } from "firebase-admin/firestore";
 import {
-  compareEventsBySchedule,
   defaultEvents,
+  scheduleComparator,
   normalizeFirebasePrivateKey,
   type AdminEventRecord,
 } from "@c3/config";
@@ -126,7 +126,7 @@ export function parseAdminEventDoc(id: string, data: Record<string, unknown>): A
 function bundledAdminEvents(now: string): AdminEventRecord[] {
   return defaultEvents
     .map((event) => ({ ...event, page: undefined, createdAt: now, updatedAt: now }))
-    .sort(compareEventsBySchedule);
+    .sort(scheduleComparator(new Date(now)));
 }
 
 export async function listAdminEvents() {

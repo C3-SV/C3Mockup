@@ -1,9 +1,10 @@
 import type { MetadataRoute } from "next";
 import { publicRoutes } from "@/lib/content";
 import { getPublishedEventPages } from "@/lib/event-detail";
-import { FirebaseNotConfiguredError, getPublicEvents } from "@/lib/events";
+import { FirebaseNotConfiguredError } from "@/lib/events";
+import { absoluteUrl } from "@/lib/metadata";
 import { siteConfig } from "@/lib/site";
-import { getLatestEventLastModified, type EventItem } from "@c3/config";
+import type { EventItem } from "@c3/config";
 
 export const dynamic = "force-dynamic";
 
@@ -71,21 +72,18 @@ async function readEventPageEntries(): Promise<MetadataRoute.Sitemap> {
   });
 }
 
+/**
+ * Rutas generales sin lastmod: su contenido no cambia al editar una sola edición (H5, auditoría 2026-11-17).
+ * Solo las fichas de evento llevan su fecha real.
+ */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const events = await getPublicEvents();
-  const lastModified = getLatestEventLastModified(events) ?? new Date();
-
   const routes = publicRoutes.map((path) => {
     const entry: MetadataRoute.Sitemap[number] = {
-      url: `${siteConfig.domain}${path}`,
+      url: absoluteUrl(path),
       changeFrequency: eventAwareRoutes.has(path) ? "weekly" : "monthly",
       priority: routePriority[path],
       images: [`${siteConfig.domain}${siteConfig.defaultOgImage}`],
     };
-
-    if (eventAwareRoutes.has(path)) {
-      entry.lastModified = lastModified;
-    }
 
     return entry;
   });

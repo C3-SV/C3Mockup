@@ -1,4 +1,5 @@
 import {
+  normalizeEventCover,
   validateEventPage,
   type AdminEventRecord,
   type EventMemory,
@@ -6,7 +7,129 @@ import {
   type EventPageErrors,
   type LineKey,
 } from "@c3/config";
-import type { EventDraft, EventMemoryDraft, EventPageDraft } from "./admin-types";
+import type { EventDraft, EventLogisticsDraft, EventMemoryDraft, EventPageDraft } from "./admin-types";
+
+export function createEmptyDraft(): EventDraft {
+  return normalizeDraft(null);
+}
+
+/**
+ * Errores de la portada por enlace. La URL pasa por la misma regla que el servidor (https completo, sin credenciales);
+ * con URL, el texto alternativo es obligatorio. Sin URL no hay portada y no hay errores.
+ */
+export function coverDraftErrors(draft: Pick<EventDraft, "coverUrl" | "coverAlt">): {
+  coverUrl?: string;
+  coverAlt?: string;
+} {
+  const url = draft.coverUrl.trim();
+  const alt = draft.coverAlt.trim();
+  const errors: { coverUrl?: string; coverAlt?: string } = {};
+  if (!url) {
+    // Texto alternativo sin enlace: no hay portada que describir; se avisa en vez de descartarlo en silencio.
+    if (alt) {
+      errors.coverUrl = "Escribe el enlace de la portada o borra el texto alternativo.";
+    }
+    return errors;
+  }
+  // normalizeEventCover exige alt; se usa un texto de prueba para comprobar solo la URL.
+  if (!normalizeEventCover({ url, alt: alt || "prueba" })) {
+    errors.coverUrl = "Usa un enlace https completo, sin credenciales.";
+  }
+  if (!alt) {
+    errors.coverAlt = "Escribe el texto alternativo de la portada.";
+  }
+  return errors;
+}
+
+function createEmptyLogistics(): EventLogisticsDraft {
+  return {
+    venue: "",
+    street: "",
+    locality: "",
+    region: "",
+    country: "",
+    startTime: "",
+    endTime: "",
+    organizerName: "",
+    organizerUrl: "",
+    speakers: "",
+    offerPrice: "",
+    offerUrl: "",
+    registrationOpensOn: "",
+    agendaStatus: "",
+  };
+}
+
+function normalizeLogistics(page: EventPage): EventLogisticsDraft {
+  return {
+    venue: page.address?.venue ?? "",
+    street: page.address?.street ?? "",
+    locality: page.address?.locality ?? "",
+    region: page.address?.region ?? "",
+    country: page.address?.country ?? "",
+    startTime: page.schedule?.startTime ?? "",
+    endTime: page.schedule?.endTime ?? "",
+    organizerName: page.organizer?.name ?? "",
+    organizerUrl: page.organizer?.url ?? "",
+    speakers: (page.speakers ?? []).join("\n"),
+    offerPrice: page.offer ? String(page.offer.price) : "",
+    offerUrl: page.offer?.url ?? "",
+    registrationOpensOn: page.registrationOpensOn ?? "",
+    agendaStatus: page.agendaStatus ?? "",
+  };
+}
+
+/** Añade al payload solo los grupos con algún dato; un grupo a medias se envía para que el servidor lo señale. */
+function putLogistics(payload: Record<string, unknown>, logistics: EventLogisticsDraft) {
+  const address: Record<string, unknown> = {};
+  putText(address, "venue", logistics.venue);
+  putText(address, "street", logistics.street);
+  putText(address, "locality", logistics.locality);
+  putText(address, "region", logistics.region);
+  // El país solo no es una dirección: sin ningún otro dato, no se envía (así se puede vaciar la dirección guardada).
+  putText(address, "country", logistics.country);
+  if (["venue", "street", "locality", "region"].some((key) => key in address)) {
+    payload.address = address;
+  }
+
+  const schedule: Record<string, unknown> = {};
+  putText(schedule, "startTime", logistics.startTime);
+  putText(schedule, "endTime", logistics.endTime);
+  if (Object.keys(schedule).length) {
+    payload.schedule = schedule;
+  }
+
+  const organizer: Record<string, unknown> = {};
+  putText(organizer, "name", logistics.organizerName);
+  putText(organizer, "url", logistics.organizerUrl);
+  if (Object.keys(organizer).length) {
+    payload.organizer = organizer;
+  }
+
+  const speakers = logistics.speakers
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+  if (speakers.length) {
+    payload.speakers = speakers;
+  }
+
+  if (!isBlank(logistics.offerPrice) || !isBlank(logistics.offerUrl)) {
+    const priceText = logistics.offerPrice.trim();
+    const numeric = Number(priceText);
+    const offer: Record<string, unknown> = {
+      price: priceText === "" || Number.isNaN(numeric) ? priceText : numeric,
+      currency: "USD",
+    };
+    putText(offer, "url", logistics.offerUrl);
+    payload.offer = offer;
+  }
+
+  putText(payload, "registrationOpensOn", logistics.registrationOpensOn);
+  if (logistics.agendaStatus) {
+    payload.agendaStatus = logistics.agendaStatus;
+  }
+}
 
 /**
  * Normalización del borrador del formulario (plan eventos-memorias, T3).
@@ -29,6 +152,7 @@ export function createEmptyPageDraft(): EventPageDraft {
     requirements: [],
     modality: "",
     location: "",
+    logistics: createEmptyLogistics(),
     participation: { label: "", url: "" },
     resources: [],
     gallery: [],
@@ -67,6 +191,7 @@ export function normalizePageDraft(page: EventPage | undefined | null): EventPag
     requirements: [...(page.requirements ?? [])],
     modality: page.modality ?? "",
     location: page.location ?? "",
+    logistics: normalizeLogistics(page),
     participation: { label: page.participation?.label ?? "", url: page.participation?.url ?? "" },
     resources: page.resources.map((resource) => ({ title: resource.title, url: resource.url })),
     gallery: (page.gallery ?? []).map((image) => ({
@@ -98,13 +223,12 @@ export function normalizeDraft(event?: AdminEventRecord | null): EventDraft {
     status: event?.status ?? "Próximamente",
     kind: event?.kind ?? "",
     lines: event?.lines?.length ? ([...event.lines] as LineKey[]) : ["compite"],
+    coverUrl: event?.cover?.url ?? "",
+    coverAlt: event?.cover?.alt ?? "",
     createdAt: event?.createdAt,
     updatedAt: event?.updatedAt,
   };
 
-  if (event?.cover) {
-    draft.cover = event.cover;
-  }
   if (event?.source) {
     draft.source = event.source;
   }
@@ -173,6 +297,7 @@ export function buildPagePayload(page: EventPageDraft): Record<string, unknown> 
     payload.modality = page.modality;
   }
   putText(payload, "location", page.location);
+  putLogistics(payload, page.logistics);
   if (!isBlank(page.participation.label) || !isBlank(page.participation.url)) {
     payload.participation = { label: page.participation.label, url: page.participation.url };
   }
@@ -191,8 +316,15 @@ export function buildPagePayload(page: EventPageDraft): Record<string, unknown> 
  * guardada); con ficha se envía completa. Nunca se envía `page: null` (el servidor lo rechaza).
  */
 export function buildEventPayload(draft: EventDraft): Record<string, unknown> {
-  const { page, ...rest } = draft;
-  return page ? { ...rest, page: buildPagePayload(page) } : { ...rest };
+  const { page, coverUrl, coverAlt, ...rest } = draft;
+  const payload: Record<string, unknown> = { ...rest };
+  // Sin enlace se envía `cover: null`: el servidor fusiona con el registro guardado, así que omitirla conservaría la
+  // portada anterior y no se podría borrar.
+  payload.cover = coverUrl.trim() ? { url: coverUrl.trim(), alt: coverAlt.trim() } : null;
+  if (page) {
+    payload.page = buildPagePayload(page);
+  }
+  return payload;
 }
 
 /**
@@ -217,7 +349,7 @@ export function validatePageDraft(draft: EventDraft, now: string = new Date().to
 }
 
 const PAGE_ERROR_PATH =
-  /^(slug|publication|overview(\.\d+)?|audience|requirements(\.\d+)?|modality|location|page|participation(\.(label|url))?|resources(\.\d+(\.(title|url))?)?|gallery(\.\d+(\.(url|alt|caption|rightsConfirmed))?)?|memory(\.(publication|summary(\.\d+)?|learnings(\.\d+)?|results(\.\d+(\.(label|value|context|evidenceUrl))?)?|outputs(\.\d+(\.(title|description|url))?)?))?)$/;
+  /^(slug|publication|overview(\.\d+)?|audience|requirements(\.\d+)?|modality|location|address(\.(venue|street|locality|region|country))?|schedule(\.(startTime|endTime))?|organizer(\.(name|url))?|speakers(\.\d+)?|offer(\.(price|currency|url))?|registrationOpensOn|agendaStatus|page|participation(\.(label|url))?|resources(\.\d+(\.(title|url))?)?|gallery(\.\d+(\.(url|alt|caption|rightsConfirmed))?)?|memory(\.(publication|summary(\.\d+)?|learnings(\.\d+)?|results(\.\d+(\.(label|value|context|evidenceUrl))?)?|outputs(\.\d+(\.(title|description|url))?)?))?)$/;
 
 /** ¿Hay un control de la ficha para este error? Los que no (p. ej. «id») van al resumen del formulario. */
 export function isPageErrorPath(path: string) {
