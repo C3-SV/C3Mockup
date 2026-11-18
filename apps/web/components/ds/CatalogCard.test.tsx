@@ -6,11 +6,11 @@ import { CatalogCard } from "./CatalogCard";
 
 describe("CatalogCard (tarjeta de experiencia, DS §7.9)", () => {
   it("muestra titulo, resumen, linea, pastilla de estado y fecha", () => {
-    render(<CatalogCard card={toCatalogCard(defaultEvents[0], new Date("2026-06-01T12:00:00Z"))} />);
+    render(<CatalogCard card={toCatalogCard(defaultEvents[0], new Date("2026-11-17T12:00:00Z"))} />);
     expect(screen.getByRole("heading", { level: 3, name: "Copa Salvadoreña de Programación" })).toBeInTheDocument();
     expect(screen.getByText("La iniciativa principal de C3 para impulsar programación competitiva, pensamiento algorítmico y excelencia técnica en estudiantes de El Salvador.")).toBeInTheDocument();
     expect(screen.getByText("Compite")).toBeInTheDocument();
-    expect(screen.getByText("Inscripciones abiertas")).toHaveClass("c3-pill", "c3-pill--exito");
+    expect(screen.getByText("Histórico")).toHaveClass("c3-pill", "c3-pill--neutro");
     expect(screen.getByText(/2026/)).toBeInTheDocument();
   });
 
@@ -32,12 +32,11 @@ describe("CatalogCard (tarjeta de experiencia, DS §7.9)", () => {
     expect(screen.getByText("Conecta")).toBeInTheDocument();
   });
 
-  it("sin portada muestra el ícono del tipo, oculto para lectores de pantalla", () => {
+  it("sin portada muestra el logo de C3 como imagen base, completo (contain)", () => {
     const { container } = render(<CatalogCard card={toCatalogCard(defaultEvents[0])} />);
-    expect(container.querySelector("img")).toBeNull();
-    const icon = container.querySelector(".c3-exp__media svg");
-    expect(icon).not.toBeNull();
-    expect(icon).toHaveAttribute("aria-hidden", "true");
+    const img = container.querySelector(".c3-exp__media img");
+    expect(img).toHaveAttribute("src", "/brand/logo-c3-fondo-azul.png");
+    expect(img).toHaveClass("c3-exp__cover--brand");
   });
 
   it("con portada muestra la imagen con su texto alternativo", () => {

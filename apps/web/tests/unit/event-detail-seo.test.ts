@@ -71,17 +71,24 @@ describe("metadata de la ficha", () => {
     expect((metadata.twitter as { images: string[] }).images).toEqual([institutional]);
   });
 
-  it("aunque el evento tenga portada, la imagen es la institucional (no se pueden verificar sus dimensiones)", async () => {
+  it("si el evento tiene portada, esa es la imagen social, con su texto alternativo y sin medidas inventadas", async () => {
     found.event = makeEvent({ cover: { url: "https://cdn.c3.com.sv/copa.jpg", alt: "Podio de la Copa" } });
+
+    const metadata = await route.generateMetadata({ params: Promise.resolve({ slug: SLUG }) });
+    const og = metadata.openGraph as { images: Array<Record<string, unknown>> };
+
+    expect(og.images).toEqual([{ url: "https://cdn.c3.com.sv/copa.jpg", alt: "Podio de la Copa" }]);
+    expect((metadata.twitter as { images: string[] }).images).toEqual(["https://cdn.c3.com.sv/copa.jpg"]);
+  });
+
+  it("sin portada, la imagen es la institucional con sus medidas", async () => {
+    found.event = makeEvent({ cover: undefined });
 
     const metadata = await route.generateMetadata({ params: Promise.resolve({ slug: SLUG }) });
     const og = metadata.openGraph as { images: Array<Record<string, unknown>> };
     const institutional = `${siteConfig.domain}${siteConfig.defaultOgImage}`;
 
-    expect(og.images).toHaveLength(1);
     expect(og.images[0]).toMatchObject({ url: institutional, ...siteConfig.defaultOgImageSize });
-    expect((metadata.twitter as { images: string[] }).images).toEqual([institutional]);
-    expect(JSON.stringify(metadata)).not.toContain("copa.jpg");
   });
 
   it("createPageMetadata sin opción de imagen se comporta como siempre", () => {

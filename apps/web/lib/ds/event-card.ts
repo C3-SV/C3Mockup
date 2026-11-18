@@ -1,6 +1,25 @@
 import { formatEventSchedule, getEventPageHref, type EventCover, type EventItem, type EventStatus, type ExperienceKind, type LineKey } from "@c3/config";
 import { pillStatusFor, toPillState, type PillState } from "@/lib/ds/event-state";
 
+/**
+ * Imagen base de C3 para las ediciones sin portada: el logo completo sobre fondo navy (el mismo que la organización
+ * en JSON-LD). Va como portada de la tarjeta, del destacado y de la ficha.
+ */
+export const BRAND_COVER: EventCover = {
+  url: "/brand/logo-c3-fondo-azul.png",
+  alt: "Logo de C3 Competitive Coding Club",
+};
+
+/** Portada del evento, o la imagen base de C3 si no tiene. */
+export function coverOrBrand(cover?: EventCover): EventCover {
+  return cover ?? BRAND_COVER;
+}
+
+/** ¿Es la imagen base de C3? Sirve para mostrarla completa (contain) en vez de recortarla. */
+export function isBrandCover(cover: EventCover): boolean {
+  return cover.url === BRAND_COVER.url;
+}
+
 /** Datos de una tarjeta de experiencia (DS §7.9). Solo texto y enlaces del evento; sin DEMO. */
 export type CatalogCardData = {
   id: string;
@@ -93,7 +112,7 @@ export function toCatalogCard(event: EventItem, now: Date = new Date()): Catalog
     action: link.action,
     href: link.href,
     external: link.external,
-    cover: event.cover,
+    cover: coverOrBrand(event.cover),
     status: event.status,
     eventDate: event.eventDate,
     eventDateEnd: event.eventDateEnd,

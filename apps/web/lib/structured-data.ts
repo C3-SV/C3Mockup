@@ -159,7 +159,8 @@ export function getEventItemListEntry(event: EventItem) {
   return {
     name: event.title,
     description: event.description,
-    url: external ? href : `${siteConfig.domain}${href}`,
+    // Un enlace ya absoluto (https) se usa tal cual; solo las rutas internas llevan dominio.
+    url: external || /^https?:\/\//.test(href) ? href : `${siteConfig.domain}${href}`,
   };
 }
 

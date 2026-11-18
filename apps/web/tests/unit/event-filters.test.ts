@@ -33,17 +33,17 @@ describe("filterEvents (Tarea 6.1)", () => {
     expect(ids(filterEvents(cards, { area: "conecta", estado: "todos" }, NOW))).toEqual([ICPC, HACK_LATAM]);
   });
 
-  it("estado concluidos devuelve Hack@Latam (histórico, 15-may-2026) y el Duelo (12-sep-2025)", () => {
-    expect(ids(filterEvents(cards, { area: "todas", estado: "concluidos" }, NOW))).toEqual([HACK_LATAM, DUELO]);
+  it("estado concluidos devuelve la Copa 2026 (histórica), Hack@Latam y el Duelo", () => {
+    expect(ids(filterEvents(cards, { area: "todas", estado: "concluidos" }, NOW))).toEqual([COPA, HACK_LATAM, DUELO]);
   });
 
   it("estado próximos devuelve los eventos que todavía no terminan", () => {
-    expect(ids(filterEvents(cards, { area: "todas", estado: "proximos" }, NOW))).toEqual([COPA, HACKATHON, ICPC]);
+    expect(ids(filterEvents(cards, { area: "todas", estado: "proximos" }, NOW))).toEqual([HACKATHON, ICPC]);
   });
 
   it("combina área y estado", () => {
     expect(ids(filterEvents(cards, { area: "crea", estado: "proximos" }, NOW))).toEqual([HACKATHON]);
-    expect(ids(filterEvents(cards, { area: "compite", estado: "concluidos" }, NOW))).toEqual([DUELO]);
+    expect(ids(filterEvents(cards, { area: "compite", estado: "concluidos" }, NOW))).toEqual([COPA, DUELO]);
   });
 
   it("una combinación sin resultados devuelve []", () => {
@@ -56,8 +56,8 @@ describe("filterEvents (Tarea 6.1)", () => {
   });
 
   it("una fecha inválida cuenta como próximo", () => {
-    const card = toCatalogCard({ ...defaultEvents[0], eventDate: "no-es-fecha" });
-    expect(ids(filterEvents([card], { area: "todas", estado: "proximos" }, NOW))).toEqual([COPA]);
+    const card = toCatalogCard({ ...defaultEvents[1], eventDate: "no-es-fecha" });
+    expect(ids(filterEvents([card], { area: "todas", estado: "proximos" }, NOW))).toEqual([HACKATHON]);
     expect(filterEvents([card], { area: "todas", estado: "concluidos" }, NOW)).toEqual([]);
   });
 

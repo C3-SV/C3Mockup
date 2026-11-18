@@ -44,7 +44,8 @@ describe("manifest", () => {
 describe("sitemap", () => {
   it("incluye las rutas públicas del sitio", async () => {
     const entradas = await sitemap();
-    expect(entradas.map((e) => e.url)).toEqual(publicRoutes.map((p) => `${siteConfig.domain}${p}`));
+    // La raíz sin barra final, igual que el canonical (absoluteUrl en lib/metadata.ts).
+    expect(entradas.map((e) => e.url)).toEqual(publicRoutes.map((p) => (p === "/" ? siteConfig.domain : `${siteConfig.domain}${p}`)));
   });
 });
 

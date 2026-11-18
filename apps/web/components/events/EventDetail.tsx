@@ -13,7 +13,8 @@ import {
 import { Button } from "@/components/ui/Button";
 import { StatePill } from "@/components/ui/StatePill";
 import { lineVisuals } from "@/lib/content";
-import { toPillState } from "@/lib/ds/event-state";
+import { coverOrBrand, isBrandCover } from "@/lib/ds/event-card";
+import { pillStatusFor, toPillState } from "@/lib/ds/event-state";
 
 /**
  * Ficha pública de una edición (spec 2026-11-13, §6–§7). Recibe solo la proyección pública: nada de borradores ni
@@ -187,7 +188,9 @@ export function EventDetail({ event, now }: { event: EventItem; now: Date }) {
   // La fase sale del helper de la ficha (día local de El Salvador, el mismo que decide la participación): la
   // pastilla dice «Histórico» solo si la edición terminó; si no, conserva el estado del evento (R23).
   const phase = getEventPagePhase(event, now);
-  const state = toPillState(phase === "ended" ? "Histórico" : event.status);
+  // Misma pastilla que el catálogo (pillStatusFor): un evento que la regla única ya marca como terminado no dice
+  // «Inscripciones abiertas» aquí, aunque la ficha no pueda afirmar el fin sin fecha final.
+  const state = toPillState(phase === "ended" ? "Histórico" : pillStatusFor(event, now));
 
   // Participar solo con inscripciones abiertas y una edición que sabemos que no terminó (spec §6; R20).
   const canParticipate =
@@ -249,13 +252,20 @@ export function EventDetail({ event, now }: { event: EventItem; now: Date }) {
           ) : null}
         </header>
 
-        {event.cover ? (
-          <figure className="c3-event__cover">
-            <div className="c3-event__media">
-              <Image src={event.cover.url} alt={event.cover.alt} fill sizes="(min-width: 1180px) 1100px, 100vw" unoptimized preload />
-            </div>
-          </figure>
-        ) : null}
+        {/* Sin portada, la imagen base de C3 (logo): la ficha nunca queda sin imagen. */}
+        <figure className="c3-event__cover">
+          <div className="c3-event__media">
+            <Image
+              src={coverOrBrand(event.cover).url}
+              alt={coverOrBrand(event.cover).alt}
+              fill
+              sizes="(min-width: 1180px) 1100px, 100vw"
+              unoptimized
+              preload
+              className={isBrandCover(coverOrBrand(event.cover)) ? "c3-event__cover--brand" : undefined}
+            />
+          </div>
+        </figure>
       </div>
 
       <div className="c3-frame c3-event__body">
