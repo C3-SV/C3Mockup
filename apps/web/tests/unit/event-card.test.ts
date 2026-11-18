@@ -54,10 +54,10 @@ describe("toCatalogCard", () => {
     expect(card.state).toEqual({ label: "Algo nuevo", tone: "neutro" });
   });
 
-  it("pasa el tipo de experiencia; sin portada usa el logo de C3", () => {
+  it("pasa el tipo de experiencia y la portada solo si existen", () => {
     const plain = toCatalogCard({ ...defaultEvents[0], kind: undefined, cover: undefined });
     expect(plain.kind).toBeUndefined();
-    expect(plain.cover).toEqual({ url: "/brand/logo-c3-fondo-azul.png", alt: "Logo de C3 Competitive Coding Club" });
+    expect(plain.cover).toBeUndefined();
 
     const withCover = toCatalogCard({
       ...defaultEvents[0],
