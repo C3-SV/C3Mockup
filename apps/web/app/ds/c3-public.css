@@ -1233,9 +1233,6 @@ textarea.c3-campo {
 /* Cover by link: next/image fills the media box; the DEMO badge moves to the corner so it never sits on a face. */
 .c3-exp__cover { object-fit: cover; object-position: center 20%; }
 
-/* Sin portada: el logo de C3 completo sobre su fondo navy, sin recortar. */
-.c3-exp__cover--brand { object-fit: contain; object-position: center; background: var(--c3-navy); }
-
 .c3-exp--compite .c3-exp__media { background: var(--c3-compite-tint); color: var(--c3-compite); }
 .c3-exp--crea .c3-exp__media { background: var(--c3-crea-tint); color: var(--c3-crea-texto); }
 .c3-exp--conecta .c3-exp__media { background: var(--c3-conecta-tint); color: var(--c3-conecta); }

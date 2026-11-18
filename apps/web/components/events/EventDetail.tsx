@@ -13,7 +13,6 @@ import {
 import { Button } from "@/components/ui/Button";
 import { StatePill } from "@/components/ui/StatePill";
 import { lineVisuals } from "@/lib/content";
-import { coverOrBrand, isBrandCover } from "@/lib/ds/event-card";
 import { pillStatusFor, toPillState } from "@/lib/ds/event-state";
 
 /**
@@ -252,20 +251,13 @@ export function EventDetail({ event, now }: { event: EventItem; now: Date }) {
           ) : null}
         </header>
 
-        {/* Sin portada, la imagen base de C3 (logo): la ficha nunca queda sin imagen. */}
-        <figure className="c3-event__cover">
-          <div className="c3-event__media">
-            <Image
-              src={coverOrBrand(event.cover).url}
-              alt={coverOrBrand(event.cover).alt}
-              fill
-              sizes="(min-width: 1180px) 1100px, 100vw"
-              unoptimized
-              preload
-              className={isBrandCover(coverOrBrand(event.cover)) ? "c3-event__cover--brand" : undefined}
-            />
-          </div>
-        </figure>
+        {event.cover ? (
+          <figure className="c3-event__cover">
+            <div className="c3-event__media">
+              <Image src={event.cover.url} alt={event.cover.alt} fill sizes="(min-width: 1180px) 1100px, 100vw" unoptimized preload />
+            </div>
+          </figure>
+        ) : null}
       </div>
 
       <div className="c3-frame c3-event__body">
