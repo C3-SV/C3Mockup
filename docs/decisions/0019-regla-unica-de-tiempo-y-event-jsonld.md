@@ -1,6 +1,6 @@
 # 0019 · Regla única de tiempo de los eventos, canonical sin barra y Event JSON-LD verificado
 
-- **Fecha:** 2026-11-17 · **Responsable:** pedido del responsable de C3 · **Estado:** Aceptada en la rama `feat/seo-eventos-2026-11` (pendiente de revisión antes de fusionar)
+- **Fecha:** 2026-11-17 · **Responsable:** pedido del responsable de C3 · **Estado:** Aceptada. Cambios del admin aprobados por el responsable el 2026-11-17 (ADR-0014). Rama `feat/seo-eventos-2026-11`, PR #28 abierto contra `dev`
 - **Plan:** [`docs/superpowers/plans/2026-11-17-seo-correcciones-tecnicas.md`](../superpowers/plans/2026-11-17-seo-correcciones-tecnicas.md) · **Auditoría:** `docs/audits/SEO-AUDIT-C3-2026-11-17.md`
 
 ## Contexto
