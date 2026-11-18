@@ -44,6 +44,21 @@ export default function QueEsC3Page() {
         </div>
       </div>
 
+      <section className="c3-frame c3-seccion" aria-label="Foto del equipo">
+        <figure className="c3-foto-equipo">
+          <div className="c3-foto-equipo__marco">
+            <Image
+              src="/que-es-c3/equipo-c3.jpg"
+              alt="Equipo de C3 reunido frente al fondo de la Copa Salvadoreña de Programación, con camisas negras del club."
+              fill
+              priority
+              sizes="(min-width: 1200px) 1100px, 100vw"
+            />
+          </div>
+          <figcaption>El equipo de C3 en la Copa Salvadoreña de Programación.</figcaption>
+        </figure>
+      </section>
+
       <section className="c3-frame c3-seccion">
         <article className="c3-card c3-texto-largo">
           <div className="c3-texto-largo__bloque">
