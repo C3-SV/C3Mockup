@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { FiPlus, FiRefreshCw } from "react-icons/fi";
 import { Button } from "@c3/ui";
-import { compareEventsBySchedule } from "@c3/config";
+import { scheduleComparator } from "@c3/config";
 import { useAdminData } from "./admin-provider";
 import { AdminMain, AdminTopbar } from "./admin-shell";
 import {
@@ -19,7 +19,7 @@ export function AdminEventsPage() {
   const { events, eventsLoading, reloadEvents } = useAdminData();
   const [filters, setFilters] = useState(createDefaultFilters());
 
-  const sortedEvents = [...events].sort(compareEventsBySchedule);
+  const sortedEvents = [...events].sort(scheduleComparator(new Date()));
   const visibleEvents = filterEvents(sortedEvents, filters);
 
   return (

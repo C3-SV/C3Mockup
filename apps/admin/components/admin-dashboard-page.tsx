@@ -4,7 +4,7 @@ import Link from "next/link";
 import type { ComponentType, ReactNode } from "react";
 import { FiArrowRight, FiCalendar, FiCheckCircle, FiClock, FiPlus, FiRefreshCw, FiStar } from "react-icons/fi";
 import { Badge, Button, Card, Table, Td, Th, Tr, cn } from "@c3/ui";
-import { compareEventsBySchedule, lineKeys, type AdminEventRecord, type EventStatus } from "@c3/config";
+import { lineKeys, scheduleComparator, type AdminEventRecord, type EventStatus } from "@c3/config";
 import {
   getDashboardStats,
   getEventScheduleLabel,
@@ -115,11 +115,13 @@ export function AdminDashboardPage() {
   const { events, eventsLoading, reloadEvents } = useAdminData();
   const loading = eventsLoading && !events.length;
 
-  const stats = getDashboardStats(events);
-  const upcomingEvents = getSortedUpcomingEvents(events).slice(0, 5);
+  // Un solo «ahora» por render para estadísticas, próximos y destacados.
+  const now = new Date();
+  const stats = getDashboardStats(events, now);
+  const upcomingEvents = getSortedUpcomingEvents(events, now).slice(0, 5);
   const featuredEvents = [...events]
     .filter((event) => event.featured)
-    .sort(compareEventsBySchedule)
+    .sort(scheduleComparator(now))
     .slice(0, 5);
   const lineCounts = getLineCounts(events);
   const maxLineCount = Math.max(...lineKeys.map((line) => lineCounts[line]), 1);

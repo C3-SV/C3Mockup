@@ -1,8 +1,9 @@
 import {
-  compareEventsBySchedule,
   eventStatuses,
   formatEventSchedule,
+  isEventCurrentOrUpcoming,
   lineKeys,
+  scheduleComparator,
   type EventItem as BaseEventItem,
   type EventStatus,
   type LineKey,
@@ -43,34 +44,17 @@ function parseEventDate(value?: string) {
   return Number.isNaN(parsed.getTime()) ? null : parsed;
 }
 
-function isUpcoming(event: EventItem, now: Date) {
-  if (event.status === "Histórico") {
-    return false;
-  }
-
-  const start = parseEventDate(event.eventDate);
-  const end = parseEventDate(event.eventDateEnd);
-  const reference = end ?? start;
-
-  if (!reference) {
-    return true;
-  }
-
-  return reference.getTime() >= now.getTime();
+/** Vigencia con la regla única de @c3/config (hasta las 24:00 de El Salvador del último día). */
+export function getSortedUpcomingEvents<T extends EventItem>(events: ReadonlyArray<T>, now: Date = new Date()): T[] {
+  return [...events]
+    .filter((event) => isEventCurrentOrUpcoming(event, now))
+    .sort(scheduleComparator<T>(now));
 }
 
-export function getSortedUpcomingEvents<T extends EventItem>(events: ReadonlyArray<T>): T[] {
-  const now = new Date();
-
-  return [...events].filter((event) => isUpcoming(event, now)).sort(compareEventsBySchedule);
-}
-
-export function getDashboardStats(events: ReadonlyArray<EventItem>): AdminStats {
-  const now = new Date();
-
+export function getDashboardStats(events: ReadonlyArray<EventItem>, now: Date = new Date()): AdminStats {
   return {
     total: events.length,
-    upcoming: events.filter((event) => isUpcoming(event, now)).length,
+    upcoming: events.filter((event) => isEventCurrentOrUpcoming(event, now)).length,
     openRegistrations: events.filter((event) => event.status === "Inscripciones abiertas").length,
     featured: events.filter((event) => Boolean(event.featured)).length,
   };
@@ -122,6 +106,7 @@ export function getCompactDateLabel(value?: string) {
     day: "2-digit",
     month: "short",
     year: "numeric",
+    timeZone: "UTC", // fecha civil: sin zona, el día se desplaza en UTC−6
   })
     .format(date)
     .replace(/\./g, "");
