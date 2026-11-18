@@ -32,11 +32,12 @@ describe("CatalogCard (tarjeta de experiencia, DS §7.9)", () => {
     expect(screen.getByText("Conecta")).toBeInTheDocument();
   });
 
-  it("sin portada muestra el logo de C3 como imagen base, completo (contain)", () => {
+  it("sin portada muestra el ícono del tipo, oculto para lectores de pantalla", () => {
     const { container } = render(<CatalogCard card={toCatalogCard(defaultEvents[0])} />);
-    const img = container.querySelector(".c3-exp__media img");
-    expect(img).toHaveAttribute("src", "/brand/logo-c3-fondo-azul.png");
-    expect(img).toHaveClass("c3-exp__cover--brand");
+    expect(container.querySelector("img")).toBeNull();
+    const icon = container.querySelector(".c3-exp__media svg");
+    expect(icon).not.toBeNull();
+    expect(icon).toHaveAttribute("aria-hidden", "true");
   });
 
   it("con portada muestra la imagen con su texto alternativo", () => {

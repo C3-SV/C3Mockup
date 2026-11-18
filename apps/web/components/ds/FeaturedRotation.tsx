@@ -12,9 +12,10 @@ import {
   type PointerEvent,
 } from "react";
 import { experienceKindLabels } from "@c3/config";
+import { KindIcon } from "@/components/ds/KindIcon";
 import { StatePill } from "@/components/ui/StatePill";
 import { lineVisuals } from "@/lib/content";
-import { coverOrBrand, isBrandCover, type CatalogCardData } from "@/lib/ds/event-card";
+import type { CatalogCardData } from "@/lib/ds/event-card";
 import { ROTATION_INTERVAL_MS } from "@/lib/ds/featured-rotation";
 
 /**
@@ -141,20 +142,19 @@ export function FeaturedRotation({ items, intervalMs = ROTATION_INTERVAL_MS }: {
             className={`c3-spotlight__slide c3-exp--${card.line}`}
           >
             <div className="c3-spotlight__media">
-              {(() => {
-                const cover = coverOrBrand(card.cover);
-                return (
-                  <Image
-                    src={cover.url}
-                    alt={cover.alt}
-                    fill
-                    sizes="(min-width: 900px) 1040px, 100vw"
-                    unoptimized
-                    priority={position === 0}
-                    className={isBrandCover(cover) ? "c3-exp__cover c3-exp__cover--brand" : "c3-exp__cover"}
-                  />
-                );
-              })()}
+              {card.cover ? (
+                <Image
+                  src={card.cover.url}
+                  alt={card.cover.alt}
+                  fill
+                  sizes="(min-width: 900px) 1040px, 100vw"
+                  unoptimized
+                  priority={position === 0}
+                  className="c3-exp__cover"
+                />
+              ) : (
+                <KindIcon kind={card.kind} className="c3-spotlight__icon" />
+              )}
             </div>
 
             <div className="c3-spotlight__panel">
