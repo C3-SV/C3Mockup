@@ -1,4 +1,5 @@
 import type { EventItem } from "./events";
+import { elSalvadorDay, readCivilDay } from "./event-time";
 
 /**
  * Ficha permanente por edición (spec 2026-11-13, §4–§6): contrato administrativo (EventPage, con borradores y
@@ -36,11 +37,31 @@ export type EventPage = {
   requirements?: string[];
   modality?: EventModality;
   location?: string;
+  /** Dirección estructurada (H9): genera PostalAddress en el JSON-LD. Solo se publica si tiene calle y localidad. */
+  address?: EventAddress;
+  /** Horario del día (hora de El Salvador, HH:MM). No hay zona editable: siempre es la de El Salvador. */
+  schedule?: EventSchedule;
+  organizer?: EventOrganizer;
+  speakers?: string[];
+  offer?: EventOffer;
+  /** Día en que abre la inscripción (AAAA-MM-DD). */
+  registrationOpensOn?: string;
+  /** Estado de agenda. Ausente = programado. */
+  agendaStatus?: EventAgendaStatus;
   participation?: EventPageParticipation;
   resources: EventPageLink[];
   gallery?: EventPageImage[];
   memory?: EventMemory;
 };
+
+export const eventAgendaStatuses = ["programado", "cancelado", "pospuesto", "reprogramado"] as const;
+export type EventAgendaStatus = (typeof eventAgendaStatuses)[number];
+
+export type EventAddress = { venue?: string; street: string; locality: string; region?: string; country?: string };
+export type EventSchedule = { startTime?: string; endTime?: string };
+export type EventOrganizer = { name: string; url?: string };
+/** Precio en USD (moneda de El Salvador). price 0 = gratis. */
+export type EventOffer = { price: number; currency: "USD"; url?: string };
 
 /** Foto publicada: nunca lleva la confirmación de derechos (dato interno). */
 export type PublicEventPageImage = Omit<EventPageImage, "rightsConfirmed">;
@@ -374,6 +395,115 @@ function normalizeMemory(input: unknown, errors: EventPageErrors): EventMemory |
   return memory;
 }
 
+const TIME_PATTERN = /^([01]\d|2[0-3]):[0-5]\d$/;
+const HTTPS_PATTERN = /^https:\/\//;
+
+function isEmptyObject(value: unknown): boolean {
+  return isRecord(value) && Object.values(value).every(isBlank);
+}
+
+function readTime(value: unknown, path: string, errors: EventPageErrors): string | undefined {
+  if (isBlank(value)) {
+    return undefined;
+  }
+  if (typeof value !== "string" || !TIME_PATTERN.test(value.trim())) {
+    errors[path] = "Usa la hora en formato HH:MM de 24 horas (hora de El Salvador).";
+    return undefined;
+  }
+  return value.trim();
+}
+
+function readAddress(value: unknown, errors: EventPageErrors): EventAddress | undefined {
+  if (value === undefined || value === null || isEmptyObject(value)) {
+    return undefined;
+  }
+  if (!isRecord(value)) {
+    errors.address = "Debe ser un objeto con calle y localidad.";
+    return undefined;
+  }
+  const street = readRequiredText(value.street, "address.street", EVENT_PAGE_LIMITS.label, errors);
+  const locality = readRequiredText(value.locality, "address.locality", EVENT_PAGE_LIMITS.label, errors);
+  const venue = readText(value.venue, "address.venue", EVENT_PAGE_LIMITS.label, errors);
+  const region = readText(value.region, "address.region", EVENT_PAGE_LIMITS.label, errors);
+  const country = readText(value.country, "address.country", EVENT_PAGE_LIMITS.label, errors);
+  if (!street || !locality || Object.keys(errors).some((path) => path.startsWith("address."))) {
+    return undefined;
+  }
+  return {
+    street,
+    locality,
+    ...(venue ? { venue } : {}),
+    ...(region ? { region } : {}),
+    country: country ?? "El Salvador",
+  };
+}
+
+function readSchedule(value: unknown, errors: EventPageErrors): EventSchedule | undefined {
+  if (value === undefined || value === null || isEmptyObject(value)) {
+    return undefined;
+  }
+  if (!isRecord(value)) {
+    errors.schedule = "Debe ser un objeto con hora de inicio y de fin.";
+    return undefined;
+  }
+  const startTime = readTime(value.startTime, "schedule.startTime", errors);
+  const endTime = readTime(value.endTime, "schedule.endTime", errors);
+  if (startTime && endTime && endTime < startTime) {
+    errors["schedule.endTime"] = "La hora de fin no puede ser anterior a la de inicio.";
+  }
+  if (errors["schedule.startTime"] || errors["schedule.endTime"]) {
+    return undefined;
+  }
+  return { ...(startTime ? { startTime } : {}), ...(endTime ? { endTime } : {}) };
+}
+
+function readHttpsUrl(value: unknown, path: string, errors: EventPageErrors): string | undefined {
+  const url = readUrl(value, path, errors, false);
+  if (url && !HTTPS_PATTERN.test(url)) {
+    errors[path] = "Usa un enlace https absoluto.";
+    return undefined;
+  }
+  return url;
+}
+
+function readOrganizer(value: unknown, errors: EventPageErrors): EventOrganizer | undefined {
+  if (value === undefined || value === null || isEmptyObject(value)) {
+    return undefined;
+  }
+  if (!isRecord(value)) {
+    errors.organizer = "Debe ser un objeto con nombre y enlace opcional.";
+    return undefined;
+  }
+  const name = readRequiredText(value.name, "organizer.name", EVENT_PAGE_LIMITS.label, errors);
+  const url = readHttpsUrl(value.url, "organizer.url", errors);
+  if (!name || errors["organizer.name"] || errors["organizer.url"]) {
+    return undefined;
+  }
+  return url ? { name, url } : { name };
+}
+
+function readOffer(value: unknown, errors: EventPageErrors): EventOffer | undefined {
+  if (value === undefined || value === null || isEmptyObject(value)) {
+    return undefined;
+  }
+  if (!isRecord(value)) {
+    errors.offer = "Debe ser un objeto con precio en USD (0 = gratis).";
+    return undefined;
+  }
+  const price = value.price;
+  if (typeof price !== "number" || !Number.isFinite(price) || price < 0 || price > 100000) {
+    errors["offer.price"] = "Usa un número entre 0 y 100000 (0 = gratis).";
+  }
+  if (value.currency !== "USD") {
+    errors["offer.currency"] = "La moneda es USD.";
+  }
+  const url = readHttpsUrl(value.url, "offer.url", errors);
+  if (errors["offer.price"] || errors["offer.currency"] || errors["offer.url"] || typeof price !== "number") {
+    return undefined;
+  }
+  return { price, currency: "USD", ...(url ? { url } : {}) };
+}
+
 function normalizePage(input: unknown, errors: EventPageErrors): EventPage | undefined {
   if (!isRecord(input)) {
     errors.page = "La ficha debe ser un objeto. Para despublicarla usa publication: draft.";
@@ -427,6 +557,53 @@ function normalizePage(input: unknown, errors: EventPageErrors): EventPage | und
       page.modality = input.modality as EventModality;
     } else {
       errors.modality = "Usa presencial, virtual o hibrida.";
+    }
+  }
+
+  const address = readAddress(input.address, errors);
+  if (address) {
+    page.address = address;
+  }
+
+  const schedule = readSchedule(input.schedule, errors);
+  if (schedule) {
+    page.schedule = schedule;
+  }
+
+  const organizer = readOrganizer(input.organizer, errors);
+  if (organizer) {
+    page.organizer = organizer;
+  }
+
+  const speakers = readTextList(
+    input.speakers,
+    "speakers",
+    { items: EVENT_PAGE_LIMITS.listItems, length: EVENT_PAGE_LIMITS.label },
+    errors,
+  );
+  if (speakers.length) {
+    page.speakers = speakers;
+  }
+
+  const offer = readOffer(input.offer, errors);
+  if (offer) {
+    page.offer = offer;
+  }
+
+  if (!isBlank(input.registrationOpensOn)) {
+    const day = typeof input.registrationOpensOn === "string" ? readCivilDay(input.registrationOpensOn) : undefined;
+    if (day) {
+      page.registrationOpensOn = day;
+    } else {
+      errors.registrationOpensOn = "Usa una fecha real con formato AAAA-MM-DD.";
+    }
+  }
+
+  if (!isBlank(input.agendaStatus)) {
+    if ((eventAgendaStatuses as readonly unknown[]).includes(input.agendaStatus)) {
+      page.agendaStatus = input.agendaStatus as EventAgendaStatus;
+    } else {
+      errors.agendaStatus = "Usa programado, cancelado, pospuesto o reprogramado.";
     }
   }
 
@@ -486,25 +663,6 @@ function normalizePage(input: unknown, errors: EventPageErrors): EventPage | und
 
 export type EventPagePhase = "upcoming" | "ongoing" | "ended" | "unknown";
 
-const EL_SALVADOR_UTC_OFFSET_HOURS = -6;
-const DAY_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
-
-/** Día calendario real en formato AAAA-MM-DD, o undefined si falta o no existe (p. ej. 2026-02-30). */
-function readDay(value: string | undefined): string | undefined {
-  if (typeof value !== "string" || !DAY_PATTERN.test(value)) {
-    return undefined;
-  }
-  const parsed = new Date(`${value}T00:00:00Z`);
-  return Number.isNaN(parsed.getTime()) || parsed.toISOString().slice(0, 10) !== value ? undefined : value;
-}
-
-function localDay(now: Date): string | undefined {
-  if (Number.isNaN(now.getTime())) {
-    return undefined;
-  }
-  return new Date(now.getTime() + EL_SALVADOR_UTC_OFFSET_HOURS * 3_600_000).toISOString().slice(0, 10);
-}
-
 /**
  * En qué punto está la edición. Estado «Histórico» → ended. Si no, se compara el día local de El Salvador con
  * eventDate y eventDateEnd (el día final cuenta como en curso).
@@ -521,8 +679,8 @@ export function getEventPagePhase(
     return "ended";
   }
 
-  const start = readDay(event.eventDate);
-  const today = localDay(now);
+  const start = readCivilDay(event.eventDate);
+  const today = elSalvadorDay(now);
   if (!start || !today) {
     return "unknown";
   }
@@ -536,7 +694,7 @@ export function getEventPagePhase(
     return today === start ? "ongoing" : "unknown";
   }
 
-  const end = readDay(rawEnd);
+  const end = readCivilDay(rawEnd);
   if (!end || end < start) {
     return "unknown";
   }
@@ -664,6 +822,27 @@ export function projectPublicEventPage(page: EventPage | undefined): PublicEvent
   }
   if (page.location) {
     projected.location = page.location;
+  }
+  if (page.address) {
+    projected.address = { ...page.address };
+  }
+  if (page.schedule) {
+    projected.schedule = { ...page.schedule };
+  }
+  if (page.organizer) {
+    projected.organizer = { ...page.organizer };
+  }
+  if (page.speakers?.length) {
+    projected.speakers = [...page.speakers];
+  }
+  if (page.offer) {
+    projected.offer = { ...page.offer };
+  }
+  if (page.registrationOpensOn) {
+    projected.registrationOpensOn = page.registrationOpensOn;
+  }
+  if (page.agendaStatus) {
+    projected.agendaStatus = page.agendaStatus;
   }
   if (page.participation) {
     projected.participation = { label: page.participation.label, url: page.participation.url };
