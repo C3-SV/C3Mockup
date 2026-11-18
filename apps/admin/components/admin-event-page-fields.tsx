@@ -8,6 +8,7 @@ import {
   eventModalities,
   getEventPagePhase,
   type AdminEventRecord,
+  type EventAgendaStatus,
   type EventModality,
   type EventPageErrors,
 } from "@c3/config";
@@ -580,6 +581,115 @@ export function EventPageFields({ value, onChange, errors = {}, event = null, sc
             </SelectField>
             <TextField label="Lugar" path="location" value={value.location} onChange={(location) => update({ location })} />
           </div>
+        </Group>
+
+        <Group legend="Logística y agenda">
+          <p className="text-xs text-muted">
+            Opcional. Nada de esto es obligatorio para publicar: sirve para que la ficha y los datos enlazados
+            (Event en buscadores) salgan completos. Los datos que no existan se dejan vacíos, nunca se inventan.
+          </p>
+          <div className="grid gap-4 md:grid-cols-2">
+            <TextField
+              label="Sede o nombre del lugar"
+              path="address.venue"
+              value={value.logistics.venue}
+              onChange={(venue) => update({ logistics: { ...value.logistics, venue } })}
+            />
+            <SelectField
+              label="Estado de la agenda"
+              path="agendaStatus"
+              value={value.logistics.agendaStatus}
+              onChange={(agendaStatus) =>
+                update({ logistics: { ...value.logistics, agendaStatus: agendaStatus as EventAgendaStatus | "" } })
+              }
+            >
+              <option value="">Programado (por defecto)</option>
+              <option value="cancelado">Cancelado</option>
+              <option value="pospuesto">Pospuesto</option>
+              <option value="reprogramado">Reprogramado</option>
+            </SelectField>
+            <TextField
+              label="Calle y número"
+              path="address.street"
+              value={value.logistics.street}
+              onChange={(street) => update({ logistics: { ...value.logistics, street } })}
+            />
+            <TextField
+              label="Localidad o ciudad"
+              path="address.locality"
+              value={value.logistics.locality}
+              onChange={(locality) => update({ logistics: { ...value.logistics, locality } })}
+            />
+            <TextField
+              label="Departamento"
+              path="address.region"
+              value={value.logistics.region}
+              onChange={(region) => update({ logistics: { ...value.logistics, region } })}
+            />
+            <TextField
+              label="Hora de inicio (El Salvador)"
+              path="schedule.startTime"
+              hint="Formato HH:MM, 24 horas. Vacío si no se conoce."
+              placeholder="08:30"
+              value={value.logistics.startTime}
+              onChange={(startTime) => update({ logistics: { ...value.logistics, startTime } })}
+            />
+            <TextField
+              label="Hora de fin (El Salvador)"
+              path="schedule.endTime"
+              placeholder="17:00"
+              value={value.logistics.endTime}
+              onChange={(endTime) => update({ logistics: { ...value.logistics, endTime } })}
+            />
+            <TextField
+              label="Apertura de inscripción"
+              path="registrationOpensOn"
+              hint="Día en formato AAAA-MM-DD."
+              placeholder="2026-10-01"
+              value={value.logistics.registrationOpensOn}
+              onChange={(registrationOpensOn) => update({ logistics: { ...value.logistics, registrationOpensOn } })}
+            />
+            <TextField
+              label="Organizador"
+              path="organizer.name"
+              value={value.logistics.organizerName}
+              onChange={(organizerName) => update({ logistics: { ...value.logistics, organizerName } })}
+            />
+            <TextField
+              label="Enlace del organizador"
+              path="organizer.url"
+              hint="https completo."
+              value={value.logistics.organizerUrl}
+              onChange={(organizerUrl) => update({ logistics: { ...value.logistics, organizerUrl } })}
+            />
+            <TextField
+              label="Precio en USD (0 = gratis)"
+              path="offer.price"
+              hint="Solo número. Vacío si no hay oferta."
+              value={value.logistics.offerPrice}
+              onChange={(offerPrice) => update({ logistics: { ...value.logistics, offerPrice } })}
+            />
+            <TextField
+              label="Enlace para pagar o inscribirse"
+              path="offer.url"
+              hint="https completo."
+              value={value.logistics.offerUrl}
+              onChange={(offerUrl) => update({ logistics: { ...value.logistics, offerUrl } })}
+            />
+          </div>
+          <TextField
+            label="Ponentes"
+            path="speakers"
+            hint="Una persona por línea. Opcional."
+            multiline
+            value={value.logistics.speakers}
+            onChange={(speakers) => update({ logistics: { ...value.logistics, speakers } })}
+          />
+          {/* Errores de cada persona (speakers.N): que el aviso salga en el campo, no en el resumen sin control. */}
+          {Array.from({ length: EVENT_PAGE_LIMITS.listItems }, (_, index) => (
+            <ErrorText key={index} path={`speakers.${index}`} />
+          ))}
+          <ErrorText path="speakers" />
         </Group>
 
         <Group legend="Participación">

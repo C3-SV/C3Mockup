@@ -1,6 +1,6 @@
 import {
   buildAdminEventRecord,
-  compareEventsBySchedule,
+  scheduleComparator,
   EVENT_PAGE_LIMITS,
   EventPageValidationError,
   omitUndefinedDeep,
@@ -532,7 +532,7 @@ export async function listStoredAdminEvents(
   const events = snapshot.docs
     .map((doc) => parseStoredAdminEvent(doc.id, doc.data(), options))
     .filter((event): event is AdminEventRecord => event !== null)
-    .sort(compareEventsBySchedule);
+    .sort(scheduleComparator(options?.now ? new Date(options.now) : new Date()));
   return { empty: snapshot.empty, events };
 }
 

@@ -65,7 +65,8 @@ function publish(slug: string, eventId: string, over: Doc = {}, pageOver: Doc = 
 }
 
 const pageUrl = (slug: string) => `${siteConfig.domain}/eventos/${slug}`;
-const generalRoutes = publicRoutes.map((path) => `${siteConfig.domain}${path}`);
+// La raíz se escribe sin barra final, igual que el canonical (absoluteUrl en lib/metadata.ts).
+const generalRoutes = publicRoutes.map((path) => (path === "/" ? siteConfig.domain : `${siteConfig.domain}${path}`));
 
 beforeEach(() => {
   store.reservations.clear();

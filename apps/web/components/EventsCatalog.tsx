@@ -8,6 +8,8 @@ import type { EventItem, LineKey } from "@c3/config";
 
 type EventsCatalogProps = {
   initialEvents: EventItem[];
+  /** «Ahora» del servidor (ISO). El mismo instante se usa al renderizar en servidor y en cliente: sin desajuste de hidratación. */
+  now?: string;
 };
 
 const areaOptions: { key: AreaFilter; label: string; line?: LineKey }[] = [
@@ -28,12 +30,12 @@ const estadoOptions: { key: EstadoFilter; label: string }[] = [
  * paginadas de 6 (FeaturedGrid). Al cambiar un filtro, la paginación vuelve a la primera página (la clave
  * reinicia FeaturedGrid).
  */
-export default function EventsCatalog({ initialEvents }: EventsCatalogProps) {
+export default function EventsCatalog({ initialEvents, now: nowIso }: EventsCatalogProps) {
   const [area, setArea] = useState<AreaFilter>("todas");
   const [estado, setEstado] = useState<EstadoFilter>("todos");
-  const [now] = useState(() => new Date());
+  const now = useMemo(() => (nowIso ? new Date(nowIso) : new Date()), [nowIso]);
 
-  const cards = useMemo(() => initialEvents.map((event) => toCatalogCard(event)), [initialEvents]);
+  const cards = useMemo(() => initialEvents.map((event) => toCatalogCard(event, now)), [initialEvents, now]);
   const visible = useMemo(() => filterEvents(cards, { area, estado }, now), [cards, area, estado, now]);
 
   return (

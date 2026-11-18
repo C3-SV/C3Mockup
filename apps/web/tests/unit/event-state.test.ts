@@ -25,7 +25,8 @@ describe("isUpcomingEvent", () => {
   const now = new Date("2026-06-01T12:00:00Z");
 
   it("un evento con fecha futura es próximo", () => {
-    expect(isUpcomingEvent(defaultEvents[0], now)).toBe(true);
+    // La Copa 2026 ya terminó (15-ago a 5-sep): se usa la Hackathon, que aún no ha empezado en la fecha de referencia.
+    expect(isUpcomingEvent(defaultEvents[1], now)).toBe(true);
   });
 
   it("un evento con fecha pasada no es próximo", () => {

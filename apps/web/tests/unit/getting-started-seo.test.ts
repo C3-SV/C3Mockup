@@ -35,7 +35,9 @@ describe("navegación de la guía Empieza en C3", () => {
 describe("SEO de la guía Empieza en C3", () => {
   it("el sitemap conserva todas las rutas actuales y añade la guía con su canónica", async () => {
     const urls = (await sitemap()).map((entry) => entry.url);
-    for (const route of [...previousRoutes, GUIDE]) expect(urls).toContain(`${siteConfig.domain}${route}`);
+    for (const route of [...previousRoutes, GUIDE]) {
+      expect(urls).toContain(route === "/" ? siteConfig.domain : `${siteConfig.domain}${route}`);
+    }
   });
 
   it("las etiquetas de navegación JSON-LD nombran la guía de forma legible", () => {

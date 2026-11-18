@@ -4,6 +4,7 @@ import PageShell from "@/components/PageShell";
 import SeoJsonLd from "@/components/SeoJsonLd";
 import { EventDetail } from "@/components/events/EventDetail";
 import { getPublicEventBySlug } from "@/lib/event-detail";
+import { getEventJsonLd } from "@/lib/event-jsonld";
 import { createPageMetadata } from "@/lib/metadata";
 import { getEventBreadcrumbJsonLd, getEventWebPageJsonLd } from "@/lib/structured-data";
 
@@ -28,13 +29,17 @@ export async function generateMetadata({ params }: EventPageProps): Promise<Meta
     notFound();
   }
 
-  // Título, descripción, canonical y Open Graph propios del evento (no los del layout ni los de la home). La imagen
-  // es siempre la institucional: la portada no guarda dimensiones y no se puede comprobar que se presente bien
-  // en una tarjeta social (spec §8).
+  // Título, descripción, canonical y Open Graph propios del evento (no los del layout ni los de la home). Si la
+  // edición tiene portada, esa es la imagen social, con su texto alternativo; si no, la institucional. Las medidas
+  // solo se declaran si la portada las guarda (H13, auditoría 2026-11-17).
+  const cover = event.cover;
   return createPageMetadata({
     title: event.title,
     description: event.description,
     path: `/eventos/${event.page?.slug ?? slug}`,
+    image: cover?.url
+      ? { url: cover.url, alt: cover.alt || event.title }
+      : undefined,
   });
 }
 
@@ -45,11 +50,14 @@ export default async function EventDetailPage({ params }: EventPageProps) {
     notFound();
   }
 
+  // Event solo con datos verificados (fecha, lugar y ficha publicada); sin ellos, solo WebPage y BreadcrumbList.
+  const eventJsonLd = getEventJsonLd(event);
+
   return (
     <PageShell ds>
-      {/* Solo WebPage y BreadcrumbList (R6): Event exige campos que no se verifican sin conexión. */}
       <SeoJsonLd data={getEventWebPageJsonLd(event)} />
       <SeoJsonLd data={getEventBreadcrumbJsonLd(event)} />
+      {eventJsonLd ? <SeoJsonLd data={eventJsonLd} /> : null}
       <EventDetail event={event} now={new Date()} />
     </PageShell>
   );

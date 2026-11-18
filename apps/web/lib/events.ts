@@ -3,7 +3,7 @@ import "server-only";
 import { cache } from "react";
 import { cert, getApps, initializeApp, type ServiceAccount } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
-import { defaultEvents, compareEventsBySchedule, normalizeFirebasePrivateKey, type EventItem } from "@c3/config";
+import { defaultEvents, scheduleComparator, normalizeFirebasePrivateKey, type EventItem } from "@c3/config";
 import { parseEventDocument } from "@/lib/events-parse";
 
 const EVENTS_COLLECTION = "events";
@@ -58,22 +58,24 @@ export function getAdminFirestore() {
 }
 
 export const getPublicEvents = cache(async (): Promise<EventItem[]> => {
+  // Un solo «ahora» por lectura: el orden y la regla de vigencia usan el mismo instante.
+  const byScheduleAt = scheduleComparator<EventItem>(new Date());
   try {
     const db = getAdminFirestore();
     const snapshot = await db.collection(EVENTS_COLLECTION).orderBy("updatedAt", "desc").get();
 
     if (snapshot.empty) {
-      return [...defaultEvents].sort(compareEventsBySchedule);
+      return [...defaultEvents].sort(byScheduleAt);
     }
 
     const events = snapshot.docs
       .map((doc) => parseEventDocument(doc.id, doc.data() as Record<string, unknown>))
       .filter((event): event is EventItem => event !== null)
-      .sort(compareEventsBySchedule);
+      .sort(byScheduleAt);
 
-    return events.length ? events : [...defaultEvents].sort(compareEventsBySchedule);
+    return events.length ? events : [...defaultEvents].sort(byScheduleAt);
   } catch (error) {
     console.warn("Falling back to bundled events data:", error);
-    return [...defaultEvents].sort(compareEventsBySchedule);
+    return [...defaultEvents].sort(byScheduleAt);
   }
 });

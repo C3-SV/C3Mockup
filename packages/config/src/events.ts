@@ -1,4 +1,5 @@
 import type { PublicEventPage } from "./event-page";
+import { isEventCurrentOrUpcoming, readCivilDay } from "./event-time";
 
 export const lineKeys = ["compite", "crea", "conecta"] as const;
 
@@ -71,12 +72,14 @@ export const defaultEvents: EventItem[] = [
     description:
       "La iniciativa principal de C3 para impulsar programación competitiva, pensamiento algorítmico y excelencia técnica en estudiantes de El Salvador.",
     lines: ["compite"],
-    status: "Inscripciones abiertas",
+    status: "Histórico",
     cta: "Ir a la Copa",
     href: "https://copa.c3.com.sv",
     external: true,
     featured: true,
-    eventDate: "2026-08-01",
+    // Edición 2026 realizada en la ESEN, del 15 de agosto al 5 de septiembre de 2026 (dato del responsable, 2026-11-17).
+    eventDate: "2026-08-15",
+    eventDateEnd: "2026-09-05",
   },
   {
     id: "hackathon-turismo-creativo-i",
@@ -202,78 +205,36 @@ export function toFirestoreEventDocument(event: EventItem): FirestoreEventDocume
 }
 
 function parseEventDate(value?: string) {
-  if (!value) {
-    return null;
-  }
-
-  const parsed = new Date(`${value}T00:00:00Z`);
-  return Number.isNaN(parsed.getTime()) ? null : parsed;
-}
-
-function parseEventTimestamp(value?: string) {
-  if (!value) {
-    return null;
-  }
-
-  const parsed = new Date(value);
-  return Number.isNaN(parsed.getTime()) ? null : parsed;
+  // Solo fechas civiles reales (2026-02-30 no existe): misma regla que event-time.ts.
+  const day = readCivilDay(value);
+  return day ? new Date(`${day}T00:00:00Z`) : null;
 }
 
 export function getEventSortDate(event: Pick<EventItem, "eventDate">) {
   return parseEventDate(event.eventDate);
 }
 
-export function getEventLastModified(event: Pick<EventItem, "createdAt" | "eventDate" | "eventDateEnd" | "updatedAt">) {
-  return (
-    parseEventTimestamp(event.updatedAt) ??
-    parseEventTimestamp(event.createdAt) ??
-    parseEventDate(event.eventDateEnd) ??
-    parseEventDate(event.eventDate)
-  );
-}
-
-export function getLatestEventLastModified(
-  events: ReadonlyArray<Pick<EventItem, "createdAt" | "eventDate" | "eventDateEnd" | "updatedAt">>,
-) {
-  return events.reduce<Date | null>((latest, event) => {
-    const current = getEventLastModified(event);
-
-    if (!current) {
-      return latest;
-    }
-
-    if (!latest || current.getTime() > latest.getTime()) {
-      return current;
-    }
-
-    return latest;
-  }, null);
-}
-
-function isUpcoming(eventDate: Date | null, now: Date) {
-  if (!eventDate) {
-    return false;
+/**
+ * Orden del catálogo con un solo «ahora» para toda la lista. Primero los vigentes o próximos (regla única de
+ * event-time.ts: cuentan hasta las 24:00 de El Salvador del último día), por inicio ascendente; luego el resto, por
+ * inicio descendente. Solo necesita fecha, estado, destacado y título, así que sirve para EventItem y AdminEventRecord.
+ */
+export function compareEventsBySchedule<
+  T extends Pick<EventItem, "eventDate" | "eventDateEnd" | "status" | "featured" | "title">,
+>(a: T, b: T, now: Date) {
+  // Orden total: 0 = vigente o próximo con fecha; 1 = vigente o próximo sin fecha; 2 = pasado.
+  // Así un evento sin fecha nunca queda en un grupo distinto según con quién se compare (no hay ciclos).
+  const rank = (event: T) => (!isEventCurrentOrUpcoming(event, now) ? 2 : getEventSortDate(event) ? 0 : 1);
+  const aRank = rank(a);
+  const bRank = rank(b);
+  if (aRank !== bRank) {
+    return aRank - bRank;
   }
 
-  return eventDate.getTime() >= now.getTime();
-}
-
-/** Orden del catálogo. Solo necesita fecha, destacado y título, así que sirve igual para EventItem y AdminEventRecord. */
-export function compareEventsBySchedule<T extends Pick<EventItem, "eventDate" | "featured" | "title">>(a: T, b: T) {
-  const now = new Date();
   const aDate = getEventSortDate(a);
   const bDate = getEventSortDate(b);
-  const aUpcoming = isUpcoming(aDate, now);
-  const bUpcoming = isUpcoming(bDate, now);
-
-  if (aUpcoming !== bUpcoming) {
-    return Number(bUpcoming) - Number(aUpcoming);
-  }
-
   if (aDate && bDate && aDate.getTime() !== bDate.getTime()) {
-    return aUpcoming
-      ? aDate.getTime() - bDate.getTime()
-      : bDate.getTime() - aDate.getTime();
+    return aRank === 2 ? bDate.getTime() - aDate.getTime() : aDate.getTime() - bDate.getTime();
   }
 
   if (Boolean(a.featured) !== Boolean(b.featured)) {
@@ -283,10 +244,20 @@ export function compareEventsBySchedule<T extends Pick<EventItem, "eventDate" | 
   return a.title.localeCompare(b.title);
 }
 
+/** Comparador de orden con un solo «ahora» para toda la lista: `list.sort(scheduleComparator(now))`. */
+export function scheduleComparator<
+  T extends Pick<EventItem, "eventDate" | "eventDateEnd" | "status" | "featured" | "title">,
+>(now: Date) {
+  return (a: T, b: T) => compareEventsBySchedule(a, b, now);
+}
+
+// Las fechas civiles se parsean como medianoche UTC (parseEventDate), así que se formatean en UTC para no
+// desplazar el día según la zona del navegador o del servidor (H1, auditoría 2026-11-17).
 const eventDateFormatter = new Intl.DateTimeFormat("es-ES", {
   day: "numeric",
   month: "short",
   year: "numeric",
+  timeZone: "UTC",
 });
 
 function formatDate(date: Date) {
@@ -300,7 +271,8 @@ export function formatEventSchedule(event: EventItem) {
   }
 
   const end = parseEventDate(event.eventDateEnd);
-  if (!end || end.getTime() === start.getTime()) {
+  // Un fin anterior al inicio no forma rango: se muestra solo el inicio (la regla de vigencia usa el inicio).
+  if (!end || end.getTime() <= start.getTime()) {
     return formatDate(start);
   }
 

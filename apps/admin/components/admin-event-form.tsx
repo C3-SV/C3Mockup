@@ -8,6 +8,7 @@ import {
   experienceKindLabels,
   experienceKinds,
   lineKeys,
+  isAllowedEventHref,
   normalizeFeaturedOrder,
   type AdminEventRecord,
   type EventPageErrors,
@@ -18,7 +19,7 @@ import {
 import { AdminApiError } from "@/lib/admin-api";
 import { getEventScheduleLabel, lineLabels } from "@/lib/admin-analytics";
 import type { EventDraft, EventPageDraft } from "@/lib/admin-types";
-import { normalizeDraft, validatePageDraft } from "@/lib/event-draft";
+import { coverDraftErrors, normalizeDraft, validatePageDraft } from "@/lib/event-draft";
 import { DeleteEventDialog, EventLineChip, EventStatusBadge } from "./admin-events";
 import { EventPageFields } from "./admin-event-page-fields";
 
@@ -58,7 +59,12 @@ function getDefaultId(title: string) {
   return title.trim() ? slugify(title) : "";
 }
 
-type DraftErrors = Partial<Record<"title" | "description" | "cta" | "href" | "status" | "lines" | "featuredOrder", string>>;
+type DraftErrors = Partial<
+  Record<
+    "title" | "description" | "cta" | "href" | "status" | "lines" | "featuredOrder" | "coverUrl" | "coverAlt",
+    string
+  >
+>;
 
 /** Resumen que se anuncia (y recibe el foco) cuando el guardado no prospera. */
 type SubmitAlert = { title: string; detail?: string };
@@ -123,9 +129,14 @@ export function EventForm({
   // Tras un guardado correcto el registro guardado vuelve como `initialEvent`: el borrador se relee de él (slug ya
   // bloqueado, memoria quitada…) sin remontar el formulario. Ajuste de estado durante el render, sin efecto.
   const [syncedEvent, setSyncedEvent] = useState(initialEvent);
+  // Borrador enviado: si el usuario escribió mientras se guardaba, ese borrador ya no es el enviado y se conserva.
+  const [submittedDraft, setSubmittedDraft] = useState<EventDraft | null>(null);
   if (initialEvent !== syncedEvent) {
     setSyncedEvent(initialEvent);
-    setDraft(normalizeDraft(initialEvent));
+    if (submittedDraft === draft) {
+      setDraft(normalizeDraft(initialEvent));
+    }
+    setSubmittedDraft(null);
     setErrors({});
     setShowPageErrors(false);
     setServerErrors({});
@@ -215,6 +226,8 @@ export function EventForm({
 
     if (!nextDraft.href.trim()) {
       nextErrors.href = "La URL es obligatoria.";
+    } else if (!isAllowedEventHref(nextDraft.href.trim())) {
+      nextErrors.href = "Usa un enlace https completo, sin espacios, o una ruta local que empiece con «/».";
     }
 
     if (!nextDraft.status.trim()) {
@@ -228,6 +241,8 @@ export function EventForm({
     if (nextDraft.featured && nextDraft.featuredOrder.trim() && normalizeFeaturedOrder(nextDraft.featuredOrder) === undefined) {
       nextErrors.featuredOrder = "Usa un número entero entre 1 y 99.";
     }
+
+    Object.assign(nextErrors, coverDraftErrors(nextDraft));
 
     return nextErrors;
   }
@@ -248,6 +263,7 @@ export function EventForm({
 
     setSubmitAlert(null);
     setSavedCount(0);
+    setSubmittedDraft(draft);
     try {
       await onSubmit(draft);
       setSavedCount((count) => count + 1);
@@ -381,6 +397,34 @@ export function EventForm({
                   />
                 </Field>
               ) : null}
+            </div>
+          </FormSection>
+
+          <FormSection title="Portada">
+            <p className="text-xs text-muted">
+              Opcional. Pega el enlace https de la imagen (igual que las fotos de la ficha) y su texto alternativo. Sin
+              enlace, el evento no muestra portada y el aviso social usa la imagen institucional.
+            </p>
+            <div className="grid gap-4 md:grid-cols-2">
+              <Field label="Enlace de la portada" error={errors.coverUrl} errorId="cover-url-error">
+                <Input
+                  value={draft.coverUrl}
+                  onChange={(event) => updateField("coverUrl", event.target.value)}
+                  aria-invalid={Boolean(errors.coverUrl)}
+                  aria-describedby={errors.coverUrl ? "cover-url-error" : undefined}
+                  placeholder="Enlace https de la imagen"
+                />
+              </Field>
+
+              <Field label="Texto alternativo" error={errors.coverAlt} errorId="cover-alt-error">
+                <Input
+                  value={draft.coverAlt}
+                  onChange={(event) => updateField("coverAlt", event.target.value)}
+                  aria-invalid={Boolean(errors.coverAlt)}
+                  aria-describedby={errors.coverAlt ? "cover-alt-error" : undefined}
+                  placeholder="Qué se ve en la imagen"
+                />
+              </Field>
             </div>
           </FormSection>
 

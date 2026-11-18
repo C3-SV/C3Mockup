@@ -62,3 +62,7 @@ Estado de la decisión: **Aceptada** (13-nov-2026). El código está implementad
 - T6 (e2e y migración): `89647ed`, `5252e60`.
 
 Pendiente: aprobación de este ADR, inventario real, contenido editorial, gate en un proyecto Firestore de pruebas autorizado, revisión de acceso del admin, revisiones manuales y decisiones de publicación. Detalle en [`pendientes.md`](../design-system/pendientes.md).
+
+## Aprobación del responsable (2026-11-17)
+
+El responsable aprobó los cambios funcionales del admin descritos en [ADR-0019](0019-regla-unica-de-tiempo-y-event-jsonld.md): portada por enlace, logística de la ficha, validación del enlace principal y fechas, y guardado que conserva lo escrito durante el envío.

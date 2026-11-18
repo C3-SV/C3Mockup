@@ -3,6 +3,7 @@ import {
   validateEventPage,
   type EventPage,
 } from "./event-page";
+import { readCivilDay } from "./event-time";
 import {
   normalizeEventCover,
   normalizeEventLines,
@@ -11,6 +12,24 @@ import {
   normalizeFeaturedOrder,
   type EventItem,
 } from "./events";
+
+/**
+ * Enlace principal del evento (H10): https absoluto sin espacios, o ruta local de una sola «/» (no «//» ni barras
+ * invertidas). Bloquea javascript:, http:, ftp: y redirecciones de protocolo relativo.
+ */
+export function isAllowedEventHref(href: string): boolean {
+  if (/\s/.test(href)) {
+    return false;
+  }
+  if (href.startsWith("/")) {
+    return !href.startsWith("//") && !href.includes("\\");
+  }
+  if (!/^https:\/\/[^/]/.test(href)) {
+    return false;
+  }
+  // Sin credenciales (user@host): el host es lo que va después de «https://» y antes de la primera «/».
+  return !href.slice("https://".length).split("/")[0].includes("@");
+}
 
 /** Identificador de evento a partir de un texto: minúsculas, sin acentos, guiones. */
 export function slugifyEventId(value: string) {
@@ -76,6 +95,9 @@ export function buildAdminEventRecord(
   if (!title || !description || !href || !cta || !id) {
     throw new Error("Title, description, href, cta and id are required.");
   }
+  if (!isAllowedEventHref(href)) {
+    throw new Error('The href must be an https URL without spaces, or a local path that starts with a single "/".');
+  }
 
   const lines = normalizeEventLines(payload.lines);
   if (!lines.length) {
@@ -86,6 +108,10 @@ export function buildAdminEventRecord(
   const status = normalizeEventStatus(payload.status);
   const eventDate = text("eventDate") || undefined;
   const eventDateEnd = text("eventDateEnd") || undefined;
+  // Fechas civiles reales (AAAA-MM-DD): una fecha inexistente como 2026-02-30 no se guarda.
+  if ((eventDate && !readCivilDay(eventDate)) || (eventDateEnd && !readCivilDay(eventDateEnd))) {
+    throw new Error("eventDate and eventDateEnd must be real dates in the form YYYY-MM-DD.");
+  }
 
   let page: EventPage | undefined;
   if (payload.page !== undefined) {

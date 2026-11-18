@@ -1,13 +1,32 @@
 import type { ComponentType } from "react";
 import type {
   AdminEventRecord,
-  EventItem,
+  EventAgendaStatus,
   EventModality,
   EventPagePublication,
   EventStatus,
   ExperienceKind,
   LineKey,
 } from "@c3/config";
+
+/** Logística de la ficha (H9) como texto de formulario; buildPagePayload la convierte al contrato. Vacío = no enviar. */
+export type EventLogisticsDraft = {
+  venue: string;
+  street: string;
+  locality: string;
+  region: string;
+  country: string;
+  startTime: string;
+  endTime: string;
+  organizerName: string;
+  organizerUrl: string;
+  /** Una persona por línea. */
+  speakers: string;
+  offerPrice: string;
+  offerUrl: string;
+  registrationOpensOn: string;
+  agendaStatus: EventAgendaStatus | "";
+};
 
 export type AdminSession = {
   email: string;
@@ -54,6 +73,7 @@ export type EventPageDraft = {
   requirements: string[];
   modality: EventModality | "";
   location: string;
+  logistics: EventLogisticsDraft;
   participation: { label: string; url: string };
   resources: { title: string; url: string }[];
   /** Fotos de la ficha (ADR-0018): no dependen de la memoria ni de que la edición haya terminado. */
@@ -81,8 +101,10 @@ export type EventDraft = {
   /** Tipo de experiencia. Vacío = sin tipo (ícono genérico). */
   kind: ExperienceKind | "";
   lines: LineKey[];
-  /** Portada y origen no se editan aquí: viajan intactos en la ida y vuelta. */
-  cover?: EventItem["cover"];
+  /** Portada por enlace https (como las fotos de la galería). Vacía = sin portada. Va con texto alternativo. */
+  coverUrl: string;
+  coverAlt: string;
+  /** Origen no se edita aquí: viaja intacto en la ida y vuelta. */
   source?: string;
   /** Ficha por edición. undefined = el evento no tiene ficha y el formulario no la envía. */
   page?: EventPageDraft;
